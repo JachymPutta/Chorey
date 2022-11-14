@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "525844689809",
+    "project_id": "chorey-407bf",
+    "storage_bucket": "chorey-407bf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:525844689809:android:463b20fb86ef89111b6030",
+        "android_client_info": {
+          "package_name": "com.chorey"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "525844689809-g58us7obkftvva332dpcch2i4mnl22f4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJQauuBpbjUfpp5g27cM26Z5ppePdKwOE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "525844689809-g58us7obkftvva332dpcch2i4mnl22f4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
