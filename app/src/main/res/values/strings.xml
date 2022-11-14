@@ -11,4 +11,5 @@
     <string name="login_failed">"Login failed"</string>
     <!--                                       -->
     <string name="return_text">Return</string>
+    <string name="home_item_place_holder">Home</string>
 </resources>
