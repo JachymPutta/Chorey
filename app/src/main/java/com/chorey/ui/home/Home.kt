@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.chorey.R
 
 class Home : Fragment() {
@@ -14,7 +16,14 @@ class Home : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+        val recyclerView = view.findViewById<RecyclerView>(R.id.all_rooms_recycler)
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = LinearLayoutManager(view.context)
+        //TODO: initialize with the actual list
+        recyclerView.adapter = HomeRecyclerViewAdapter(mutableListOf())
+        return view;
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
