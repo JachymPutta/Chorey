@@ -10,8 +10,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chorey.R
+import com.chorey.data.Homes
 
 class Home : Fragment() {
+    val homes = Homes()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -22,7 +25,7 @@ class Home : Fragment() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
         //TODO: initialize with the actual list
-        recyclerView.adapter = HomeRecyclerViewAdapter(mutableListOf())
+        recyclerView.adapter = HomeRecyclerViewAdapter(homes.list)
         return view;
     }
 

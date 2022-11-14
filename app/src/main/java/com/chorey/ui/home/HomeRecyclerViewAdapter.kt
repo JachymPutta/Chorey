@@ -7,9 +7,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.chorey.R
-import com.chorey.data.model.Home
+import com.chorey.data.model.HomeModel
 
-class HomeRecyclerViewAdapter(private val homes: MutableList<Home>) : RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder>()  {
+class HomeRecyclerViewAdapter(private val homes: MutableList<HomeModel>) : RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder>()  {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val pointsView: TextView
@@ -89,8 +89,10 @@ class HomeRecyclerViewAdapter(private val homes: MutableList<Home>) : RecyclerVi
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //holder.iconView.setImageResource()
         holder.homeNameView.setText(homes[position].homeId)
-        holder.membersView.setText(homes[position].members.size)
-        holder.pointsView.setText(homes[position].chores.size)
+//        holder.membersView.setText(homes[position].members.size)
+//        holder.pointsView.setText(homes[position].chores.size)
+       holder.membersView.setText(R.string.app_name)
+        holder.pointsView.setText(R.string.app_name)
     }
 
 }

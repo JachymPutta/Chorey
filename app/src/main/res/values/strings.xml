@@ -11,6 +11,7 @@
     <string name="login_failed">"Login failed"</string>
     <!-- Home Selection Screen -->
     <string name="return_text">Return</string>
+    <string name="empty_home">Create new Home!</string>
     <!-- Home Recycler View -->
     <string name="home_item_place_holder">Home</string>
     <string name="home_item_score">Points: 0</string>
