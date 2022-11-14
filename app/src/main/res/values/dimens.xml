@@ -3,5 +3,6 @@
     <dimen name="fragment_horizontal_margin">16dp</dimen>
     <dimen name="fragment_vertical_margin">16dp</dimen>
     <dimen name="home_list_item_height">20dp</dimen>
+    <dimen name="large_text_size">20sp</dimen>
 
 </resources>
