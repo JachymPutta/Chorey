@@ -9,9 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chorey.R
 import com.chorey.data.model.HomeModel
 
-class HomeRecyclerViewAdapter(private val homes: MutableList<HomeModel>) : RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder>()  {
+class HomeRecyclerViewAdapter: RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder>()  {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    var onItemClick: ((HomeModel) -> Unit)? = null
+    var homes: ArrayList<HomeModel> = arrayListOf();
+
+
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val pointsView: TextView
         val membersView: TextView
         val homeNameView: TextView
@@ -23,6 +27,10 @@ class HomeRecyclerViewAdapter(private val homes: MutableList<HomeModel>) : Recyc
             homeNameView = view.findViewById(R.id.homesListName)
             membersView = view.findViewById(R.id.homesListMembers)
             pointsView = view.findViewById(R.id.homesListPoints)
+
+            view.setOnClickListener {
+                onItemClick?.invoke(homes[adapterPosition])
+            }
         }
     }
 

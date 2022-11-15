@@ -1,5 +1,6 @@
 package com.chorey.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,21 +12,24 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chorey.R
 import com.chorey.data.Homes
+import com.chorey.data.model.HomeModel
 
 class Home : Fragment() {
-    val homes = Homes()
+    private val homes = Homes()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-
+        val hrvAdapter = HomeRecyclerViewAdapter()
         val recyclerView = view.findViewById<RecyclerView>(R.id.all_rooms_recycler)
-        recyclerView.setHasFixedSize(true)
+
+        setupRecyclerAdapter(hrvAdapter)
+
+        recyclerView.adapter = hrvAdapter
         recyclerView.layoutManager = LinearLayoutManager(view.context)
-        //TODO: initialize with the actual list
-        recyclerView.adapter = HomeRecyclerViewAdapter(homes.list)
+
         return view;
     }
 
@@ -38,4 +42,12 @@ class Home : Fragment() {
         }
     }
 
+    fun setupRecyclerAdapter(hrvAdapter : HomeRecyclerViewAdapter) {
+        hrvAdapter.onItemClick = {
+            // TODO: Function behavior
+            homeModel ->
+                findNavController().navigate(R.id.action_homeScreen_to_loginFragment)
+        }
+        hrvAdapter.homes = homes.list
+    }
 }
