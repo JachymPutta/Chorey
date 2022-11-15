@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeScreen">
+    app:startDestination="@id/menuFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -12,15 +12,27 @@
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_homeScreen"
-            app:destination="@id/homeScreen" />
+            app:destination="@id/menuFragment" />
     </fragment>
     <fragment
-        android:id="@+id/homeScreen"
-        android:name="com.chorey.ui.home.Home"
+        android:id="@+id/menuFragment"
+        android:name="com.chorey.ui.menu.Menu"
+        android:label="fragment_menu"
+        tools:layout="@layout/fragment_menu">
+        <action
+            android:id="@+id/action_menu_to_home"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_homeScreen_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.chorey.ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeScreen_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_homeFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
     </fragment>
 </navigation>

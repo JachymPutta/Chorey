@@ -16,5 +16,7 @@
     <string name="home_item_place_holder">Home</string>
     <string name="home_item_score">Points: 0</string>
     <string name="home_item_members">Members: 0</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
