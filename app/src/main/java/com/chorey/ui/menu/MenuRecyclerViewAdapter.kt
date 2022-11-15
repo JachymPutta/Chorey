@@ -12,7 +12,7 @@ import com.chorey.data.model.HomeModel
 class MenuRecyclerViewAdapter: RecyclerView.Adapter<MenuRecyclerViewAdapter.ViewHolder>()  {
 
     var onItemClick: ((HomeModel) -> Unit)? = null
-    var homes: ArrayList<HomeModel> = arrayListOf();
+    var homes: ArrayList<HomeModel> = arrayListOf()
 
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -73,11 +73,11 @@ class MenuRecyclerViewAdapter: RecyclerView.Adapter<MenuRecyclerViewAdapter.View
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //holder.iconView.setImageResource()
-        holder.homeNameView.setText(homes[position].homeId)
+        holder.homeNameView.text = homes[position].homeId
 //        holder.membersView.setText(homes[position].members.size)
 //        holder.pointsView.setText(homes[position].chores.size)
-       holder.membersView.setText(R.string.app_name)
-        holder.pointsView.setText(R.string.app_name)
+        holder.membersView.text = ""
+        holder.pointsView.text = ""
     }
 
 }

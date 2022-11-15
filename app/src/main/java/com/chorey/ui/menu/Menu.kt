@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chorey.R
 import com.chorey.data.Homes
+import com.chorey.ui.home.HomeFragment
 
 class Menu : Fragment() {
     private val homes = Homes()
@@ -42,9 +44,11 @@ class Menu : Fragment() {
 
     fun setupRecyclerAdapter(hrvAdapter : MenuRecyclerViewAdapter) {
         hrvAdapter.onItemClick = {
-            // TODO: Function behavior
             homeModel ->
-                findNavController().navigate(R.id.action_menu_to_home)
+            // TODO: revert this back to the unique ID
+//            val currentId = bundleOf("ID" to homeModel.UID)
+            val currentId = bundleOf("ID" to homeModel.createNew)
+            findNavController().navigate(R.id.action_menu_to_home, currentId)
         }
         hrvAdapter.homes = homes.list
     }

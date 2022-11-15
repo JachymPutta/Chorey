@@ -6,6 +6,15 @@ class Homes {
     val list : ArrayList<HomeModel> = arrayListOf()
 
     init {
-        list.add(0, HomeModel())
+        list.add(HomeModel())
+        val testHome = HomeModel()
+        testHome.homeId = "Cosy Home"
+        testHome.createNew = false
+        list.add(testHome)
     }
+
+    fun findHome(uid : String) {
+        list.find { home -> home.UID == uid }
+    }
+
 }
