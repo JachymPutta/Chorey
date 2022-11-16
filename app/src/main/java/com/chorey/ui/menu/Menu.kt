@@ -50,6 +50,6 @@ class Menu : Fragment() {
             val currentId = bundleOf("ID" to homeModel.createNew)
             findNavController().navigate(R.id.action_menu_to_home, currentId)
         }
-        hrvAdapter.homes = homes.list
+        hrvAdapter.homes = homes.getHomes()
     }
 }
