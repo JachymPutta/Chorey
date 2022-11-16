@@ -1,9 +1,9 @@
 package com.chorey.data.model
 
-enum class ChoreTemplate {
-    Trash,
-    Dog,
-    Kitchen,
-    Vacuum,
-    Dishes
+enum class ChoreTemplate(s: String) {
+    Trash(""),
+    Dog(""),
+    Kitchen(""),
+    Vacuum(""),
+    Dishes("")
 }
