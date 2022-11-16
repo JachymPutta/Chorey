@@ -10,6 +10,6 @@ data class HomeModel (
     var createNew: Boolean = true,
     var homeId: String = "Create new home!",
     //TODO: Replace string with the appropriate data classes
-    val members: List<String> = emptyList(),
-    val chores: List<String> = emptyList()
+    val members: ArrayList<String> = arrayListOf(),
+    val chores: ArrayList<ChoreModel> = arrayListOf()
 )

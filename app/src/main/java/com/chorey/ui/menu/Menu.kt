@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chorey.R
 import com.chorey.data.Homes
-import com.chorey.ui.home.HomeFragment
 
 class Menu : Fragment() {
     private val homes = Homes()
@@ -38,7 +37,7 @@ class Menu : Fragment() {
 
         //
         view.findViewById<Button>(R.id.returnButton).setOnClickListener {
-            findNavController().navigate(R.id.action_menu_to_home)
+            //TODO: Button behavior
         }
     }
 
