@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.menu.Menu">
 
+    <TextView
+        style="@style/Title"
+        android:id="@+id/menuTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/menuTitleDefault"
+        app:layout_constraintBottom_toTopOf="@id/all_rooms_recycler"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/all_rooms_recycler"
         android:layout_width="wrap_content"
@@ -18,7 +29,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.2"
+        app:layout_constraintVertical_bias="0.4"
         android:layout_height="450dp" />
 
     <LinearLayout
@@ -31,12 +42,14 @@
 
         <Button
             android:id="@+id/addHomeButton"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:text="@string/addHomeButton"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            />
 
         <Button
             android:id="@+id/removeHomeButton"
@@ -45,7 +58,10 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/removeHomeButton"
-            style="?android:attr/buttonBarButtonStyle" />
+            style="?android:attr/buttonBarButtonStyle"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            />
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
