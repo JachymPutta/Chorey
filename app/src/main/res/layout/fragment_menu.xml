@@ -14,7 +14,7 @@
         android:clipToPadding="false"
         android:focusable="true"
         android:minWidth="250dp"
-        app:layout_constraintBottom_toTopOf="@+id/returnButton"
+        app:layout_constraintBottom_toTopOf="@+id/addHomeButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,7 +22,7 @@
         app:layout_constraintVertical_bias="0.2" />
 
     <Button
-        android:id="@+id/returnButton"
+        android:id="@+id/addHomeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/return_text"

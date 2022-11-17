@@ -9,13 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chorey.R
 import com.chorey.data.model.HomeModel
 
-class MenuRecyclerViewAdapter: RecyclerView.Adapter<MenuRecyclerViewAdapter.ViewHolder>()  {
+class MenuRecyclerViewAdapter(var homes: List<HomeModel>): RecyclerView.Adapter<MenuRecyclerViewAdapter.ViewHolder>()  {
 
     var onItemClick: ((HomeModel) -> Unit)? = null
-    var homes: ArrayList<HomeModel> = arrayListOf()
 
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View, homes: List<HomeModel>) : RecyclerView.ViewHolder(view) {
         val pointsView: TextView
         val membersView: TextView
         val homeNameView: TextView
@@ -31,6 +30,8 @@ class MenuRecyclerViewAdapter: RecyclerView.Adapter<MenuRecyclerViewAdapter.View
             view.setOnClickListener {
                 onItemClick?.invoke(homes[adapterPosition])
             }
+
+
         }
     }
 
@@ -50,7 +51,7 @@ class MenuRecyclerViewAdapter: RecyclerView.Adapter<MenuRecyclerViewAdapter.View
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.menu_recycler_row, parent, false)
 
-        return ViewHolder(view)
+        return ViewHolder(view, homes)
     }
 
     /**
