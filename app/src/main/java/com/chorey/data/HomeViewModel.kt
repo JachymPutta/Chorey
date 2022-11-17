@@ -39,4 +39,10 @@ class HomeViewModel : ViewModel() {
         }
     }
 
+    fun removeHome(home: HomeModel) {
+        if(list.value!!.isNotEmpty()) {
+            _list.value = _list.value!!.minus(home)
+        }
+    }
+
 }

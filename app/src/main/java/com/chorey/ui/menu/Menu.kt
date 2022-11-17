@@ -1,5 +1,6 @@
 package com.chorey.ui.menu
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,7 +20,9 @@ import com.chorey.data.model.HomeModel
 class Menu : Fragment() {
     private val viewModel: HomeViewModel by activityViewModels()
     private lateinit var hrvAdapter: MenuRecyclerViewAdapter
+    private var removeHome = false
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,9 +36,8 @@ class Menu : Fragment() {
         recyclerView.adapter = hrvAdapter
         recyclerView.layoutManager = LinearLayoutManager(view.context)
         viewModel.list.observe(viewLifecycleOwner) { newList ->
-
             Log.d("Menu.kt", " List size is currently ${viewModel.list.value!!.size}")
-            hrvAdapter.notifyItemInserted(newList.size)
+            hrvAdapter.notifyDataSetChanged()
         }
 
         return view;
@@ -48,8 +50,11 @@ class Menu : Fragment() {
         view.findViewById<Button>(R.id.addHomeButton).setOnClickListener {
             viewModel.addHome(HomeModel())
             hrvAdapter.homes = viewModel.getHomes()!!
-            //TODO: Button behavior
+        }
 
+        view.findViewById<Button>(R.id.removeHomeButton).setOnClickListener {
+            //TODO: UI Change to reflect that we are removing something + confirmation screen
+            removeHome = true
         }
     }
     fun setupRecyclerAdapter(hrvAdapter : MenuRecyclerViewAdapter) {
@@ -57,8 +62,14 @@ class Menu : Fragment() {
                 homeModel ->
             // TODO: revert this back to the unique ID
 //            val currentId = bundleOf("ID" to homeModel.UID)
-            val currentId = bundleOf("ID" to homeModel.createNew)
-            findNavController().navigate(R.id.action_menu_to_home, currentId)
+            if (removeHome) {
+                viewModel.removeHome(homeModel)
+                hrvAdapter.homes = viewModel.getHomes()!!
+                removeHome = false
+            } else {
+                val currentId = bundleOf("ID" to homeModel.createNew)
+                findNavController().navigate(R.id.action_menu_to_home, currentId)
+            }
         }
     }
 

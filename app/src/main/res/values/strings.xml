@@ -18,5 +18,7 @@
     <string name="home_item_members">Members: 0</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="addHomeButton">Add</string>
+    <string name="removeHomeButton">Remove</string>
 
 </resources>
