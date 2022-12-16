@@ -11,7 +11,7 @@
         android:id="@+id/menuTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/menuTitleDefault"
+        android:text="@string/menu_title_default"
         app:layout_constraintBottom_toTopOf="@id/all_rooms_recycler"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="@string/addHomeButton"
+            android:text="@string/add_home_button"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             />
 
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="@string/removeHomeButton"
+            android:text="@string/remove_home_button"
             style="?android:attr/buttonBarButtonStyle"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             />

@@ -18,8 +18,9 @@
     <string name="home_item_members">Members: 0</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="home_name_placeholder">Home_Name</string>
-    <string name="addHomeButton">Add</string>
-    <string name="removeHomeButton">Remove</string>
-    <string name="menuTitleDefault">Your Homes:</string>
+    <string name="add_home_button">Add</string>
+    <string name="remove_home_button">Remove</string>
+    <string name="menu_title_default">Your Homes:</string>
+    <string name="home_coming_up">TODOs</string>
 
 </resources>
