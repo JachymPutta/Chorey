@@ -30,8 +30,6 @@ class MenuRecyclerViewAdapter(var homes: List<HomeModel>): RecyclerView.Adapter<
             view.setOnClickListener {
                 onItemClick?.invoke(homes[adapterPosition])
             }
-
-
         }
     }
 

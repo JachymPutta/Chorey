@@ -40,7 +40,6 @@ class HomeFragment : Fragment() {
             print("\n\n\n In a actual home!!! \n\n\n")
         }
 
-
         return view
     }
 
