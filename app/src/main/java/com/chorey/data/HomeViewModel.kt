@@ -21,6 +21,8 @@ class HomeViewModel : ViewModel() {
         addHome(HomeModel())
         addHome(testHome)
         Log.d("HomeView", " List size is currently ${list.value?.size}")
+
+        //TODO: Try to fetch the data from the DB
     }
 
     fun findHome(uid : String) {
@@ -35,7 +37,6 @@ class HomeViewModel : ViewModel() {
         if(list.value!!.size < MAX_HOMES) {
             // Add locally
             _list.value = _list.value?.plus(home)
-            // Add to db
         }
     }
 
@@ -45,4 +46,5 @@ class HomeViewModel : ViewModel() {
         }
     }
 
+    //TODO: Add an update DB function which gets called after list modifications
 }

@@ -19,7 +19,7 @@ import com.chorey.data.model.HomeModel
 
 class Menu : Fragment() {
     private val viewModel: HomeViewModel by activityViewModels()
-    private lateinit var hrvAdapter: MenuRecyclerViewAdapter
+    private lateinit var mrvAdapter: MenuRecyclerViewAdapter
     private var removeHome = false
 
     @SuppressLint("NotifyDataSetChanged")
@@ -29,15 +29,15 @@ class Menu : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_menu, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.all_rooms_recycler)
-        hrvAdapter = MenuRecyclerViewAdapter(viewModel.getHomes()!!)
+        mrvAdapter = MenuRecyclerViewAdapter(viewModel.getHomes()!!)
 
-        setupRecyclerAdapter(hrvAdapter)
+        setupRecyclerAdapter(mrvAdapter)
 
-        recyclerView.adapter = hrvAdapter
+        recyclerView.adapter = mrvAdapter
         recyclerView.layoutManager = LinearLayoutManager(view.context)
         viewModel.list.observe(viewLifecycleOwner) { newList ->
             Log.d("Menu.kt", " List size is currently ${viewModel.list.value!!.size}")
-            hrvAdapter.notifyDataSetChanged()
+            mrvAdapter.notifyDataSetChanged()
         }
 
         return view;
@@ -49,7 +49,7 @@ class Menu : Fragment() {
         //
         view.findViewById<Button>(R.id.addHomeButton).setOnClickListener {
             viewModel.addHome(HomeModel())
-            hrvAdapter.homes = viewModel.getHomes()!!
+            mrvAdapter.homes = viewModel.getHomes()!!
         }
 
         view.findViewById<Button>(R.id.removeHomeButton).setOnClickListener {
@@ -57,14 +57,14 @@ class Menu : Fragment() {
             removeHome = true
         }
     }
-    fun setupRecyclerAdapter(hrvAdapter : MenuRecyclerViewAdapter) {
-        hrvAdapter.onItemClick = {
+    fun setupRecyclerAdapter(mrvAdapter : MenuRecyclerViewAdapter) {
+        mrvAdapter.onItemClick = {
                 homeModel ->
             // TODO: revert this back to the unique ID
 //            val currentId = bundleOf("ID" to homeModel.UID)
             if (removeHome) {
                 viewModel.removeHome(homeModel)
-                hrvAdapter.homes = viewModel.getHomes()!!
+                mrvAdapter.homes = viewModel.getHomes()!!
                 removeHome = false
             } else {
                 val currentId = bundleOf("ID" to homeModel.createNew)

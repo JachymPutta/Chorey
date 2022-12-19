@@ -1,15 +1,21 @@
 package com.chorey.ui.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.chorey.R
+import com.chorey.data.HomeViewModel
+import com.chorey.data.model.HomeModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val HOME_UID = "ID"
+private const val HOME_POS = "ID"
 
 /**
  * A simple [Fragment] subclass.
@@ -19,28 +25,46 @@ private const val HOME_UID = "ID"
 class HomeFragment : Fragment() {
     // TODO: Revert this back to the unique id
 //    private var homeUID: String? = null
-    private var homeUID: Boolean? = null
+    private var homePos: Int? = null
+    private lateinit var home: HomeModel
+    private lateinit var hrvAdapter: HomeRecyclerViewAdapter
+    private val viewModel: HomeViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            homeUID = it.getBoolean(HOME_UID)
+            homePos = it.getInt(HOME_POS)
+            //TODO: is this always null safe?
+            home = viewModel.list.value!![homePos!!]
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-        if(homeUID!!) {
-            print("\n\n\n In a create new home view!!! \n\n\n")
-        } else {
-            print("\n\n\n In a actual home!!! \n\n\n")
+        val recyclerView = view.findViewById<RecyclerView>(R.id.all_chores_recycler)
+        // TODO: Empty list placeholder - need to pass the chore list from the Menu
+        hrvAdapter = HomeRecyclerViewAdapter(listOf())
+        setupRecyclerAdapter(hrvAdapter)
+        recyclerView.adapter = hrvAdapter
+        recyclerView.layoutManager = LinearLayoutManager(view.context)
+
+        // Watch for changes in the list
+        viewModel.list.observe(viewLifecycleOwner) {
+            _ -> hrvAdapter.notifyDataSetChanged()
         }
 
         return view
+    }
+
+    fun setupRecyclerAdapter(hrvAdapter: HomeRecyclerViewAdapter) {
+        hrvAdapter.onItemClick = {
+            TODO("Inflate the detail of the chore")
+        }
     }
 
     companion object {
@@ -48,15 +72,15 @@ class HomeFragment : Fragment() {
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
          *
-         * @param param1 Parameter 1.
+         * @param pos - Position of the new home
          * @return A new instance of fragment HomeFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String) =
+        fun newInstance(pos: Int) =
             HomeFragment().apply {
                 arguments = Bundle().apply {
-                    putString(HOME_UID, param1)
+                    putInt(HOME_POS, pos)
                 }
             }
     }
