@@ -43,6 +43,7 @@ class HomeViewModel : ViewModel() {
     fun removeHome(home: HomeModel) {
         if(list.value!!.isNotEmpty()) {
             _list.value = _list.value!!.minus(home)
+            Log.d("HomeView", "Removed ${home.homeId}, new home size ${list.value?.size}")
         }
     }
 

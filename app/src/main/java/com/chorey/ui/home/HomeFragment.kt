@@ -47,8 +47,7 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.all_chores_recycler)
-        // TODO: Empty list placeholder - need to pass the chore list from the Menu
-        hrvAdapter = HomeRecyclerViewAdapter(listOf())
+        hrvAdapter = HomeRecyclerViewAdapter(home.chores)
         setupRecyclerAdapter(hrvAdapter)
         recyclerView.adapter = hrvAdapter
         recyclerView.layoutManager = LinearLayoutManager(view.context)
@@ -75,7 +74,6 @@ class HomeFragment : Fragment() {
          * @param pos - Position of the new home
          * @return A new instance of fragment HomeFragment.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(pos: Int) =
             HomeFragment().apply {

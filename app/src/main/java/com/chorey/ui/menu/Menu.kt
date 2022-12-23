@@ -59,17 +59,17 @@ class Menu : Fragment() {
     }
     fun setupRecyclerAdapter(mrvAdapter : MenuRecyclerViewAdapter) {
         mrvAdapter.onItemClick = {
-                homeModel ->
-            // TODO: revert this back to the unique ID
-//            val currentId = bundleOf("ID" to homeModel.UID)
-            if (removeHome) {
-                viewModel.removeHome(homeModel)
-                mrvAdapter.homes = viewModel.getHomes()!!
-                removeHome = false
-            } else {
-                val currentId = bundleOf("ID" to homeModel.createNew)
-                findNavController().navigate(R.id.action_menu_to_home, currentId)
-            }
+            homeModel ->
+                if (removeHome && (viewModel.getHomes() != null)) {
+                    viewModel.removeHome(homeModel)
+                    mrvAdapter.homes = viewModel.getHomes()!!
+                    removeHome = false
+                } else {
+                    val pos = viewModel.list.value?.indexOf(homeModel)
+                    val currentId = bundleOf("ID" to pos)
+                    Log.d("Menu", "Bundle ${homeModel.homeId} found at pos: $pos . passing --")
+                    findNavController().navigate(R.id.action_menu_to_home, currentId)
+                }
         }
     }
 
