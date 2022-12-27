@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -36,7 +37,7 @@ class Menu : Fragment() {
         recyclerView.adapter = mrvAdapter
         recyclerView.layoutManager = LinearLayoutManager(view.context)
         viewModel.list.observe(viewLifecycleOwner) { newList ->
-            Log.d("Menu.kt", " List size is currently ${viewModel.list.value!!.size}")
+            Log.d("MenuFragment.kt", " List size is currently ${viewModel.list.value!!.size}")
             mrvAdapter.notifyDataSetChanged()
         }
 
@@ -48,22 +49,19 @@ class Menu : Fragment() {
 
         //
         view.findViewById<Button>(R.id.addHomeButton).setOnClickListener {
-            viewModel.addHome(HomeModel())
-            mrvAdapter.homes = viewModel.getHomes()!!
+            //TODO: Change this to a popup window instead
+            findNavController().navigate(R.id.action_menuFragment_to_addHomeFragment)
         }
 
         view.findViewById<Button>(R.id.removeHomeButton).setOnClickListener {
-            //TODO: UI Change to reflect that we are removing something + confirmation screen
-            removeHome = true
+            removeHomeToggle(view)
         }
     }
     fun setupRecyclerAdapter(mrvAdapter : MenuRecyclerViewAdapter) {
         mrvAdapter.onItemClick = {
             homeModel ->
                 if (removeHome && (viewModel.getHomes() != null)) {
-                    viewModel.removeHome(homeModel)
-                    mrvAdapter.homes = viewModel.getHomes()!!
-                    removeHome = false
+                    removeHomeUntoggle(requireView(), homeModel)
                 } else {
                     val pos = viewModel.list.value?.indexOf(homeModel)
                     val currentId = bundleOf("ID" to pos)
@@ -73,4 +71,31 @@ class Menu : Fragment() {
         }
     }
 
+    /**
+     * Triggers the visual and logical changes for removing a home from the list
+     * @param view: current view
+     */
+    fun removeHomeToggle(view: View) {
+        // Already removing
+        if (removeHome) return
+
+        removeHome = true
+        val headText:TextView = view.findViewById(R.id.menuTitleText)
+        headText.text = getString(R.string.menu_title_remove)
+    }
+
+    /**
+     * Reverts the changes done by {@link #removeHomeToggle() removeHomeToggle}
+     * @param view: current view
+     * @param homeModel: home being removed
+     */
+    fun removeHomeUntoggle(view: View, homeModel: HomeModel) {
+        //TODO: Show confirmation before removal
+        viewModel.removeHome(homeModel)
+        mrvAdapter.homes = viewModel.getHomes()!!
+
+        val headText:TextView = view.findViewById(R.id.menuTitleText)
+        headText.text = getString(R.string.menu_title_default)
+        removeHome = false
+    }
 }

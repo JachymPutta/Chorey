@@ -21,6 +21,7 @@
     <string name="add_home_button">Add</string>
     <string name="remove_home_button">Remove</string>
     <string name="menu_title_default">Your Homes:</string>
+    <string name="menu_title_remove">Click to Remove</string>
     <string name="home_coming_up">TODOs</string>
     <!-- Chore Recycler View -->
     <string name="chore_item_name">Chore</string>
@@ -29,5 +30,7 @@
     <string name="chore_item_due_text">Due:</string>
     <string name="chore_item_due">Time</string>
     <string name="chore_item_completed">Done</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
