@@ -1,4 +1,5 @@
 <resources>
+    <!-- Top level -->
     <string name="app_name">Chorey</string>
     <!-- Login -->
     <string name="prompt_email">Email</string>
@@ -16,7 +17,6 @@
     <string name="home_item_place_holder">Home</string>
     <string name="home_item_score">Points: 0</string>
     <string name="home_item_members">Members: 0</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="home_name_placeholder">Home_Name</string>
     <string name="add_home_button">Add</string>
     <string name="remove_home_button">Remove</string>
@@ -30,7 +30,8 @@
     <string name="chore_item_due_text">Due:</string>
     <string name="chore_item_due">Time</string>
     <string name="chore_item_completed">Done</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Add Home Dialog -->
+    <string name="create_new_home_button">Create new!</string>
+    <string name="join_existing_home_button">Join existing!</string>
 
 </resources>

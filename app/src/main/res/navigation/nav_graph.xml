@@ -42,5 +42,13 @@
         android:id="@+id/addHomeDialogFragment"
         android:name="com.chorey.ui.menu.AddHomeDialogFragment"
         android:label="fragment_add_home_dialog"
-        tools:layout="@layout/fragment_add_home_dialog" />
+        tools:layout="@layout/fragment_add_home_dialog" >
+        <action
+            android:id="@+id/action_addHomeDialogFragment_to_createNewHomeDialogFragment"
+            app:destination="@id/createNewHomeDialogFragment" />
+    </dialog>
+    <dialog
+        android:id="@+id/createNewHomeDialogFragment"
+        android:name="com.chorey.ui.menu.CreateNewHomeDialogFragment"
+        android:label="CreateNewHomeDialogFragment" />
 </navigation>

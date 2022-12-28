@@ -21,6 +21,7 @@ import com.chorey.data.model.HomeModel
 class Menu : Fragment() {
     private val viewModel: HomeViewModel by activityViewModels()
     private lateinit var mrvAdapter: MenuRecyclerViewAdapter
+    //TODO Change this to an ENUM for more readability
     private var removeHome = false
 
     @SuppressLint("NotifyDataSetChanged")
@@ -47,12 +48,12 @@ class Menu : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //
+        // Begin the dialogues of creating/joining a home
         view.findViewById<Button>(R.id.addHomeButton).setOnClickListener {
-            //TODO: Change this to a popup window instead
             findNavController().navigate(R.id.action_menuFragment_to_addHomeDialogFragment)
         }
 
+        // Removal
         view.findViewById<Button>(R.id.removeHomeButton).setOnClickListener {
             removeHomeToggle(view)
         }
