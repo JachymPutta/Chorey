@@ -31,12 +31,12 @@ class Menu : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_menu, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.all_rooms_recycler)
+
         mrvAdapter = MenuRecyclerViewAdapter(viewModel.getHomes()!!)
-
         setupRecyclerAdapter(mrvAdapter)
-
         recyclerView.adapter = mrvAdapter
         recyclerView.layoutManager = LinearLayoutManager(view.context)
+
         viewModel.list.observe(viewLifecycleOwner) {
             Log.d("MenuFragment.kt", " List size is currently ${viewModel.list.value!!.size}")
             mrvAdapter.notifyDataSetChanged()
@@ -50,15 +50,18 @@ class Menu : Fragment() {
 
         // Begin the dialogues of creating/joining a home
         view.findViewById<Button>(R.id.addHomeButton).setOnClickListener {
+            //TODO Check if MAX_HOMES has been reached, show message
             findNavController().navigate(R.id.action_menuFragment_to_addHomeDialogFragment)
         }
 
-        // Removal
+        // Home removal
         view.findViewById<Button>(R.id.removeHomeButton).setOnClickListener {
             removeHomeToggle(view)
         }
     }
+    // Initializes the lambdas which interact with the recycler object
     fun setupRecyclerAdapter(mrvAdapter : MenuRecyclerViewAdapter) {
+        // Clicking on home
         mrvAdapter.onItemClick = {
             homeModel ->
                 if (removeHome && (viewModel.getHomes() != null)) {
@@ -77,8 +80,8 @@ class Menu : Fragment() {
      * @param view: current view
      */
     fun removeHomeToggle(view: View) {
-        // Already removing
-        if (removeHome) return
+        // Already removing or no homes to remove
+        if (removeHome || viewModel.getHomes() == null) return
 
         removeHome = true
         val headText:TextView = view.findViewById(R.id.menuTitleText)

@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import com.chorey.R
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class CreateNewHomeDialogFragment : BottomSheetDialogFragment() {
-
+class CreateNewHomeDialogFragment : DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

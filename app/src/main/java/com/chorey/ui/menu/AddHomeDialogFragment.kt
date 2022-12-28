@@ -5,15 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import com.chorey.R
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 /**
  * Dialogue for creating a new home or joining an existing one
  * TODO: Change this to appear in the center of the screen instead of the bottom?
  */
-class AddHomeDialogFragment : BottomSheetDialogFragment() {
+class AddHomeDialogFragment : DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
