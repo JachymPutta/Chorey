@@ -36,7 +36,7 @@ class Menu : Fragment() {
 
         recyclerView.adapter = mrvAdapter
         recyclerView.layoutManager = LinearLayoutManager(view.context)
-        viewModel.list.observe(viewLifecycleOwner) { newList ->
+        viewModel.list.observe(viewLifecycleOwner) {
             Log.d("MenuFragment.kt", " List size is currently ${viewModel.list.value!!.size}")
             mrvAdapter.notifyDataSetChanged()
         }
@@ -50,7 +50,7 @@ class Menu : Fragment() {
         //
         view.findViewById<Button>(R.id.addHomeButton).setOnClickListener {
             //TODO: Change this to a popup window instead
-            findNavController().navigate(R.id.action_menuFragment_to_addHomeFragment)
+            findNavController().navigate(R.id.action_menuFragment_to_addHomeDialogFragment)
         }
 
         view.findViewById<Button>(R.id.removeHomeButton).setOnClickListener {
