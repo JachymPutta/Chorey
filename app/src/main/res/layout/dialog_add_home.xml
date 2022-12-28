@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    tools:context=".ui.menu.AddHomeDialogFragment">
+    tools:context=".ui.menu.AddHomeDialog">
 
     <Button
         android:id="@+id/joinExistingHomeButton"

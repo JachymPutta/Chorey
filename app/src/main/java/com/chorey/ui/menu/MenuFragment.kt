@@ -18,7 +18,7 @@ import com.chorey.R
 import com.chorey.data.HomeViewModel
 import com.chorey.data.model.HomeModel
 
-class Menu : Fragment() {
+class MenuFragment : Fragment() {
     private val viewModel: HomeViewModel by activityViewModels()
     private lateinit var mrvAdapter: MenuRecyclerViewAdapter
     //TODO Change this to an ENUM for more readability
@@ -38,7 +38,7 @@ class Menu : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(view.context)
 
         viewModel.list.observe(viewLifecycleOwner) {
-            Log.d("MenuFragment.kt", " List size is currently ${viewModel.list.value!!.size}")
+            Log.d("Menu.kt", " List size is currently ${viewModel.list.value!!.size}")
             mrvAdapter.notifyDataSetChanged()
         }
 

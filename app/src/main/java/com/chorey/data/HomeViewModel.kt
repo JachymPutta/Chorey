@@ -18,7 +18,6 @@ class HomeViewModel : ViewModel() {
         val testHome = HomeModel()
         testHome.homeId = "Cosy Home"
         testHome.createNew = false
-        addHome(HomeModel())
         addHome(testHome)
         Log.d("HomeView", " List size is currently ${list.value?.size}")
 

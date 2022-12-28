@@ -13,13 +13,13 @@ import com.chorey.R
  * Dialogue for creating a new home or joining an existing one
  * TODO: Change this to appear in the center of the screen instead of the bottom?
  */
-class AddHomeDialogFragment : DialogFragment() {
+class AddHomeDialog : DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_home_dialog, container, false)
+        return inflater.inflate(R.layout.dialog_add_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
