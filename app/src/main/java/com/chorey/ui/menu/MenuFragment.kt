@@ -8,12 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.chorey.MAX_HOMES
 import com.chorey.R
 import com.chorey.data.HomeViewModel
 import com.chorey.data.model.HomeModel
@@ -50,8 +52,7 @@ class MenuFragment : Fragment() {
 
         // Begin the dialogues of creating/joining a home
         view.findViewById<Button>(R.id.addHomeButton).setOnClickListener {
-            //TODO Check if MAX_HOMES has been reached, show message
-            findNavController().navigate(R.id.action_menuFragment_to_addHomeDialogFragment)
+            addHomeHandle()
         }
 
         // Home removal
@@ -73,6 +74,22 @@ class MenuFragment : Fragment() {
                     findNavController().navigate(R.id.action_menu_to_home, currentId)
                 }
         }
+    }
+
+    /**
+     * Handles the addition of a new home, checks whether the max number of homes has been reached
+     * and then continues through the dialogs
+     */
+    fun addHomeHandle() {
+        // MAX_HOMES has been reached
+        if(viewModel.getHomes() != null && viewModel.getHomes()!!.size >= MAX_HOMES) {
+            Toast.makeText(activity, "Max number of homes reached!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        AddHomeDialog().show(parentFragmentManager, "AddHome")
+
+//        findNavController().navigate(R.id.action_menuFragment_to_addHomeDialog)
     }
 
     /**

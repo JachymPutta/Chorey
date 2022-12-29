@@ -5,32 +5,28 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
-import androidx.navigation.fragment.findNavController
 import com.chorey.R
 
-/**
- * Dialogue for creating a new home or joining an existing one
- */
-class AddHomeDialog : DialogFragment() {
+class ConfirmRemoveDialog : DialogFragment() {
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             // Use the Builder class for convenient dialog construction
             val builder = AlertDialog.Builder(it)
-            builder.setPositiveButton(
-                    R.string.create_new_home_button,
+            builder.setMessage(R.string.confirm_remove_title)
+                .setPositiveButton(
+                    R.string.confirm_remove_yes,
                     DialogInterface.OnClickListener { dialog, id ->
-                        //TODO: Since this is called from the Menu, this navigation doesn't work
-//                        findNavController().navigate(R.id.action_addHomeDialog_to_createNewHomeDialog)
+                        // START THE GAME!
+                        //TODO Proceed with removal
                     })
                 .setNegativeButton(
-                    R.string.join_existing_home_button,
+                    R.string.confirm_remove_no,
                     DialogInterface.OnClickListener { dialog, id ->
-//                        findNavController().navigate(R.id.action_addHomeDialog_to_joinHomeDialog)
+                        // User cancelled the dialog
                     })
             // Create the AlertDialog object and return it
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
     }
-
-
 }
