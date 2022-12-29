@@ -33,6 +33,10 @@
     <!-- Add Home Dialog -->
     <string name="create_new_home_button">Create new!</string>
     <string name="join_existing_home_button">Join existing!</string>
+    <!-- Create New Home Dialog -->
+    <string name="create_new_home_yes">Create</string>
+    <string name="create_new_home_no">Cancel</string>
+    <string name="create_home_hint">Enter Home name:</string>
     <!-- Remove Home Confirmation Dialog -->
     <string name="confirm_remove_title">Are you sure?</string>
     <string name="confirm_remove_yes">Remove</string>

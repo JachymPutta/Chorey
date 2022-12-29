@@ -19,13 +19,12 @@ class AddHomeDialog : DialogFragment() {
             builder.setPositiveButton(
                     R.string.create_new_home_button,
                     DialogInterface.OnClickListener { dialog, id ->
-                        //TODO: Since this is called from the Menu, this navigation doesn't work
-//                        findNavController().navigate(R.id.action_addHomeDialog_to_createNewHomeDialog)
+                        findNavController().navigate(R.id.action_menuFragment_to_createNewHomeDialog)
                     })
                 .setNegativeButton(
                     R.string.join_existing_home_button,
                     DialogInterface.OnClickListener { dialog, id ->
-//                        findNavController().navigate(R.id.action_addHomeDialog_to_joinHomeDialog)
+                        findNavController().navigate(R.id.action_menuFragment_to_joinHomeDialog)
                     })
             // Create the AlertDialog object and return it
             builder.create()

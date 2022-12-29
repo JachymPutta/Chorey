@@ -34,7 +34,7 @@ class HomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             homePos = it.getInt(HOME_POS)
-            //TODO: is this always null safe?
+            //TODO: is this always null safe? -- it's not
             home = viewModel.list.value!![homePos!!]
         }
     }

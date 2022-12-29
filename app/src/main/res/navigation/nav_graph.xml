@@ -28,6 +28,12 @@
         <action
             android:id="@+id/action_menuFragment_to_addHomeDialog"
             app:destination="@id/addHomeDialog" />
+        <action
+            android:id="@+id/action_menuFragment_to_createNewHomeDialog"
+            app:destination="@id/createNewHomeDialog" />
+        <action
+            android:id="@+id/action_menuFragment_to_joinHomeDialog"
+            app:destination="@id/joinHomeDialog" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -42,14 +48,7 @@
         android:id="@+id/addHomeDialog"
         android:name="com.chorey.ui.menu.AddHomeDialog"
         android:label="dialog_add_home"
-        tools:layout="@layout/dialog_add_home" >
-        <action
-            android:id="@+id/action_addHomeDialog_to_createNewHomeDialog"
-            app:destination="@id/createNewHomeDialog" />
-        <action
-            android:id="@+id/action_addHomeDialog_to_joinHomeDialog"
-            app:destination="@id/joinHomeDialog" />
-    </dialog>
+        tools:layout="@layout/dialog_add_home" />
     <dialog
         android:id="@+id/createNewHomeDialog"
         android:name="com.chorey.ui.menu.CreateNewHomeDialog"
