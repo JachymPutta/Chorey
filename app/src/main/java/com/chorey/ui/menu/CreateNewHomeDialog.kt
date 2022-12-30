@@ -21,7 +21,7 @@ class CreateNewHomeDialog : DialogFragment() {
             // Use the Builder class for convenient dialog construction
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater
-            val view =inflater.inflate(R.layout.dialog_create_new_home, null)
+            val view = inflater.inflate(R.layout.dialog_create_new_home, null)
 
             builder.setView(view)
                 .setPositiveButton(R.string.create_new_home_yes)

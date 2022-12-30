@@ -43,6 +43,10 @@
         <action
             android:id="@+id/action_homeFragment_to_menuFragment"
             app:destination="@id/menuFragment" />
+        <argument
+            android:name="homeId"
+            app:argType="long"
+            android:defaultValue="-1L" />
     </fragment>
     <dialog
         android:id="@+id/addHomeDialog"

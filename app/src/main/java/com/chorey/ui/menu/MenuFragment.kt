@@ -90,6 +90,8 @@ class MenuFragment : Fragment() {
         }
 
         AddHomeDialog().show(parentFragmentManager, "AddHome")
+        mrvAdapter.notifyDataSetChanged()
+
     }
 
 
