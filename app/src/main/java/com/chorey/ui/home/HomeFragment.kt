@@ -13,8 +13,6 @@ import com.chorey.R
 import com.chorey.data.HomeViewModel
 import com.chorey.data.model.HomeModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val HOME_POS = "ID"
 
 /**
@@ -23,8 +21,6 @@ private const val HOME_POS = "ID"
  * create an instance of this fragment.
  */
 class HomeFragment : Fragment() {
-    // TODO: Revert this back to the unique id
-//    private var homeUID: String? = null
     private var homePos: Int? = null
     private lateinit var home: HomeModel
     private lateinit var hrvAdapter: HomeRecyclerViewAdapter
@@ -34,8 +30,8 @@ class HomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             homePos = it.getInt(HOME_POS)
-            //TODO: is this always null safe? -- it's not
-            home = viewModel.list.value!![homePos!!]
+            //TODO: Not null safe - can get IDs out of range
+            home = viewModel.getHomes()!![homePos!!]
         }
     }
 
@@ -53,9 +49,10 @@ class HomeFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(view.context)
 
         // Watch for changes in the list
-        viewModel.list.observe(viewLifecycleOwner) {
-            _ -> hrvAdapter.notifyDataSetChanged()
-        }
+        //TODO: This should be the chore list not the home list
+//        viewModel.list.observe(viewLifecycleOwner) {
+//            _ -> hrvAdapter.notifyDataSetChanged()
+//        }
 
         return view
     }

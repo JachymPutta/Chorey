@@ -9,7 +9,7 @@ import com.chorey.data.model.HomeModel
 
 class HomeViewModel : ViewModel() {
     private val _list = MutableLiveData<List<HomeModel>>()
-    val list: LiveData<List<HomeModel>> get() = _list
+    private val list: LiveData<List<HomeModel>> get() = _list
 
     init {
         _list.value = listOf()
@@ -24,18 +24,34 @@ class HomeViewModel : ViewModel() {
         //TODO: Try to fetch the data from the DB
     }
 
-    fun findHome(uid : String) {
-        list.value?.find { home -> home.UID == uid }
+    fun findHome(uid : String) : HomeModel? {
+        return list.value?.find { home -> home.UID == uid }
     }
 
     fun getHomes(): List<HomeModel>? {
         return list.value
     }
 
+    fun getPos(home: HomeModel) : Int {
+        return if (list.value.isNullOrEmpty()) {
+            -1
+        } else {
+            list.value!!.indexOf(home)
+        }
+    }
+
     fun addHome(home: HomeModel) {
         if(list.value!!.size < MAX_HOMES) {
             // Add locally
             _list.value = _list.value?.plus(home)
+        }
+    }
+
+    fun getSize() : Int {
+        return if (list.value.isNullOrEmpty()) {
+            0
+        } else {
+            list.value!!.size
         }
     }
 

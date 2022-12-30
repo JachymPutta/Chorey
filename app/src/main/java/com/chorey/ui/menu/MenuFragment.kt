@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -19,6 +20,7 @@ import com.chorey.MAX_HOMES
 import com.chorey.R
 import com.chorey.data.HomeViewModel
 import com.chorey.data.model.HomeModel
+import com.google.android.material.textfield.TextInputLayout
 
 class MenuFragment : Fragment() {
     private val viewModel: HomeViewModel by activityViewModels()
@@ -39,10 +41,10 @@ class MenuFragment : Fragment() {
         recyclerView.adapter = mrvAdapter
         recyclerView.layoutManager = LinearLayoutManager(view.context)
 
-        viewModel.list.observe(viewLifecycleOwner) {
-            Log.d("Menu.kt", " List size is currently ${viewModel.list.value!!.size}")
-            mrvAdapter.notifyDataSetChanged()
-        }
+//        viewModel.list.observe(viewLifecycleOwner) {
+//            Log.d("Menu.kt", " List size is currently ${viewModel.list.value!!.size}")
+//            mrvAdapter.notifyDataSetChanged()
+//        }
 
         return view;
     }
@@ -68,7 +70,7 @@ class MenuFragment : Fragment() {
                 if (removeHome && (viewModel.getHomes() != null)) {
                     removeHomeUntoggle(requireView(), homeModel)
                 } else {
-                    val pos = viewModel.list.value?.indexOf(homeModel)
+                    val pos = viewModel.getPos(homeModel)
                     val currentId = bundleOf("ID" to pos)
                     Log.d("Menu", "Bundle ${homeModel.homeId} found at pos: $pos . passing --")
                     findNavController().navigate(R.id.action_menu_to_home, currentId)
@@ -88,9 +90,21 @@ class MenuFragment : Fragment() {
         }
 
         AddHomeDialog().show(parentFragmentManager, "AddHome")
-
-//        findNavController().navigate(R.id.action_menuFragment_to_addHomeDialog)
     }
+
+
+//    override fun onCreateHome(dialogFragment: DialogFragment) {
+//        val text = requireView().findViewById<TextInputLayout>(R.id.createHomeNameInput)!!
+//            .editText?.text
+//        Log.d("CreateHome Dialog", " New home name: $text")
+//
+//        val home = HomeModel()
+//        home.homeId = text.toString()
+//        viewModel.addHome(home)
+//
+//        mrvAdapter.notifyItemInserted(viewModel.getSize() - 1 )
+//    }
+
 
     /**
      * Triggers the visual and logical changes for removing a home from the list
@@ -113,7 +127,8 @@ class MenuFragment : Fragment() {
     fun removeHomeUntoggle(view: View, homeModel: HomeModel) {
         //TODO: Show confirmation before removal
         viewModel.removeHome(homeModel)
-        mrvAdapter.homes = viewModel.getHomes()!!
+        mrvAdapter.notifyItemRemoved(viewModel.getPos(homeModel))
+//        mrvAdapter.homes = viewModel.getHomes()!!
 
         val headText:TextView = view.findViewById(R.id.menuTitleText)
         headText.text = getString(R.string.menu_title_default)
