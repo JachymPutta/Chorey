@@ -22,6 +22,7 @@ import com.chorey.databinding.FragmentMenuBinding
 import com.chorey.dialog.AddHomeDialog
 import com.chorey.util.HomeUtil
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
@@ -86,8 +87,32 @@ class MenuFragment : Fragment(),
         binding.allRoomsRecycler.layoutManager = LinearLayoutManager(view.context)
 
         // Begin the dialogues of creating/joining a home
-        binding.addHomeButton.setOnClickListener{addHomeHandle()}
+        binding.addHomeButton.setOnClickListener{ addHomeHandle() }
         binding.removeHomeButton.setOnClickListener { removeHomeToggle() }
+    }
+    override fun onStart() {
+        super.onStart()
+
+        // TODO: get the authentication done
+        // Start sign in if necessary
+//        if (shouldStartSignIn()) {
+//            startSignIn()
+//            return
+//        }
+
+        // Start listening for Firestore updates
+        mrvAdapter.startListening()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mrvAdapter.stopListening()
+    }
+
+    override fun onHomeSelected(home: DocumentSnapshot) {
+        val action = MenuFragmentDirections.actionMenuToHome(home.id)
+        findNavController().navigate(action)
+
     }
 
     /**
