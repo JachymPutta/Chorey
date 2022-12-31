@@ -1,4 +1,4 @@
-package com.chorey.ui.login
+package com.chorey.data
 
 /**
  * User details post authentication that is exposed to the UI

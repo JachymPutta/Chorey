@@ -1,4 +1,4 @@
-package com.chorey.ui.menu
+package com.chorey.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.chorey.R
-import com.chorey.data.model.HomeModel
+import com.chorey.data.HomeModel
 
 class MenuRecyclerViewAdapter(var homes: List<HomeModel>): RecyclerView.Adapter<MenuRecyclerViewAdapter.ViewHolder>()  {
 

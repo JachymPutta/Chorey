@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.chorey.ui.login.LoginFragment"
+        android:name="com.chorey.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/menuFragment"
-        android:name="com.chorey.ui.menu.MenuFragment"
+        android:name="com.chorey.MenuFragment"
         android:label="fragment_menu"
         tools:layout="@layout/fragment_menu">
         <action
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.chorey.ui.home.HomeFragment"
+        android:name="com.chorey.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -50,17 +50,17 @@
     </fragment>
     <dialog
         android:id="@+id/addHomeDialog"
-        android:name="com.chorey.ui.menu.AddHomeDialog"
+        android:name="com.chorey.dialog.AddHomeDialog"
         android:label="dialog_add_home"
         tools:layout="@layout/dialog_add_home" />
     <dialog
         android:id="@+id/createNewHomeDialog"
-        android:name="com.chorey.ui.menu.CreateNewHomeDialog"
+        android:name="com.chorey.dialog.CreateNewHomeDialog"
         android:label="dialog_create_new_home"
         tools:layout="@layout/dialog_create_new_home" />
     <dialog
         android:id="@+id/joinHomeDialog"
-        android:name="com.chorey.ui.menu.JoinHomeDialog"
+        android:name="com.chorey.dialog.JoinHomeDialog"
         android:label="dialog_join_home"
         tools:layout="@layout/dialog_join_home" />
 </navigation>

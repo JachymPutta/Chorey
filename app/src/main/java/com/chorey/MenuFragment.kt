@@ -1,4 +1,4 @@
-package com.chorey.ui.menu
+package com.chorey
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -10,17 +10,15 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.os.bundleOf
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.chorey.MAX_HOMES
-import com.chorey.R
-import com.chorey.data.HomeViewModel
-import com.chorey.data.model.HomeModel
-import com.google.android.material.textfield.TextInputLayout
+import com.chorey.adapter.MenuRecyclerViewAdapter
+import com.chorey.viewmodel.HomeViewModel
+import com.chorey.data.HomeModel
+import com.chorey.dialog.AddHomeDialog
 
 class MenuFragment : Fragment() {
     private val viewModel: HomeViewModel by activityViewModels()

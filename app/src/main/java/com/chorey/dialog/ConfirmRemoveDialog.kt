@@ -1,4 +1,4 @@
-package com.chorey.ui.menu
+package com.chorey.dialog
 
 import android.app.AlertDialog
 import android.app.Dialog

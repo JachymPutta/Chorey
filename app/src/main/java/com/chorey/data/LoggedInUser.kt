@@ -1,4 +1,4 @@
-package com.chorey.data.model
+package com.chorey.data
 
 /**
  * Data class that captures user information for logged in users retrieved from LoginRepository

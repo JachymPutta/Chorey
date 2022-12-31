@@ -1,9 +1,9 @@
-package com.chorey.ui.login
+package com.chorey.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.chorey.data.LoginDataSource
-import com.chorey.data.LoginRepository
+import com.chorey.util.LoginDataSource
+import com.chorey.util.LoginRepository
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.

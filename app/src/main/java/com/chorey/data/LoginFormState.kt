@@ -1,4 +1,4 @@
-package com.chorey.ui.login
+package com.chorey.data
 
 /**
  * Data validation state of the login form.

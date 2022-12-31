@@ -1,4 +1,4 @@
-package com.chorey.data.model
+package com.chorey.data
 
 enum class ChoreTemplate(private val s: String) {
     Trash(""),

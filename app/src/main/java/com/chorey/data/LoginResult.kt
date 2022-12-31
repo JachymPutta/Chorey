@@ -1,4 +1,4 @@
-package com.chorey.ui.login
+package com.chorey.data
 
 /**
  * Authentication result : success (user details) or error message.

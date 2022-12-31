@@ -1,6 +1,6 @@
-package com.chorey.data
+package com.chorey.util
 
-import com.chorey.data.model.LoggedInUser
+import com.chorey.data.LoggedInUser
 
 /**
  * Class that requests authentication and user information from the remote data source and

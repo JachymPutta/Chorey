@@ -1,4 +1,4 @@
-package com.chorey.ui.home
+package com.chorey.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.chorey.R
-import com.chorey.data.model.ChoreModel
+import com.chorey.data.ChoreModel
 
 /**
  * Handles the list of all chores in each of the homes.

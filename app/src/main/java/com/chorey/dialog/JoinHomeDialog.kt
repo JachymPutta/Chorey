@@ -1,4 +1,4 @@
-package com.chorey.ui.menu
+package com.chorey.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater

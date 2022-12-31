@@ -1,4 +1,4 @@
-package com.chorey.ui.menu
+package com.chorey.dialog
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -8,8 +8,8 @@ import android.util.Log
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.chorey.R
-import com.chorey.data.HomeViewModel
-import com.chorey.data.model.HomeModel
+import com.chorey.viewmodel.HomeViewModel
+import com.chorey.data.HomeModel
 import com.google.android.material.textfield.TextInputLayout
 
 class CreateNewHomeDialog : DialogFragment() {

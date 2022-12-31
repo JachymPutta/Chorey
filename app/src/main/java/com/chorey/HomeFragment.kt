@@ -1,6 +1,5 @@
-package com.chorey.ui.home
+package com.chorey
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,9 +9,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.chorey.R
-import com.chorey.data.HomeViewModel
-import com.chorey.data.model.HomeModel
+import com.chorey.viewmodel.HomeViewModel
+import com.chorey.data.HomeModel
+import com.chorey.ui.home.HomeFragmentArgs
+import com.chorey.adapter.HomeRecyclerViewAdapter
 
 
 /**

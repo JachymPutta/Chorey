@@ -1,4 +1,4 @@
-package com.chorey.data.model
+package com.chorey.data
 
 import java.util.UUID
 

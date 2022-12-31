@@ -1,13 +1,16 @@
-package com.chorey.ui.login
+package com.chorey.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Patterns
-import com.chorey.data.LoginRepository
-import com.chorey.data.Result
+import com.chorey.util.LoginRepository
+import com.chorey.util.Result
 
 import com.chorey.R
+import com.chorey.data.LoginResult
+import com.chorey.data.LoggedInUserView
+import com.chorey.data.LoginFormState
 
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
 

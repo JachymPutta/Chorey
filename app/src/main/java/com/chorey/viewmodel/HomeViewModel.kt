@@ -1,11 +1,11 @@
-package com.chorey.data
+package com.chorey.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.chorey.MAX_HOMES
-import com.chorey.data.model.HomeModel
+import com.chorey.data.HomeModel
 
 class HomeViewModel : ViewModel() {
     private val _list = MutableLiveData<List<HomeModel>>()

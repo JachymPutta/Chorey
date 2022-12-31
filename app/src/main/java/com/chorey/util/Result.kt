@@ -1,4 +1,4 @@
-package com.chorey.data
+package com.chorey.util
 
 /**
  * A generic class that holds a value with its loading status.
