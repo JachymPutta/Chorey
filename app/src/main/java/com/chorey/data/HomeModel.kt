@@ -1,15 +1,10 @@
 package com.chorey.data
 
-import java.util.UUID
-
 /**
  * Data class that stores the information about the home
  */
 data class HomeModel (
-    val UID: String = UUID.randomUUID().toString(),
-    var createNew: Boolean = true,
-    var homeId: String = "Create new home!",
-    //TODO: Replace string with the appropriate data classes
-    val members: ArrayList<String> = arrayListOf(),
+    var homeName: String = "home_name",
+    val members: ArrayList<LoggedInUser> = arrayListOf(),
     val chores: ArrayList<ChoreModel> = arrayListOf()
 )

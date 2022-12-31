@@ -70,7 +70,7 @@ class MenuFragment : Fragment() {
                 } else {
                     val pos = viewModel.getPos(homeModel)
                     val currentId = bundleOf("ID" to pos)
-                    Log.d("Menu", "Bundle ${homeModel.homeId} found at pos: $pos . passing --")
+                    Log.d("Menu", "Bundle ${homeModel.homeName} found at pos: $pos . passing --")
                     findNavController().navigate(R.id.action_menu_to_home, currentId)
                 }
         }

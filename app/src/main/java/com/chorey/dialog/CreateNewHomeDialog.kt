@@ -31,7 +31,7 @@ class CreateNewHomeDialog : DialogFragment() {
                     Log.d("CreateHome Dialog", " New home name: $text")
 
                     val home = HomeModel()
-                    home.homeId = text.toString()
+                    home.homeName = text.toString()
                     viewModel.addHome(home)
                 }
                 .setNegativeButton(R.string.create_new_home_no)

@@ -16,16 +16,11 @@ class HomeViewModel : ViewModel() {
 
         // Add dummy elements
         val testHome = HomeModel()
-        testHome.homeId = "Cosy Home"
-        testHome.createNew = false
+        testHome.homeName = "Cosy Home"
         addHome(testHome)
         Log.d("HomeView", " List size is currently ${list.value?.size}")
 
         //TODO: Try to fetch the data from the DB
-    }
-
-    fun findHome(uid : String) : HomeModel? {
-        return list.value?.find { home -> home.UID == uid }
     }
 
     fun getHomes(): List<HomeModel>? {
@@ -58,7 +53,7 @@ class HomeViewModel : ViewModel() {
     fun removeHome(home: HomeModel) {
         if(list.value!!.isNotEmpty()) {
             _list.value = _list.value!!.minus(home)
-            Log.d("HomeView", "Removed ${home.homeId}, new home size ${list.value?.size}")
+            Log.d("HomeView", "Removed ${home.homeName}, new home size ${list.value?.size}")
         }
     }
 

@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chorey.viewmodel.HomeViewModel
 import com.chorey.data.HomeModel
-import com.chorey.ui.home.HomeFragmentArgs
 import com.chorey.adapter.HomeRecyclerViewAdapter
 
 
@@ -35,6 +34,7 @@ class HomeFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.all_chores_recycler)
 
         //TODO: Home is not initialized here - initialize with safeargs
+        home = HomeModel()
         hrvAdapter = HomeRecyclerViewAdapter(home.chores)
         setupRecyclerAdapter(hrvAdapter)
         recyclerView.adapter = hrvAdapter

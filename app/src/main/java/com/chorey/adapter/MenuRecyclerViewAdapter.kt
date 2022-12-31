@@ -72,7 +72,7 @@ class MenuRecyclerViewAdapter(var homes: List<HomeModel>): RecyclerView.Adapter<
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //holder.iconView.setImageResource()
-        holder.homeNameView.text = homes[position].homeId
+        holder.homeNameView.text = homes[position].homeName
 //        holder.membersView.setText(homes[position].members.size)
 //        holder.pointsView.setText(homes[position].chores.size)
         holder.membersView.text = ""

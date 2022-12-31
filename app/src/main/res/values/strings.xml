@@ -42,4 +42,25 @@
     <string name="confirm_remove_yes">Remove</string>
     <string name="confirm_remove_no">Cancel</string>
 
+
+
+    <!-- Debugging -->
+    <string-array name="home_names">
+        <item>@string/home_name_placeholder</item>
+
+        <item>White House</item>
+        <item>Parents\' house</item>
+        <item>Co-living Space</item>
+        <item>Office</item>
+        <item>Bouncy Castle</item>
+        <item>Dog Shelter</item>
+    </string-array>
+
+    <string-array name="chore_names">
+        <item>Take out the trash</item>
+        <item>Walk the Elephant</item>
+        <item>Wash the dishes</item>
+        <item>Vacuum</item>
+        <item>Clean the windows</item>
+    </string-array>
 </resources>
