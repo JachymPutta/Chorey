@@ -21,19 +21,26 @@ import com.chorey.data.HomeModel
 import com.chorey.databinding.FragmentMenuBinding
 import com.chorey.dialog.AddHomeDialog
 import com.chorey.util.HomeUtil
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class MenuFragment : Fragment() {
-    private val viewModel: HomeViewModel by activityViewModels()
+class MenuFragment : Fragment(),
+    MenuRecyclerViewAdapter.OnHomeSelectedListener {
     private lateinit var mrvAdapter: MenuRecyclerViewAdapter
     private lateinit var binding: FragmentMenuBinding
     lateinit var firestore: FirebaseFirestore
     private var query: Query? = null
     //TODO Change this to an ENUM for more readability
     private var removeHome = false
+
+//    private val signInLauncher = registerForActivityResult(
+//        FirebaseAuthUIActivityResultContract()
+//    ) { result -> this.onSignInResult(result) }
+    private val viewModel: HomeViewModel by activityViewModels()
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
@@ -56,30 +63,31 @@ class MenuFragment : Fragment() {
 
         query = firestore.collection("homes")
 
-        mrvAdapter = MenuRecyclerViewAdapter(viewModel.getHomes()!!)
-        setupRecyclerAdapter(mrvAdapter)
-        recyclerView.adapter = mrvAdapter
-        recyclerView.layoutManager = LinearLayoutManager(view.context)
+        query?.let {
+            mrvAdapter = object : MenuRecyclerViewAdapter(it, this@MenuFragment) {
+                override fun onDataChanged() {
+                    // Change UI based on the number of homes present
+                    if (itemCount == 0) {
+                        binding.allRoomsRecycler.visibility = View.GONE
+                    } else {
+                        binding.allRoomsRecycler.visibility = View.VISIBLE
+                    }
+                }
+
+                override fun onError(e: FirebaseFirestoreException) {
+                    Snackbar.make(binding.root, "Error: check logs for info",
+                        Snackbar.LENGTH_LONG).show()
+                }
+            }
+
+            binding.allRoomsRecycler.adapter = mrvAdapter
+        }
+
+        binding.allRoomsRecycler.layoutManager = LinearLayoutManager(view.context)
 
         // Begin the dialogues of creating/joining a home
         binding.addHomeButton.setOnClickListener{addHomeHandle()}
         binding.removeHomeButton.setOnClickListener { removeHomeToggle() }
-    }
-
-    // Initializes the lambdas which interact with the recycler object
-    fun setupRecyclerAdapter(mrvAdapter : MenuRecyclerViewAdapter) {
-        // Clicking on home
-        mrvAdapter.onItemClick = {
-            homeModel ->
-                if (removeHome && (viewModel.getHomes() != null)) {
-                    removeHomeUntoggle(requireView(), homeModel)
-                } else {
-                    val pos = viewModel.getPos(homeModel)
-                    val currentId = bundleOf("ID" to pos)
-                    Log.d("Menu", "Bundle ${homeModel.homeName} found at pos: $pos . passing --")
-                    findNavController().navigate(R.id.action_menu_to_home, currentId)
-                }
-        }
     }
 
     /**

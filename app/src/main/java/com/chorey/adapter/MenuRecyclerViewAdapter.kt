@@ -1,82 +1,50 @@
 package com.chorey.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.chorey.R
 import com.chorey.data.HomeModel
+import com.chorey.databinding.MenuRecyclerRowBinding
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.ktx.toObject
 
-class MenuRecyclerViewAdapter(var homes: List<HomeModel>): RecyclerView.Adapter<MenuRecyclerViewAdapter.ViewHolder>()  {
+open class MenuRecyclerViewAdapter(query: Query, private val listener: OnHomeSelectedListener)
+    : FirestoreAdapter<MenuRecyclerViewAdapter.ViewHolder>(query) {
 
-    var onItemClick: ((HomeModel) -> Unit)? = null
+    interface OnHomeSelectedListener {
+        fun onHomeSelected(home : DocumentSnapshot)
+    }
 
+    inner class ViewHolder(val binding: MenuRecyclerRowBinding)
+        : RecyclerView.ViewHolder(binding.root) {
 
-    inner class ViewHolder(view: View, homes: List<HomeModel>) : RecyclerView.ViewHolder(view) {
-        val pointsView: TextView
-        val membersView: TextView
-        val homeNameView: TextView
-        val iconView: ImageView
+        fun bind (
+            snapshot: DocumentSnapshot,
+            listener: OnHomeSelectedListener?
+        ) {
 
-        init {
-            // Define click listener for the ViewHolder's View.
-            iconView = view.findViewById(R.id.homesListIcon)
-            homeNameView = view.findViewById(R.id.homesListName)
-            membersView = view.findViewById(R.id.homesListMembers)
-            pointsView = view.findViewById(R.id.homesListPoints)
+            val home = snapshot.toObject<HomeModel>() ?: return
+            val resources = binding.root.resources
 
-            view.setOnClickListener {
-                onItemClick?.invoke(homes[adapterPosition])
+            binding.homesListIcon.setImageResource(com.google.android.gms.base.R.drawable.common_google_signin_btn_icon_dark_normal)
+            binding.homesListName.text = home.homeName
+            binding.homesListMembers.text = "Members"
+            binding.homesListPoints.text = "Points"
+
+            binding.root.setOnClickListener {
+                listener?.onHomeSelected(snapshot)
             }
         }
     }
 
-    /**
-     * Called when RecyclerView needs a new [ViewHolder] of the given type to represent
-     * an item.
-     *
-     * @param parent The ViewGroup into which the new View will be added after it is bound to
-     * an adapter position.
-     * @param viewType The view type of the new View.
-     *
-     * @return A new ViewHolder that holds a View of the given view type.
-     * @see .getItemViewType
-     * @see .onBindViewHolder
-     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.menu_recycler_row, parent, false)
-
-        return ViewHolder(view, homes)
+        return ViewHolder(MenuRecyclerRowBinding.
+            inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
-    /**
-     * Returns the total number of items in the data set held by the adapter.
-     *
-     * @return The total number of items in this adapter.
-     */
-    override fun getItemCount(): Int {
-        return homes.size
-    }
-
-    /**
-     * Called by RecyclerView to display the data at the specified position. This method should
-     * update the contents of the [ViewHolder.itemView] to reflect the item at the given
-     * position.
-     *
-     * @param holder The ViewHolder which should be updated to represent the contents of the
-     * item at the given position in the data set.
-     * @param position The position of the item within the adapter's data set.
-     */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        //holder.iconView.setImageResource()
-        holder.homeNameView.text = homes[position].homeName
-//        holder.membersView.setText(homes[position].members.size)
-//        holder.pointsView.setText(homes[position].chores.size)
-        holder.membersView.text = ""
-        holder.pointsView.text = ""
+        holder.bind(getSnapshot(position), listener)
     }
 
 }
