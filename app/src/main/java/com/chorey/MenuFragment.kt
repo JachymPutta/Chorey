@@ -18,11 +18,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chorey.adapter.MenuRecyclerViewAdapter
 import com.chorey.viewmodel.HomeViewModel
 import com.chorey.data.HomeModel
+import com.chorey.databinding.FragmentMenuBinding
 import com.chorey.dialog.AddHomeDialog
+import com.chorey.util.HomeUtil
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class MenuFragment : Fragment() {
     private val viewModel: HomeViewModel by activityViewModels()
     private lateinit var mrvAdapter: MenuRecyclerViewAdapter
+    private lateinit var binding: FragmentMenuBinding
+    lateinit var firestore: FirebaseFirestore
+    private var query: Query? = null
     //TODO Change this to an ENUM for more readability
     private var removeHome = false
 
@@ -30,36 +39,33 @@ class MenuFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_menu, container, false)
+    ): View {
+        binding = FragmentMenuBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val recyclerView = view.findViewById<RecyclerView>(R.id.all_rooms_recycler)
+
+        // Enable logging
+        FirebaseFirestore.setLoggingEnabled(true)
+        // FireStore instance
+        firestore = Firebase.firestore
+
+        query = firestore.collection("homes")
 
         mrvAdapter = MenuRecyclerViewAdapter(viewModel.getHomes()!!)
         setupRecyclerAdapter(mrvAdapter)
         recyclerView.adapter = mrvAdapter
         recyclerView.layoutManager = LinearLayoutManager(view.context)
 
-//        viewModel.list.observe(viewLifecycleOwner) {
-//            Log.d("Menu.kt", " List size is currently ${viewModel.list.value!!.size}")
-//            mrvAdapter.notifyDataSetChanged()
-//        }
-
-        return view;
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         // Begin the dialogues of creating/joining a home
-        view.findViewById<Button>(R.id.addHomeButton).setOnClickListener {
-            addHomeHandle()
-        }
-
-        // Home removal
-        view.findViewById<Button>(R.id.removeHomeButton).setOnClickListener {
-            removeHomeToggle(view)
-        }
+        binding.addHomeButton.setOnClickListener{addHomeHandle()}
+        binding.removeHomeButton.setOnClickListener { removeHomeToggle() }
     }
+
     // Initializes the lambdas which interact with the recycler object
     fun setupRecyclerAdapter(mrvAdapter : MenuRecyclerViewAdapter) {
         // Clicking on home
@@ -82,14 +88,14 @@ class MenuFragment : Fragment() {
      */
     fun addHomeHandle() {
         // MAX_HOMES has been reached
+        val homesRef = firestore.collection("homes")
         if(viewModel.getHomes() != null && viewModel.getHomes()!!.size >= MAX_HOMES) {
             Toast.makeText(activity, "Max number of homes reached!", Toast.LENGTH_SHORT).show()
             return
         }
 
+        homesRef.add(HomeUtil.makeRandomHome(requireContext()))
         AddHomeDialog().show(parentFragmentManager, "AddHome")
-        mrvAdapter.notifyDataSetChanged()
-
     }
 
 
@@ -108,14 +114,13 @@ class MenuFragment : Fragment() {
 
     /**
      * Triggers the visual and logical changes for removing a home from the list
-     * @param view: current view
      */
-    fun removeHomeToggle(view: View) {
+    fun removeHomeToggle() {
         // Already removing or no homes to remove
         if (removeHome || viewModel.getHomes() == null) return
 
         removeHome = true
-        val headText:TextView = view.findViewById(R.id.menuTitleText)
+        val headText:TextView = binding.menuTitleText
         headText.text = getString(R.string.menu_title_remove)
     }
 

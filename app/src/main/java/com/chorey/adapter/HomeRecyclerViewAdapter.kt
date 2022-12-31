@@ -45,7 +45,7 @@ class HomeRecyclerViewAdapter(var chores: List<ChoreModel>): RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: ViewHolder, pos: Int) {
-        holder.choreNameView.text = chores[pos].UID
+        holder.choreNameView.text = chores[pos].choreName
 
         //TODO: Initialize the other parameters
     }

@@ -4,13 +4,11 @@ import java.util.Date
 import java.util.UUID
 
 data class ChoreModel(
-    val UID: String = UUID.randomUUID().toString(),
-    var createNew: Boolean = true,
-    var homeId: String = "",
-    //TODO: Replace string with the appropriate data classes
-    val assignedTo: ArrayList<String> = arrayListOf(),
+    var choreName: String = "chore_name",
+    var homeName: String = "home_name",
+    val assignedTo: ArrayList<LoggedInUser> = arrayListOf(),
     var isTimed: Boolean = false,
     var whenDue : Date? = null,
-    var repeatsEvery: RepeatInterval,
-    var choreTemplate: ChoreTemplate
+    var repeatsEvery: RepeatInterval = RepeatInterval.None,
+    var choreTemplate: ChoreTemplate = ChoreTemplate.Custom
 )

@@ -12,12 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chorey.viewmodel.HomeViewModel
 import com.chorey.data.HomeModel
 import com.chorey.adapter.HomeRecyclerViewAdapter
+import com.chorey.util.HomeUtil
 
 
 /**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
+ * TODO: Description
  */
 class HomeFragment : Fragment() {
     private lateinit var home: HomeModel
@@ -33,8 +32,12 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.all_chores_recycler)
 
-        //TODO: Home is not initialized here - initialize with safeargs
-        home = HomeModel()
+        //Populating the Home variable
+        if (BuildConfig.DEBUG && args.homeId.toInt() == -1 || viewModel.getHomes() == null) {
+            home = HomeUtil.makeRandomHome(requireContext())
+        } else {
+            viewModel.getHomes()!![args.homeId.toInt()]
+        }
         hrvAdapter = HomeRecyclerViewAdapter(home.chores)
         setupRecyclerAdapter(hrvAdapter)
         recyclerView.adapter = hrvAdapter
