@@ -20,6 +20,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -53,17 +54,19 @@ class HomeFragment : Fragment(),
 
         // Inflate the layout for this fragment
         val recyclerView = view.findViewById<RecyclerView>(R.id.all_chores_recycler)
+        val choreQuery: Query = homeRef.collection("chores")
 
         // TODO: Adapt the Adapter object to have the on data changed function
-//        hrvAdapter = object : HomeRecyclerViewAdapter(emptyList()) {
-//            override fun onDataChanged() {
-//                if (itemCount == 0) {
-//                    binding.allChoresRecycler.visibility = View.GONE
-//                } else {
-//                    binding.allChoresRecycler.visibility = View.VISIBLE
-//                }
-//            }
-//        }
+        hrvAdapter = object : HomeRecyclerViewAdapter(choreQuery) {
+            override fun onDataChanged() {
+                if (itemCount == 0) {
+                    binding.allChoresRecycler.visibility = View.GONE
+                } else {
+                    binding.allChoresRecycler.visibility = View.VISIBLE
+                }
+            }
+        }
+
         recyclerView.adapter = hrvAdapter
         recyclerView.layoutManager = LinearLayoutManager(view.context)
     }

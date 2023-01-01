@@ -22,6 +22,7 @@ import com.chorey.databinding.FragmentMenuBinding
 import com.chorey.dialog.AddHomeDialog
 import com.chorey.util.HomeUtil
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
@@ -110,8 +111,12 @@ class MenuFragment : Fragment(),
     }
 
     override fun onHomeSelected(home: DocumentSnapshot) {
-        val action = MenuFragmentDirections.actionMenuToHome(home.id)
-        findNavController().navigate(action)
+        if (removeHome) {
+            removeHomeUntoggle(home.reference)
+        } else {
+            val action = MenuFragmentDirections.actionMenuToHome(home.id)
+            findNavController().navigate(action)
+        }
 
     }
 
@@ -128,22 +133,8 @@ class MenuFragment : Fragment(),
         }
 
         homesRef.add(HomeUtil.makeRandomHome(requireContext()))
-        AddHomeDialog().show(parentFragmentManager, "AddHome")
+//        AddHomeDialog().show(parentFragmentManager, "AddHome")
     }
-
-
-//    override fun onCreateHome(dialogFragment: DialogFragment) {
-//        val text = requireView().findViewById<TextInputLayout>(R.id.createHomeNameInput)!!
-//            .editText?.text
-//        Log.d("CreateHome Dialog", " New home name: $text")
-//
-//        val home = HomeModel()
-//        home.homeId = text.toString()
-//        viewModel.addHome(home)
-//
-//        mrvAdapter.notifyItemInserted(viewModel.getSize() - 1 )
-//    }
-
 
     /**
      * Triggers the visual and logical changes for removing a home from the list
@@ -162,14 +153,10 @@ class MenuFragment : Fragment(),
      * @param view: current view
      * @param homeModel: home being removed
      */
-    fun removeHomeUntoggle(view: View, homeModel: HomeModel) {
+    fun removeHomeUntoggle(home: DocumentReference) {
         //TODO: Show confirmation before removal
-        viewModel.removeHome(homeModel)
-        mrvAdapter.notifyItemRemoved(viewModel.getPos(homeModel))
-//        mrvAdapter.homes = viewModel.getHomes()!!
-
-        val headText:TextView = view.findViewById(R.id.menuTitleText)
-        headText.text = getString(R.string.menu_title_default)
+        home.delete()
+        binding.menuTitleText.text = getString(R.string.menu_title_default)
         removeHome = false
     }
 }

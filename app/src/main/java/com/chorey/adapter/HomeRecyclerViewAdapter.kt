@@ -7,46 +7,34 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.chorey.R
 import com.chorey.data.ChoreModel
+import com.chorey.databinding.HomeRecyclerRowBinding
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.ktx.toObject
 
 /**
  * Handles the list of all chores in each of the homes.
  * @param chores : list of all the chores
  */
-class HomeRecyclerViewAdapter(var chores: List<ChoreModel>): RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder>() {
+open class HomeRecyclerViewAdapter(query: Query)
+    : FirestoreAdapter<HomeRecyclerViewAdapter.ViewHolder>(query) {
 
-    var onItemClick: ((ChoreModel) -> Unit)? = null
+    inner class ViewHolder(private val binding: HomeRecyclerRowBinding)
+        : RecyclerView.ViewHolder(binding.root) {
+        fun bind(choreModel: ChoreModel?) {
 
-    inner class ViewHolder(view: View, chores: List<ChoreModel>) : RecyclerView.ViewHolder(view) {
-        val assigneeView: TextView
-        val dueDateView: TextView
-        val choreNameView: TextView
+            if (choreModel == null) return
 
-        init {
-            // Define click listener for the ViewHolder's View.
-            choreNameView = view.findViewById(R.id.choreName)
-            assigneeView = view.findViewById(R.id.choreAssignee)
-            dueDateView = view.findViewById(R.id.choreDueDate)
-
-            view.setOnClickListener {
-                onItemClick?.invoke(chores[adapterPosition])
-            }
+            //TODO: Other parameters
+            binding.choreName.text = choreModel.choreName
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.home_recycler_row, parent, false)
-
-        return ViewHolder(view, chores)
-    }
-
-    override fun getItemCount(): Int {
-        return chores.size
+        return ViewHolder(HomeRecyclerRowBinding.inflate(LayoutInflater.from(parent.context),
+            parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, pos: Int) {
-        holder.choreNameView.text = chores[pos].choreName
-
-        //TODO: Initialize the other parameters
+        holder.bind(getSnapshot(pos).toObject<ChoreModel>())
     }
 }

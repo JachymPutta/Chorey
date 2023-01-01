@@ -10,10 +10,11 @@ import kotlin.random.Random
 
 object HomeUtil {
     private const val TAG = "HomeUtil"
+    private var seed = RANDOM_SEED
 
     fun makeRandomHome(context: Context) : HomeModel {
         val home = HomeModel()
-        val random = Random(RANDOM_SEED)
+        val random = Random(seed)
 
         if (BuildConfig.DEBUG) {
             var homeNames = context.resources.getStringArray(R.array.home_names)
@@ -23,6 +24,8 @@ object HomeUtil {
             Log.d(TAG, "WARNING: Using random home outside debugging!")
         }
 
+        //Regenerate randomness
+        seed = random.nextInt()
         return home
     }
 
