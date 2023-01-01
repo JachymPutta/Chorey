@@ -20,6 +20,7 @@ import com.chorey.viewmodel.HomeViewModel
 import com.chorey.data.HomeModel
 import com.chorey.databinding.FragmentMenuBinding
 import com.chorey.dialog.AddHomeDialog
+import com.chorey.dialog.CreateNewHomeDialog
 import com.chorey.util.HomeUtil
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentReference
@@ -31,7 +32,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class MenuFragment : Fragment(),
-    MenuRecyclerViewAdapter.OnHomeSelectedListener {
+    MenuRecyclerViewAdapter.OnHomeSelectedListener,
+    CreateNewHomeDialog.CreateHomeListener {
     private lateinit var mrvAdapter: MenuRecyclerViewAdapter
     private lateinit var binding: FragmentMenuBinding
     lateinit var firestore: FirebaseFirestore
@@ -42,7 +44,7 @@ class MenuFragment : Fragment(),
 //    private val signInLauncher = registerForActivityResult(
 //        FirebaseAuthUIActivityResultContract()
 //    ) { result -> this.onSignInResult(result) }
-    private val viewModel: HomeViewModel by activityViewModels()
+//    private val viewModel: HomeViewModel by activityViewModels()
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
@@ -124,24 +126,32 @@ class MenuFragment : Fragment(),
      * Handles the addition of a new home, checks whether the max number of homes has been reached
      * and then continues through the dialogs
      */
-    fun addHomeHandle() {
-        // MAX_HOMES has been reached
-        val homesRef = firestore.collection("homes")
-        if(viewModel.getHomes() != null && viewModel.getHomes()!!.size >= MAX_HOMES) {
+    private fun addHomeHandle() {
+        // Adding random homes instead - TESTING
+//        val homesRef = firestore.collection("homes")
+//        homesRef.add(HomeUtil.makeRandomHome(requireContext()))
+
+        val numHomes = mrvAdapter.itemCount
+        Log.d(TAG, "Total number of homes = $numHomes")
+
+        if (numHomes >= MAX_HOMES) {
             Toast.makeText(activity, "Max number of homes reached!", Toast.LENGTH_SHORT).show()
             return
         }
 
-        homesRef.add(HomeUtil.makeRandomHome(requireContext()))
 //        AddHomeDialog().show(parentFragmentManager, "AddHome")
+    }
+
+    override fun onCreate(homeModel: HomeModel) {
+        firestore.collection("homes").add(homeModel)
     }
 
     /**
      * Triggers the visual and logical changes for removing a home from the list
      */
-    fun removeHomeToggle() {
+    private fun removeHomeToggle() {
         // Already removing or no homes to remove
-        if (removeHome || viewModel.getHomes() == null) return
+        if (removeHome) return
 
         removeHome = true
         val headText:TextView = binding.menuTitleText
@@ -153,10 +163,14 @@ class MenuFragment : Fragment(),
      * @param view: current view
      * @param homeModel: home being removed
      */
-    fun removeHomeUntoggle(home: DocumentReference) {
+    private fun removeHomeUntoggle(home: DocumentReference) {
         //TODO: Show confirmation before removal
         home.delete()
         binding.menuTitleText.text = getString(R.string.menu_title_default)
         removeHome = false
+    }
+
+    companion object {
+        const val TAG = "MenuFragment"
     }
 }
