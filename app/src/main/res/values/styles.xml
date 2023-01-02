@@ -6,4 +6,19 @@
         <item name="android:textSize">@dimen/large_text_size</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="RecyclerStyleLarge">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:clickable">true</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="android:focusable">true</item>
+        <item name="android:minWidth">300dp</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintHorizontal_bias">0.5</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="layout_constraintVertical_bias">0.4</item>
+        <item name="android:layout_height">450dp</item>
+    </style>
 </resources>

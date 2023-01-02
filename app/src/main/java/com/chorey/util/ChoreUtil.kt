@@ -10,10 +10,11 @@ import kotlin.random.Random
 
 object ChoreUtil {
     private const val TAG = "ChoreUtil"
+    private var seed = RANDOM_SEED
 
     fun makeRandomChore(context: Context) : ChoreModel {
         val chore = ChoreModel()
-        val random = Random(RANDOM_SEED)
+        val random = Random(seed)
 
         if (BuildConfig.DEBUG) {
             var choreNames = context.resources.getStringArray(R.array.chore_names)
@@ -23,6 +24,8 @@ object ChoreUtil {
             Log.d(TAG, "WARNING: Using random chore outside debugging!")
         }
 
+        // Next random number
+        seed = random.nextInt()
         return chore
     }
 

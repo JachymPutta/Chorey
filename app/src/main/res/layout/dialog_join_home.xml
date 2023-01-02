@@ -7,4 +7,11 @@
     android:layout_gravity="center"
     tools:context=".dialog.JoinHomeDialog">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/joinHomeRecycler"
+        tools:ignore="MissingConstraints"
+        style="@style/RecyclerStyleLarge"
+
+        android:layout_height="300dp"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

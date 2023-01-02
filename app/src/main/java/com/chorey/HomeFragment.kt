@@ -10,7 +10,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chorey.data.HomeModel
-import com.chorey.adapter.HomeRecyclerViewAdapter
+import com.chorey.adapter.HomeRecyclerAdapter
 import com.chorey.databinding.FragmentHomeBinding
 import com.chorey.dialog.AddChoreDialog
 import com.chorey.util.ChoreUtil.makeRandomChore
@@ -30,11 +30,11 @@ import com.google.firebase.ktx.Firebase
  */
 class HomeFragment : Fragment(),
     EventListener<DocumentSnapshot> {
-    val args: HomeFragmentArgs by navArgs()
+    private val args: HomeFragmentArgs by navArgs()
     private var addChoreDialog: AddChoreDialog? = null
 
     private lateinit var homeRef: DocumentReference
-    private lateinit var hrvAdapter: HomeRecyclerViewAdapter
+    private lateinit var hrvAdapter: HomeRecyclerAdapter
     private lateinit var binding: FragmentHomeBinding
     private lateinit var firestore: FirebaseFirestore
 
@@ -60,7 +60,7 @@ class HomeFragment : Fragment(),
         val choreQuery: Query = homeRef.collection("chores")
 
         // TODO: Adapt the Adapter object to have the on data changed function
-        hrvAdapter = object : HomeRecyclerViewAdapter(choreQuery) {
+        hrvAdapter = object : HomeRecyclerAdapter(choreQuery) {
             override fun onDataChanged() {
                 if (itemCount == 0) {
                     binding.allChoresRecycler.visibility = View.GONE
@@ -76,6 +76,8 @@ class HomeFragment : Fragment(),
         addChoreDialog = AddChoreDialog()
 
         binding.addChoreButton.setOnClickListener { addChoreHandle() }
+        binding.addMemberButton.setOnClickListener { addMemberHandle() }
+        binding.homeSummaryButton.setOnClickListener { onSummaryHandle() }
     }
 
     override fun onEvent(value: DocumentSnapshot?, error: FirebaseFirestoreException?) {
@@ -99,6 +101,14 @@ class HomeFragment : Fragment(),
 
         // Create a chore dialog
         addChoreDialog?.show(childFragmentManager, AddChoreDialog.TAG)
+    }
+
+    private fun addMemberHandle() {
+        TODO("Not yet implemented")
+    }
+
+    private fun onSummaryHandle() {
+        TODO("Not yet implemented")
     }
 
 

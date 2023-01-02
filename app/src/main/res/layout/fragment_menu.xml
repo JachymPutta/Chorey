@@ -19,18 +19,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/all_rooms_recycler"
-        android:layout_width="wrap_content"
-        android:clickable="true"
-        android:clipToPadding="false"
-        android:focusable="true"
-        android:minWidth="300dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.4"
-        android:layout_height="450dp"
+        style="@style/RecyclerStyleLarge"
+        tools:ignore="MissingConstraints"
         />
 
     <LinearLayout

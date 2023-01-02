@@ -6,20 +6,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.chorey.adapter.MenuRecyclerViewAdapter
-import com.chorey.viewmodel.HomeViewModel
+import com.chorey.adapter.MenuRecyclerAdapter
 import com.chorey.data.HomeModel
 import com.chorey.databinding.FragmentMenuBinding
-import com.chorey.dialog.AddHomeDialog
 import com.chorey.dialog.CreateNewHomeDialog
 import com.chorey.util.HomeUtil
 import com.google.android.material.snackbar.Snackbar
@@ -32,9 +27,9 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class MenuFragment : Fragment(),
-    MenuRecyclerViewAdapter.OnHomeSelectedListener,
+    MenuRecyclerAdapter.OnHomeSelectedListener,
     CreateNewHomeDialog.CreateHomeListener {
-    private lateinit var mrvAdapter: MenuRecyclerViewAdapter
+    private lateinit var mrvAdapter: MenuRecyclerAdapter
     private lateinit var binding: FragmentMenuBinding
     lateinit var firestore: FirebaseFirestore
     private var query: Query? = null
@@ -68,7 +63,7 @@ class MenuFragment : Fragment(),
         query = firestore.collection("homes")
 
         query?.let {
-            mrvAdapter = object : MenuRecyclerViewAdapter(it, this@MenuFragment) {
+            mrvAdapter = object : MenuRecyclerAdapter(it, this@MenuFragment) {
                 override fun onDataChanged() {
                     // Change UI based on the number of homes present
                     if (itemCount == 0) {
