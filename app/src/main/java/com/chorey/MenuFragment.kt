@@ -131,6 +131,12 @@ class MenuFragment : Fragment(),
 //        val homesRef = firestore.collection("homes")
 //        homesRef.add(HomeUtil.makeRandomHome(requireContext()))
 
+        // Stop removing - on remove cancel
+        if (removeHome) {
+            binding.menuTitleText.setText(R.string.menu_title_default)
+            removeHome = false
+        }
+
         val numHomes = mrvAdapter.itemCount
         Log.d(TAG, "Total number of homes = $numHomes")
 
@@ -139,11 +145,13 @@ class MenuFragment : Fragment(),
             return
         }
 
-//        AddHomeDialog().show(parentFragmentManager, "AddHome")
+        AddHomeDialog().show(parentFragmentManager, "AddHome")
     }
 
     override fun onCreate(homeModel: HomeModel) {
         firestore.collection("homes").add(homeModel)
+
+        Log.d(TAG, "Adding ${homeModel.homeName}")
     }
 
     /**
@@ -166,7 +174,7 @@ class MenuFragment : Fragment(),
     private fun removeHomeUntoggle(home: DocumentReference) {
         //TODO: Show confirmation before removal
         home.delete()
-        binding.menuTitleText.text = getString(R.string.menu_title_default)
+        binding.menuTitleText.setText(R.string.menu_title_default)
         removeHome = false
     }
 

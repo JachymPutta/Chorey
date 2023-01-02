@@ -30,6 +30,10 @@ class CreateNewHomeDialog : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = DialogCreateNewHomeBinding.inflate(inflater, container, false)
+
+        binding.createHomeCreateButton.setOnClickListener { onCreateClicked() }
+        binding.createHomeCancelButton.setOnClickListener { onCancelClicked() }
+
         return binding.root
     }
 
@@ -64,20 +68,3 @@ class CreateNewHomeDialog : DialogFragment() {
         const val TAG = "CreateHomeDialog"
     }
 }
-
-// TODO: Remove this code or integrate it back
-//    @SuppressLint("InflateParams")
-//    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//        return activity?.let {
-//            // Use the Builder class for convenient dialog construction
-//            val builder = AlertDialog.Builder(it)
-//            val inflater = requireActivity().layoutInflater
-//            val view = inflater.inflate(R.layout.dialog_create_new_home, null)
-//
-//            builder.setView(view)
-//                .setPositiveButton(R.string.create_new_home_yes) { _, _ -> onCreateClicked() }
-//                .setNegativeButton(R.string.create_new_home_no) { _, _ -> onCancelClicked() }
-//            // Create the AlertDialog object and return it
-//            builder.create()
-//        } ?: throw IllegalStateException("Activity cannot be null")
-//    }

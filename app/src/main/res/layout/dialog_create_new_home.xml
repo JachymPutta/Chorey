@@ -4,18 +4,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
     tools:context=".dialog.CreateNewHomeDialog">
 
+
+    <Button
+        android:id="@+id/createHomeCreateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/create_new_home_yes"
+        app:layout_constraintTop_toBottomOf="@id/createHomeNameInput"
+        app:layout_constraintStart_toEndOf="@id/createHomeDialogLine"
+        />
+
+    <Button
+        android:id="@+id/createHomeCancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/create_new_home_no"
+        app:layout_constraintTop_toBottomOf="@id/createHomeNameInput"
+        app:layout_constraintEnd_toStartOf="@id/createHomeDialogLine"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/createHomeDialogLine"
+        android:layout_width="10dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"
+        />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/createHomeNameInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minWidth="300dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:counterEnabled="true"
-        app:counterMaxLength="20"
+        app:counterMaxLength="30"
         >
 
         <com.google.android.material.textfield.TextInputEditText

@@ -33,6 +33,7 @@
     <!-- Add Home Dialog -->
     <string name="create_new_home_button">Create new!</string>
     <string name="join_existing_home_button">Join existing!</string>
+    <string name="add_home_dialog_title">Create a new home or join existing?</string>
     <!-- Create New Home Dialog -->
     <string name="create_new_home_yes">Create</string>
     <string name="create_new_home_no">Cancel</string>

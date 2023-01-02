@@ -16,17 +16,17 @@ class AddHomeDialog : DialogFragment() {
         return activity?.let {
             // Use the Builder class for convenient dialog construction
             val builder = AlertDialog.Builder(it)
-            builder.setPositiveButton(
-                    R.string.create_new_home_button,
-                    DialogInterface.OnClickListener { dialog, id ->
-//                        findNavController().navigate(R.id.action_menuFragment_to_createNewHomeDialog)
-                        CreateNewHomeDialog().show(parentFragmentManager, "CreateNewHome")
-                    })
-                .setNegativeButton(
-                    R.string.join_existing_home_button,
-                    DialogInterface.OnClickListener { dialog, id ->
-                        findNavController().navigate(R.id.action_menuFragment_to_joinHomeDialog)
-                    })
+//            val inflater = requireActivity().layoutInflater
+//            val view = inflater.inflate(R.layout.dialog_add_home, null)
+
+            builder.setTitle(R.string.add_home_dialog_title)
+                .setPositiveButton(R.string.create_new_home_button) { _, _ ->
+                    CreateNewHomeDialog().show(parentFragmentManager, "CreateNewHome")
+                }
+                .setNegativeButton(R.string.join_existing_home_button) { _, _ ->
+                    JoinHomeDialog().show(parentFragmentManager, "JoinExistingHome")
+                }
+
             // Create the AlertDialog object and return it
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
