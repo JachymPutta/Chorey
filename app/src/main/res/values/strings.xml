@@ -30,6 +30,7 @@
     <string name="chore_item_due_text">Due:</string>
     <string name="chore_item_due">Time</string>
     <string name="chore_item_completed">Done</string>
+    <string name="add_chore_button">Add Chore</string>
     <!-- Add Home Dialog -->
     <string name="create_new_home_button">Create new!</string>
     <string name="join_existing_home_button">Join existing!</string>

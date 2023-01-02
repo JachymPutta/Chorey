@@ -6,15 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.chorey.viewmodel.HomeViewModel
 import com.chorey.data.HomeModel
 import com.chorey.adapter.HomeRecyclerViewAdapter
 import com.chorey.databinding.FragmentHomeBinding
-import com.chorey.util.HomeUtil
+import com.chorey.dialog.AddChoreDialog
+import com.chorey.util.ChoreUtil.makeRandomChore
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.EventListener
@@ -31,17 +30,21 @@ import com.google.firebase.ktx.Firebase
  */
 class HomeFragment : Fragment(),
     EventListener<DocumentSnapshot> {
+    val args: HomeFragmentArgs by navArgs()
+    private var addChoreDialog: AddChoreDialog? = null
+
     private lateinit var homeRef: DocumentReference
     private lateinit var hrvAdapter: HomeRecyclerViewAdapter
     private lateinit var binding: FragmentHomeBinding
     private lateinit var firestore: FirebaseFirestore
-    val args: HomeFragmentArgs by navArgs()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
@@ -53,7 +56,7 @@ class HomeFragment : Fragment(),
         homeRef = firestore.collection("homes").document(args.homeId)
 
         // Inflate the layout for this fragment
-        val recyclerView = view.findViewById<RecyclerView>(R.id.all_chores_recycler)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.allChoresRecycler)
         val choreQuery: Query = homeRef.collection("chores")
 
         // TODO: Adapt the Adapter object to have the on data changed function
@@ -69,6 +72,10 @@ class HomeFragment : Fragment(),
 
         recyclerView.adapter = hrvAdapter
         recyclerView.layoutManager = LinearLayoutManager(view.context)
+
+        addChoreDialog = AddChoreDialog()
+
+        binding.addChoreButton.setOnClickListener { addChoreHandle() }
     }
 
     override fun onEvent(value: DocumentSnapshot?, error: FirebaseFirestoreException?) {
@@ -83,6 +90,27 @@ class HomeFragment : Fragment(),
                 onHomeLoaded(home)
             }
         }
+    }
+
+    private fun addChoreHandle() {
+        // Adding a random chore - TESTING
+        homeRef.collection("chores").add(makeRandomChore(requireContext()))
+
+
+        // Create a chore dialog
+        addChoreDialog?.show(childFragmentManager, AddChoreDialog.TAG)
+    }
+
+
+
+    override fun onStart() {
+        super.onStart()
+        hrvAdapter.startListening()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        hrvAdapter.stopListening()
     }
 
     private fun onHomeLoaded(homeModel: HomeModel) {

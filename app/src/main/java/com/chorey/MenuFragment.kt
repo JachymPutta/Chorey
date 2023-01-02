@@ -128,8 +128,8 @@ class MenuFragment : Fragment(),
      */
     private fun addHomeHandle() {
         // Adding random homes instead - TESTING
-//        val homesRef = firestore.collection("homes")
-//        homesRef.add(HomeUtil.makeRandomHome(requireContext()))
+        val homesRef = firestore.collection("homes")
+        homesRef.add(HomeUtil.makeRandomHome(requireContext()))
 
         // Stop removing - on remove cancel
         if (removeHome) {
@@ -145,7 +145,7 @@ class MenuFragment : Fragment(),
             return
         }
 
-        AddHomeDialog().show(parentFragmentManager, "AddHome")
+//        AddHomeDialog().show(parentFragmentManager, AddHomeDialog.TAG)
     }
 
     override fun onCreate(homeModel: HomeModel) {
