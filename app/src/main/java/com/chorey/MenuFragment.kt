@@ -16,9 +16,11 @@ import com.chorey.adapter.MenuRecyclerAdapter
 import com.chorey.data.HomeModel
 import com.chorey.databinding.FragmentMenuBinding
 import com.chorey.dialog.CreateNewHomeDialog
+import com.chorey.util.AuthInitializer
 import com.chorey.util.FirestoreInitializer
 import com.chorey.util.HomeUtil
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -32,7 +34,9 @@ class MenuFragment : Fragment(),
     CreateNewHomeDialog.CreateHomeListener {
     private lateinit var mrvAdapter: MenuRecyclerAdapter
     private lateinit var binding: FragmentMenuBinding
-    lateinit var firestore: FirebaseFirestore
+    private lateinit var firestore: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
+
     private var query: Query? = null
     //TODO Change this to an ENUM for more readability
     private var removeHome = false
@@ -60,6 +64,7 @@ class MenuFragment : Fragment(),
         FirebaseFirestore.setLoggingEnabled(true)
         // FireStore instance
         firestore = FirestoreInitializer().create(requireContext())
+        auth = AuthInitializer().create(requireContext())
 
         query = firestore.collection("homes")
 
@@ -106,6 +111,10 @@ class MenuFragment : Fragment(),
     override fun onStop() {
         super.onStop()
         mrvAdapter.stopListening()
+    }
+
+    private fun needSignIn() {
+        return
     }
 
     override fun onHomeSelected(home: DocumentSnapshot) {
