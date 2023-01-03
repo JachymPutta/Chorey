@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +15,7 @@ import com.chorey.adapter.HomeRecyclerAdapter
 import com.chorey.databinding.FragmentHomeBinding
 import com.chorey.dialog.AddChoreDialog
 import com.chorey.util.ChoreUtil.makeRandomChore
+import com.chorey.util.FirestoreInitializer
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.EventListener
@@ -75,9 +77,14 @@ class HomeFragment : Fragment(),
 
         addChoreDialog = AddChoreDialog()
 
+        // Hooking up buttons
         binding.addChoreButton.setOnClickListener { addChoreHandle() }
         binding.addMemberButton.setOnClickListener { addMemberHandle() }
         binding.homeSummaryButton.setOnClickListener { onSummaryHandle() }
+        binding.homeToMenuButton.setOnClickListener {
+            // Return to home screen
+            findNavController().navigate(R.id.action_homeFragment_to_menuFragment)
+        }
     }
 
     override fun onEvent(value: DocumentSnapshot?, error: FirebaseFirestoreException?) {
@@ -97,7 +104,6 @@ class HomeFragment : Fragment(),
     private fun addChoreHandle() {
         // Adding a random chore - TESTING
         homeRef.collection("chores").add(makeRandomChore(requireContext()))
-
 
         // Create a chore dialog
         addChoreDialog?.show(childFragmentManager, AddChoreDialog.TAG)

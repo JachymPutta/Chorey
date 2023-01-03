@@ -1,6 +1,7 @@
 <resources>
     <!-- Top level -->
     <string name="app_name">Chorey</string>
+    <string name="home_name_placeholder">home_name</string>
 
     <!-- Login -->
     <string name="prompt_email">Email</string>
@@ -23,11 +24,11 @@
         <string name="home_item_members">Members: 0</string>
 
     <!-- Home Fragment -->
-    <string name="home_name_placeholder">Home_Name</string>
     <string name="home_all_chores_text">TODOs</string>
     <string name="add_chore_button">Add Chore</string>
     <string name="add_members_button">Invite</string>
     <string name="home_summary_button">Summary</string>
+    <string name="home_to_menu_button">Home</string>
         <!-- Chore Recycler View -->
         <string name="chore_item_name">Chore</string>
         <string name="chore_item_assignee_text">Assigned:</string>
@@ -48,6 +49,12 @@
     <string name="confirm_remove_title">Are you sure?</string>
     <string name="confirm_remove_yes">Remove</string>
     <string name="confirm_remove_no">Cancel</string>
+    <!-- Join Home dialog -->
+    <!-- Join Home Recycler View-->
+    <string name="join_home_sent_by_name">user_name</string>
+    <string name="join_home_sent_by_text">From:</string>
+    <string name="join_home_accept_invite_desc">Accept Invite</string>
+    <string name="join_home_remove_invite_desc">Remove Invite</string>
 
     <!-- Debugging -->
     <string-array name="home_names">

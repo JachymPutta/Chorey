@@ -20,6 +20,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data android:name="com.chorey.util.FirestoreInitializer"
+                android:value="androidx.startup" />
+            <meta-data android:name="com.chorey.util.AuthInitializer"
+                android:value="androidx.startup" />
+        </provider>
+
     </application>
 
 </manifest>

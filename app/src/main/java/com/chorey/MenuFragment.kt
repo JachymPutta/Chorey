@@ -16,6 +16,7 @@ import com.chorey.adapter.MenuRecyclerAdapter
 import com.chorey.data.HomeModel
 import com.chorey.databinding.FragmentMenuBinding
 import com.chorey.dialog.CreateNewHomeDialog
+import com.chorey.util.FirestoreInitializer
 import com.chorey.util.HomeUtil
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentReference
@@ -58,7 +59,7 @@ class MenuFragment : Fragment(),
         // Enable logging
         FirebaseFirestore.setLoggingEnabled(true)
         // FireStore instance
-        firestore = Firebase.firestore
+        firestore = FirestoreInitializer().create(requireContext())
 
         query = firestore.collection("homes")
 
