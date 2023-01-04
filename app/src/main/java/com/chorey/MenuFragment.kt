@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,8 @@ import com.chorey.dialog.CreateNewHomeDialog
 import com.chorey.util.AuthInitializer
 import com.chorey.util.FirestoreInitializer
 import com.chorey.util.HomeUtil
+import com.chorey.viewmodel.LoginViewModel
+import com.chorey.viewmodel.LoginViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
@@ -45,6 +48,9 @@ class MenuFragment : Fragment(),
 //        FirebaseAuthUIActivityResultContract()
 //    ) { result -> this.onSignInResult(result) }
 //    private val viewModel: HomeViewModel by activityViewModels()
+    private val loginViewModel: LoginViewModel by activityViewModels {
+    LoginViewModelFactory()
+    }
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
@@ -111,10 +117,6 @@ class MenuFragment : Fragment(),
     override fun onStop() {
         super.onStop()
         mrvAdapter.stopListening()
-    }
-
-    private fun needSignIn() {
-        return
     }
 
     override fun onHomeSelected(home: DocumentSnapshot) {
