@@ -18,6 +18,8 @@
     <string name="remove_home_button">Remove Home</string>
     <string name="menu_title_default">Your Homes:</string>
     <string name="menu_title_remove">Click to Remove</string>
+    <string name="auth_button_login">Login</string>
+    <string name="auth_button_logout">Logout</string>
         <!-- Menu Recycler View -->
         <string name="home_item_place_holder">Home</string>
         <string name="home_item_score">Points: 0</string>

@@ -55,4 +55,8 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     private fun isPasswordValid(password: String): Boolean {
         return password.length > 5
     }
+
+    fun isLoggedIn() : Boolean {
+        return loginRepository.isLoggedIn
+    }
 }

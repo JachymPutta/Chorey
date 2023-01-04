@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -48,9 +49,7 @@ class MenuFragment : Fragment(),
 //        FirebaseAuthUIActivityResultContract()
 //    ) { result -> this.onSignInResult(result) }
 //    private val viewModel: HomeViewModel by activityViewModels()
-    private val loginViewModel: LoginViewModel by activityViewModels {
-    LoginViewModelFactory()
-    }
+    private lateinit var loginViewModel: LoginViewModel
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
@@ -69,8 +68,11 @@ class MenuFragment : Fragment(),
         // Enable logging
         FirebaseFirestore.setLoggingEnabled(true)
         // FireStore instance
-        firestore = FirestoreInitializer().create(requireContext())
+//        firestore = FirestoreInitializer().create(requireContext())
+        firestore = Firebase.firestore
         auth = AuthInitializer().create(requireContext())
+        loginViewModel = ViewModelProvider(this,
+            LoginViewModelFactory())[LoginViewModel::class.java]
 
         query = firestore.collection("homes")
 
@@ -99,10 +101,17 @@ class MenuFragment : Fragment(),
         // Begin the dialogues of creating/joining a home
         binding.addHomeButton.setOnClickListener{ addHomeHandle() }
         binding.removeHomeButton.setOnClickListener { removeHomeToggle() }
+        binding.authButton.setOnClickListener {  }
     }
     override fun onStart() {
         super.onStart()
 
+        val loggedIn = loginViewModel.isLoggedIn()
+
+        if (!loggedIn) {
+            findNavController().navigate(R.id.action_menuFragment_to_loginFragment)
+            return
+        }
         // TODO: get the authentication done
         // Start sign in if necessary
 //        if (shouldStartSignIn()) {

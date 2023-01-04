@@ -17,6 +17,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         />
 
+    <Button
+        android:id="@+id/authButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/auth_button_logout"
+        style="?android:attr/buttonBarButtonStyle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/all_rooms_recycler"
         style="@style/RecyclerStyleLarge"

@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_menuFragment_to_joinHomeDialog"
             app:destination="@id/joinHomeDialog" />
+        <action
+            android:id="@+id/action_menuFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
