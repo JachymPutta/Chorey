@@ -9,8 +9,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,10 +17,7 @@ import com.chorey.data.HomeModel
 import com.chorey.databinding.FragmentMenuBinding
 import com.chorey.dialog.CreateNewHomeDialog
 import com.chorey.util.AuthInitializer
-import com.chorey.util.FirestoreInitializer
 import com.chorey.util.HomeUtil
-import com.chorey.viewmodel.LoginViewModel
-import com.chorey.viewmodel.LoginViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
@@ -49,7 +44,6 @@ class MenuFragment : Fragment(),
 //        FirebaseAuthUIActivityResultContract()
 //    ) { result -> this.onSignInResult(result) }
 //    private val viewModel: HomeViewModel by activityViewModels()
-    private lateinit var loginViewModel: LoginViewModel
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
@@ -71,8 +65,6 @@ class MenuFragment : Fragment(),
 //        firestore = FirestoreInitializer().create(requireContext())
         firestore = Firebase.firestore
         auth = AuthInitializer().create(requireContext())
-        loginViewModel = ViewModelProvider(this,
-            LoginViewModelFactory())[LoginViewModel::class.java]
 
         query = firestore.collection("homes")
 
@@ -106,12 +98,6 @@ class MenuFragment : Fragment(),
     override fun onStart() {
         super.onStart()
 
-        val loggedIn = loginViewModel.isLoggedIn()
-
-        if (!loggedIn) {
-            findNavController().navigate(R.id.action_menuFragment_to_loginFragment)
-            return
-        }
         // TODO: get the authentication done
         // Start sign in if necessary
 //        if (shouldStartSignIn()) {

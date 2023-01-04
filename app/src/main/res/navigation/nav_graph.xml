@@ -6,15 +6,6 @@
     app:startDestination="@id/menuFragment">
 
     <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.chorey.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
-        <action
-            android:id="@+id/action_loginFragment_to_homeScreen"
-            app:destination="@id/menuFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/menuFragment"
         android:name="com.chorey.MenuFragment"
         android:label="fragment_menu"
@@ -31,9 +22,6 @@
         <action
             android:id="@+id/action_menuFragment_to_joinHomeDialog"
             app:destination="@id/joinHomeDialog" />
-        <action
-            android:id="@+id/action_menuFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
