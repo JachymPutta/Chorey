@@ -16,5 +16,6 @@ class LoginViewModel : ViewModel() {
             AuthState.UNAUTHED
         }
     }
+    var isSigningIn = false
 
 }

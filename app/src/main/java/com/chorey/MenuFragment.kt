@@ -1,6 +1,7 @@
 package com.chorey
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,8 +21,13 @@ import com.chorey.databinding.FragmentMenuBinding
 import com.chorey.dialog.CreateNewHomeDialog
 import com.chorey.util.AuthInitializer
 import com.chorey.util.HomeUtil
+import com.chorey.viewmodel.LoginViewModel
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
+import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -31,19 +39,17 @@ import com.google.firebase.ktx.Firebase
 class MenuFragment : Fragment(),
     MenuRecyclerAdapter.OnHomeSelectedListener,
     CreateNewHomeDialog.CreateHomeListener {
+    enum class HomeOperation {
+        ADD, DELETE
+    }
+
     private lateinit var mrvAdapter: MenuRecyclerAdapter
     private lateinit var binding: FragmentMenuBinding
     private lateinit var firestore: FirebaseFirestore
-    private lateinit var auth: FirebaseAuth
 
     private var query: Query? = null
-    //TODO Change this to an ENUM for more readability
-    private var removeHome = false
-
-//    private val signInLauncher = registerForActivityResult(
-//        FirebaseAuthUIActivityResultContract()
-//    ) { result -> this.onSignInResult(result) }
-//    private val viewModel: HomeViewModel by activityViewModels()
+    private var curOp = HomeOperation.ADD
+    private val viewModel by viewModels<LoginViewModel>()
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
@@ -57,14 +63,11 @@ class MenuFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.all_rooms_recycler)
 
         // Enable logging
         FirebaseFirestore.setLoggingEnabled(true)
         // FireStore instance
-//        firestore = FirestoreInitializer().create(requireContext())
         firestore = Firebase.firestore
-        auth = AuthInitializer().create(requireContext())
 
         query = firestore.collection("homes")
 
@@ -89,21 +92,22 @@ class MenuFragment : Fragment(),
         }
 
         binding.allRoomsRecycler.layoutManager = LinearLayoutManager(view.context)
+        observeAuthState()
 
         // Begin the dialogues of creating/joining a home
         binding.addHomeButton.setOnClickListener{ addHomeHandle() }
         binding.removeHomeButton.setOnClickListener { removeHomeToggle() }
         binding.authButton.setOnClickListener {  }
+
     }
     override fun onStart() {
         super.onStart()
 
-        // TODO: get the authentication done
         // Start sign in if necessary
-//        if (shouldStartSignIn()) {
-//            startSignIn()
-//            return
-//        }
+        if (needSignIn()) {
+            launchSignInFlow()
+            return
+        }
 
         // Start listening for Firestore updates
         mrvAdapter.startListening()
@@ -114,8 +118,12 @@ class MenuFragment : Fragment(),
         mrvAdapter.stopListening()
     }
 
+    private fun needSignIn() : Boolean {
+        return !viewModel.isSigningIn && Firebase.auth.currentUser == null
+    }
+
     override fun onHomeSelected(home: DocumentSnapshot) {
-        if (removeHome) {
+        if (curOp == HomeOperation.DELETE) {
             removeHomeUntoggle(home.reference)
         } else {
             val action = MenuFragmentDirections.actionMenuToHome(home.id)
@@ -134,9 +142,9 @@ class MenuFragment : Fragment(),
         homesRef.add(HomeUtil.makeRandomHome(requireContext()))
 
         // Stop removing - on remove cancel
-        if (removeHome) {
+        if (curOp == HomeOperation.DELETE) {
             binding.menuTitleText.setText(R.string.menu_title_default)
-            removeHome = false
+            curOp = HomeOperation.ADD
         }
 
         val numHomes = mrvAdapter.itemCount
@@ -150,6 +158,60 @@ class MenuFragment : Fragment(),
 //        AddHomeDialog().show(parentFragmentManager, AddHomeDialog.TAG)
     }
 
+    private fun observeAuthState() {
+        viewModel.authState.observe(viewLifecycleOwner) { authState ->
+            when (authState) {
+                LoginViewModel.AuthState.AUTHED -> {
+                    // Changes for a logged in user
+                    binding.menuTitleText.setText("Signed in")
+                    binding.authButton.setText(R.string.auth_button_logout)
+                    binding.authButton.setOnClickListener {
+                        AuthUI.getInstance().signOut(requireContext())
+                    }
+                }
+                else -> {
+                    //TODO: Change UI to welcome screen
+                    binding.menuTitleText.setText("NOT SIGNED IN")
+                    binding.authButton.setText(R.string.auth_button_login)
+                    binding.authButton.setOnClickListener { launchSignInFlow() }
+
+                }
+            }
+        }
+    }
+
+    private fun launchSignInFlow() {
+        val providers = arrayListOf(
+            AuthUI.IdpConfig.EmailBuilder().build()
+            // Add more Sign-in methods
+        )
+
+        val intent = AuthUI.getInstance().createSignInIntentBuilder()
+            .setAvailableProviders(providers)
+            .setIsSmartLockEnabled(false)
+            .build()
+        val launcher = requireActivity()
+            .registerForActivityResult(FirebaseAuthUIActivityResultContract()) {
+            result -> this.onSignInResult(result)
+        }
+
+        launcher.launch(intent)
+        viewModel.isSigningIn = true
+    }
+
+    private fun onSignInResult(result : FirebaseAuthUIAuthenticationResult) {
+        viewModel.isSigningIn = false
+
+        val response = result.idpResponse
+        if (result.resultCode != Activity.RESULT_OK) {
+            if (response == null) {
+                requireActivity().finish()
+            } else if (response.error != null ) {
+                Log.d(TAG, "Error signing in: ${response.error}")
+            }
+        }
+
+    }
     override fun onCreate(homeModel: HomeModel) {
         firestore.collection("homes").add(homeModel)
 
@@ -161,9 +223,9 @@ class MenuFragment : Fragment(),
      */
     private fun removeHomeToggle() {
         // Already removing or no homes to remove
-        if (removeHome) return
+        if (curOp==HomeOperation.DELETE) return
 
-        removeHome = true
+        curOp = HomeOperation.DELETE
         val headText:TextView = binding.menuTitleText
         headText.text = getString(R.string.menu_title_remove)
     }
@@ -177,7 +239,7 @@ class MenuFragment : Fragment(),
         //TODO: Show confirmation before removal
         home.delete()
         binding.menuTitleText.setText(R.string.menu_title_default)
-        removeHome = false
+        curOp = HomeOperation.ADD
     }
 
     companion object {
