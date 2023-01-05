@@ -7,10 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.chorey.R
+import com.chorey.adapter.JoinHomeRecyclerAdapter
 import com.chorey.data.HomeModel
 import com.chorey.databinding.DialogJoinHomeBinding
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
-class JoinHomeDialog : DialogFragment(){
+class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedListener{
 
     private var joinHomeListener: JoinHomeListener? = null
     private var _binding: DialogJoinHomeBinding? = null
@@ -37,6 +41,10 @@ class JoinHomeDialog : DialogFragment(){
         if (parentFragment is JoinHomeListener) {
             joinHomeListener = parentFragment as JoinHomeListener
         }
+    }
+
+    override fun onJoinSelected(home: DocumentSnapshot) {
+        Firebase.firestore.collection("homes").add(home.data!!)
     }
 
     override fun onDestroyView() {

@@ -59,9 +59,9 @@ class HomeFragment : Fragment(),
         super.onViewCreated(view, savedInstanceState)
 
         // TODO: handle this better
-        if (args.homeId == "") {
-            return
-        }
+//        if (args.homeId == "") {
+//            return
+//        }
 
         firestore = Firebase.firestore
 

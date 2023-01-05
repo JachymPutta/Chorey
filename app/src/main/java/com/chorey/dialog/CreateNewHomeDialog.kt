@@ -15,6 +15,7 @@ import com.chorey.data.HomeModel
 import com.chorey.databinding.DialogCreateNewHomeBinding
 import com.chorey.viewmodel.LoginViewModel
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class CreateNewHomeDialog : DialogFragment() {
@@ -57,6 +58,7 @@ class CreateNewHomeDialog : DialogFragment() {
         user?.let {
             val home = HomeModel(binding.createHomeNameInput.editText?.text.toString())
             createHomeListener?.onCreateHome(home)
+            Firebase.firestore.collection("homes").add(home)
         }
         dismiss()
     }

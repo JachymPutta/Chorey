@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chorey.adapter.MenuRecyclerAdapter
 import com.chorey.data.HomeModel
 import com.chorey.databinding.FragmentMenuBinding
+import com.chorey.dialog.AddHomeDialog
 import com.chorey.dialog.CreateNewHomeDialog
 import com.chorey.util.AuthInitializer
 import com.chorey.util.HomeUtil
@@ -67,8 +68,10 @@ class MenuFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // TODO: Re-enable logging - disabled while working on other stuff
         // Enable logging
-        FirebaseFirestore.setLoggingEnabled(true)
+//        FirebaseFirestore.setLoggingEnabled(true)
+
         // FireStore instance
         firestore = Firebase.firestore
         launcher = requireActivity()
@@ -140,8 +143,13 @@ class MenuFragment : Fragment(),
 
     override fun onCreateHome(homeModel: HomeModel) {
         firestore.collection("homes").add(homeModel)
-
-        Log.d(TAG, "Adding ${homeModel.homeName}")
+            .addOnSuccessListener(requireActivity()) {
+            Log.d(TAG, "onCreateHome: Home successfully added!")
+            binding.allRoomsRecycler.smoothScrollToPosition(0)
+            }
+            .addOnFailureListener(requireActivity()) {
+                e -> Log.d(TAG, "onCreateHome error: $e")
+            }
     }
 
 
@@ -151,7 +159,6 @@ class MenuFragment : Fragment(),
                 // Changes for a logged in user
                 LoginViewModel.AuthState.AUTHED -> { makeMenuScreen() }
                 else -> { makeWelcomeScreen() }
-                    //TODO: Change UI to welcome screen
             }
         }
     }
@@ -218,8 +225,8 @@ class MenuFragment : Fragment(),
      */
     private fun addHomeHandle() {
         // Adding random homes instead - TESTING
-        val homesRef = firestore.collection("homes")
-        homesRef.add(HomeUtil.makeRandomHome(requireContext()))
+//        val homesRef = firestore.collection("homes")
+//        homesRef.add(HomeUtil.makeRandomHome(requireContext()))
 
         // Stop removing - on remove cancel
         if (curOp == HomeOperation.DELETE) {
@@ -235,7 +242,7 @@ class MenuFragment : Fragment(),
             return
         }
 
-//        AddHomeDialog().show(parentFragmentManager, AddHomeDialog.TAG)
+        AddHomeDialog().show(parentFragmentManager, AddHomeDialog.TAG)
     }
     /**
      * Triggers the visual and logical changes for removing a home from the list
