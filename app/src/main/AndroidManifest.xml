@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Chorey"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
@@ -29,6 +30,8 @@
             <meta-data android:name="com.chorey.util.FirestoreInitializer"
                 android:value="androidx.startup" />
             <meta-data android:name="com.chorey.util.AuthInitializer"
+                android:value="androidx.startup" />
+            <meta-data android:name="com.chorey.util.AuthUIInitializer"
                 android:value="androidx.startup" />
         </provider>
 

@@ -2,6 +2,7 @@ package com.chorey
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -46,6 +48,7 @@ class MenuFragment : Fragment(),
     private lateinit var mrvAdapter: MenuRecyclerAdapter
     private lateinit var binding: FragmentMenuBinding
     private lateinit var firestore: FirebaseFirestore
+    private lateinit var launcher: ActivityResultLauncher<Intent>
 
     private var query: Query? = null
     private var curOp = HomeOperation.ADD
@@ -68,6 +71,10 @@ class MenuFragment : Fragment(),
         FirebaseFirestore.setLoggingEnabled(true)
         // FireStore instance
         firestore = Firebase.firestore
+        launcher = requireActivity()
+            .registerForActivityResult(FirebaseAuthUIActivityResultContract()) {
+                    result -> this.onSignInResult(result)
+            }
 
         query = firestore.collection("homes")
 
@@ -97,14 +104,14 @@ class MenuFragment : Fragment(),
         // Begin the dialogues of creating/joining a home
         binding.addHomeButton.setOnClickListener{ addHomeHandle() }
         binding.removeHomeButton.setOnClickListener { removeHomeToggle() }
-        binding.authButton.setOnClickListener {  }
+        binding.authButton.setOnClickListener { launchSignInFlow() }
 
     }
     override fun onStart() {
         super.onStart()
 
         // Start sign in if necessary
-        if (needSignIn()) {
+        if (!viewModel.isSigningIn && Firebase.auth.currentUser == null) {
             launchSignInFlow()
             return
         }
@@ -116,10 +123,6 @@ class MenuFragment : Fragment(),
     override fun onStop() {
         super.onStop()
         mrvAdapter.stopListening()
-    }
-
-    private fun needSignIn() : Boolean {
-        return !viewModel.isSigningIn && Firebase.auth.currentUser == null
     }
 
     override fun onHomeSelected(home: DocumentSnapshot) {
@@ -163,18 +166,16 @@ class MenuFragment : Fragment(),
             when (authState) {
                 LoginViewModel.AuthState.AUTHED -> {
                     // Changes for a logged in user
-                    binding.menuTitleText.setText("Signed in")
                     binding.authButton.setText(R.string.auth_button_logout)
                     binding.authButton.setOnClickListener {
+                        Firebase.auth.signOut()
                         AuthUI.getInstance().signOut(requireContext())
                     }
                 }
                 else -> {
                     //TODO: Change UI to welcome screen
-                    binding.menuTitleText.setText("NOT SIGNED IN")
                     binding.authButton.setText(R.string.auth_button_login)
                     binding.authButton.setOnClickListener { launchSignInFlow() }
-
                 }
             }
         }
@@ -183,20 +184,16 @@ class MenuFragment : Fragment(),
     private fun launchSignInFlow() {
         val providers = arrayListOf(
             AuthUI.IdpConfig.EmailBuilder().build()
-            // Add more Sign-in methods
+            // TODO: Add more Sign-in methods
         )
 
         val intent = AuthUI.getInstance().createSignInIntentBuilder()
             .setAvailableProviders(providers)
             .setIsSmartLockEnabled(false)
             .build()
-        val launcher = requireActivity()
-            .registerForActivityResult(FirebaseAuthUIActivityResultContract()) {
-            result -> this.onSignInResult(result)
-        }
 
-        launcher.launch(intent)
         viewModel.isSigningIn = true
+        launcher.launch(intent)
     }
 
     private fun onSignInResult(result : FirebaseAuthUIAuthenticationResult) {
