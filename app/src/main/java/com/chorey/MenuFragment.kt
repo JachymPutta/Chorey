@@ -75,7 +75,6 @@ class MenuFragment : Fragment(),
             .registerForActivityResult(FirebaseAuthUIActivityResultContract()) {
                     result -> this.onSignInResult(result)
             }
-
         query = firestore.collection("homes")
 
         query?.let {
@@ -101,7 +100,6 @@ class MenuFragment : Fragment(),
         binding.allRoomsRecycler.layoutManager = LinearLayoutManager(view.context)
         observeAuthState()
 
-        // Begin the dialogues of creating/joining a home
         binding.addHomeButton.setOnClickListener{ addHomeHandle() }
         binding.removeHomeButton.setOnClickListener { removeHomeToggle() }
         binding.authButton.setOnClickListener { launchSignInFlow() }
@@ -112,7 +110,9 @@ class MenuFragment : Fragment(),
 
         // Start sign in if necessary
         if (!viewModel.isSigningIn && Firebase.auth.currentUser == null) {
-            launchSignInFlow()
+            //TODO: Don't force sign-in, just stay on home screen ?
+//            launchSignInFlow()
+            makeWelcomeScreen()
             return
         }
 
@@ -129,10 +129,87 @@ class MenuFragment : Fragment(),
         if (curOp == HomeOperation.DELETE) {
             removeHomeUntoggle(home.reference)
         } else {
-            val action = MenuFragmentDirections.actionMenuToHome(home.id)
+            val action = MenuFragmentDirections.actionMenuToHome().apply {
+                homeId = home.id
+            }
             findNavController().navigate(action)
         }
 
+    }
+
+
+    override fun onCreateHome(homeModel: HomeModel) {
+        firestore.collection("homes").add(homeModel)
+
+        Log.d(TAG, "Adding ${homeModel.homeName}")
+    }
+
+
+    private fun observeAuthState() {
+        viewModel.authState.observe(viewLifecycleOwner) { authState ->
+            when (authState) {
+                // Changes for a logged in user
+                LoginViewModel.AuthState.AUTHED -> { makeMenuScreen() }
+                else -> { makeWelcomeScreen() }
+                    //TODO: Change UI to welcome screen
+            }
+        }
+    }
+
+    private fun launchSignInFlow() {
+        val providers = arrayListOf(
+            AuthUI.IdpConfig.EmailBuilder().build()
+            // TODO: Add more Sign-in methods
+        )
+
+        val intent = AuthUI.getInstance().createSignInIntentBuilder()
+            .setAvailableProviders(providers)
+            .setIsSmartLockEnabled(false)
+            .build()
+
+        viewModel.isSigningIn = true
+        launcher.launch(intent)
+    }
+
+    private fun onSignInResult(result : FirebaseAuthUIAuthenticationResult) {
+        val response = result.idpResponse
+
+        viewModel.isSigningIn = false
+
+        if (result.resultCode != Activity.RESULT_OK) {
+            if (response == null) {
+                requireActivity().finish()
+            } else if (response.error != null ) {
+                Log.d(TAG, "Error signing in: ${response.error}")
+            }
+        }
+
+    }
+
+    /**
+     * Function to change the UI when there is no user logged in
+     */
+    private fun makeWelcomeScreen() {
+        binding.allRoomsRecycler.visibility = View.GONE
+        binding.addHomeButton.visibility = View.GONE
+        binding.removeHomeButton.visibility = View.GONE
+        binding.menuTitleText.setText(R.string.menu_title_welcome)
+        binding.authButton.setText(R.string.auth_button_login)
+        binding.authButton.setOnClickListener { launchSignInFlow() }
+    }
+
+    /**
+     * Function to change the UI when there is a user authenticated
+     */
+    private fun makeMenuScreen() {
+        binding.authButton.setText(R.string.auth_button_logout)
+        binding.allRoomsRecycler.visibility = View.VISIBLE
+        binding.addHomeButton.visibility = View.VISIBLE
+        binding.removeHomeButton.visibility = View.VISIBLE
+        binding.authButton.setOnClickListener {
+            Firebase.auth.signOut()
+            AuthUI.getInstance().signOut(requireContext())
+        }
     }
 
     /**
@@ -160,61 +237,6 @@ class MenuFragment : Fragment(),
 
 //        AddHomeDialog().show(parentFragmentManager, AddHomeDialog.TAG)
     }
-
-    private fun observeAuthState() {
-        viewModel.authState.observe(viewLifecycleOwner) { authState ->
-            when (authState) {
-                LoginViewModel.AuthState.AUTHED -> {
-                    // Changes for a logged in user
-                    binding.authButton.setText(R.string.auth_button_logout)
-                    binding.authButton.setOnClickListener {
-                        Firebase.auth.signOut()
-                        AuthUI.getInstance().signOut(requireContext())
-                    }
-                }
-                else -> {
-                    //TODO: Change UI to welcome screen
-                    binding.authButton.setText(R.string.auth_button_login)
-                    binding.authButton.setOnClickListener { launchSignInFlow() }
-                }
-            }
-        }
-    }
-
-    private fun launchSignInFlow() {
-        val providers = arrayListOf(
-            AuthUI.IdpConfig.EmailBuilder().build()
-            // TODO: Add more Sign-in methods
-        )
-
-        val intent = AuthUI.getInstance().createSignInIntentBuilder()
-            .setAvailableProviders(providers)
-            .setIsSmartLockEnabled(false)
-            .build()
-
-        viewModel.isSigningIn = true
-        launcher.launch(intent)
-    }
-
-    private fun onSignInResult(result : FirebaseAuthUIAuthenticationResult) {
-        viewModel.isSigningIn = false
-
-        val response = result.idpResponse
-        if (result.resultCode != Activity.RESULT_OK) {
-            if (response == null) {
-                requireActivity().finish()
-            } else if (response.error != null ) {
-                Log.d(TAG, "Error signing in: ${response.error}")
-            }
-        }
-
-    }
-    override fun onCreate(homeModel: HomeModel) {
-        firestore.collection("homes").add(homeModel)
-
-        Log.d(TAG, "Adding ${homeModel.homeName}")
-    }
-
     /**
      * Triggers the visual and logical changes for removing a home from the list
      */
@@ -238,6 +260,7 @@ class MenuFragment : Fragment(),
         binding.menuTitleText.setText(R.string.menu_title_default)
         curOp = HomeOperation.ADD
     }
+
 
     companion object {
         const val TAG = "MenuFragment"

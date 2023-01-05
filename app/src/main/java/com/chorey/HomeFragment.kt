@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +18,7 @@ import com.chorey.databinding.FragmentHomeBinding
 import com.chorey.dialog.AddChoreDialog
 import com.chorey.util.ChoreUtil.makeRandomChore
 import com.chorey.util.FirestoreInitializer
+import com.chorey.viewmodel.LoginViewModel
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.EventListener
@@ -33,12 +36,14 @@ import com.google.firebase.ktx.Firebase
 class HomeFragment : Fragment(),
     EventListener<DocumentSnapshot> {
     private val args: HomeFragmentArgs by navArgs()
+    private val viewModel by viewModels<LoginViewModel>()
     private var addChoreDialog: AddChoreDialog? = null
 
     private lateinit var homeRef: DocumentReference
     private lateinit var hrvAdapter: HomeRecyclerAdapter
     private lateinit var binding: FragmentHomeBinding
     private lateinit var firestore: FirebaseFirestore
+
 
 
     override fun onCreateView(
@@ -53,6 +58,11 @@ class HomeFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // TODO: handle this better
+        if (args.homeId == "") {
+            return
+        }
+
         firestore = Firebase.firestore
 
         homeRef = firestore.collection("homes").document(args.homeId)
@@ -61,7 +71,6 @@ class HomeFragment : Fragment(),
         val recyclerView = view.findViewById<RecyclerView>(R.id.allChoresRecycler)
         val choreQuery: Query = homeRef.collection("chores")
 
-        // TODO: Adapt the Adapter object to have the on data changed function
         hrvAdapter = object : HomeRecyclerAdapter(choreQuery) {
             override fun onDataChanged() {
                 if (itemCount == 0) {
@@ -102,6 +111,13 @@ class HomeFragment : Fragment(),
     }
 
     private fun addChoreHandle() {
+        // Check if chore limit reached
+        val numChores = hrvAdapter.itemCount
+        if (numChores >= MAX_CHORES) {
+            Toast.makeText(activity, "Max number of homes reached!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         // Adding a random chore - TESTING
         homeRef.collection("chores").add(makeRandomChore(requireContext()))
 
@@ -121,6 +137,11 @@ class HomeFragment : Fragment(),
 
     override fun onStart() {
         super.onStart()
+
+        if (viewModel.authState.value != LoginViewModel.AuthState.AUTHED) {
+            findNavController().navigate(R.id.action_homeFragment_to_menuFragment)
+        }
+
         hrvAdapter.startListening()
     }
 

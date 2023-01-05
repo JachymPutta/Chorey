@@ -10,8 +10,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import com.chorey.data.HomeModel
 import com.chorey.databinding.DialogCreateNewHomeBinding
+import com.chorey.viewmodel.LoginViewModel
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -21,7 +23,7 @@ class CreateNewHomeDialog : DialogFragment() {
     private val binding get() = _binding!!
 
     internal interface CreateHomeListener {
-        fun onCreate(homeModel: HomeModel)
+        fun onCreateHome(homeModel: HomeModel)
     }
 
     override fun onCreateView(
@@ -51,12 +53,11 @@ class CreateNewHomeDialog : DialogFragment() {
     }
 
     private fun onCreateClicked() {
-        //TODO: Authentication
-//        val user = Firebase.auth.currentUser
-//        user?.let {
+        val user = Firebase.auth.currentUser
+        user?.let {
             val home = HomeModel(binding.createHomeNameInput.editText?.text.toString())
-            createHomeListener?.onCreate(home)
-//        }
+            createHomeListener?.onCreateHome(home)
+        }
         dismiss()
     }
 
