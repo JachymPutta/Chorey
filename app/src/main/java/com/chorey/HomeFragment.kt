@@ -51,7 +51,6 @@ class HomeFragment : Fragment(),
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -104,6 +103,7 @@ class HomeFragment : Fragment(),
 
         value?.let {
             val home = value.toObject<HomeModel>()
+            Log.d(TAG, " FINALLY FOUND THE HOME PASSED IN $home")
             if (home != null) {
                 onHomeLoaded(home)
             }
@@ -138,9 +138,9 @@ class HomeFragment : Fragment(),
     override fun onStart() {
         super.onStart()
 
-        if (viewModel.authState.value != LoginViewModel.AuthState.AUTHED) {
-            findNavController().navigate(R.id.action_homeFragment_to_menuFragment)
-        }
+//        if (viewModel.authState.value != LoginViewModel.AuthState.AUTHED) {
+//            findNavController().navigate(R.id.action_homeFragment_to_menuFragment)
+//        }
 
         hrvAdapter.startListening()
     }

@@ -12,7 +12,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -49,13 +51,11 @@ class MenuFragment : Fragment(),
     private lateinit var mrvAdapter: MenuRecyclerAdapter
     private lateinit var binding: FragmentMenuBinding
     private lateinit var firestore: FirebaseFirestore
-    private lateinit var launcher: ActivityResultLauncher<Intent>
 
     private var query: Query? = null
     private var curOp = HomeOperation.ADD
-    private val viewModel by viewModels<LoginViewModel>()
+    private val viewModel by activityViewModels<LoginViewModel>()
 
-    @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -74,10 +74,6 @@ class MenuFragment : Fragment(),
 
         // FireStore instance
         firestore = Firebase.firestore
-        launcher = requireActivity()
-            .registerForActivityResult(FirebaseAuthUIActivityResultContract()) {
-                    result -> this.onSignInResult(result)
-            }
         query = firestore.collection("homes")
 
         query?.let {
@@ -105,17 +101,19 @@ class MenuFragment : Fragment(),
 
         binding.addHomeButton.setOnClickListener{ addHomeHandle() }
         binding.removeHomeButton.setOnClickListener { removeHomeToggle() }
-        binding.authButton.setOnClickListener { launchSignInFlow() }
+        binding.authButton.setOnClickListener {launchSignInFlow()
+//            Firebase.auth.signOut()
+//            AuthUI.getInstance().signOut(requireContext())
+        }
 
     }
     override fun onStart() {
         super.onStart()
 
         // Start sign in if necessary
-        if (!viewModel.isSigningIn && Firebase.auth.currentUser == null) {
-            //TODO: Don't force sign-in, just stay on home screen ?
-//            launchSignInFlow()
+        if (needSignIn()) {
             makeWelcomeScreen()
+//            findNavController().navigate(R.id.loginFragment)
             return
         }
 
@@ -135,6 +133,7 @@ class MenuFragment : Fragment(),
             val action = MenuFragmentDirections.actionMenuToHome().apply {
                 homeId = home.id
             }
+            Log.d(TAG, " THIS IS THE ACTION BEING PASSED $action")
             findNavController().navigate(action)
         }
 
@@ -163,6 +162,8 @@ class MenuFragment : Fragment(),
         }
     }
 
+    private fun needSignIn() = !viewModel.isSigningIn && Firebase.auth.currentUser == null
+
     private fun launchSignInFlow() {
         val providers = arrayListOf(
             AuthUI.IdpConfig.EmailBuilder().build()
@@ -175,22 +176,7 @@ class MenuFragment : Fragment(),
             .build()
 
         viewModel.isSigningIn = true
-        launcher.launch(intent)
-    }
-
-    private fun onSignInResult(result : FirebaseAuthUIAuthenticationResult) {
-        val response = result.idpResponse
-
-        viewModel.isSigningIn = false
-
-        if (result.resultCode != Activity.RESULT_OK) {
-            if (response == null) {
-                requireActivity().finish()
-            } else if (response.error != null ) {
-                Log.d(TAG, "Error signing in: ${response.error}")
-            }
-        }
-
+        viewModel.launcher.launch(intent)
     }
 
     /**
