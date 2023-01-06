@@ -101,9 +101,10 @@ class MenuFragment : Fragment(),
 
         binding.addHomeButton.setOnClickListener{ addHomeHandle() }
         binding.removeHomeButton.setOnClickListener { removeHomeToggle() }
-        binding.authButton.setOnClickListener {launchSignInFlow()
-//            Firebase.auth.signOut()
-//            AuthUI.getInstance().signOut(requireContext())
+        binding.authButton.setOnClickListener {launchSignInFlow() }
+
+        if (mrvAdapter.itemCount == 1) {
+            //TODO Go directly to the home screen
         }
 
     }
@@ -133,7 +134,6 @@ class MenuFragment : Fragment(),
             val action = MenuFragmentDirections.actionMenuToHome().apply {
                 homeId = home.id
             }
-            Log.d(TAG, " THIS IS THE ACTION BEING PASSED $action")
             findNavController().navigate(action)
         }
 

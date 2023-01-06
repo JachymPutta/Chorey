@@ -11,13 +11,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.chorey.data.HomeModel
 import com.chorey.adapter.HomeRecyclerAdapter
 import com.chorey.databinding.FragmentHomeBinding
 import com.chorey.dialog.AddChoreDialog
 import com.chorey.util.ChoreUtil.makeRandomChore
-import com.chorey.util.FirestoreInitializer
 import com.chorey.viewmodel.LoginViewModel
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
@@ -57,17 +55,25 @@ class HomeFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // TODO: handle this better
-//        if (args.homeId == "") {
-//            return
-//        }
+        if (args.homeId == "") {
+            findNavController().navigate(R.id.action_homeFragment_to_menuFragment)
+            //TODO Display home not found message
+            return
+        }
 
         firestore = Firebase.firestore
 
         homeRef = firestore.collection("homes").document(args.homeId)
+        homeRef.get()
+            .addOnSuccessListener(requireActivity()) {
+                snapshot -> onHomeLoaded(snapshot.toObject<HomeModel>())
+            }
+            .addOnFailureListener(requireActivity()) {
+                e -> Log.d(MenuFragment.TAG, "onCreateHome error: $e")
+            }
+
 
         // Inflate the layout for this fragment
-        val recyclerView = view.findViewById<RecyclerView>(R.id.allChoresRecycler)
         val choreQuery: Query = homeRef.collection("chores")
 
         hrvAdapter = object : HomeRecyclerAdapter(choreQuery) {
@@ -80,8 +86,9 @@ class HomeFragment : Fragment(),
             }
         }
 
-        recyclerView.adapter = hrvAdapter
-        recyclerView.layoutManager = LinearLayoutManager(view.context)
+        binding.homeName.visibility = View.GONE
+        binding.allChoresRecycler.adapter = hrvAdapter
+        binding.allChoresRecycler.layoutManager = LinearLayoutManager(view.context)
 
         addChoreDialog = AddChoreDialog()
 
@@ -150,8 +157,12 @@ class HomeFragment : Fragment(),
         hrvAdapter.stopListening()
     }
 
-    private fun onHomeLoaded(homeModel: HomeModel) {
+    private fun onHomeLoaded(homeModel: HomeModel?) {
+        if (homeModel == null)
+            return
+
         binding.homeName.text = homeModel.homeName
+        binding.homeName.visibility = View.VISIBLE
         //TODO: Bind the rest of the properties
     }
 
