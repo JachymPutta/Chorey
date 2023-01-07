@@ -19,33 +19,20 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class CreateNewHomeDialog : DialogFragment() {
-    private var createHomeListener: CreateHomeListener? = null
     private var _binding: DialogCreateNewHomeBinding? = null
     private val binding get() = _binding!!
-
-    internal interface CreateHomeListener {
-        fun onCreateHome(homeModel: HomeModel)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = DialogCreateNewHomeBinding.inflate(inflater, container, false)
 
         binding.createHomeCreateButton.setOnClickListener { onCreateClicked() }
         binding.createHomeCancelButton.setOnClickListener { onCancelClicked() }
 
         return binding.root
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        if (parentFragment is CreateHomeListener) {
-           createHomeListener = parentFragment as CreateHomeListener
-        }
     }
 
     override fun onDestroyView() {
@@ -57,7 +44,6 @@ class CreateNewHomeDialog : DialogFragment() {
         val user = Firebase.auth.currentUser
         user?.let {
             val home = HomeModel(binding.createHomeNameInput.editText?.text.toString())
-            createHomeListener?.onCreateHome(home)
             Firebase.firestore.collection("homes").add(home)
         }
         dismiss()

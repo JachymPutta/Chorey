@@ -42,8 +42,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class MenuFragment : Fragment(),
-    MenuRecyclerAdapter.OnHomeSelectedListener,
-    CreateNewHomeDialog.CreateHomeListener {
+    MenuRecyclerAdapter.OnHomeSelectedListener {
     enum class HomeOperation {
         ADD, DELETE
     }
@@ -92,7 +91,6 @@ class MenuFragment : Fragment(),
                         Snackbar.LENGTH_LONG).show()
                 }
             }
-
             binding.allRoomsRecycler.adapter = mrvAdapter
         }
 
@@ -103,9 +101,9 @@ class MenuFragment : Fragment(),
         binding.removeHomeButton.setOnClickListener { removeHomeToggle() }
         binding.authButton.setOnClickListener {launchSignInFlow() }
 
-        if (mrvAdapter.itemCount == 1) {
-            //TODO Go directly to the home screen
-        }
+//        TODO Go directly to the home screen
+//        if (mrvAdapter.itemCount == 1) {
+//        }
 
     }
     override fun onStart() {
@@ -129,7 +127,8 @@ class MenuFragment : Fragment(),
 
     override fun onHomeSelected(home: DocumentSnapshot) {
         if (curOp == HomeOperation.DELETE) {
-            removeHomeUntoggle(home.reference)
+            home.reference.delete()
+            removeHomeToggle()
         } else {
             val action = MenuFragmentDirections.actionMenuToHome().apply {
                 homeId = home.id
@@ -138,19 +137,6 @@ class MenuFragment : Fragment(),
         }
 
     }
-
-
-    override fun onCreateHome(homeModel: HomeModel) {
-        firestore.collection("homes").add(homeModel)
-            .addOnSuccessListener(requireActivity()) {
-            Log.d(TAG, "onCreateHome: Home successfully added!")
-            binding.allRoomsRecycler.smoothScrollToPosition(0)
-            }
-            .addOnFailureListener(requireActivity()) {
-                e -> Log.d(TAG, "onCreateHome error: $e")
-            }
-    }
-
 
     private fun observeAuthState() {
         viewModel.authState.observe(viewLifecycleOwner) { authState ->
@@ -230,30 +216,20 @@ class MenuFragment : Fragment(),
 
         AddHomeDialog().show(parentFragmentManager, AddHomeDialog.TAG)
     }
+
     /**
      * Triggers the visual and logical changes for removing a home from the list
      */
     private fun removeHomeToggle() {
         // Already removing or no homes to remove
-        if (curOp==HomeOperation.DELETE) return
-
-        curOp = HomeOperation.DELETE
-        val headText:TextView = binding.menuTitleText
-        headText.text = getString(R.string.menu_title_remove)
+        if (curOp==HomeOperation.DELETE) {
+            curOp = HomeOperation.ADD
+            binding.menuTitleText.setText(R.string.menu_title_default)
+        } else {
+            curOp = HomeOperation.DELETE
+            binding.menuTitleText.setText(R.string.menu_title_remove)
+        }
     }
-
-    /**
-     * Reverts the changes done by {@link #removeHomeToggle() removeHomeToggle}
-     * @param view: current view
-     * @param homeModel: home being removed
-     */
-    private fun removeHomeUntoggle(home: DocumentReference) {
-        //TODO: Show confirmation before removal
-        home.delete()
-        binding.menuTitleText.setText(R.string.menu_title_default)
-        curOp = HomeOperation.ADD
-    }
-
 
     companion object {
         const val TAG = "MenuFragment"

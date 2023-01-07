@@ -7,11 +7,49 @@
     android:layout_gravity="center"
     tools:context=".dialog.JoinHomeDialog">
 
+    <TextView
+        android:id="@+id/joinHomeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/join_home_your_invites_empty"
+        app:layout_constraintBottom_toTopOf="@id/joinHomeRecycler"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/joinHomeRecycler"
-        tools:ignore="MissingConstraints"
         style="@style/RecyclerStyleLarge"
-
         android:layout_height="300dp"
-        />
+        tools:ignore="MissingConstraints"
+        >
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/joinHomeRecycler"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+
+        <Button
+            android:id="@+id/joinHomeDismissButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/buttonBarButtonStyle"
+            android:text="@string/create_new_home_no" />
+
+        <Button
+            android:id="@+id/requestInviteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/buttonBarButtonStyle"
+            android:text="@string/join_home_request_invite_button" />
+    </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

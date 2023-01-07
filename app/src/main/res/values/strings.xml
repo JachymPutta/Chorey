@@ -53,11 +53,14 @@
     <string name="confirm_remove_yes">Remove</string>
     <string name="confirm_remove_no">Cancel</string>
     <!-- Join Home dialog -->
+    <string name="join_home_your_invites_full">Invites</string>
+    <string name="join_home_your_invites_empty">No Pending Invites!</string>
+    <string name="join_home_request_invite_button">Request Invite!</string>
     <!-- Join Home Recycler View-->
-    <string name="join_home_sent_by_name">user_name</string>
-    <string name="join_home_sent_by_text">From:</string>
-    <string name="join_home_accept_invite_desc">Accept Invite</string>
-    <string name="join_home_remove_invite_desc">Remove Invite</string>
+        <string name="join_home_sent_by_name">user_name</string>
+        <string name="join_home_sent_by_text">From:</string>
+        <string name="join_home_accept_invite_desc">Accept Invite</string>
+        <string name="join_home_remove_invite_desc">Remove Invite</string>
 
     <!-- Debugging -->
     <string-array name="home_names">
