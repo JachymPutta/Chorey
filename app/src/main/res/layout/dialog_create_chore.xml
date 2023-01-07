@@ -5,51 +5,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    tools:context=".dialog.JoinHomeDialog">
+    tools:context=".dialog.CreateChoreDialog"
+    >
 
     <TextView
-        android:id="@+id/joinHomeTitle"
+        android:id="@+id/createChoreTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/medium_text_size"
-        android:text="@string/join_home_your_invites_empty"
-        app:layout_constraintBottom_toTopOf="@id/joinHomeRecycler"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/joinHomeRecycler"
-        style="@style/RecyclerStyleLarge"
-        android:layout_height="300dp"
-        tools:ignore="MissingConstraints"
-        >
-    </androidx.recyclerview.widget.RecyclerView>
+        app:layout_constraintBottom_toTopOf="@id/createChoreLayout"
+        android:textSize="@dimen/medium_text_size"
+        android:text="@string/create_chore_title" />
 
     <LinearLayout
+        android:id="@+id/createChoreLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/joinHomeRecycler"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
         >
 
         <Button
-            android:id="@+id/joinHomeDismissButton"
+            android:id="@+id/createChoreCancelButton"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?android:attr/buttonBarButtonStyle"
             android:text="@string/create_home_no" />
 
         <Button
-            android:id="@+id/requestInviteButton"
+            android:id="@+id/createChoreCreateButton"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?android:attr/buttonBarButtonStyle"
-            android:text="@string/join_home_request_invite_button" />
+            android:text="@string/create_home_yes" />
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

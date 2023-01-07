@@ -1,39 +1,22 @@
 package com.chorey
 
-import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.chorey.adapter.MenuRecyclerAdapter
-import com.chorey.data.HomeModel
 import com.chorey.databinding.FragmentMenuBinding
 import com.chorey.dialog.AddHomeDialog
-import com.chorey.dialog.CreateNewHomeDialog
-import com.chorey.util.AuthInitializer
-import com.chorey.util.HomeUtil
 import com.chorey.viewmodel.LoginViewModel
 import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
-import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
@@ -81,8 +64,10 @@ class MenuFragment : Fragment(),
                     // Change UI based on the number of homes present
                     if (itemCount == 0) {
                         binding.allRoomsRecycler.visibility = View.GONE
+                        binding.menuEmptyRecyclerText.visibility = View.VISIBLE
                     } else {
                         binding.allRoomsRecycler.visibility = View.VISIBLE
+                        binding.menuEmptyRecyclerText.visibility = View.GONE
                     }
                 }
 
@@ -156,6 +141,7 @@ class MenuFragment : Fragment(),
             // TODO: Add more Sign-in methods
         )
 
+        // TODO Customize this!
         val intent = AuthUI.getInstance().createSignInIntentBuilder()
             .setAvailableProviders(providers)
             .setIsSmartLockEnabled(false)

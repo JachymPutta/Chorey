@@ -29,7 +29,8 @@ import com.google.firebase.ktx.Firebase
 
 
 /**
- * TODO: Description
+ * Fragment handling individual homes, it diesplays the chores and members associated with the
+ * particular home.
  */
 class HomeFragment : Fragment(),
     EventListener<DocumentSnapshot> {
@@ -57,7 +58,7 @@ class HomeFragment : Fragment(),
 
         if (args.homeId == "") {
             findNavController().navigate(R.id.action_homeFragment_to_menuFragment)
-            //TODO Display home not found message
+            Toast.makeText(activity, "Home not found!", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -72,16 +73,16 @@ class HomeFragment : Fragment(),
                 e -> Log.d(MenuFragment.TAG, "onCreateHome error: $e")
             }
 
-
-        // Inflate the layout for this fragment
         val choreQuery: Query = homeRef.collection("chores")
 
         hrvAdapter = object : HomeRecyclerAdapter(choreQuery) {
             override fun onDataChanged() {
                 if (itemCount == 0) {
                     binding.allChoresRecycler.visibility = View.GONE
+                    binding.noChoresLeftText.visibility = View.VISIBLE
                 } else {
                     binding.allChoresRecycler.visibility = View.VISIBLE
+                    binding.noChoresLeftText.visibility = View.GONE
                 }
             }
         }
@@ -140,15 +141,8 @@ class HomeFragment : Fragment(),
         TODO("Not yet implemented")
     }
 
-
-
     override fun onStart() {
         super.onStart()
-
-//        if (viewModel.authState.value != LoginViewModel.AuthState.AUTHED) {
-//            findNavController().navigate(R.id.action_homeFragment_to_menuFragment)
-//        }
-
         hrvAdapter.startListening()
     }
 

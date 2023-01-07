@@ -18,6 +18,7 @@
     <string name="remove_home_button">Remove Home</string>
     <string name="menu_title_default">Your Homes:</string>
     <string name="menu_title_remove">Click to Remove</string>
+    <string name="menu_text_empty_recycler">Click to create new or join existing.</string>
     <string name="menu_title_welcome">Welcome to Chorey!</string>
     <string name="auth_button_login">Login</string>
     <string name="auth_button_logout">Logout</string>
@@ -32,6 +33,7 @@
     <string name="add_members_button">Invite</string>
     <string name="home_summary_button">Summary</string>
     <string name="home_to_menu_button">Home</string>
+    <string name="home_no_chores_left">No Chores left to do!</string>
         <!-- Chore Recycler View -->
         <string name="chore_item_name">Chore</string>
         <string name="chore_item_assignee_text">Assigned:</string>
@@ -41,12 +43,13 @@
         <string name="chore_item_completed">Done</string>
 
     <!-- Add Home Dialog -->
-    <string name="create_new_home_button">Create new!</string>
+    <string name="create_home_button">Create new!</string>
     <string name="join_existing_home_button">Join existing!</string>
     <string name="add_home_dialog_title">Create a new home or join existing?</string>
-    <!-- Create New Home Dialog -->
-    <string name="create_new_home_yes">Create</string>
-    <string name="create_new_home_no">Cancel</string>
+    <!-- Create Home Dialog -->
+    <string name="create_home_title">Create New Home!</string>
+    <string name="create_home_yes">Create</string>
+    <string name="create_home_no">Cancel</string>
     <string name="create_home_hint">Enter Home name:</string>
     <!-- Remove Home Confirmation Dialog -->
     <string name="confirm_remove_title">Are you sure?</string>
@@ -62,6 +65,8 @@
         <string name="join_home_accept_invite_desc">Accept Invite</string>
         <string name="join_home_remove_invite_desc">Remove Invite</string>
 
+    <!-- Create Chore Dialog -->
+    <string name="create_chore_title">Create Chore:</string>
     <!-- Debugging -->
     <string-array name="home_names">
         <item>@string/home_name_placeholder</item>

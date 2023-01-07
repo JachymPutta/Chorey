@@ -17,6 +17,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         />
 
+    <TextView
+        android:id="@+id/menuEmptyRecyclerText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/menu_text_empty_recycler"
+        app:layout_constraintTop_toBottomOf="@id/menuTitleText"
+        app:layout_constraintBottom_toTopOf="@id/menuButtonLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+
     <Button
         android:id="@+id/authButton"
         android:layout_width="wrap_content"
@@ -35,6 +47,7 @@
         />
 
     <LinearLayout
+        android:id="@+id/menuButtonLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

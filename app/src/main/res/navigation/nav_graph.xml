@@ -35,9 +35,9 @@
         tools:layout="@layout/dialog_add_home" />
     <dialog
         android:id="@+id/createNewHomeDialog"
-        android:name="com.chorey.dialog.CreateNewHomeDialog"
+        android:name="com.chorey.dialog.CreateHomeDialog"
         android:label="dialog_create_new_home"
-        tools:layout="@layout/dialog_create_new_home" />
+        tools:layout="@layout/dialog_create_home" />
     <dialog
         android:id="@+id/joinHomeDialog"
         android:name="com.chorey.dialog.JoinHomeDialog"

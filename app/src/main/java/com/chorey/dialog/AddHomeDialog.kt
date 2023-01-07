@@ -2,10 +2,8 @@ package com.chorey.dialog
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
-import androidx.navigation.fragment.findNavController
 import com.chorey.R
 
 /**
@@ -20,8 +18,8 @@ class AddHomeDialog : DialogFragment() {
 //            val view = inflater.inflate(R.layout.dialog_add_home, null)
 
             builder.setTitle(R.string.add_home_dialog_title)
-                .setPositiveButton(R.string.create_new_home_button) { _, _ ->
-                    CreateNewHomeDialog().show(parentFragmentManager, "CreateNewHome")
+                .setPositiveButton(R.string.create_home_button) { _, _ ->
+                    CreateHomeDialog().show(parentFragmentManager, "CreateNewHome")
                 }
                 .setNegativeButton(R.string.join_existing_home_button) { _, _ ->
                     JoinHomeDialog().show(parentFragmentManager, "JoinExistingHome")

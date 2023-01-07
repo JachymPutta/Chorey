@@ -1,25 +1,18 @@
 package com.chorey.dialog
 
-import android.annotation.SuppressLint
-import android.app.AlertDialog
-import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.viewModels
 import com.chorey.data.HomeModel
-import com.chorey.databinding.DialogCreateNewHomeBinding
-import com.chorey.viewmodel.LoginViewModel
+import com.chorey.databinding.DialogCreateHomeBinding
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class CreateNewHomeDialog : DialogFragment() {
-    private var _binding: DialogCreateNewHomeBinding? = null
+class CreateHomeDialog : DialogFragment() {
+    private var _binding: DialogCreateHomeBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -27,7 +20,7 @@ class CreateNewHomeDialog : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DialogCreateNewHomeBinding.inflate(inflater, container, false)
+        _binding = DialogCreateHomeBinding.inflate(inflater, container, false)
 
         binding.createHomeCreateButton.setOnClickListener { onCreateClicked() }
         binding.createHomeCancelButton.setOnClickListener { onCancelClicked() }
