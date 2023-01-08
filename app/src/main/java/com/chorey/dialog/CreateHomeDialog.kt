@@ -44,7 +44,9 @@ class CreateHomeDialog : DialogFragment() {
 //                return
 //            }
 
-            val home = HomeModel(binding.createHomeNameInput.editText?.text.toString())
+            val home = HomeModel(homeName = binding.createHomeNameInput.editText?.text.toString())
+                Toast.makeText(activity, "HOME UID = ${home.UID}", Toast.LENGTH_SHORT).show()
+
 
             Firebase.firestore.collection("homes").document(home.UID).set(home)
         }

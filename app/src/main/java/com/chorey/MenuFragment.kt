@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chorey.adapter.MenuRecyclerAdapter
+import com.chorey.data.HomeModel
 import com.chorey.databinding.FragmentMenuBinding
 import com.chorey.dialog.AddHomeDialog
 import com.chorey.util.HomeUtil
@@ -23,6 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
 class MenuFragment : Fragment(),
@@ -116,20 +118,17 @@ class MenuFragment : Fragment(),
             home.reference.delete()
             removeHomeToggle()
         } else {
-            val homeVal = HomeUtil.getHomeFromSnap(home)
-
-            if (homeVal == null) {
-                Toast.makeText(activity, "Error fetching home", Toast.LENGTH_SHORT).show()
-                return
-            }
-
-            val action = MenuFragmentDirections.actionMenuToHome().apply {
-                homeModel = homeVal
-            }
-            findNavController().navigate(action)
+            home.reference.get()
+                .addOnSuccessListener { doc ->
+                    val homeVal = doc.toObject<HomeModel>()
+                    val action = MenuFragmentDirections.actionMenuToHome().apply {
+                        homeModel = homeVal
+                    }
+                    findNavController().navigate(action)
+                }.addOnFailureListener{
+                        e -> Log.d(TAG, "Error fetching home from snap: $e!")
+                }
         }
-
-
     }
 
     private fun observeAuthState() {
