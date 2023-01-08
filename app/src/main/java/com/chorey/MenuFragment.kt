@@ -217,7 +217,7 @@ class MenuFragment : Fragment(),
      */
     private fun removeHomeToggle() {
         // Already removing or no homes to remove
-        if (curOp==HomeOperation.DELETE) {
+        if (curOp == HomeOperation.DELETE) {
             curOp = HomeOperation.ADD
             binding.menuTitleText.setText(R.string.menu_title_default)
         } else {

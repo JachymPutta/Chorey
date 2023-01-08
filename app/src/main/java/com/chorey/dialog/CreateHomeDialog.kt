@@ -5,9 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.chorey.data.HomeModel
 import com.chorey.databinding.DialogCreateHomeBinding
+import com.chorey.util.HomeUtil
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -37,7 +39,11 @@ class CreateHomeDialog : DialogFragment() {
     private fun onCreateClicked() {
         val user = Firebase.auth.currentUser
         user?.let {
-            // TODO: Yell if empty home name
+//            if (HomeUtil.isEmpty(binding.createHomeNameInput.editText!!)) {
+//                Toast.makeText(activity, "Please Enter Name", Toast.LENGTH_SHORT).show()
+//                return
+//            }
+
             val home = HomeModel(binding.createHomeNameInput.editText?.text.toString())
 
             Firebase.firestore.collection("homes").document(home.UID).set(home)

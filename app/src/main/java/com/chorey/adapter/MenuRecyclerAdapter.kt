@@ -20,11 +20,8 @@ open class MenuRecyclerAdapter(query: Query, private val listener: OnHomeSelecte
     inner class ViewHolder(private val binding: MenuRecyclerRowBinding)
         : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind (
-            snapshot: DocumentSnapshot,
-            listener: OnHomeSelectedListener?
-        ) {
-
+        fun bind (snapshot: DocumentSnapshot,
+            listener: OnHomeSelectedListener?) {
             val home = snapshot.toObject<HomeModel>() ?: return
             val resources = binding.root.resources
 

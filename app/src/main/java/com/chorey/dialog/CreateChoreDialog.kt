@@ -24,7 +24,6 @@ class CreateChoreDialog : DialogFragment() {
     ): View? {
         _binding = DialogCreateChoreBinding.inflate(inflater, container, false)
 
-        //TODO bind buttons and stuff
         binding.createChoreCreateButton.setOnClickListener { onCreateClicked() }
         binding.createChoreCancelButton.setOnClickListener { onCancelClicked() }
 
@@ -41,11 +40,10 @@ class CreateChoreDialog : DialogFragment() {
 
         user?.let {
             val chore = makeRandomChore(requireContext())
-            // TODO: pass the home id through the safeargs
-            val choresRef = Firebase.firestore.collection("chores")
-                .document(args.homeModel!!.UID).collection("chores")
 
-            choresRef.add(chore)
+            //TODO: think about the database structure
+            Firebase.firestore.collection("chores").document(args.homeModel!!.UID)
+                .collection("chores").add(chore)
         }
 
         dismiss()

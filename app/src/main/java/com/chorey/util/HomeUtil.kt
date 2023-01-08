@@ -2,6 +2,7 @@ package com.chorey.util
 
 import android.content.Context
 import android.util.Log
+import android.widget.EditText
 import com.chorey.BuildConfig
 import com.chorey.R
 import com.chorey.RANDOM_SEED
@@ -42,6 +43,8 @@ object HomeUtil {
             }
         return home
     }
+
+    fun isEmpty(editText: EditText) : Boolean = editText.text.toString().isNotBlank()
 
     private fun getRandomString(array: Array<String>, random: Random): String {
         val ind = random.nextInt(array.size)
