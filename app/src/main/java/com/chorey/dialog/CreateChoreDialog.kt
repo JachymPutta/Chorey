@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.chorey.data.ChoreModel
+import androidx.navigation.fragment.navArgs
 import com.chorey.databinding.DialogCreateChoreBinding
 import com.chorey.util.ChoreUtil.makeRandomChore
 import com.google.firebase.auth.ktx.auth
@@ -15,6 +15,7 @@ import com.google.firebase.ktx.Firebase
 class CreateChoreDialog : DialogFragment() {
     private var _binding: DialogCreateChoreBinding? = null
     private val binding get() = _binding!!
+    private val args : CreateChoreDialogArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,6 +25,8 @@ class CreateChoreDialog : DialogFragment() {
         _binding = DialogCreateChoreBinding.inflate(inflater, container, false)
 
         //TODO bind buttons and stuff
+        binding.createChoreCreateButton.setOnClickListener { onCreateClicked() }
+        binding.createChoreCancelButton.setOnClickListener { onCancelClicked() }
 
         return binding.root
     }
@@ -40,7 +43,7 @@ class CreateChoreDialog : DialogFragment() {
             val chore = makeRandomChore(requireContext())
             // TODO: pass the home id through the safeargs
             val choresRef = Firebase.firestore.collection("chores")
-                .document("").collection("chores")
+                .document(args.homeModel!!.UID).collection("chores")
 
             choresRef.add(chore)
         }

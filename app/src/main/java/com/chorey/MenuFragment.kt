@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.chorey.adapter.MenuRecyclerAdapter
 import com.chorey.databinding.FragmentMenuBinding
 import com.chorey.dialog.AddHomeDialog
+import com.chorey.util.HomeUtil
 import com.chorey.viewmodel.LoginViewModel
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.snackbar.Snackbar
@@ -115,11 +116,19 @@ class MenuFragment : Fragment(),
             home.reference.delete()
             removeHomeToggle()
         } else {
+            val homeVal = HomeUtil.getHomeFromSnap(home)
+
+            if (homeVal == null) {
+                Toast.makeText(activity, "Error fetching home", Toast.LENGTH_SHORT).show()
+                return
+            }
+
             val action = MenuFragmentDirections.actionMenuToHome().apply {
-                homeId = home.id
+                homeModel = homeVal
             }
             findNavController().navigate(action)
         }
+
 
     }
 

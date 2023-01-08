@@ -11,37 +11,43 @@
         android:id="@+id/createHomeTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/Title"
         app:layout_constraintBottom_toTopOf="@id/createHomeNameInput"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:paddingBottom="20dp"
         android:textSize="@dimen/medium_text_size"
         android:text="@string/create_home_title" />
 
-    <Button
-        android:id="@+id/createHomeCreateButton"
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/create_home_yes"
+        android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/createHomeNameInput"
-        app:layout_constraintStart_toEndOf="@id/createHomeDialogLine"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
 
-    <Button
-        android:id="@+id/createHomeCancelButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/create_home_no"
-        app:layout_constraintTop_toBottomOf="@id/createHomeNameInput"
-        app:layout_constraintEnd_toStartOf="@id/createHomeDialogLine"
-        />
+        <Button
+            android:id="@+id/createHomeCancelButton"
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_home_no"/>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/createHomeDialogLine"
-        android:layout_width="10dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5"
-        />
+        <android.widget.Space
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            />
+
+        <Button
+            android:id="@+id/createHomeCreateButton"
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_home_yes" />
+    </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/createHomeNameInput"

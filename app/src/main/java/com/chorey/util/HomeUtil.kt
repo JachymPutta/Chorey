@@ -6,6 +6,8 @@ import com.chorey.BuildConfig
 import com.chorey.R
 import com.chorey.RANDOM_SEED
 import com.chorey.data.HomeModel
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.ktx.toObject
 import kotlin.random.Random
 
 object HomeUtil {
@@ -29,9 +31,22 @@ object HomeUtil {
         return home
     }
 
+    fun getHomeFromSnap(snap : DocumentSnapshot) : HomeModel?{
+        var home: HomeModel? = null
+
+        snap.reference.get()
+            .addOnSuccessListener { doc ->
+                home = doc.toObject<HomeModel>()
+            }.addOnFailureListener{
+                e -> Log.d(TAG, "Error fetching home from snap: $e!")
+            }
+        return home
+    }
+
     private fun getRandomString(array: Array<String>, random: Random): String {
         val ind = random.nextInt(array.size)
         return array[ind]
     }
+
 
 }

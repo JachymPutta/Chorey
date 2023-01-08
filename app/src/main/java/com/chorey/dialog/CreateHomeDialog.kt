@@ -1,6 +1,7 @@
 package com.chorey.dialog
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,8 +37,10 @@ class CreateHomeDialog : DialogFragment() {
     private fun onCreateClicked() {
         val user = Firebase.auth.currentUser
         user?.let {
+            // TODO: Yell if empty home name
             val home = HomeModel(binding.createHomeNameInput.editText?.text.toString())
-            Firebase.firestore.collection("homes").add(home)
+
+            Firebase.firestore.collection("homes").document(home.UID).set(home)
         }
         dismiss()
     }

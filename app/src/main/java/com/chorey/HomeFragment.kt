@@ -15,6 +15,7 @@ import com.chorey.data.HomeModel
 import com.chorey.adapter.HomeRecyclerAdapter
 import com.chorey.databinding.FragmentHomeBinding
 import com.chorey.dialog.AddChoreDialog
+import com.chorey.dialog.CreateChoreDialog
 import com.chorey.util.ChoreUtil.makeRandomChore
 import com.chorey.viewmodel.LoginViewModel
 import com.google.firebase.firestore.DocumentReference
@@ -36,7 +37,8 @@ class HomeFragment : Fragment(),
     EventListener<DocumentSnapshot> {
     private val args: HomeFragmentArgs by navArgs()
     private val viewModel by viewModels<LoginViewModel>()
-    private var addChoreDialog: AddChoreDialog? = null
+    private var createChoreDialog: CreateChoreDialog? = null
+    private var home : HomeModel? = null
 
     private lateinit var homeRef: DocumentReference
     private lateinit var hrvAdapter: HomeRecyclerAdapter
@@ -48,7 +50,7 @@ class HomeFragment : Fragment(),
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -56,7 +58,8 @@ class HomeFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (args.homeId == "") {
+        // TODO This check might not be necessary
+        if (args.homeModel!!.homeName == "") {
             findNavController().navigate(R.id.action_homeFragment_to_menuFragment)
             Toast.makeText(activity, "Home not found!", Toast.LENGTH_SHORT).show()
             return
@@ -64,7 +67,7 @@ class HomeFragment : Fragment(),
 
         firestore = Firebase.firestore
 
-        homeRef = firestore.collection("homes").document(args.homeId)
+        homeRef = firestore.collection("homes").document("")
         homeRef.get()
             .addOnSuccessListener(requireActivity()) {
                 snapshot -> onHomeLoaded(snapshot.toObject<HomeModel>())
@@ -91,7 +94,7 @@ class HomeFragment : Fragment(),
         binding.allChoresRecycler.adapter = hrvAdapter
         binding.allChoresRecycler.layoutManager = LinearLayoutManager(view.context)
 
-        addChoreDialog = AddChoreDialog()
+        createChoreDialog = CreateChoreDialog()
 
         // Hooking up buttons
         binding.addChoreButton.setOnClickListener { addChoreHandle() }
@@ -110,10 +113,10 @@ class HomeFragment : Fragment(),
         }
 
         value?.let {
-            val home = value.toObject<HomeModel>()
-            Log.d(TAG, " FINALLY FOUND THE HOME PASSED IN $home")
-            if (home != null) {
-                onHomeLoaded(home)
+            val homeModel = value.toObject<HomeModel>()
+            Log.d(TAG, " FINALLY FOUND THE HOME PASSED IN $homeModel")
+            if (homeModel != null) {
+                onHomeLoaded(homeModel)
             }
         }
     }
@@ -130,7 +133,11 @@ class HomeFragment : Fragment(),
         homeRef.collection("chores").add(makeRandomChore(requireContext()))
 
         // Create a chore dialog
-        addChoreDialog?.show(childFragmentManager, AddChoreDialog.TAG)
+        val action = HomeFragmentDirections.actionHomeFragmentToCreateChoreDialog().apply {
+            homeModel = home
+        }
+        findNavController().navigate(action)
+        createChoreDialog?.show(childFragmentManager, AddChoreDialog.TAG)
     }
 
     private fun addMemberHandle() {
@@ -155,6 +162,7 @@ class HomeFragment : Fragment(),
         if (homeModel == null)
             return
 
+        home = homeModel
         binding.homeName.text = homeModel.homeName
         binding.homeName.visibility = View.VISIBLE
         //TODO: Bind the rest of the properties
