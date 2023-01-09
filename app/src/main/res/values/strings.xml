@@ -67,6 +67,7 @@
 
     <!-- Create Chore Dialog -->
     <string name="create_chore_title">Create Chore:</string>
+    <string name="create_chore_name_hint">Chore Name</string>
     <!-- Debugging -->
     <string-array name="home_names">
         <item>@string/home_name_placeholder</item>
