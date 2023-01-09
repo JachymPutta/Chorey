@@ -35,7 +35,6 @@ import com.google.firebase.ktx.Firebase
 class HomeFragment : Fragment(),
     EventListener<DocumentSnapshot> {
     private val args: HomeFragmentArgs by navArgs()
-    private val viewModel by viewModels<LoginViewModel>()
     private var createChoreDialog: CreateChoreDialog? = null
     private var home : HomeModel? = null
 
@@ -165,6 +164,7 @@ class HomeFragment : Fragment(),
         home = homeModel
         binding.homeName.text = homeModel.homeName
         binding.homeName.visibility = View.VISIBLE
+
         //TODO: Bind the rest of the properties
     }
 

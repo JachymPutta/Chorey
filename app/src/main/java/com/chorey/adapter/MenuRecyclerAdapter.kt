@@ -28,7 +28,6 @@ open class MenuRecyclerAdapter(query: Query, private val listener: OnHomeSelecte
             binding.homesListIcon.setImageResource(com.google.android.gms.base.R.drawable.common_google_signin_btn_icon_dark_normal)
             binding.homesListName.text = home.homeName
             binding.homesListMembers.text = home.users.size.toString()
-            binding.homesListPoints.setText(R.string.home_item_score)
 
             binding.root.setOnClickListener {
                 listener?.onHomeSelected(snapshot)

@@ -44,18 +44,36 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/homesListMembers"
+                android:id="@+id/homesListMembersText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/home_item_members"
+                app:layout_constraintEnd_toStartOf="@id/homesListMembers"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/homesListMembers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_item_zero"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/homesListPointsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_item_score"
+                app:layout_constraintEnd_toStartOf="@id/homesListPoints"
+                app:layout_constraintTop_toBottomOf="@id/homesListMembersText"
+                />
 
             <TextView
                 android:id="@+id/homesListPoints"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/home_item_score"
+                android:text="@string/home_item_zero"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/homesListMembers" />

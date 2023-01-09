@@ -3,6 +3,7 @@ package com.chorey.util
 import android.content.Context
 import android.util.Log
 import com.chorey.BuildConfig
+import com.chorey.POINTS_MULTIPLIER
 import com.chorey.R
 import com.chorey.RANDOM_SEED
 import com.chorey.data.ChoreModel
@@ -28,6 +29,8 @@ object ChoreUtil {
         seed = random.nextInt()
         return chore
     }
+
+    fun getPoints(timeToComplete : Int) = timeToComplete * POINTS_MULTIPLIER
 
     private fun getRandomString(array: Array<String>, random: Random): String {
         val ind = random.nextInt(array.size)

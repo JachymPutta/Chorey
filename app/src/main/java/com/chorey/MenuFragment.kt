@@ -14,6 +14,7 @@ import com.chorey.adapter.MenuRecyclerAdapter
 import com.chorey.data.HomeModel
 import com.chorey.databinding.FragmentMenuBinding
 import com.chorey.dialog.AddHomeDialog
+import com.chorey.dialog.ConfirmRemoveDialog
 import com.chorey.util.HomeUtil
 import com.chorey.viewmodel.LoginViewModel
 import com.firebase.ui.auth.AuthUI
@@ -37,8 +38,12 @@ class MenuFragment : Fragment(),
     private lateinit var binding: FragmentMenuBinding
     private lateinit var firestore: FirebaseFirestore
 
+    private lateinit var confirmRemoveDialog: ConfirmRemoveDialog
+    private lateinit var addHomeDialog: AddHomeDialog
+
     private var query: Query? = null
     private var curOp = HomeOperation.ADD
+
     private val viewModel by activityViewModels<LoginViewModel>()
 
     override fun onCreateView(
@@ -85,6 +90,9 @@ class MenuFragment : Fragment(),
         binding.allRoomsRecycler.layoutManager = LinearLayoutManager(view.context)
         observeAuthState()
 
+        confirmRemoveDialog = ConfirmRemoveDialog()
+        addHomeDialog = AddHomeDialog()
+
         binding.addHomeButton.setOnClickListener{ addHomeHandle() }
         binding.removeHomeButton.setOnClickListener { removeHomeToggle() }
         binding.authButton.setOnClickListener {launchSignInFlow() }
@@ -100,7 +108,6 @@ class MenuFragment : Fragment(),
         // Start sign in if necessary
         if (needSignIn()) {
             makeWelcomeScreen()
-//            findNavController().navigate(R.id.loginFragment)
             return
         }
 
@@ -114,21 +121,25 @@ class MenuFragment : Fragment(),
     }
 
     override fun onHomeSelected(home: DocumentSnapshot) {
-        if (curOp == HomeOperation.DELETE) {
-            home.reference.delete()
-            removeHomeToggle()
-        } else {
-            home.reference.get()
-                .addOnSuccessListener { doc ->
-                    val homeVal = doc.toObject<HomeModel>()
+        home.reference.get()
+            .addOnSuccessListener { doc ->
+                val homeVal = doc.toObject<HomeModel>()
+
+                if (curOp == HomeOperation.DELETE) {
+                    confirmRemoveDialog.homeModel = home
+                    confirmRemoveDialog.homeName = homeVal!!.homeName
+                    confirmRemoveDialog.show(childFragmentManager, ConfirmRemoveDialog.TAG)
+                    removeHomeToggle()
+                } else {
                     val action = MenuFragmentDirections.actionMenuToHome().apply {
                         homeModel = homeVal
                     }
                     findNavController().navigate(action)
-                }.addOnFailureListener{
-                        e -> Log.d(TAG, "Error fetching home from snap: $e!")
                 }
-        }
+            }.addOnFailureListener{
+                e -> Log.d(TAG, "Error fetching home from snap: $e!")
+            }
+
     }
 
     private fun observeAuthState() {
@@ -141,7 +152,7 @@ class MenuFragment : Fragment(),
         }
     }
 
-    private fun needSignIn() = !viewModel.isSigningIn && Firebase.auth.currentUser == null
+    private fun needSignIn() = Firebase.auth.currentUser == null
 
     private fun launchSignInFlow() {
         val providers = arrayListOf(
@@ -155,7 +166,6 @@ class MenuFragment : Fragment(),
             .setIsSmartLockEnabled(false)
             .build()
 
-        viewModel.isSigningIn = true
         viewModel.launcher.launch(intent)
     }
 
@@ -208,7 +218,7 @@ class MenuFragment : Fragment(),
             return
         }
 
-        AddHomeDialog().show(parentFragmentManager, AddHomeDialog.TAG)
+        addHomeDialog.show(parentFragmentManager, AddHomeDialog.TAG)
     }
 
     /**
@@ -228,4 +238,5 @@ class MenuFragment : Fragment(),
     companion object {
         const val TAG = "MenuFragment"
     }
+
 }

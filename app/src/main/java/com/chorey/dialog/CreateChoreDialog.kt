@@ -21,7 +21,7 @@ class CreateChoreDialog : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = DialogCreateChoreBinding.inflate(inflater, container, false)
 
         binding.createChoreCreateButton.setOnClickListener { onCreateClicked() }
@@ -42,6 +42,7 @@ class CreateChoreDialog : DialogFragment() {
             val chore = makeRandomChore(requireContext())
 
             //TODO: think about the database structure
+            //TODO: This threw a null exception - args = null
             Firebase.firestore.collection("chores").document(args.homeModel!!.UID)
                 .collection("chores").add(chore)
         }
