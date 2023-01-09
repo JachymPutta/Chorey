@@ -2,6 +2,7 @@ package com.chorey.dialog
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +13,13 @@ import com.chorey.adapter.JoinHomeRecyclerAdapter
 import com.chorey.data.HomeModel
 import com.chorey.databinding.DialogJoinHomeBinding
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
 class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedListener{
@@ -70,8 +73,13 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
         }
         binding.joinHomeRecycler.layoutManager = LinearLayoutManager(view.context)
 
+
         binding.joinHomeDismissButton.setOnClickListener { dismiss() }
+
+        // TODO: Request invite button
         binding.requestInviteButton.setOnClickListener { requestInviteHandle() }
+        binding.requestInviteButton.visibility = View.GONE
+
     }
 
     override fun onAttach(context: Context) {
@@ -93,7 +101,19 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
     }
 
     override fun onJoinSelected(home: DocumentSnapshot) {
-        Firebase.firestore.collection("homes").add(home.reference)
+        val homeModel = home.toObject<HomeModel>()
+        val userName = Firebase.auth.currentUser?.displayName
+
+        if (homeModel == null || userName == null) {
+            Log.d(TAG, "Home/User not found!")
+            return
+        }
+
+        homeModel.users.add(userName)
+
+        firestore.collection("homes").document(homeModel.UID)
+                // TODO: Check if this update actually updates the right field
+            .update(mapOf("users" to homeModel.users))
     }
 
     override fun onDestroyView() {
@@ -101,18 +121,9 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
         _binding = null
     }
 
-    private fun onJoinClicked() {
-        TODO("Hook up the join home button")
-
-    }
-
+    //TODO: Request invites in the future
     private fun requestInviteHandle() {
         TODO("Hook up the request invite button")
-    }
-
-    private fun onCancelClicked() {
-        //TODO: Not sure what this cancel is - probably from the ROW
-        dismiss()
     }
 
     companion object {

@@ -13,5 +13,4 @@ data class HomeModel (
     var UID: String = UUID.randomUUID().toString(),
     var homeName: String = "",
     val users : ArrayList<String> = arrayListOf()
-
 ) : Parcelable
