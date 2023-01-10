@@ -176,6 +176,7 @@ class MenuFragment : Fragment(),
         binding.allRoomsRecycler.visibility = View.GONE
         binding.addHomeButton.visibility = View.GONE
         binding.removeHomeButton.visibility = View.GONE
+        binding.menuEmptyRecyclerText.visibility = View.GONE
         binding.menuTitleText.setText(R.string.menu_title_welcome)
         binding.authButton.setText(R.string.auth_button_login)
         binding.authButton.setOnClickListener { launchSignInFlow() }
@@ -189,6 +190,7 @@ class MenuFragment : Fragment(),
         binding.allRoomsRecycler.visibility = View.VISIBLE
         binding.addHomeButton.visibility = View.VISIBLE
         binding.removeHomeButton.visibility = View.VISIBLE
+        binding.menuEmptyRecyclerText.visibility = View.VISIBLE
         binding.authButton.setOnClickListener {
             Firebase.auth.signOut()
             AuthUI.getInstance().signOut(requireContext())

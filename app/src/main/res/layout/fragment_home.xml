@@ -7,24 +7,43 @@
     android:layout_height="match_parent"
     tools:context=".HomeFragment">
 
-    <TextView
-        android:id="@+id/homeName"
-        style="@style/Title"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/homeFragmentTopLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/home_name_placeholder"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
-        />
+        android:gravity="center"
+        >
+
+        <TextView
+            android:id="@+id/homeName"
+            style="@style/Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_name_placeholder"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp"
+            />
+
+        <ImageButton
+            android:id="@+id/addMemberButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/ic_add_member_background"
+            android:contentDescription="@string/add_members_button"
+            android:src="@mipmap/ic_add_member_round"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/homeRecyclerTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/home_all_chores_text"
-        app:layout_constraintTop_toBottomOf="@id/homeName"
+        app:layout_constraintTop_toBottomOf="@id/homeFragmentTopLayout"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
@@ -61,38 +80,45 @@
         app:layout_constraintTop_toBottomOf="@id/allChoresRecycler"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/homeFragmentBottomLayout"
         />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/homeFragmentBottomLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/addChoreButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         >
 
         <Button
-            android:id="@+id/addMemberButton"
+            android:id="@+id/noticeBoardButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/add_members_button"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:layout_weight="1"
+            android:text="@string/notice_board_icon_desc"
+            style="?android:attr/buttonBarButtonStyle"
+            android:drawableTop="@mipmap/notice_board_icon"
+            />
 
         <Button
             android:id="@+id/homeToMenuButton"
-            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:layout_weight="1"
             style="?android:attr/buttonBarButtonStyle"
+            android:drawableTop="@mipmap/home_icon"
             android:text="@string/home_to_menu_button" />
 
         <Button
             android:id="@+id/homeSummaryButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/home_summary_button"
+            android:drawableTop="@mipmap/summary_icon"
             style="?android:attr/buttonBarButtonStyle" />
     </LinearLayout>
 
