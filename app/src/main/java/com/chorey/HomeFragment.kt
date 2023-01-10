@@ -43,7 +43,10 @@ class HomeFragment : Fragment(),
     private lateinit var binding: FragmentHomeBinding
     private lateinit var firestore: FirebaseFirestore
 
-
+    enum class CurFrag {
+        HOME, BOARD, SUMMARY
+    }
+    private var curFrag = CurFrag.HOME
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,11 +91,10 @@ class HomeFragment : Fragment(),
         // Hooking up buttons
         binding.addChoreButton.setOnClickListener { addChoreHandle() }
         binding.addMemberButton.setOnClickListener { addMemberHandle() }
-        binding.homeSummaryButton.setOnClickListener { onSummaryHandle() }
-        binding.homeToMenuButton.setOnClickListener {
-            // Return to home screen
-            findNavController().navigate(R.id.action_homeFragment_to_menuFragment)
-        }
+
+        binding.homeSummaryButton.setOnClickListener { changeUI(CurFrag.SUMMARY) }
+        binding.noticeBoardButton.setOnClickListener { changeUI(CurFrag.BOARD) }
+        binding.homeToMenuButton.setOnClickListener { changeUI(CurFrag.HOME) }
     }
 
     override fun onEvent(value: DocumentSnapshot?, error: FirebaseFirestoreException?) {
@@ -129,11 +131,35 @@ class HomeFragment : Fragment(),
     }
 
     private fun addMemberHandle() {
-        TODO("Not yet implemented")
+
     }
 
-    private fun onSummaryHandle() {
-        TODO("Not yet implemented")
+    private fun changeUI(nextFrag: CurFrag) {
+       if (curFrag == nextFrag) {
+           return
+       }
+        when (curFrag) {
+            CurFrag.HOME -> {
+                binding.allChoresRecycler.visibility = View.GONE
+                binding.noChoresLeftText.visibility = View.GONE
+                binding.addChoreButton.visibility = View.GONE
+            }
+            CurFrag.SUMMARY -> binding.homeRecyclerTitle.text = ""
+            CurFrag.BOARD -> binding.homeRecyclerTitle.text = ""
+        }
+
+        when (nextFrag) {
+            CurFrag.HOME -> {
+                binding.homeRecyclerTitle.setText(R.string.home_all_chores_text)
+                binding.allChoresRecycler.visibility = View.VISIBLE
+                binding.noChoresLeftText.visibility = View.VISIBLE
+                binding.addChoreButton.visibility = View.VISIBLE
+            }
+            CurFrag.SUMMARY -> binding.homeRecyclerTitle.text = "Summary"
+            CurFrag.BOARD -> binding.homeRecyclerTitle.text = "Notice board"
+        }
+
+        curFrag = nextFrag
     }
 
     override fun onStart() {

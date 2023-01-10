@@ -50,7 +50,6 @@ class CreateChoreDialog : DialogFragment() {
         user?.let {
             val chore = makeRandomChore(requireContext())
 
-            //TODO: think about the database structure
             Firebase.firestore.collection("homes").document(args.homeModel!!.UID)
                 .collection("chores").add(chore)
         }
