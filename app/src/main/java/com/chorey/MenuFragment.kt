@@ -15,7 +15,6 @@ import com.chorey.data.HomeModel
 import com.chorey.databinding.FragmentMenuBinding
 import com.chorey.dialog.AddHomeDialog
 import com.chorey.dialog.ConfirmRemoveDialog
-import com.chorey.util.HomeUtil
 import com.chorey.viewmodel.LoginViewModel
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.snackbar.Snackbar
@@ -126,8 +125,8 @@ class MenuFragment : Fragment(),
                 val homeVal = doc.toObject<HomeModel>()
 
                 if (curOp == HomeOperation.DELETE) {
-                    confirmRemoveDialog.homeModel = home
-                    confirmRemoveDialog.homeName = homeVal!!.homeName
+                    confirmRemoveDialog.snapshot = home
+                    confirmRemoveDialog.name = homeVal!!.homeName
                     confirmRemoveDialog.show(childFragmentManager, ConfirmRemoveDialog.TAG)
                     removeHomeToggle()
                 } else {

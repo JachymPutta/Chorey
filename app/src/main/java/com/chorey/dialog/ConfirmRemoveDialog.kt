@@ -8,21 +8,21 @@ import com.chorey.R
 import com.google.firebase.firestore.DocumentSnapshot
 
 class ConfirmRemoveDialog : DialogFragment() {
-    var homeModel : DocumentSnapshot? = null
-    var homeName = ""
+    var snapshot : DocumentSnapshot? = null
+    var name = ""
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             // Use the Builder class for convenient dialog construction
             val builder = AlertDialog.Builder(it)
-            builder.setMessage("Are you sure you want to remove $homeName ?")
+            builder.setMessage("Are you sure you want to remove $name ?")
                 .setPositiveButton(R.string.confirm_remove_yes)
                 { _, _ ->
-                    homeModel!!.reference.delete()
+                    snapshot!!.reference.delete()
                 }
                 .setNegativeButton(R.string.confirm_remove_no)
                 { _, _ ->
-                    homeModel = null
+                    snapshot = null
                     dismiss()
                 }
             builder.create()

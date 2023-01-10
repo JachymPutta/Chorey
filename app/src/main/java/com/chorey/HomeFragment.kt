@@ -134,6 +134,9 @@ class HomeFragment : Fragment(),
 
     }
 
+    /**
+     * Toggles the visibility of the UI elements based on the button clicked
+     */
     private fun changeUI(nextFrag: CurFrag) {
        if (curFrag == nextFrag) {
            return
