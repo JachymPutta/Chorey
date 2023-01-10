@@ -33,10 +33,10 @@ import com.google.firebase.ktx.Firebase
  * particular home.
  */
 class HomeFragment : Fragment(),
-    EventListener<DocumentSnapshot> {
+    EventListener<DocumentSnapshot>,
+    HomeRecyclerAdapter.OnChoreSelectedListener {
     private val args: HomeFragmentArgs by navArgs()
-    private var createChoreDialog: CreateChoreDialog? = null
-    private var home : HomeModel? = null
+    private lateinit var home : HomeModel
 
     private lateinit var homeRef: DocumentReference
     private lateinit var hrvAdapter: HomeRecyclerAdapter
@@ -56,13 +56,6 @@ class HomeFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        // TODO This check might not be necessary
-//        if (args.homeModel!!.homeName == "") {
-//            findNavController().navigate(R.id.action_homeFragment_to_menuFragment)
-//            Toast.makeText(activity, "Home not found!", Toast.LENGTH_SHORT).show()
-//            return
-//        }
-
         firestore = Firebase.firestore
 
         homeRef = firestore.collection("homes").document(args.homeModel!!.UID)
@@ -76,7 +69,7 @@ class HomeFragment : Fragment(),
 
         val choreQuery: Query = homeRef.collection("chores")
 
-        hrvAdapter = object : HomeRecyclerAdapter(choreQuery) {
+        hrvAdapter = object : HomeRecyclerAdapter(choreQuery, this@HomeFragment) {
             override fun onDataChanged() {
                 if (itemCount == 0) {
                     binding.allChoresRecycler.visibility = View.GONE
@@ -91,8 +84,6 @@ class HomeFragment : Fragment(),
         binding.homeName.visibility = View.GONE
         binding.allChoresRecycler.adapter = hrvAdapter
         binding.allChoresRecycler.layoutManager = LinearLayoutManager(view.context)
-
-        createChoreDialog = CreateChoreDialog()
 
         // Hooking up buttons
         binding.addChoreButton.setOnClickListener { addChoreHandle() }
@@ -127,16 +118,14 @@ class HomeFragment : Fragment(),
         }
 
         // Adding a random chore - TESTING
-        // NULL safe because by the time we can click the add button, the home is loaded
-        homeRef.collection("homes").document(home!!.UID)
-            .collection("chores").add(makeRandomChore(requireContext()))
+//        homeRef.collection("chores")
+//            .add(makeRandomChore(requireContext()))
 
         // Create a chore dialog
         val action = HomeFragmentDirections.actionHomeFragmentToCreateChoreDialog().apply {
-            homeModel = home
+            homeModel = home.copy()
         }
         findNavController().navigate(action)
-        createChoreDialog?.show(childFragmentManager, CreateChoreDialog.TAG)
     }
 
     private fun addMemberHandle() {
@@ -170,5 +159,9 @@ class HomeFragment : Fragment(),
 
     companion object {
         const val TAG = "HomeFragment"
+    }
+
+    override fun onChoreSelected(chore: DocumentSnapshot) {
+        //TODO Inflate the detail of the particular chore
     }
 }
