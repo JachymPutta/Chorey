@@ -26,12 +26,17 @@
         tools:layout="@layout/dialog_join_home" />
     <dialog
         android:id="@+id/createChoreDialog"
-        android:name="com.chorey.dialog.CreateChoreDialog"
+        android:name="com.chorey.dialog.ChoreDetailDialog"
         android:label="dialog_create_chore"
-        tools:layout="@layout/dialog_create_chore" >
+        tools:layout="@layout/dialog_chore_detail" >
         <argument
             android:name="homeModel"
             app:argType="com.chorey.data.HomeModel"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="choreModel"
+            app:argType="com.chorey.data.ChoreModel"
             app:nullable="true"
             android:defaultValue="@null" />
     </dialog>

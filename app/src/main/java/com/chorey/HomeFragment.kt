@@ -7,16 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chorey.data.HomeModel
 import com.chorey.adapter.HomeRecyclerAdapter
+import com.chorey.data.ChoreModel
 import com.chorey.databinding.FragmentHomeBinding
-import com.chorey.dialog.CreateChoreDialog
-import com.chorey.util.ChoreUtil.makeRandomChore
-import com.chorey.viewmodel.LoginViewModel
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.EventListener
@@ -84,6 +81,7 @@ class HomeFragment : Fragment(),
             }
         }
 
+        //TODO: hide the rest of the UI until the home is loaded
         binding.homeName.visibility = View.GONE
         binding.allChoresRecycler.adapter = hrvAdapter
         binding.allChoresRecycler.layoutManager = LinearLayoutManager(view.context)
@@ -125,11 +123,20 @@ class HomeFragment : Fragment(),
 
         // Create a chore dialog
         val action = HomeFragmentDirections.actionHomeFragmentToCreateChoreDialog().apply {
-            homeModel = home.copy()
+            homeModel = home
         }
         findNavController().navigate(action)
     }
 
+    override fun onChoreSelected(chore: DocumentSnapshot) {
+        //TODO Inflate the detail of the particular chore
+        val action = HomeFragmentDirections.actionHomeFragmentToCreateChoreDialog().apply {
+            homeModel = home
+            choreModel = chore.toObject<ChoreModel>()
+        }
+        findNavController().navigate(action)
+
+    }
     private fun addMemberHandle() {
 
     }
@@ -190,7 +197,4 @@ class HomeFragment : Fragment(),
         const val TAG = "HomeFragment"
     }
 
-    override fun onChoreSelected(chore: DocumentSnapshot) {
-        //TODO Inflate the detail of the particular chore
-    }
 }

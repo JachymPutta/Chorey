@@ -70,8 +70,13 @@
         <string name="join_home_remove_invite_desc">Remove Invite</string>
 
     <!-- Create Chore Dialog -->
-    <string name="create_chore_title">Create Chore:</string>
+    <string name="chore_detail_title_create">Create Chore:</string>
+    <string name="chore_detail_title_edit">Create Chore:</string>
+    <string name="chore_detail_title_view">Create Chore:</string>
     <string name="create_chore_name_hint">Chore Name</string>
+    <string name="chore_detail_name_text">Name:</string>
+    <string name="chore_detail_spinner_text">Template:</string>
+    <string name="create_chore_edit_button">Edit</string>
     <!-- Debugging -->
     <string-array name="home_names">
         <item>@string/home_name_placeholder</item>

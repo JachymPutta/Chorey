@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:minWidth="300dp"
+    android:minHeight="300dp"
+    tools:context=".dialog.ChoreDetailDialog"
+    >
+
+    <TextView
+        android:id="@+id/createChoreTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/chore_detail_title_create"
+        android:textSize="@dimen/medium_text_size" />
+
+    <TextView
+        android:id="@+id/choreTemplateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/choreTemplateSpinner"
+        app:layout_constraintTop_toTopOf="@id/createChoreNameInput"
+        app:layout_constraintBottom_toBottomOf="@id/createChoreNameInput"
+        android:text="@string/chore_detail_spinner_text"
+        />
+
+
+    <Spinner
+        android:id="@+id/choreTemplateSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/createChoreNameInput"
+        app:layout_constraintBottom_toBottomOf="@id/createChoreNameInput"
+        android:spinnerMode="dropdown"
+        />
+
+    <TextView
+        android:id="@+id/choreNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/createChoreNameInput"
+        app:layout_constraintBottom_toBottomOf="@id/createChoreNameInput"
+        android:text="@string/chore_detail_name_text"
+        />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/createChoreNameInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:maxWidth="488dp"
+        android:minWidth="150dp"
+        app:layout_constraintStart_toEndOf="@id/choreNameText"
+        app:layout_constraintTop_toBottomOf="@id/createChoreTitle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/create_chore_name_hint" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/choreDetailLine1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/createChoreNameInput"
+        />
+
+    <LinearLayout
+        android:id="@+id/createChoreButtonLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        >
+
+        <Button
+            android:id="@+id/createChoreCancelButton"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_home_no" />
+
+        <Button
+            android:id="@+id/createChoreCreateButton"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_home_yes" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
