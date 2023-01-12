@@ -130,9 +130,7 @@ class MenuFragment : Fragment(),
                     confirmRemoveDialog.show(childFragmentManager, ConfirmRemoveDialog.TAG)
                     removeHomeToggle()
                 } else {
-                    val action = MenuFragmentDirections.actionMenuToHome().apply {
-                        homeModel = homeVal
-                    }
+                    val action = MenuFragmentDirections.actionMenuToHome(homeVal!!)
                     findNavController().navigate(action)
                 }
             }.addOnFailureListener{

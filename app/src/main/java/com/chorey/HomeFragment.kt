@@ -58,7 +58,7 @@ class HomeFragment : Fragment(),
 
         firestore = Firebase.firestore
 
-        homeRef = firestore.collection("homes").document(args.homeModel!!.UID)
+        homeRef = firestore.collection("homes").document(args.homeModel.UID)
         homeRef.get()
             .addOnSuccessListener(requireActivity()) {
                 snapshot -> onHomeLoaded(snapshot.toObject<HomeModel>())
@@ -122,16 +122,13 @@ class HomeFragment : Fragment(),
 //            .add(makeRandomChore(requireContext()))
 
         // Create a chore dialog
-        val action = HomeFragmentDirections.actionHomeFragmentToCreateChoreDialog().apply {
-            homeModel = home
-        }
+        val action = HomeFragmentDirections.actionHomeFragmentToCreateChoreDialog(home)
         findNavController().navigate(action)
     }
 
     override fun onChoreSelected(chore: DocumentSnapshot) {
         //TODO Inflate the detail of the particular chore
-        val action = HomeFragmentDirections.actionHomeFragmentToCreateChoreDialog().apply {
-            homeModel = home
+        val action = HomeFragmentDirections.actionHomeFragmentToCreateChoreDialog(home).apply {
             choreModel = chore.toObject<ChoreModel>()
         }
         findNavController().navigate(action)

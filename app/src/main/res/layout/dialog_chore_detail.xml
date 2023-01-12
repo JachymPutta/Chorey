@@ -56,6 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
         android:maxWidth="488dp"
         android:minWidth="150dp"
         app:layout_constraintStart_toEndOf="@id/choreNameText"
@@ -67,13 +68,28 @@
             android:hint="@string/create_chore_name_hint" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/choreDetailLine1"
+    <TextView
+        android:id="@+id/choreDetailAssignedToText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/createChoreNameInput"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="30dp"
+        android:text="@string/chore_detail_assign_text" />
+
+    <TextView
+        android:id="@+id/choreDetailAssignedTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="300dp"
+        app:layout_constraintStart_toEndOf="@id/choreDetailAssignedToText"
+        app:layout_constraintTop_toTopOf="@id/choreDetailAssignedToText"
+        app:layout_constraintBottom_toBottomOf="@id/choreDetailAssignedToText"
+        android:layout_marginStart="10dp"
+        android:background="@android:drawable/editbox_background"
+        android:drawablePadding="16dp"
+        android:hint="@string/chore_detail_assign_hint"
+        app:drawableRightCompat="@android:drawable/arrow_down_float" />
 
     <LinearLayout
         android:id="@+id/createChoreButtonLayout"

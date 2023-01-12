@@ -31,9 +31,7 @@
         tools:layout="@layout/dialog_chore_detail" >
         <argument
             android:name="homeModel"
-            app:argType="com.chorey.data.HomeModel"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:argType="com.chorey.data.HomeModel" />
         <argument
             android:name="choreModel"
             app:argType="com.chorey.data.ChoreModel"
@@ -50,9 +48,7 @@
             app:destination="@id/menuFragment" />
         <argument
             android:name="homeModel"
-            android:defaultValue="@null"
-            app:argType="com.chorey.data.HomeModel"
-            app:nullable="true" />
+            app:argType="com.chorey.data.HomeModel" />
         <action
             android:id="@+id/action_homeFragment_to_createChoreDialog"
             app:destination="@id/createChoreDialog" />

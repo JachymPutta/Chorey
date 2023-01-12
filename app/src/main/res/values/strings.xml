@@ -69,7 +69,7 @@
         <string name="join_home_accept_invite_desc">Accept Invite</string>
         <string name="join_home_remove_invite_desc">Remove Invite</string>
 
-    <!-- Create Chore Dialog -->
+    <!-- Chore Detail Dialog -->
     <string name="chore_detail_title_create">Create Chore:</string>
     <string name="chore_detail_title_edit">Create Chore:</string>
     <string name="chore_detail_title_view">Create Chore:</string>
@@ -77,6 +77,8 @@
     <string name="chore_detail_name_text">Name:</string>
     <string name="chore_detail_spinner_text">Template:</string>
     <string name="create_chore_edit_button">Edit</string>
+    <string name="chore_detail_assign_text">Assign to:</string>
+    <string name="chore_detail_assign_hint">Select members</string>
     <!-- Debugging -->
     <string-array name="home_names">
         <item>@string/home_name_placeholder</item>
