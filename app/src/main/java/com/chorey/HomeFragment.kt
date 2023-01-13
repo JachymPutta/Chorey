@@ -84,7 +84,6 @@ class HomeFragment : Fragment(),
             }
         }
 
-        //TODO: hide the rest of the UI until the home is loaded
         binding.root.visibility = View.GONE
         binding.allChoresRecycler.adapter = hrvAdapter
         binding.allChoresRecycler.layoutManager = LinearLayoutManager(view.context)
@@ -132,13 +131,15 @@ class HomeFragment : Fragment(),
     override fun onChoreSelected(chore: DocumentSnapshot) {
         //TODO Inflate the detail of the particular chore
         val action = HomeFragmentDirections.actionHomeFragmentToCreateChoreDialog(home).apply {
+            //TODO: this regenerated the UID every time
             choreModel = chore.toObject<ChoreModel>()
+            Toast.makeText(activity, "Chore UID is ${choreModel!!.UID}", Toast.LENGTH_LONG).show()
         }
         findNavController().navigate(action)
 
     }
     private fun addMemberHandle() {
-
+        Toast.makeText(activity, "Add member clicked!", Toast.LENGTH_SHORT).show()
     }
 
     /**

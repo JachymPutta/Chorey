@@ -13,6 +13,7 @@ import com.chorey.util.HomeUtil
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.util.UUID
 
 class CreateHomeDialog : DialogFragment() {
     private var _binding: DialogCreateHomeBinding? = null
@@ -45,6 +46,7 @@ class CreateHomeDialog : DialogFragment() {
 //            }
 
             val home = HomeModel(
+                UID = UUID.randomUUID().toString(),
                 homeName = binding.createHomeNameInput.editText?.text.toString(),
                 //TODO: Added random users for testing
                 users = arrayListOf(user.uid, "Lazy User", "Busy User")

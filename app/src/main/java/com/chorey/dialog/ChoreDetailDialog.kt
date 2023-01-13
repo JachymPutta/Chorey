@@ -8,6 +8,7 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.navArgs
 import com.chorey.R
@@ -17,6 +18,7 @@ import com.chorey.databinding.DialogChoreDetailBinding
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.util.UUID
 
 class ChoreDetailDialog : DialogFragment() {
     private var _binding: DialogChoreDetailBinding? = null
@@ -48,6 +50,7 @@ class ChoreDetailDialog : DialogFragment() {
         binding.createChoreCancelButton.setOnClickListener { onCancelClicked() }
         binding.choreDetailAssignedTo.setOnClickListener { onAssignClicked() }
 
+
         val adapter = ArrayAdapter(requireContext(), R.layout.chore_spinner_item, ChoreTemplate.values())
         adapter.setDropDownViewResource(R.layout.chore_spinner_dropdown)
         binding.choreTemplateSpinner.adapter = adapter
@@ -73,14 +76,17 @@ class ChoreDetailDialog : DialogFragment() {
                 binding.createChoreCreateButton.setOnClickListener { onEditClicked() }
 
                 // Visual Changes
+                //TODO: put the chore parameters into the fields
                 binding.createChoreCreateButton.setText(R.string.create_chore_edit_button)
             }
             State.EDIT -> {
                 // Logical Changes
+                // TODO: this focusable doesn't do anything
                 binding.createChoreNameInput.isFocusableInTouchMode = true
                 binding.createChoreCreateButton.setOnClickListener { onCreateClicked() }
 
                 // Visual Changes
+                binding.createChoreCreateButton.setText(R.string.create_chore_update_button)
             }
         }
     }
@@ -128,16 +134,19 @@ class ChoreDetailDialog : DialogFragment() {
 
         user?.let {
             // Take existing or create new
-            val chore = args.choreModel ?: ChoreModel()
+            val uid = args.choreModel?.UID ?: UUID.randomUUID().toString()
 
             checkChoreInput()
 
-            chore.choreName = binding.createChoreNameInput.editText?.text.toString()
-            chore.homeId = args.homeModel.UID
-            chore.choreTemplate = binding.choreTemplateSpinner.selectedItem as ChoreTemplate
+            val choreModel = ChoreModel(
+                UID = uid,
+                choreName = binding.createChoreNameInput.editText?.text.toString(),
+                homeId = args.homeModel.UID,
+                choreTemplate = binding.choreTemplateSpinner.selectedItem as ChoreTemplate
+            )
 
             Firebase.firestore.collection("homes").document(args.homeModel.UID)
-                .collection("chores").document(chore.UID).set(chore)
+                .collection("chores").document(choreModel.UID).set(choreModel)
         }
 
         dismiss()

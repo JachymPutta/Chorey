@@ -8,7 +8,7 @@ import java.util.UUID
 
 @Parcelize
 data class ChoreModel(
-    val UID: String = UUID.randomUUID().toString(),
+    var UID: String = UUID.randomUUID().toString(),
     var choreName: String = "chore_name",
     var homeId: String = "home_name",
     var isTimed: Boolean = false,
