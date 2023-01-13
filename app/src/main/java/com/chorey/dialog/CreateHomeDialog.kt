@@ -46,7 +46,8 @@ class CreateHomeDialog : DialogFragment() {
 
             val home = HomeModel(
                 homeName = binding.createHomeNameInput.editText?.text.toString(),
-                users = arrayListOf(user.uid)
+                //TODO: Added random users for testing
+                users = arrayListOf(user.uid, "Lazy User", "Busy User")
             )
 
 //            Toast.makeText(activity, "HOME UID = ${home.UID}", Toast.LENGTH_SHORT).show()

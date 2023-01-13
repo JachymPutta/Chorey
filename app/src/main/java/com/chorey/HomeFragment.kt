@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.allViews
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +15,8 @@ import com.chorey.data.HomeModel
 import com.chorey.adapter.HomeRecyclerAdapter
 import com.chorey.data.ChoreModel
 import com.chorey.databinding.FragmentHomeBinding
+import com.chorey.databinding.FragmentMenuBinding
+import com.chorey.databinding.HomeRecyclerRowBinding
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.EventListener
@@ -37,8 +40,8 @@ class HomeFragment : Fragment(),
 
     private lateinit var homeRef: DocumentReference
     private lateinit var hrvAdapter: HomeRecyclerAdapter
-    private lateinit var binding: FragmentHomeBinding
     private lateinit var firestore: FirebaseFirestore
+    private lateinit var binding: FragmentHomeBinding
 
     enum class CurFrag {
         HOME, BOARD, SUMMARY
@@ -82,7 +85,7 @@ class HomeFragment : Fragment(),
         }
 
         //TODO: hide the rest of the UI until the home is loaded
-        binding.homeName.visibility = View.GONE
+        binding.root.visibility = View.GONE
         binding.allChoresRecycler.adapter = hrvAdapter
         binding.allChoresRecycler.layoutManager = LinearLayoutManager(view.context)
 
@@ -185,7 +188,7 @@ class HomeFragment : Fragment(),
 
         home = homeModel
         binding.homeName.text = homeModel.homeName
-        binding.homeName.visibility = View.VISIBLE
+        binding.root.visibility = View.VISIBLE
 
         //TODO: Bind the rest of the properties
     }

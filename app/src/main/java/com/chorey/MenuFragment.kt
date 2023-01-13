@@ -1,10 +1,13 @@
 package com.chorey
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -183,6 +186,11 @@ class MenuFragment : Fragment(),
      * Function to change the UI when there is a user authenticated
      */
     private fun makeMenuScreen() {
+        // Check if we have a name
+        checkUserName()
+
+
+        // UI changes
         binding.authButton.setText(R.string.auth_button_logout)
         binding.allRoomsRecycler.visibility = View.VISIBLE
         binding.addHomeButton.visibility = View.VISIBLE
@@ -192,6 +200,48 @@ class MenuFragment : Fragment(),
             Firebase.auth.signOut()
             AuthUI.getInstance().signOut(requireContext())
         }
+    }
+
+    private fun checkUserName() {
+        val user = Firebase.auth.currentUser
+        if(user == null) {
+            Log.e(TAG, "checkUserName got a null user")
+            return
+        }
+
+        firestore.collection("users").document(user.uid)
+            .get()
+            .addOnSuccessListener { ds ->
+                if (!ds.exists()) {
+                    if (user.displayName == null) {
+                        getUserNameDialog()
+                    }
+                }
+            }
+            .addOnFailureListener {
+                e -> Log.e(TAG, "Error fetching user $e")
+            }
+
+    }
+    private fun getUserNameDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        val nameInput = EditText(requireContext())
+
+        nameInput.inputType = InputType.TYPE_CLASS_TEXT
+        builder.setTitle("Your name:")
+            .setView(nameInput)
+            .setCancelable(false)
+            .setPositiveButton("Ok") { dialog, _ ->
+               if (nameInput.text.toString().isBlank()) {
+                   Toast.makeText(requireContext(), "Please input a name.", Toast.LENGTH_SHORT).show()
+               } else {
+                   val user = Firebase.auth.currentUser!!
+                   //TODO: User model
+                   val userModel = "UserModel"
+                   firestore.collection("users").document(user.uid).set(userModel)
+                   dialog.dismiss()
+               }
+            }
     }
 
     /**

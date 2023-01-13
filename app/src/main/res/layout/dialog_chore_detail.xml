@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:minWidth="300dp"
-    android:minHeight="300dp"
+    android:minWidth="350dp"
+    android:minHeight="350dp"
     tools:context=".dialog.ChoreDetailDialog"
     >
 
@@ -24,6 +24,7 @@
         android:id="@+id/choreTemplateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
         app:layout_constraintEnd_toStartOf="@id/choreTemplateSpinner"
         app:layout_constraintTop_toTopOf="@id/createChoreNameInput"
         app:layout_constraintBottom_toBottomOf="@id/createChoreNameInput"
@@ -56,10 +57,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="10dp"
         android:maxWidth="488dp"
-        android:minWidth="150dp"
+        android:minWidth="130dp"
         app:layout_constraintStart_toEndOf="@id/choreNameText"
+        app:layout_constraintEnd_toStartOf="@id/choreTemplateText"
         app:layout_constraintTop_toBottomOf="@id/createChoreTitle">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -91,11 +92,31 @@
         android:hint="@string/chore_detail_assign_hint"
         app:drawableRightCompat="@android:drawable/arrow_down_float" />
 
+    <TextView
+        android:id="@+id/choreDetailDueText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/choreDetailAssignedTo"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:text="@string/chore_detail_due_text" />
+
+    <TextView
+        android:id="@+id/choreDetailDue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/choreDetailDueText"
+        app:layout_constraintBottom_toBottomOf="@id/choreDetailDueText"
+        app:layout_constraintStart_toEndOf="@id/choreDetailDueText"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/chore_detail_due_hint" />
+
     <LinearLayout
         android:id="@+id/createChoreButtonLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

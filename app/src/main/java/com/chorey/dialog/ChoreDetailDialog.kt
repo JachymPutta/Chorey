@@ -111,16 +111,13 @@ class ChoreDetailDialog : DialogFragment() {
             .setPositiveButton("Select") {_ , _ ->
                 binding.choreDetailAssignedTo.text = selectedUsers.joinToString()
                 assignedTo = selectedUsers
-                dismiss()
             }
             .setNeutralButton("Clear") { _, _ ->
                 selectionArray.fill(false)
                 selectedUsers.clear()
                 binding.choreDetailAssignedTo.text = ""
-                dismiss()
             }
             .setNegativeButton("Cancel") { _, _ ->
-                dismiss()
             }
 
         builder.show()
