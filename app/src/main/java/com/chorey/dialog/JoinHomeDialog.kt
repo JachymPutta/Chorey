@@ -121,7 +121,6 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
         _binding = null
     }
 
-    //TODO: Request invites in the future
     private fun requestInviteHandle() {
         TODO("Hook up the request invite button")
     }

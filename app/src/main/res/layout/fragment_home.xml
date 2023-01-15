@@ -123,6 +123,4 @@
             style="?android:attr/buttonBarButtonStyle" />
     </LinearLayout>
 
-    <!-- TODO Need the other house properties -->
-
 </androidx.constraintlayout.widget.ConstraintLayout>

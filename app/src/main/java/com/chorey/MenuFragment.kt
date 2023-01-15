@@ -156,7 +156,8 @@ class MenuFragment : Fragment(),
 
     private fun launchSignInFlow() {
         val providers = arrayListOf(
-            AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build()
+            AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build(),
+            AuthUI.IdpConfig.GoogleBuilder().build()
             // TODO: Add more Sign-in methods
         )
 

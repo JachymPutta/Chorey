@@ -202,8 +202,6 @@ class HomeFragment : Fragment(),
         home = homeModel
         binding.homeName.text = homeModel.homeName
         binding.root.visibility = View.VISIBLE
-
-        //TODO: Bind the rest of the properties
     }
 
     companion object {
