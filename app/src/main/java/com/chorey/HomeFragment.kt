@@ -7,16 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.allViews
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chorey.data.HomeModel
 import com.chorey.adapter.HomeRecyclerAdapter
+import com.chorey.adapter.NoteRecyclerAdapter
 import com.chorey.data.ChoreModel
 import com.chorey.databinding.FragmentHomeBinding
-import com.chorey.databinding.FragmentMenuBinding
-import com.chorey.databinding.HomeRecyclerRowBinding
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.EventListener
@@ -34,7 +32,8 @@ import com.google.firebase.ktx.Firebase
  */
 class HomeFragment : Fragment(),
     EventListener<DocumentSnapshot>,
-    HomeRecyclerAdapter.OnChoreSelectedListener {
+    HomeRecyclerAdapter.OnChoreSelectedListener,
+    NoteRecyclerAdapter.OnNoteSelectedListener{
     private val args: HomeFragmentArgs by navArgs()
     private lateinit var home : HomeModel
 
@@ -135,8 +134,12 @@ class HomeFragment : Fragment(),
             Toast.makeText(activity, "Chore UID is ${choreModel!!.UID}", Toast.LENGTH_LONG).show()
         }
         findNavController().navigate(action)
-
     }
+
+    override fun onNoteSelected(note: DocumentSnapshot) {
+        // TODO: need to show the note detail in a dialog or something.
+    }
+
     private fun addMemberHandle() {
         Toast.makeText(activity, "Add member clicked!", Toast.LENGTH_SHORT).show()
     }
