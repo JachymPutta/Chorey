@@ -30,11 +30,11 @@
             android:id="@+id/addMemberButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/ic_add_member_background"
             android:contentDescription="@string/add_members_button"
             android:src="@mipmap/ic_add_member_round"
-            android:minWidth="48dp"
-            android:minHeight="48dp"
+            style="?android:attr/buttonBarButtonStyle"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
             />
     </LinearLayout>
 

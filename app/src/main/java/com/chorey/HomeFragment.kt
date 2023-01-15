@@ -85,6 +85,7 @@ class HomeFragment : Fragment(),
         }
 
         binding.root.visibility = View.GONE
+
         binding.allChoresRecycler.adapter = hrvAdapter
         binding.allChoresRecycler.layoutManager = LinearLayoutManager(view.context)
 
@@ -129,9 +130,7 @@ class HomeFragment : Fragment(),
     }
 
     override fun onChoreSelected(chore: DocumentSnapshot) {
-        //TODO Inflate the detail of the particular chore
         val action = HomeFragmentDirections.actionHomeFragmentToCreateChoreDialog(home).apply {
-            //TODO: this regenerated the UID every time
             choreModel = chore.toObject<ChoreModel>()
             Toast.makeText(activity, "Chore UID is ${choreModel!!.UID}", Toast.LENGTH_LONG).show()
         }
