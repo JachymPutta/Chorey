@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chorey.data.HomeModel
 import com.chorey.adapter.HomeRecyclerAdapter
@@ -39,6 +40,8 @@ class HomeFragment : Fragment(),
 
     private lateinit var homeRef: DocumentReference
     private lateinit var hrvAdapter: HomeRecyclerAdapter
+    private lateinit var noteAdapter: NoteRecyclerAdapter
+
     private lateinit var firestore: FirebaseFirestore
     private lateinit var binding: FragmentHomeBinding
 
@@ -70,6 +73,7 @@ class HomeFragment : Fragment(),
             }
 
         val choreQuery: Query = homeRef.collection("chores")
+        val noteQuery: Query = homeRef.collection("notes")
 
         hrvAdapter = object : HomeRecyclerAdapter(choreQuery, this@HomeFragment) {
             override fun onDataChanged() {
@@ -82,6 +86,12 @@ class HomeFragment : Fragment(),
                 }
             }
         }
+
+        // TODO: this hooks up the recycler to the notes
+//        noteAdapter = NoteRecyclerAdapter(noteQuery, this@HomeFragment)
+//        binding.allChoresRecycler.adapter = noteAdapter
+//        binding.allChoresRecycler.layoutManager = GridLayoutManager(view.context, NOTE_COLUMN_CNT)
+
 
         binding.root.visibility = View.GONE
 
@@ -198,6 +208,7 @@ class HomeFragment : Fragment(),
 
     companion object {
         const val TAG = "HomeFragment"
+        const val NOTE_COLUMN_CNT = 2
     }
 
 }

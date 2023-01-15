@@ -18,7 +18,6 @@ open class NoteRecyclerAdapter(query : Query, private val listener: OnNoteSelect
         fun onNoteSelected(note : DocumentSnapshot)
     }
 
-    // Make this the right binding
     inner class ViewHolder(private val binding: NoteRecyclerRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
