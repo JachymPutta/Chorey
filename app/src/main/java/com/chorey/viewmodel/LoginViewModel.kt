@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
+import com.chorey.data.UserModel
 import com.chorey.util.UserLiveData
 
 class LoginViewModel : ViewModel() {
@@ -11,8 +12,9 @@ class LoginViewModel : ViewModel() {
         AUTHED, UNAUTHED, INV_AUTH
     }
 
-    var isSigningIn = false
     lateinit var launcher: ActivityResultLauncher<Intent>
+
+    var user: UserModel? = null
     val authState = UserLiveData().map {
         user -> if (user != null) {
             AuthState.AUTHED

@@ -24,8 +24,6 @@ class MainActivity : AppCompatActivity() {
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         val response = result.idpResponse
 
-        viewModel.isSigningIn = false
-
         if (result.resultCode != Activity.RESULT_OK) {
             if (response == null) {
                 this.finish()

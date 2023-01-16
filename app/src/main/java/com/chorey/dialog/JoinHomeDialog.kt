@@ -49,6 +49,7 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
         super.onViewCreated(view, savedInstanceState)
 
         firestore = Firebase.firestore
+        // TODO This is causing a crash, because we get homes, but the adapter converts them to invites
         query = firestore.collection("homes")
 
         query?.let {

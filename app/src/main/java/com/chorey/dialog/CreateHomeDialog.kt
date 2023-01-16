@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import com.chorey.data.HomeModel
 import com.chorey.databinding.DialogCreateHomeBinding
 import com.chorey.util.HomeUtil
+import com.chorey.viewmodel.LoginViewModel
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -18,6 +20,7 @@ import java.util.UUID
 class CreateHomeDialog : DialogFragment() {
     private var _binding: DialogCreateHomeBinding? = null
     private val binding get() = _binding!!
+    private val loginViewModel by activityViewModels<LoginViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,24 +41,30 @@ class CreateHomeDialog : DialogFragment() {
     }
 
     private fun onCreateClicked() {
-        val user = Firebase.auth.currentUser
-        user?.let {
-//            if (HomeUtil.isEmpty(binding.createHomeNameInput.editText!!)) {
-//                Toast.makeText(activity, "Please Enter Name", Toast.LENGTH_SHORT).show()
-//                return
-//            }
+        val firestoreUser = Firebase.auth.currentUser
+        val user = loginViewModel.user
 
-            val home = HomeModel(
-                UID = UUID.randomUUID().toString(),
-                homeName = binding.createHomeNameInput.editText?.text.toString(),
-                //TODO: Added random users for testing
-                users = arrayListOf(user.uid, "Lazy User", "Busy User")
-            )
+
+        if (firestoreUser == null || user == null) {
+            dismiss()
+        }
+
+//        if (HomeUtil.isEmpty(binding.createHomeNameInput.editText!!)) {
+//            Toast.makeText(activity, "Please Enter Name", Toast.LENGTH_SHORT).show()
+//            return
+//        }
+
+        val home = HomeModel(
+            UID = UUID.randomUUID().toString(),
+            homeName = binding.createHomeNameInput.editText?.text.toString(),
+            //TODO: Added random users for testing
+            users = arrayListOf(user!!.name, "Lazy User", "Busy User")
+        )
 
 //            Toast.makeText(activity, "HOME UID = ${home.UID}", Toast.LENGTH_SHORT).show()
 
-            Firebase.firestore.collection("homes").document(home.UID).set(home)
-        }
+        Firebase.firestore.collection("homes").document(home.UID).set(home)
+
         dismiss()
     }
 

@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chorey.adapter.MenuRecyclerAdapter
 import com.chorey.data.HomeModel
+import com.chorey.data.UserModel
 import com.chorey.databinding.FragmentMenuBinding
 import com.chorey.dialog.AddHomeDialog
 import com.chorey.dialog.ConfirmRemoveDialog
@@ -90,7 +91,10 @@ class MenuFragment : Fragment(),
         }
 
         binding.allRoomsRecycler.layoutManager = LinearLayoutManager(view.context)
+
         observeAuthState()
+        // TODO: not sure about this
+        checkUserName()
 
         confirmRemoveDialog = ConfirmRemoveDialog()
         addHomeDialog = AddHomeDialog()
@@ -98,11 +102,6 @@ class MenuFragment : Fragment(),
         binding.addHomeButton.setOnClickListener{ addHomeHandle() }
         binding.removeHomeButton.setOnClickListener { removeHomeToggle() }
         binding.authButton.setOnClickListener {launchSignInFlow() }
-
-//        TODO Go directly to the home screen
-//        if (mrvAdapter.itemCount == 1) {
-//        }
-
     }
     override fun onStart() {
         super.onStart()
@@ -213,10 +212,8 @@ class MenuFragment : Fragment(),
         firestore.collection("users").document(user.uid)
             .get()
             .addOnSuccessListener { ds ->
-                if (!ds.exists()) {
-                    if (user.displayName == null) {
+                if (!ds.exists() || user.displayName == null) {
                         getUserNameDialog()
-                    }
                 }
             }
             .addOnFailureListener {
@@ -236,13 +233,17 @@ class MenuFragment : Fragment(),
                if (nameInput.text.toString().isBlank()) {
                    Toast.makeText(requireContext(), "Please input a name.", Toast.LENGTH_SHORT).show()
                } else {
-                   val user = Firebase.auth.currentUser!!
-                   //TODO: User model
-                   val userModel = "UserModel"
-                   firestore.collection("users").document(user.uid).set(userModel)
+                   val userModel = UserModel(
+                       UID = Firebase.auth.currentUser!!.uid,
+                       name = nameInput.text.toString()
+                   )
+                   viewModel.user = userModel
+                   firestore.collection("users").document(userModel.UID).set(userModel)
                    dialog.dismiss()
                }
             }
+
+        builder.show()
     }
 
     /**
