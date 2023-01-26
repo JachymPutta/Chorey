@@ -93,8 +93,6 @@ class MenuFragment : Fragment(),
         binding.allRoomsRecycler.layoutManager = LinearLayoutManager(view.context)
 
         observeAuthState()
-        // TODO: not sure about this
-        checkUserName()
 
         confirmRemoveDialog = ConfirmRemoveDialog()
         addHomeDialog = AddHomeDialog()
@@ -111,6 +109,8 @@ class MenuFragment : Fragment(),
             makeWelcomeScreen()
             return
         }
+
+        checkUserName()
 
         // Start listening for Firestore updates
         mrvAdapter.startListening()
@@ -186,10 +186,6 @@ class MenuFragment : Fragment(),
      * Function to change the UI when there is a user authenticated
      */
     private fun makeMenuScreen() {
-        // Check if we have a name
-        checkUserName()
-
-
         // UI changes
         binding.authButton.setText(R.string.auth_button_logout)
         binding.allRoomsRecycler.visibility = View.VISIBLE
