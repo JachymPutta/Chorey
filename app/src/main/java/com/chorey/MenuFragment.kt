@@ -209,7 +209,9 @@ class MenuFragment : Fragment(),
             .get()
             .addOnSuccessListener { ds ->
                 if (!ds.exists() || user.displayName == null) {
-                        getUserNameDialog()
+                    getUserNameDialog()
+                } else {
+                    viewModel.user = ds.toObject<UserModel>()
                 }
             }
             .addOnFailureListener {
@@ -285,5 +287,4 @@ class MenuFragment : Fragment(),
     companion object {
         const val TAG = "MenuFragment"
     }
-
 }
