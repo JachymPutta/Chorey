@@ -7,11 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chorey.R
 import com.chorey.adapter.JoinHomeRecyclerAdapter
 import com.chorey.data.HomeModel
 import com.chorey.databinding.DialogJoinHomeBinding
+import com.chorey.viewmodel.LoginViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentSnapshot
@@ -32,6 +34,8 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
     private lateinit var firestore: FirebaseFirestore
     private lateinit var joinHomeAdapter: JoinHomeRecyclerAdapter
 
+    private val viewModel by activityViewModels<LoginViewModel>()
+
     internal interface JoinHomeListener {
         fun onJoinClicked(homeModel: HomeModel)
     }
@@ -49,8 +53,9 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
         super.onViewCreated(view, savedInstanceState)
 
         firestore = Firebase.firestore
-        // TODO This is causing a crash, because we get homes, but the adapter converts them to invites
-        query = firestore.collection("homes")
+
+        query = firestore.collection("users").document(viewModel.user!!.UID)
+            .collection("invites")
 
         query?.let {
             joinHomeAdapter = object : JoinHomeRecyclerAdapter(it, this@JoinHomeDialog) {
@@ -104,6 +109,8 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
     override fun onJoinSelected(home: DocumentSnapshot) {
         val homeModel = home.toObject<HomeModel>()
         val userName = Firebase.auth.currentUser?.displayName
+
+        Log.d(JoinHomeRecyclerAdapter.TAG, " \n\n\n\n OnJoinSelected is being called \n\n\n\n")
 
         if (homeModel == null || userName == null) {
             Log.d(TAG, "Home/User not found!")

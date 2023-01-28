@@ -87,10 +87,9 @@ class HomeFragment : Fragment(),
             }
         }
 
-        // TODO: this hooks up the recycler to the notes
-//        noteAdapter = NoteRecyclerAdapter(noteQuery, this@HomeFragment)
-//        binding.allChoresRecycler.adapter = noteAdapter
-//        binding.allChoresRecycler.layoutManager = GridLayoutManager(view.context, NOTE_COLUMN_CNT)
+        noteAdapter = NoteRecyclerAdapter(noteQuery, this@HomeFragment)
+        binding.allChoresRecycler.adapter = noteAdapter
+        binding.allChoresRecycler.layoutManager = GridLayoutManager(view.context, NOTE_COLUMN_CNT)
 
 
         binding.root.visibility = View.GONE
