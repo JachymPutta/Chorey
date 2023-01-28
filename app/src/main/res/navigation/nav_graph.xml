@@ -52,5 +52,17 @@
         <action
             android:id="@+id/action_homeFragment_to_createChoreDialog"
             app:destination="@id/createChoreDialog" />
+        <action
+            android:id="@+id/action_homeFragment_to_addMemberDialog"
+            app:destination="@id/addMemberDialog" />
     </fragment>
+    <dialog
+        android:id="@+id/addMemberDialog"
+        android:name="com.chorey.dialog.AddMemberDialog"
+        android:label="dialog_add_member"
+        tools:layout="@layout/dialog_add_member" >
+        <argument
+            android:name="homeModel"
+            app:argType="com.chorey.data.HomeModel" />
+    </dialog>
 </navigation>

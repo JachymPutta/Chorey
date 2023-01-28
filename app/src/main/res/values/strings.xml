@@ -83,6 +83,12 @@
     <string name="chore_detail_due_text">Repeats:</string>
     <string name="chore_detail_due_hint">Select interval</string>
 
+    <!-- Add Member Dialog -->
+    <string name="add_member_dialog_title">Invite user!</string>
+    <string name="add_member_dialog_yes">Send Invite</string>
+    <string name="add_member_dialog_no">Cancel</string>
+    <string name="add_member_dialog_hint">Enter User name:</string>
+
     <!-- Debugging -->
     <string-array name="home_names">
         <item>@string/home_name_placeholder</item>

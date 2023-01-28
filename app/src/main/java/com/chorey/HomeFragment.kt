@@ -34,7 +34,8 @@ import com.google.firebase.ktx.Firebase
 class HomeFragment : Fragment(),
     EventListener<DocumentSnapshot>,
     HomeRecyclerAdapter.OnChoreSelectedListener,
-    NoteRecyclerAdapter.OnNoteSelectedListener{
+    NoteRecyclerAdapter.OnNoteSelectedListener {
+
     private val args: HomeFragmentArgs by navArgs()
     private lateinit var home : HomeModel
 
@@ -103,7 +104,10 @@ class HomeFragment : Fragment(),
 
         binding.homeSummaryButton.setOnClickListener { changeUI(CurFrag.SUMMARY) }
         binding.noticeBoardButton.setOnClickListener { changeUI(CurFrag.BOARD) }
-        binding.homeToMenuButton.setOnClickListener { changeUI(CurFrag.HOME) }
+        binding.homeChoreButton.setOnClickListener { changeUI(CurFrag.HOME) }
+        binding.homeToMenuButton.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMenuFragment())
+        }
     }
 
     override fun onEvent(value: DocumentSnapshot?, error: FirebaseFirestoreException?) {
@@ -150,7 +154,8 @@ class HomeFragment : Fragment(),
     }
 
     private fun addMemberHandle() {
-        Toast.makeText(activity, "Add member clicked!", Toast.LENGTH_SHORT).show()
+        val action = HomeFragmentDirections.actionHomeFragmentToAddMemberDialog(home)
+        findNavController().navigate(action)
     }
 
     /**

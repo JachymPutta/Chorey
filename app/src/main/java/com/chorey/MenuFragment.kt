@@ -228,6 +228,7 @@ class MenuFragment : Fragment(),
             .setView(nameInput)
             .setCancelable(false)
             .setPositiveButton("Ok") { dialog, _ ->
+                // TODO: check if the username exists!!
                if (nameInput.text.toString().isBlank()) {
                    Toast.makeText(requireContext(), "Please input a name.", Toast.LENGTH_SHORT).show()
                } else {
