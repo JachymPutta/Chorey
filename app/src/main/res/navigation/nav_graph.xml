@@ -55,12 +55,28 @@
         <action
             android:id="@+id/action_homeFragment_to_addMemberDialog"
             app:destination="@id/addMemberDialog" />
+        <action
+            android:id="@+id/action_homeFragment_to_noteDetailDialog"
+            app:destination="@id/noteDetailDialog" />
     </fragment>
     <dialog
         android:id="@+id/addMemberDialog"
         android:name="com.chorey.dialog.AddMemberDialog"
         android:label="dialog_add_member"
         tools:layout="@layout/dialog_add_member" >
+        <argument
+            android:name="homeModel"
+            app:argType="com.chorey.data.HomeModel" />
+    </dialog>
+    <dialog
+        android:id="@+id/noteDetailDialog"
+        android:name="com.chorey.dialog.NoteDetailDialog"
+        android:label="NoteDetailDialog" >
+        <argument
+            android:name="noteModel"
+            app:argType="com.chorey.data.NoteModel"
+            app:nullable="true"
+            android:defaultValue="@null" />
         <argument
             android:name="homeModel"
             app:argType="com.chorey.data.HomeModel" />

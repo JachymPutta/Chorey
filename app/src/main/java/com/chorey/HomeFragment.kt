@@ -15,6 +15,7 @@ import com.chorey.data.HomeModel
 import com.chorey.adapter.HomeRecyclerAdapter
 import com.chorey.adapter.NoteRecyclerAdapter
 import com.chorey.data.ChoreModel
+import com.chorey.data.NoteModel
 import com.chorey.databinding.FragmentHomeBinding
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
@@ -101,13 +102,16 @@ class HomeFragment : Fragment(),
         // Hooking up buttons
         binding.addChoreButton.setOnClickListener { addChoreHandle() }
         binding.addMemberButton.setOnClickListener { addMemberHandle() }
-
-        binding.homeSummaryButton.setOnClickListener { changeUI(CurFrag.SUMMARY) }
-        binding.noticeBoardButton.setOnClickListener { changeUI(CurFrag.BOARD) }
-        binding.homeChoreButton.setOnClickListener { changeUI(CurFrag.HOME) }
+        // TODO: add note button
         binding.homeToMenuButton.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMenuFragment())
         }
+
+        // Bottom navigation
+        binding.homeSummaryButton.setOnClickListener { changeUI(CurFrag.SUMMARY) }
+        binding.noticeBoardButton.setOnClickListener { changeUI(CurFrag.BOARD) }
+        binding.homeChoreButton.setOnClickListener { changeUI(CurFrag.HOME) }
+
     }
 
     override fun onEvent(value: DocumentSnapshot?, error: FirebaseFirestoreException?) {
@@ -144,13 +148,20 @@ class HomeFragment : Fragment(),
     override fun onChoreSelected(chore: DocumentSnapshot) {
         val action = HomeFragmentDirections.actionHomeFragmentToCreateChoreDialog(home).apply {
             choreModel = chore.toObject<ChoreModel>()
-            Toast.makeText(activity, "Chore UID is ${choreModel!!.UID}", Toast.LENGTH_LONG).show()
+//            Toast.makeText(activity, "Chore UID is ${choreModel!!.UID}", Toast.LENGTH_LONG).show()
         }
         findNavController().navigate(action)
     }
 
+    private fun addNoteHandle() {
+        val action = HomeFragmentDirections.actionHomeFragmentToNoteDetailDialog(home)
+        findNavController().navigate(action)
+    }
     override fun onNoteSelected(note: DocumentSnapshot) {
-        // TODO: need to show the note detail in a dialog or something.
+        val action = HomeFragmentDirections.actionHomeFragmentToNoteDetailDialog(home).apply {
+            noteModel = note.toObject<NoteModel>()
+        }
+        findNavController().navigate(action)
     }
 
     private fun addMemberHandle() {
