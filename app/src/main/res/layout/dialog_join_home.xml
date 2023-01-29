@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:minWidth="300dp"
-    android:minHeight="300dp"
     android:layout_gravity="center"
+    android:padding="20dp"
     tools:context=".dialog.JoinHomeDialog">
 
     <TextView
@@ -45,12 +44,6 @@
             style="?android:attr/buttonBarButtonStyle"
             android:text="@string/create_home_no" />
 
-        <Button
-            android:id="@+id/requestInviteButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="?android:attr/buttonBarButtonStyle"
-            android:text="@string/join_home_request_invite_button" />
     </LinearLayout>
 
 

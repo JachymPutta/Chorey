@@ -187,6 +187,7 @@ class MenuFragment : Fragment(),
      */
     private fun makeMenuScreen() {
         // UI changes
+        binding.menuTitleText.setText(R.string.menu_title_default)
         binding.authButton.setText(R.string.auth_button_logout)
         binding.allRoomsRecycler.visibility = View.VISIBLE
         binding.addHomeButton.visibility = View.VISIBLE
@@ -208,7 +209,7 @@ class MenuFragment : Fragment(),
         firestore.collection("users").document(user.uid)
             .get()
             .addOnSuccessListener { ds ->
-                if (!ds.exists() || user.displayName == null) {
+                if (!ds.exists()) {
                     getUserNameDialog()
                 } else {
                     viewModel.user = ds.toObject<UserModel>()

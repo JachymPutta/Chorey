@@ -81,11 +81,6 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
 
 
         binding.joinHomeDismissButton.setOnClickListener { dismiss() }
-
-        // TODO: Request invite button
-        binding.requestInviteButton.setOnClickListener { requestInviteHandle() }
-        binding.requestInviteButton.visibility = View.GONE
-
     }
 
     override fun onAttach(context: Context) {
@@ -110,8 +105,6 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
         val homeModel = home.toObject<HomeModel>()
         val userName = Firebase.auth.currentUser?.displayName
 
-        Log.d(JoinHomeRecyclerAdapter.TAG, " \n\n\n\n OnJoinSelected is being called \n\n\n\n")
-
         if (homeModel == null || userName == null) {
             Log.d(TAG, "Home/User not found!")
             return
@@ -127,10 +120,6 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun requestInviteHandle() {
-        TODO("Hook up the request invite button")
     }
 
     companion object {

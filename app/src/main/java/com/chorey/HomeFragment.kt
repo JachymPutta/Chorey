@@ -90,8 +90,8 @@ class HomeFragment : Fragment(),
         }
 
         noteAdapter = NoteRecyclerAdapter(noteQuery, this@HomeFragment)
-        binding.allChoresRecycler.adapter = noteAdapter
-        binding.allChoresRecycler.layoutManager = GridLayoutManager(view.context, NOTE_COLUMN_CNT)
+//        binding.allChoresRecycler.adapter = noteAdapter
+//        binding.allChoresRecycler.layoutManager = GridLayoutManager(view.context, NOTE_COLUMN_CNT)
 
 
         binding.root.visibility = View.GONE
@@ -102,7 +102,6 @@ class HomeFragment : Fragment(),
         // Hooking up buttons
         binding.addChoreButton.setOnClickListener { addChoreHandle() }
         binding.addMemberButton.setOnClickListener { addMemberHandle() }
-        // TODO: add note button
         binding.homeToMenuButton.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMenuFragment())
         }
@@ -135,10 +134,6 @@ class HomeFragment : Fragment(),
             Toast.makeText(activity, "Max number of homes reached!", Toast.LENGTH_SHORT).show()
             return
         }
-
-        // Adding a random chore - TESTING
-//        homeRef.collection("chores")
-//            .add(makeRandomChore(requireContext()))
 
         // Create a chore dialog
         val action = HomeFragmentDirections.actionHomeFragmentToCreateChoreDialog(home)
@@ -192,9 +187,25 @@ class HomeFragment : Fragment(),
                 binding.allChoresRecycler.visibility = View.VISIBLE
                 binding.noChoresLeftText.visibility = View.VISIBLE
                 binding.addChoreButton.visibility = View.VISIBLE
+
+                binding.allChoresRecycler.adapter = hrvAdapter
+                binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
+
+                binding.addChoreButton.setText(R.string.add_chore_button)
+                binding.addChoreButton.setOnClickListener { addChoreHandle() }
             }
             CurFrag.SUMMARY -> binding.homeRecyclerTitle.text = "Summary"
-            CurFrag.BOARD -> binding.homeRecyclerTitle.text = "Notice board"
+            CurFrag.BOARD -> {
+                binding.homeRecyclerTitle.text = "Notice board"
+
+                binding.allChoresRecycler.visibility = View.VISIBLE
+                binding.allChoresRecycler.adapter = noteAdapter
+                binding.allChoresRecycler.layoutManager = GridLayoutManager(requireView().context, NOTE_COLUMN_CNT)
+
+                binding.addChoreButton.visibility = View.VISIBLE
+                binding.addChoreButton.setText(R.string.add_note_button)
+                binding.addChoreButton.setOnClickListener { addNoteHandle() }
+            }
         }
 
         curFrag = nextFrag
@@ -203,11 +214,13 @@ class HomeFragment : Fragment(),
     override fun onStart() {
         super.onStart()
         hrvAdapter.startListening()
+        noteAdapter.startListening()
     }
 
     override fun onStop() {
         super.onStop()
         hrvAdapter.stopListening()
+        noteAdapter.stopListening()
     }
 
     private fun onHomeLoaded(homeModel: HomeModel?) {

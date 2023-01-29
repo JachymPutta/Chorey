@@ -43,6 +43,8 @@ class NoteDetailDialog : DialogFragment(){
         changeUI(state)
 
         //TODO bindings go here
+        binding.noteDetailModifyButton.setOnClickListener { onCreateClicked() }
+        binding.noteDetailCancelButton.setOnClickListener { dismiss() }
     }
 
     override fun onDestroyView() {
@@ -57,15 +59,19 @@ class NoteDetailDialog : DialogFragment(){
 
     private fun onCreateClicked() {
         val uid = args.noteModel?.UID ?: UUID.randomUUID().toString()
+        //TODO Check for empty
+        val text = binding.noteDetailTextInput.editText?.text.toString()
+
         val note = NoteModel(
             UID = uid,
-            //TODO: Get the text from the input - CHECK IF EMPTY
-            note = "Hello",
+            note = text,
             author = viewModel.user!!.name
         )
 
         Firebase.firestore.collection("homes").document(args.homeModel.UID)
             .collection("notes").document(uid).set(note)
+
+        dismiss()
     }
 
     private fun changeUI(state: State) {

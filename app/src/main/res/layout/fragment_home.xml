@@ -16,6 +16,16 @@
         android:gravity="center"
         >
 
+        <ImageButton
+            android:id="@+id/addMemberButton"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/add_members_button"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:src="@mipmap/ic_add_member_round" />
+
         <TextView
             android:id="@+id/homeName"
             style="@style/Title"
@@ -24,17 +34,6 @@
             android:text="@string/home_name_placeholder"
             android:paddingEnd="20dp"
             android:paddingStart="20dp"
-            />
-
-        <ImageButton
-            android:id="@+id/addMemberButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/add_members_button"
-            android:src="@mipmap/ic_add_member_round"
-            style="?android:attr/buttonBarButtonStyle"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
             />
 
         <ImageView

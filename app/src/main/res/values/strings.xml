@@ -31,6 +31,7 @@
     <!-- Home Fragment -->
     <string name="home_all_chores_text">TODOs</string>
     <string name="add_chore_button">Add Chore</string>
+    <string name="add_note_button">Add Note</string>
     <string name="add_members_button">Invite</string>
     <string name="home_summary_button">Summary</string>
     <string name="home_to_menu_button">Home</string>
@@ -88,6 +89,15 @@
     <string name="add_member_dialog_yes">Send Invite</string>
     <string name="add_member_dialog_no">Cancel</string>
     <string name="add_member_dialog_hint">Enter User name:</string>
+
+    <!-- Note Detail Dialog-->
+    <string name="note_detail_title_create">Create Note</string>
+    <string name="note_detail_title_edit">Edit</string>
+    <string name="note_detail_title_view">View</string>
+    <string name="note_detail_note_text">Type here…</string>
+    <string name="note_detail_create_button">Create</string>
+    <string name="note_detail_update_button">Update</string>
+    <string name="note_detail_cancel_button">Cancel</string>
 
     <!-- Debugging -->
     <string-array name="home_names">
