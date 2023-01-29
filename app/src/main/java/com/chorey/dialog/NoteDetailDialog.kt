@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
+import com.chorey.R
 import com.chorey.data.NoteModel
 import com.chorey.databinding.DialogNoteDetailBinding
 import com.chorey.viewmodel.LoginViewModel
@@ -42,8 +43,6 @@ class NoteDetailDialog : DialogFragment(){
         state = if (args.noteModel == null) { State.CREATE } else { State.VIEW }
         changeUI(state)
 
-        //TODO bindings go here
-        binding.noteDetailModifyButton.setOnClickListener { onCreateClicked() }
         binding.noteDetailCancelButton.setOnClickListener { dismiss() }
     }
 
@@ -78,15 +77,25 @@ class NoteDetailDialog : DialogFragment(){
         when(state) {
             State.CREATE -> {
                 // Logical Changes
+                binding.noteDetailModifyButton.setOnClickListener { onCreateClicked() }
                 // Visual Changes
             }
             State.VIEW -> {
                 // Logical Changes
+                binding.noteDetailModifyButton.setOnClickListener { onEditClicked() }
+
                 // Visual Changes
+                binding.noteDetailTitle.setText(R.string.note_detail_title_view)
+                binding.noteDetailModifyButton.setText(R.string.note_detail_edit_button)
+                binding.noteDetailTextInput.editText!!.setText(args.noteModel!!.note)
             }
             State.EDIT -> {
                 // Logical Changes
+                binding.noteDetailModifyButton.setOnClickListener { onCreateClicked() }
+
                 // Visual Changes
+                binding.noteDetailTitle.setText(R.string.note_detail_title_edit)
+                binding.noteDetailModifyButton.setText(R.string.note_detail_update_button)
             }
         }
     }

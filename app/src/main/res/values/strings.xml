@@ -92,10 +92,11 @@
 
     <!-- Note Detail Dialog-->
     <string name="note_detail_title_create">Create Note</string>
-    <string name="note_detail_title_edit">Edit</string>
+    <string name="note_detail_title_edit">Edit Note</string>
     <string name="note_detail_title_view">View</string>
     <string name="note_detail_note_text">Type here…</string>
     <string name="note_detail_create_button">Create</string>
+    <string name="note_detail_edit_button">Edit</string>
     <string name="note_detail_update_button">Update</string>
     <string name="note_detail_cancel_button">Cancel</string>
 
