@@ -1,17 +1,19 @@
 package com.chorey.dialog
 
 import android.app.AlertDialog
-import android.content.DialogInterface
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.os.Bundle
+import android.text.format.DateFormat.is24HourFormat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
-import android.view.View.OnClickListener
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Toast
+import android.widget.DatePicker
+import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.navArgs
 import com.chorey.R
@@ -21,9 +23,12 @@ import com.chorey.databinding.DialogChoreDetailBinding
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.util.Calendar
 import java.util.UUID
 
-class ChoreDetailDialog : DialogFragment() {
+class ChoreDetailDialog : DialogFragment(),
+    DatePickerDialog.OnDateSetListener,
+    TimePickerDialog.OnTimeSetListener {
     private var _binding: DialogChoreDetailBinding? = null
     private val binding get() = _binding!!
     private val args : ChoreDetailDialogArgs by navArgs()
@@ -54,6 +59,8 @@ class ChoreDetailDialog : DialogFragment() {
         binding.choreDetailAssignedTo.setOnClickListener { onAssignClicked() }
         binding.createChoreRemoveButton.setOnClickListener { onRemoveClicked() }
 
+        // TODO: this needs to get disabled when viewing
+        binding.choreDetailDue.setOnClickListener { onDatePickerClicked() }
 
         val adapter = ArrayAdapter(requireContext(), R.layout.chore_spinner_item, ChoreTemplate.values())
         adapter.setDropDownViewResource(R.layout.chore_spinner_dropdown)
@@ -66,6 +73,7 @@ class ChoreDetailDialog : DialogFragment() {
     }
 
     private fun changeUI(state: State) {
+        // TODO - the input fields need to be disabled -> global variable?
         when(state) {
             State.CREATE -> {
                 // Logical Changes
@@ -77,7 +85,6 @@ class ChoreDetailDialog : DialogFragment() {
             }
             State.VIEW -> {
                 // Logical Changes
-                binding.createChoreNameInput.isFocusable = false
                 binding.createChoreCreateButton.setOnClickListener { onEditClicked() }
 
                 // Visual Changes
@@ -87,8 +94,6 @@ class ChoreDetailDialog : DialogFragment() {
             }
             State.EDIT -> {
                 // Logical Changes
-                // TODO: this focusable doesn't do anything
-                binding.createChoreNameInput.isFocusableInTouchMode = true
                 binding.createChoreCreateButton.setOnClickListener { onCreateClicked() }
 
                 // Visual Changes
@@ -98,7 +103,34 @@ class ChoreDetailDialog : DialogFragment() {
     }
 
     private fun onEditClicked() {
-        changeUI(State.EDIT)
+        state = State.EDIT
+        changeUI(state)
+    }
+
+    private fun onDatePickerClicked() {
+        val c = Calendar.getInstance();
+        val mYear = c.get(Calendar.YEAR);
+        val mMonth = c.get(Calendar.MONTH);
+        val mDay = c.get(Calendar.DAY_OF_MONTH);
+
+        val dialog = DatePickerDialog(requireContext(), this, mYear, mMonth, mDay)
+        dialog.show()
+    }
+    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+        TODO("Not yet implemented")
+    }
+
+    //TODO: add the time field
+    private fun onTimePickerClicked() {
+        val c = Calendar.getInstance()
+        val hour = c.get(Calendar.HOUR_OF_DAY)
+        val minute = c.get(Calendar.MINUTE)
+
+        val dialog = TimePickerDialog(activity, this, hour, minute, is24HourFormat(activity))
+
+    }
+    override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+        TODO("Not yet implemented")
     }
 
     /**
@@ -184,5 +216,7 @@ class ChoreDetailDialog : DialogFragment() {
     companion object {
         const val TAG = "CreateChoreDialog"
     }
+
+
 
 }
