@@ -79,6 +79,7 @@
     <string name="chore_detail_spinner_text">Template:</string>
     <string name="create_chore_edit_button">Edit</string>
     <string name="create_chore_update_button">Update</string>
+    <string name="create_chore_remove_button">Remove</string>
     <string name="chore_detail_assign_text">Assign to:</string>
     <string name="chore_detail_assign_hint">Select members</string>
     <string name="chore_detail_due_text">Repeats:</string>
@@ -99,6 +100,7 @@
     <string name="note_detail_edit_button">Edit</string>
     <string name="note_detail_update_button">Update</string>
     <string name="note_detail_cancel_button">Cancel</string>
+    <string name="note_detail_remove_button">Remove</string>
 
     <!-- Debugging -->
     <string-array name="home_names">

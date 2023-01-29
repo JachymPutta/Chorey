@@ -3,9 +3,12 @@ package com.chorey.dialog
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.View.OnClickListener
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -49,6 +52,7 @@ class ChoreDetailDialog : DialogFragment() {
 
         binding.createChoreCancelButton.setOnClickListener { onCancelClicked() }
         binding.choreDetailAssignedTo.setOnClickListener { onAssignClicked() }
+        binding.createChoreRemoveButton.setOnClickListener { onRemoveClicked() }
 
 
         val adapter = ArrayAdapter(requireContext(), R.layout.chore_spinner_item, ChoreTemplate.values())
@@ -69,6 +73,7 @@ class ChoreDetailDialog : DialogFragment() {
 
                 // Visual Changes
                 binding.createChoreCreateButton.setText(R.string.create_home_yes)
+                binding.createChoreRemoveButton.visibility = GONE
             }
             State.VIEW -> {
                 // Logical Changes
@@ -77,6 +82,7 @@ class ChoreDetailDialog : DialogFragment() {
 
                 // Visual Changes
                 //TODO: put the chore parameters into the fields
+                binding.createChoreRemoveButton.visibility = VISIBLE
                 binding.createChoreCreateButton.setText(R.string.create_chore_edit_button)
             }
             State.EDIT -> {
@@ -142,7 +148,8 @@ class ChoreDetailDialog : DialogFragment() {
                 UID = uid,
                 choreName = binding.createChoreNameInput.editText?.text.toString(),
                 homeId = args.homeModel.UID,
-                choreTemplate = binding.choreTemplateSpinner.selectedItem as ChoreTemplate
+                choreTemplate = binding.choreTemplateSpinner.selectedItem as ChoreTemplate,
+                assignedTo = assignedTo
             )
 
             Firebase.firestore.collection("homes").document(args.homeModel.UID)
@@ -152,13 +159,27 @@ class ChoreDetailDialog : DialogFragment() {
         dismiss()
     }
 
+    private fun onCancelClicked() {
+        dismiss()
+    }
+
+    private fun onRemoveClicked() {
+        val uid = args.choreModel!!.UID
+
+        //TODO: I could show the confirm remove dialog with the chore name and the doc reference
+        Firebase.firestore.collection("homes").document(args.homeModel.UID)
+            .collection("chores").document(uid).delete()
+            .addOnSuccessListener { Log.d(TAG, "Chore successfully deleted!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
+
+        dismiss()
+
+    }
+
     private fun checkChoreInput() {
         // TODO: Non-empty inputs etc
     }
 
-    private fun onCancelClicked() {
-        dismiss()
-    }
 
     companion object {
         const val TAG = "CreateChoreDialog"

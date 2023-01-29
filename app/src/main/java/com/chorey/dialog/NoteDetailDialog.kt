@@ -1,6 +1,7 @@
 package com.chorey.dialog
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,6 +45,7 @@ class NoteDetailDialog : DialogFragment(){
         changeUI(state)
 
         binding.noteDetailCancelButton.setOnClickListener { dismiss() }
+        binding.noteDetailRemoveButton.setOnClickListener { onRemoveClicked() }
     }
 
     override fun onDestroyView() {
@@ -54,6 +56,18 @@ class NoteDetailDialog : DialogFragment(){
     private fun onEditClicked() {
         state = State.EDIT
         changeUI(state)
+    }
+
+    private fun onRemoveClicked() {
+        val uid = args.noteModel!!.UID
+
+        //TODO: I could show the confirm remove dialog with the chore name and the doc reference
+        Firebase.firestore.collection("homes").document(args.homeModel.UID)
+            .collection("notes").document(uid).delete()
+            .addOnSuccessListener { Log.d(TAG, "Note successfully deleted!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
+
+        dismiss()
     }
 
     private fun onCreateClicked() {
@@ -79,12 +93,14 @@ class NoteDetailDialog : DialogFragment(){
                 // Logical Changes
                 binding.noteDetailModifyButton.setOnClickListener { onCreateClicked() }
                 // Visual Changes
+                binding.noteDetailRemoveButton.visibility = View.GONE
             }
             State.VIEW -> {
                 // Logical Changes
                 binding.noteDetailModifyButton.setOnClickListener { onEditClicked() }
 
                 // Visual Changes
+                binding.noteDetailRemoveButton.visibility = View.VISIBLE
                 binding.noteDetailTitle.setText(R.string.note_detail_title_view)
                 binding.noteDetailModifyButton.setText(R.string.note_detail_edit_button)
                 binding.noteDetailTextInput.editText!!.setText(args.noteModel!!.note)

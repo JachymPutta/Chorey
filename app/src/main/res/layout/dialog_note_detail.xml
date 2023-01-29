@@ -7,6 +7,19 @@
     tools:context=".dialog.NoteDetailDialog">
 
 
+    <ImageButton
+        android:id="@+id/noteDetailCancelButton"
+        style="?attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/note_detail_cancel_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@mipmap/ic_cancel_round"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        />
+
     <TextView
         android:id="@+id/noteDetailTitle"
         android:layout_width="wrap_content"
@@ -30,11 +43,11 @@
         >
 
         <Button
-            android:id="@+id/noteDetailCancelButton"
+            android:id="@+id/noteDetailRemoveButton"
             style="?attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/note_detail_cancel_button"/>
+            android:text="@string/note_detail_remove_button" />
 
         <android.widget.Space
             android:layout_width="40dp"
