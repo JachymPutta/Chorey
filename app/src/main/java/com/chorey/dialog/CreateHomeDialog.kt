@@ -41,18 +41,12 @@ class CreateHomeDialog : DialogFragment() {
     }
 
     private fun onCreateClicked() {
-        val firestoreUser = Firebase.auth.currentUser
         val user = loginViewModel.user
 
-
-        if (firestoreUser == null || user == null) {
-            dismiss()
+        if (binding.createHomeNameInput.editText?.text.isNullOrBlank()) {
+            Toast.makeText(activity, "Please Enter Name", Toast.LENGTH_SHORT).show()
+            return
         }
-
-//        if (HomeUtil.isEmpty(binding.createHomeNameInput.editText!!)) {
-//            Toast.makeText(activity, "Please Enter Name", Toast.LENGTH_SHORT).show()
-//            return
-//        }
 
         val home = HomeModel(
             UID = UUID.randomUUID().toString(),
@@ -60,8 +54,6 @@ class CreateHomeDialog : DialogFragment() {
             //TODO: Added random users for testing
             users = arrayListOf(user!!.name, "Lazy User", "Busy User")
         )
-
-//            Toast.makeText(activity, "HOME UID = ${home.UID}", Toast.LENGTH_SHORT).show()
 
         Firebase.firestore.collection("homes").document(home.UID).set(home)
 

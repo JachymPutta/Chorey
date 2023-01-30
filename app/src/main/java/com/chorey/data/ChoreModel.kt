@@ -12,10 +12,9 @@ data class ChoreModel(
     var choreName: String = "chore_name",
     var homeId: String = "home_name",
     var isTimed: Boolean = false,
-    var whenDue : Date? = null,
+    var whenDue : Long? = null,
     var timeToComplete : Int = ChoreUtil.getPoints(1),
     var assignedTo: ArrayList<String> = arrayListOf(),
     var points: Int = 0,
     var repeatsEvery: RepeatInterval = RepeatInterval.None,
-    var choreTemplate: ChoreTemplate = ChoreTemplate.Custom
 ) : Parcelable

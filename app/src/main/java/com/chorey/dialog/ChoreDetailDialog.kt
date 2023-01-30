@@ -18,7 +18,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.navArgs
 import com.chorey.R
 import com.chorey.data.ChoreModel
-import com.chorey.data.ChoreTemplate
+import com.chorey.data.RepeatInterval
 import com.chorey.databinding.DialogChoreDetailBinding
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -35,6 +35,9 @@ class ChoreDetailDialog : DialogFragment(),
 
     private lateinit var state: State
     private lateinit var assignedTo: ArrayList<String>
+    // Time stuff
+    private lateinit var dueDateDialog: DatePickerDialog
+    private lateinit var dueTimeDialog: TimePickerDialog
 
     enum class State {
         CREATE, VIEW
@@ -61,11 +64,18 @@ class ChoreDetailDialog : DialogFragment(),
         binding.createChoreRemoveButton.setOnClickListener { onRemoveClicked() }
 
         // TODO: this needs to get disabled when viewing
-        binding.choreDetailDue.setOnClickListener { onDatePickerClicked() }
+        binding.choreDetailDueDate.setOnClickListener { onDatePickerClicked() }
+        binding.choreDetailDueTime.setOnClickListener { onTimePickerClicked() }
 
-//        val adapter = ArrayAdapter(requireContext(), R.layout.chore_spinner_item, ChoreTemplate.values())
-//        adapter.setDropDownViewResource(R.layout.chore_spinner_dropdown)
-//        binding.choreTemplateSpinner.adapter = adapter
+        // Hook up spinner
+        val repeatAdapter = ArrayAdapter(requireContext(), R.layout.chore_spinner_item, RepeatInterval.values())
+        val completeAdapter = ArrayAdapter(requireContext(), R.layout.chore_spinner_item, arrayOf("Hrs", "Mins"))
+
+        repeatAdapter.setDropDownViewResource(R.layout.chore_spinner_dropdown)
+        completeAdapter.setDropDownViewResource(R.layout.chore_spinner_dropdown)
+
+        binding.choreRepeatSpinner.adapter = repeatAdapter
+        binding.choreCompleteTimeSpinner.adapter = completeAdapter
     }
 
     override fun onDestroyView() {
@@ -106,24 +116,28 @@ class ChoreDetailDialog : DialogFragment(),
         val mMonth = c.get(Calendar.MONTH);
         val mDay = c.get(Calendar.DAY_OF_MONTH);
 
-        val dialog = DatePickerDialog(requireContext(), this, mYear, mMonth, mDay)
-        dialog.show()
+        dueDateDialog = DatePickerDialog(requireContext(), this, mYear, mMonth, mDay)
+        dueDateDialog.show()
     }
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        TODO("Not yet implemented")
+        // Months start at 0 for some reason
+        val displayMonth = month + 1
+        val date = String.format("$year-$displayMonth-$dayOfMonth")
+        binding.choreDetailDueDate.text = date
     }
 
-    //TODO: add the time field
     private fun onTimePickerClicked() {
+        //TODO: add a global variable to differentiate different time pickers
         val c = Calendar.getInstance()
         val hour = c.get(Calendar.HOUR_OF_DAY)
         val minute = c.get(Calendar.MINUTE)
 
-        val dialog = TimePickerDialog(activity, this, hour, minute, is24HourFormat(activity))
-
+        dueTimeDialog = TimePickerDialog(activity, this, hour, minute, is24HourFormat(activity))
+        dueTimeDialog.show()
     }
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-        TODO("Not yet implemented")
+        val time = String.format("$hourOfDay:$minute")
+        binding.choreDetailDueTime.text = time
     }
 
     /**
@@ -136,7 +150,6 @@ class ChoreDetailDialog : DialogFragment(),
         val selectionArray = BooleanArray(args.homeModel.users.size)
 
         builder.setTitle(R.string.chore_detail_assign_hint)
-            .setCancelable(false) //TODO: can just make it save the current selection
             .setMultiChoiceItems(userArray, selectionArray)
             { _ , which, isChecked ->
                 if (isChecked) {
@@ -156,6 +169,10 @@ class ChoreDetailDialog : DialogFragment(),
             }
             .setNegativeButton("Cancel") { _, _ ->
             }
+            .setOnCancelListener {
+                binding.choreDetailAssignedTo.text = selectedUsers.joinToString()
+                assignedTo = selectedUsers
+            }
 
         builder.show()
     }
@@ -167,7 +184,9 @@ class ChoreDetailDialog : DialogFragment(),
             // Take existing or create new
             val uid = args.choreModel?.UID ?: UUID.randomUUID().toString()
 
+            // TODO: this needs to return out of the function
             checkChoreInput()
+            // TODO: Need to assemble the times and convert them to a long for storage
 
             val choreModel = ChoreModel(
                 UID = uid,

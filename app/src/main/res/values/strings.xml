@@ -81,8 +81,12 @@
     <string name="create_chore_remove_button">Remove</string>
     <string name="chore_detail_assign_text">Assign to:</string>
     <string name="chore_detail_assign_hint">Select members</string>
-    <string name="chore_detail_due_text">Repeats:</string>
-    <string name="chore_detail_due_hint">Select interval</string>
+    <string name="chore_detail_due_text">Due:</string>
+    <string name="chore_detail_due_date_hint">Select Date</string>
+    <string name="chore_detail_due_time_hint">Select Time</string>
+    <string name="chore_detail_repeats_text">Repeats?</string>
+    <string name="chore_detail_at">at</string>
+    <string name="chore_detail_time_to_complete">Time to complete:</string>
 
     <!-- Add Member Dialog -->
     <string name="add_member_dialog_title">Invite user!</string>

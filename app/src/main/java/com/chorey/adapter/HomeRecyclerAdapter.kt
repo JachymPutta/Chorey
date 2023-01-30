@@ -33,7 +33,7 @@ open class HomeRecyclerAdapter(query: Query, private val listener: OnChoreSelect
             binding.choreName.text = choreModel.choreName
             binding.choreAssignee.text = choreModel.assignedTo.joinToString()
             if (choreModel.isTimed) {
-                binding.choreDueDate.text = choreModel.whenDue!!.toString()
+                binding.choreDueDate.text = choreModel.whenDue.toString()
             } else {
                 binding.choreDueDate.visibility = View.GONE
                 binding.choreDueText.visibility = View.GONE

@@ -32,37 +32,6 @@
         android:minWidth="0dp"
         android:minHeight="0dp"
         />
-<!--    <TextView-->
-<!--        android:id="@+id/choreTemplateText"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginEnd="10dp"-->
-<!--        app:layout_constraintEnd_toStartOf="@id/choreTemplateSpinner"-->
-<!--        app:layout_constraintTop_toTopOf="@id/createChoreNameInput"-->
-<!--        app:layout_constraintBottom_toBottomOf="@id/createChoreNameInput"-->
-<!--        android:text="@string/chore_detail_spinner_text"-->
-<!--        />-->
-
-
-<!--    <Spinner-->
-<!--        android:id="@+id/choreTemplateSpinner"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="@id/createChoreNameInput"-->
-<!--        app:layout_constraintBottom_toBottomOf="@id/createChoreNameInput"-->
-<!--        android:spinnerMode="dropdown"-->
-<!--        />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/choreNameText"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="@id/createChoreNameInput"-->
-<!--        app:layout_constraintBottom_toBottomOf="@id/createChoreNameInput"-->
-<!--        android:text="@string/chore_detail_name_text"-->
-<!--        />-->
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/createChoreNameInput"
@@ -114,7 +83,16 @@
         android:text="@string/chore_detail_due_text" />
 
     <TextView
-        android:id="@+id/choreDetailDue"
+        android:id="@+id/choreDetailAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/choreDetailDueText"
+        app:layout_constraintBottom_toBottomOf="@id/choreDetailDueText"
+        app:layout_constraintStart_toEndOf="@id/choreDetailDueDate"
+        android:text="@string/chore_detail_at" />
+
+    <TextView
+        android:id="@+id/choreDetailDueDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@id/choreDetailDueText"
@@ -123,7 +101,73 @@
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:layout_marginStart="10dp"
-        android:text="@string/chore_detail_due_hint" />
+        android:text="@string/chore_detail_due_date_hint" />
+
+    <TextView
+        android:id="@+id/choreDetailDueTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/choreDetailDueText"
+        app:layout_constraintBottom_toBottomOf="@id/choreDetailDueText"
+        app:layout_constraintStart_toEndOf="@id/choreDetailAt"
+        android:layout_marginStart="20dp"
+        android:text="@string/chore_detail_due_time_hint"
+        />
+
+    <TextView
+        android:id="@+id/choreRepeatText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/choreDetailDueText"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/chore_detail_repeats_text"
+        />
+
+    <Spinner
+        android:id="@+id/choreRepeatSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        app:layout_constraintTop_toTopOf="@id/choreRepeatText"
+        app:layout_constraintBottom_toBottomOf="@id/choreRepeatText"
+        app:layout_constraintStart_toEndOf="@id/choreRepeatText"
+        android:spinnerMode="dropdown"
+        />
+
+    <TextView
+        android:id="@+id/choreDetailTimeToDoText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/choreRepeatText"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:text="@string/chore_detail_time_to_complete" />
+
+    <EditText
+        android:id="@+id/choreDetailTimeToDo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/choreDetailTimeToDoText"
+        app:layout_constraintBottom_toBottomOf="@id/choreDetailTimeToDoText"
+        app:layout_constraintStart_toEndOf="@id/choreDetailTimeToDoText"
+        android:layout_marginStart="20dp"
+        android:ems="10"
+        android:inputType="number"
+        android:maxWidth="50dp"
+        />
+
+    <Spinner
+        android:id="@+id/choreCompleteTimeSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        app:layout_constraintTop_toTopOf="@id/choreDetailTimeToDo"
+        app:layout_constraintBottom_toBottomOf="@id/choreDetailTimeToDo"
+        app:layout_constraintStart_toEndOf="@id/choreDetailTimeToDo"
+        android:spinnerMode="dropdown"
+        />
+
 
     <LinearLayout
         android:id="@+id/createChoreButtonLayout"
@@ -151,3 +195,36 @@
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!-- TODO: leftover code for templates -->
+    <!--    <TextView-->
+    <!--        android:id="@+id/choreTemplateText"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginEnd="10dp"-->
+    <!--        app:layout_constraintEnd_toStartOf="@id/choreTemplateSpinner"-->
+    <!--        app:layout_constraintTop_toTopOf="@id/createChoreNameInput"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@id/createChoreNameInput"-->
+    <!--        android:text="@string/chore_detail_spinner_text"-->
+    <!--        />-->
+
+
+    <!--    <Spinner-->
+    <!--        android:id="@+id/choreTemplateSpinner"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="@id/createChoreNameInput"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@id/createChoreNameInput"-->
+    <!--        android:spinnerMode="dropdown"-->
+    <!--        />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/choreNameText"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="@id/createChoreNameInput"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@id/createChoreNameInput"-->
+    <!--        android:text="@string/chore_detail_name_text"-->
+    <!--        />-->

@@ -49,6 +49,7 @@ open class JoinHomeRecyclerAdapter(query: Query, private val listener: OnJoinSel
 
     private fun onAcceptInvite() {
         val user = Firebase.auth.currentUser
+        // TODO: Check whether I am in home already to not allow duplicates
         user?.let {
             Firebase.firestore.collection("homes").document(inviteModel.homeUID)
                 .get().addOnSuccessListener {snapshot ->
