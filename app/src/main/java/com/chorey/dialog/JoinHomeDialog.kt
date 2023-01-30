@@ -6,12 +6,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chorey.R
 import com.chorey.adapter.JoinHomeRecyclerAdapter
 import com.chorey.data.HomeModel
+import com.chorey.data.InviteModel
 import com.chorey.databinding.DialogJoinHomeBinding
 import com.chorey.viewmodel.LoginViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -57,14 +59,16 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
         query = firestore.collection("users").document(viewModel.user!!.UID)
             .collection("invites")
 
+        Toast.makeText(requireContext(), viewModel.user!!.UID, Toast.LENGTH_LONG).show()
+
         query?.let {
             joinHomeAdapter = object : JoinHomeRecyclerAdapter(it, this@JoinHomeDialog) {
                 override fun onDataChanged() {
                     if (itemCount == 0) {
-                        binding.joinHomeRecycler.visibility = View.GONE
+//                        binding.joinHomeRecycler.visibility = View.GONE
                         binding.joinHomeTitle.setText(R.string.join_home_your_invites_empty)
                     } else {
-                        binding.joinHomeRecycler.visibility = View.VISIBLE
+//                        binding.joinHomeRecycler.visibility = View.VISIBLE
                         binding.joinHomeTitle.setText(R.string.join_home_your_invites_full)
                     }
                 }
@@ -101,20 +105,26 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
         joinHomeAdapter.stopListening()
     }
 
-    override fun onJoinSelected(home: DocumentSnapshot) {
-        val homeModel = home.toObject<HomeModel>()
-        val userName = Firebase.auth.currentUser?.displayName
+    override fun onJoinSelected(invite: DocumentSnapshot) {
+        val inviteModel = invite.toObject<InviteModel>()
 
-        if (homeModel == null || userName == null) {
-            Log.d(TAG, "Home/User not found!")
+        if (inviteModel == null) {
+            Log.e(TAG, "Home/User not found!")
             return
         }
 
-        homeModel.users.add(userName)
+        val homeRef = firestore.collection("homes").document(inviteModel.homeUID)
 
-        firestore.collection("homes").document(homeModel.UID)
-                // TODO: Check if this update actually updates the right field
-            .update(mapOf("users" to homeModel.users))
+        firestore.runTransaction {
+            val snap = it.get(homeRef)
+            @Suppress("UNCHECKED_CAST")
+            val members : ArrayList<String> = snap["users"] as ArrayList<String>
+            members.add(viewModel.user!!.name)
+            members.add("This is a test")
+
+            it.update(homeRef, "users", members)
+            null
+        }
     }
 
     override fun onDestroyView() {

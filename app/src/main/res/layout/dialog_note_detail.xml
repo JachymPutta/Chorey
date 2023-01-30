@@ -70,12 +70,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:counterEnabled="true"
-        app:counterMaxLength="30"
+        app:counterMaxLength="250"
         >
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="100dp"
             android:hint="@string/note_detail_note_text" />
     </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

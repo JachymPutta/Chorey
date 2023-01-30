@@ -1,6 +1,7 @@
 package com.chorey
 
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
@@ -228,22 +229,29 @@ class MenuFragment : Fragment(),
         builder.setTitle("Your name:")
             .setView(nameInput)
             .setCancelable(false)
-            .setPositiveButton("Ok") { dialog, _ ->
-                // TODO: check if the username exists!!
-               if (nameInput.text.toString().isBlank()) {
-                   Toast.makeText(requireContext(), "Please input a name.", Toast.LENGTH_SHORT).show()
-               } else {
-                   val userModel = UserModel(
-                       UID = Firebase.auth.currentUser!!.uid,
-                       name = nameInput.text.toString()
-                   )
-                   viewModel.user = userModel
-                   firestore.collection("users").document(userModel.UID).set(userModel)
-                   dialog.dismiss()
-               }
-            }
+            .setPositiveButton("Ok", null)
 
-        builder.show()
+        val dialog = builder.create()
+
+        // Need to override the onShow handle so the dialog doesn't dismiss with invalid inputs
+        dialog.setOnShowListener {
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
+                // TODO: check if the username exists!!
+                if (nameInput.text.toString().isBlank()) {
+                    Toast.makeText(requireContext(), "Please input a name.", Toast.LENGTH_SHORT).show()
+                } else {
+                    val userModel = UserModel(
+                        UID = Firebase.auth.currentUser!!.uid,
+                        name = nameInput.text.toString()
+                    )
+                    viewModel.user = userModel
+                    firestore.collection("users").document(userModel.UID).set(userModel)
+                    dialog.dismiss()
+                }
+            }
+        }
+
+        dialog.show()
     }
 
     /**

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
@@ -50,29 +51,46 @@ class AddMemberDialog : DialogFragment() {
 
     private fun onSendClicked() {
         // 1. get the current user from the login model
-        // TODO: this could throw and error instead of failing silently
+        var success = true
+        // TODO: this could throw and error instead of failing silently - but should never happen
         val sender = loginViewModel.user ?: return
         // 2. get the destination user from the text input
-        val dest = binding.addMemberNameInput.editText?.text.toString()
+        val dest = binding.addMemberNameInput.editText?.text.toString().ifBlank {
+            Toast.makeText(requireContext(), "Please enter a name", Toast.LENGTH_LONG).show()
+            return
+        }
+
         val invite = InviteModel(
-            homeName = home.UID,
+            homeName = home.homeName,
             homeUID = home.UID,
             fromUser = sender.name
         )
         // 3. check whether the user is valid
         firestore.collection("users").whereEqualTo("name", dest).get()
             .addOnSuccessListener {snap ->
-                // There will only ever be one name
-                val destUserModel = snap.documents[0].toObject<UserModel>()
-                val invites = destUserModel!!.invites
-                invites.add(invite)
+                if (snap.isEmpty) {
+                    Toast.makeText(requireContext(), "User $dest not found!", Toast.LENGTH_LONG).show()
+                    success = false
+                } else {
+                    // There will only ever be one name
+                    val destUserModel = snap.documents[0].toObject<UserModel>()
+                    val invites = destUserModel!!.invites
 
-                firestore.collection("users").document(destUserModel.UID)
-                    .update(mapOf("invites" to invites))
+                    if (invites.contains(invite)) {
+                        Toast.makeText(requireContext(), "$dest already invited!", Toast.LENGTH_LONG).show()
+                        success = false
+                    } else {
+                        invites.add(invite)
+                        firestore.collection("users").document(destUserModel.UID)
+                            .collection("invites").add(invite)
+                    }
+                }
             }
             .addOnFailureListener {
                 e -> Log.w(TAG, "onSendClicked: error fetching user $e")
             }
+
+        if (success) { dismiss() }
     }
 
     companion object {

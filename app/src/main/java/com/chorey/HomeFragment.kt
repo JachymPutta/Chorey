@@ -80,10 +80,10 @@ class HomeFragment : Fragment(),
         hrvAdapter = object : HomeRecyclerAdapter(choreQuery, this@HomeFragment) {
             override fun onDataChanged() {
                 if (itemCount == 0) {
-                    binding.allChoresRecycler.visibility = View.GONE
+//                    binding.allChoresRecycler.visibility = View.GONE
                     binding.noChoresLeftText.visibility = View.VISIBLE
                 } else {
-                    binding.allChoresRecycler.visibility = View.VISIBLE
+//                    binding.allChoresRecycler.visibility = View.VISIBLE
                     binding.noChoresLeftText.visibility = View.GONE
                 }
             }

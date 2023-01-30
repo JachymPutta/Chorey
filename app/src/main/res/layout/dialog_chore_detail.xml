@@ -32,47 +32,47 @@
         android:minWidth="0dp"
         android:minHeight="0dp"
         />
-    <TextView
-        android:id="@+id/choreTemplateText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintEnd_toStartOf="@id/choreTemplateSpinner"
-        app:layout_constraintTop_toTopOf="@id/createChoreNameInput"
-        app:layout_constraintBottom_toBottomOf="@id/createChoreNameInput"
-        android:text="@string/chore_detail_spinner_text"
-        />
+<!--    <TextView-->
+<!--        android:id="@+id/choreTemplateText"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginEnd="10dp"-->
+<!--        app:layout_constraintEnd_toStartOf="@id/choreTemplateSpinner"-->
+<!--        app:layout_constraintTop_toTopOf="@id/createChoreNameInput"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/createChoreNameInput"-->
+<!--        android:text="@string/chore_detail_spinner_text"-->
+<!--        />-->
 
 
-    <Spinner
-        android:id="@+id/choreTemplateSpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/createChoreNameInput"
-        app:layout_constraintBottom_toBottomOf="@id/createChoreNameInput"
-        android:spinnerMode="dropdown"
-        />
+<!--    <Spinner-->
+<!--        android:id="@+id/choreTemplateSpinner"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="@id/createChoreNameInput"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/createChoreNameInput"-->
+<!--        android:spinnerMode="dropdown"-->
+<!--        />-->
 
-    <TextView
-        android:id="@+id/choreNameText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/createChoreNameInput"
-        app:layout_constraintBottom_toBottomOf="@id/createChoreNameInput"
-        android:text="@string/chore_detail_name_text"
-        />
+<!--    <TextView-->
+<!--        android:id="@+id/choreNameText"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="@id/createChoreNameInput"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/createChoreNameInput"-->
+<!--        android:text="@string/chore_detail_name_text"-->
+<!--        />-->
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/createChoreNameInput"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:maxWidth="488dp"
-        android:minWidth="130dp"
-        app:layout_constraintStart_toEndOf="@id/choreNameText"
-        app:layout_constraintEnd_toStartOf="@id/choreTemplateText"
+        android:minWidth="250dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/createChoreTitle">
 
         <com.google.android.material.textfield.TextInputEditText

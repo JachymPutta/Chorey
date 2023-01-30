@@ -77,8 +77,7 @@
     <string name="create_chore_name_hint">Chore Name</string>
     <string name="chore_detail_name_text">Name:</string>
     <string name="chore_detail_spinner_text">Template:</string>
-    <string name="create_chore_edit_button">Edit</string>
-    <string name="create_chore_update_button">Update</string>
+    <string name="create_chore_edit_button">Done</string>
     <string name="create_chore_remove_button">Remove</string>
     <string name="chore_detail_assign_text">Assign to:</string>
     <string name="chore_detail_assign_hint">Select members</string>

@@ -24,7 +24,7 @@ open class JoinHomeRecyclerAdapter(query: Query, private val listener: OnJoinSel
     private lateinit var inviteModel : InviteModel
 
         interface OnJoinSelectedListener {
-            fun onJoinSelected(home : DocumentSnapshot)
+            fun onJoinSelected(invite : DocumentSnapshot)
         }
 
     inner class ViewHolder(private val binding: JoinHomeRecyclerRowBinding)

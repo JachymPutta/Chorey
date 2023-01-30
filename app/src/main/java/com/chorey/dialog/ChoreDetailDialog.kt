@@ -34,10 +34,10 @@ class ChoreDetailDialog : DialogFragment(),
     private val args : ChoreDetailDialogArgs by navArgs()
 
     private lateinit var state: State
-    private var assignedTo = arrayListOf<String>()
+    private lateinit var assignedTo: ArrayList<String>
 
     enum class State {
-        CREATE, EDIT, VIEW
+        CREATE, VIEW
     }
 
     override fun onCreateView(
@@ -52,6 +52,7 @@ class ChoreDetailDialog : DialogFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        assignedTo = args.choreModel?.assignedTo ?: arrayListOf()
         state = if (args.choreModel == null) { State.CREATE } else { State.VIEW }
         changeUI(state)
 
@@ -62,9 +63,9 @@ class ChoreDetailDialog : DialogFragment(),
         // TODO: this needs to get disabled when viewing
         binding.choreDetailDue.setOnClickListener { onDatePickerClicked() }
 
-        val adapter = ArrayAdapter(requireContext(), R.layout.chore_spinner_item, ChoreTemplate.values())
-        adapter.setDropDownViewResource(R.layout.chore_spinner_dropdown)
-        binding.choreTemplateSpinner.adapter = adapter
+//        val adapter = ArrayAdapter(requireContext(), R.layout.chore_spinner_item, ChoreTemplate.values())
+//        adapter.setDropDownViewResource(R.layout.chore_spinner_dropdown)
+//        binding.choreTemplateSpinner.adapter = adapter
     }
 
     override fun onDestroyView() {
@@ -84,27 +85,19 @@ class ChoreDetailDialog : DialogFragment(),
                 binding.createChoreRemoveButton.visibility = GONE
             }
             State.VIEW -> {
-                // Logical Changes
-                binding.createChoreCreateButton.setOnClickListener { onEditClicked() }
-
-                // Visual Changes
-                //TODO: put the chore parameters into the fields
-                binding.createChoreRemoveButton.visibility = VISIBLE
-                binding.createChoreCreateButton.setText(R.string.create_chore_edit_button)
-            }
-            State.EDIT -> {
+                val choreModel = args.choreModel!!
                 // Logical Changes
                 binding.createChoreCreateButton.setOnClickListener { onCreateClicked() }
 
+                // Fill in existing data
+                binding.createChoreNameInput.editText!!.setText(choreModel.choreName)
+                binding.choreDetailAssignedTo.text = choreModel.assignedTo.joinToString()
+
                 // Visual Changes
-                binding.createChoreCreateButton.setText(R.string.create_chore_update_button)
+                binding.createChoreRemoveButton.visibility = VISIBLE
+                binding.createChoreCreateButton.setText(R.string.create_chore_edit_button)
             }
         }
-    }
-
-    private fun onEditClicked() {
-        state = State.EDIT
-        changeUI(state)
     }
 
     private fun onDatePickerClicked() {
@@ -180,7 +173,6 @@ class ChoreDetailDialog : DialogFragment(),
                 UID = uid,
                 choreName = binding.createChoreNameInput.editText?.text.toString(),
                 homeId = args.homeModel.UID,
-                choreTemplate = binding.choreTemplateSpinner.selectedItem as ChoreTemplate,
                 assignedTo = assignedTo
             )
 
