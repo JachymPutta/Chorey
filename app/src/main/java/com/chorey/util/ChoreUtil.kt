@@ -27,7 +27,9 @@ object ChoreUtil {
         )
     }
 
-    fun getPoints(timeToComplete : Int) = timeToComplete * POINTS_MULTIPLIER
+    fun getPoints(hrs : Int, min : Int) : Int {
+        return ((hrs * 60) + min) * POINTS_MULTIPLIER
+    }
 
     private fun getRandomString(array: Array<String>, random: Random): String {
         val ind = random.nextInt(array.size)

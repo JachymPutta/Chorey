@@ -87,6 +87,7 @@
     <string name="chore_detail_repeats_text">Repeats?</string>
     <string name="chore_detail_at">at</string>
     <string name="chore_detail_time_to_complete">Time to complete:</string>
+    <string name="chore_detail_reward">Reward:</string>
 
     <!-- Add Member Dialog -->
     <string name="add_member_dialog_title">Invite user!</string>

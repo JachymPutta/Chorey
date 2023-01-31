@@ -20,6 +20,9 @@ import com.chorey.R
 import com.chorey.data.ChoreModel
 import com.chorey.data.RepeatInterval
 import com.chorey.databinding.DialogChoreDetailBinding
+import com.chorey.util.ChoreUtil
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -32,12 +35,13 @@ class ChoreDetailDialog : DialogFragment(),
     private var _binding: DialogChoreDetailBinding? = null
     private val binding get() = _binding!!
     private val args : ChoreDetailDialogArgs by navArgs()
+    private var picker = TIME_PICKER
 
     private lateinit var state: State
     private lateinit var assignedTo: ArrayList<String>
-    // Time stuff
-    private lateinit var dueDateDialog: DatePickerDialog
-    private lateinit var dueTimeDialog: TimePickerDialog
+
+    private val dueDatetime = arrayOf(0,0,0,0,0)
+    private val timeToComplete = arrayOf(0,0)
 
     enum class State {
         CREATE, VIEW
@@ -66,16 +70,12 @@ class ChoreDetailDialog : DialogFragment(),
         // TODO: this needs to get disabled when viewing
         binding.choreDetailDueDate.setOnClickListener { onDatePickerClicked() }
         binding.choreDetailDueTime.setOnClickListener { onTimePickerClicked() }
+        binding.choreDetailCompleteTime.setOnClickListener { onCompleteTimeClicked() }
 
         // Hook up spinner
         val repeatAdapter = ArrayAdapter(requireContext(), R.layout.chore_spinner_item, RepeatInterval.values())
-        val completeAdapter = ArrayAdapter(requireContext(), R.layout.chore_spinner_item, arrayOf("Hrs", "Mins"))
-
         repeatAdapter.setDropDownViewResource(R.layout.chore_spinner_dropdown)
-        completeAdapter.setDropDownViewResource(R.layout.chore_spinner_dropdown)
-
         binding.choreRepeatSpinner.adapter = repeatAdapter
-        binding.choreCompleteTimeSpinner.adapter = completeAdapter
     }
 
     override fun onDestroyView() {
@@ -110,35 +110,62 @@ class ChoreDetailDialog : DialogFragment(),
         }
     }
 
+    /***********************************************************************************************
+     * Timing stuff
+     **********************************************************************************************/
     private fun onDatePickerClicked() {
         val c = Calendar.getInstance();
         val mYear = c.get(Calendar.YEAR);
         val mMonth = c.get(Calendar.MONTH);
         val mDay = c.get(Calendar.DAY_OF_MONTH);
 
-        dueDateDialog = DatePickerDialog(requireContext(), this, mYear, mMonth, mDay)
-        dueDateDialog.show()
+       DatePickerDialog(requireContext(), this, mYear, mMonth, mDay).show()
     }
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         // Months start at 0 for some reason
         val displayMonth = month + 1
         val date = String.format("$year-$displayMonth-$dayOfMonth")
         binding.choreDetailDueDate.text = date
+        dueDatetime[0] = year
+        dueDatetime[1] = month
+        dueDatetime[2] = dayOfMonth
     }
 
     private fun onTimePickerClicked() {
-        //TODO: add a global variable to differentiate different time pickers
         val c = Calendar.getInstance()
         val hour = c.get(Calendar.HOUR_OF_DAY)
         val minute = c.get(Calendar.MINUTE)
 
-        dueTimeDialog = TimePickerDialog(activity, this, hour, minute, is24HourFormat(activity))
-        dueTimeDialog.show()
+        picker = TIME_PICKER
+        TimePickerDialog(activity, this, hour, minute, is24HourFormat(activity)).show()
     }
+
+    private fun onCompleteTimeClicked() {
+        val c = Calendar.getInstance()
+        val hour = c.get(Calendar.HOUR_OF_DAY)
+        val minute = c.get(Calendar.MINUTE)
+
+        picker = COMPLETE_PICKER
+        val dialog = TimePickerDialog(activity, this, hour, minute, true)
+        dialog.setTitle("Time to complete the task")
+        dialog.show()
+    }
+
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
         val time = String.format("$hourOfDay:$minute")
-        binding.choreDetailDueTime.text = time
+
+        if (picker == TIME_PICKER) {
+            binding.choreDetailDueTime.text = time
+            dueDatetime[3] = hourOfDay
+            dueDatetime[4] = minute
+        } else if (picker == COMPLETE_PICKER) {
+            binding.choreDetailCompleteTime.text = time
+            binding.choreDetailPoints.text = time
+            timeToComplete[0] = hourOfDay
+            timeToComplete[1] = minute
+        }
     }
+    /**********************************************************************************************/
 
     /**
      * Build the selection menu, based on the users in the home
@@ -192,7 +219,8 @@ class ChoreDetailDialog : DialogFragment(),
                 UID = uid,
                 choreName = binding.createChoreNameInput.editText?.text.toString(),
                 homeId = args.homeModel.UID,
-                assignedTo = assignedTo
+                assignedTo = assignedTo,
+                points = ChoreUtil.getPoints(timeToComplete[0], timeToComplete[1])
             )
 
             Firebase.firestore.collection("homes").document(args.homeModel.UID)
@@ -226,6 +254,8 @@ class ChoreDetailDialog : DialogFragment(),
 
     companion object {
         const val TAG = "CreateChoreDialog"
+        const val TIME_PICKER = 1
+        const val COMPLETE_PICKER = 2
     }
 
 
