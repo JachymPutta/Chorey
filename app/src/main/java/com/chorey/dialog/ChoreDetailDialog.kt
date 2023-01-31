@@ -40,8 +40,8 @@ class ChoreDetailDialog : DialogFragment(),
     private lateinit var state: State
     private lateinit var assignedTo: ArrayList<String>
 
-    private val dueDatetime = arrayOf(0,0,0,0,0)
     private val timeToComplete = arrayOf(0,0)
+    private val dueTime = Calendar.getInstance()
 
     enum class State {
         CREATE, VIEW
@@ -61,7 +61,9 @@ class ChoreDetailDialog : DialogFragment(),
 
         assignedTo = args.choreModel?.assignedTo ?: arrayListOf()
         state = if (args.choreModel == null) { State.CREATE } else { State.VIEW }
+
         changeUI(state)
+
 
         binding.createChoreCancelButton.setOnClickListener { onCancelClicked() }
         binding.choreDetailAssignedTo.setOnClickListener { onAssignClicked() }
@@ -93,6 +95,10 @@ class ChoreDetailDialog : DialogFragment(),
                 // Visual Changes
                 binding.createChoreCreateButton.setText(R.string.create_home_yes)
                 binding.createChoreRemoveButton.visibility = GONE
+                val date = String.format("${dueTime.get(Calendar.YEAR)}" +
+                            "-${dueTime.get(Calendar.MONTH) + 1}" +
+                            "-${dueTime.get(Calendar.DAY_OF_MONTH)}")
+                binding.choreDetailDueDate.text = date
             }
             State.VIEW -> {
                 val choreModel = args.choreModel!!
@@ -114,10 +120,9 @@ class ChoreDetailDialog : DialogFragment(),
      * Timing stuff
      **********************************************************************************************/
     private fun onDatePickerClicked() {
-        val c = Calendar.getInstance();
-        val mYear = c.get(Calendar.YEAR);
-        val mMonth = c.get(Calendar.MONTH);
-        val mDay = c.get(Calendar.DAY_OF_MONTH);
+        val mYear = dueTime.get(Calendar.YEAR);
+        val mMonth = dueTime.get(Calendar.MONTH);
+        val mDay = dueTime.get(Calendar.DAY_OF_MONTH);
 
        DatePickerDialog(requireContext(), this, mYear, mMonth, mDay).show()
     }
@@ -126,27 +131,23 @@ class ChoreDetailDialog : DialogFragment(),
         val displayMonth = month + 1
         val date = String.format("$year-$displayMonth-$dayOfMonth")
         binding.choreDetailDueDate.text = date
-        dueDatetime[0] = year
-        dueDatetime[1] = month
-        dueDatetime[2] = dayOfMonth
+
+        dueTime.set(Calendar.YEAR, year)
+        dueTime.set(Calendar.MONTH, month)
+        dueTime.set(Calendar.DAY_OF_MONTH, dayOfMonth)
     }
 
     private fun onTimePickerClicked() {
-        val c = Calendar.getInstance()
-        val hour = c.get(Calendar.HOUR_OF_DAY)
-        val minute = c.get(Calendar.MINUTE)
+        val hour = dueTime.get(Calendar.HOUR_OF_DAY)
+        val minute = dueTime.get(Calendar.MINUTE)
 
         picker = TIME_PICKER
         TimePickerDialog(activity, this, hour, minute, is24HourFormat(activity)).show()
     }
 
     private fun onCompleteTimeClicked() {
-        val c = Calendar.getInstance()
-        val hour = c.get(Calendar.HOUR_OF_DAY)
-        val minute = c.get(Calendar.MINUTE)
-
         picker = COMPLETE_PICKER
-        val dialog = TimePickerDialog(activity, this, hour, minute, true)
+        val dialog = TimePickerDialog(activity, this, 0, 0, true)
         dialog.setTitle("Time to complete the task")
         dialog.show()
     }
@@ -156,8 +157,8 @@ class ChoreDetailDialog : DialogFragment(),
 
         if (picker == TIME_PICKER) {
             binding.choreDetailDueTime.text = time
-            dueDatetime[3] = hourOfDay
-            dueDatetime[4] = minute
+            dueTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
+            dueTime.set(Calendar.MINUTE, minute)
         } else if (picker == COMPLETE_PICKER) {
             binding.choreDetailCompleteTime.text = time
             binding.choreDetailPoints.text = time
@@ -205,27 +206,24 @@ class ChoreDetailDialog : DialogFragment(),
     }
 
     private fun onCreateClicked() {
-        val user = Firebase.auth.currentUser
+        // Take existing or create new
+        val uid = args.choreModel?.UID ?: UUID.randomUUID().toString()
 
-        user?.let {
-            // Take existing or create new
-            val uid = args.choreModel?.UID ?: UUID.randomUUID().toString()
+        // TODO: this needs to return out of the function
+        checkChoreInput()
+        // TODO: Need to assemble the times and convert them to a long for storage
 
-            // TODO: this needs to return out of the function
-            checkChoreInput()
-            // TODO: Need to assemble the times and convert them to a long for storage
+        val choreModel = ChoreModel(
+            UID = uid,
+            choreName = binding.createChoreNameInput.editText?.text.toString(),
+            homeId = args.homeModel.UID,
+            assignedTo = assignedTo,
+            points = ChoreUtil.getPoints(timeToComplete[0], timeToComplete[1]),
+            whenDue = dueTime.time.time
+        )
 
-            val choreModel = ChoreModel(
-                UID = uid,
-                choreName = binding.createChoreNameInput.editText?.text.toString(),
-                homeId = args.homeModel.UID,
-                assignedTo = assignedTo,
-                points = ChoreUtil.getPoints(timeToComplete[0], timeToComplete[1])
-            )
-
-            Firebase.firestore.collection("homes").document(args.homeModel.UID)
-                .collection("chores").document(choreModel.UID).set(choreModel)
-        }
+        Firebase.firestore.collection("homes").document(args.homeModel.UID)
+            .collection("chores").document(choreModel.UID).set(choreModel)
 
         dismiss()
     }

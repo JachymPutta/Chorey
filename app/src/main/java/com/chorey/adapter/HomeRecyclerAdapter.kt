@@ -5,16 +5,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chorey.data.ChoreModel
+import com.chorey.data.RepeatInterval
+import com.chorey.data.UserModel
 import com.chorey.databinding.HomeRecyclerRowBinding
+import com.chorey.util.ChoreUtil
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
+import java.util.Calendar
+import java.util.Date
 
 /**
  * Handles the list of all chores in each of the homes.
  * @param query : DB query to get all the chores for a home
  */
-open class HomeRecyclerAdapter(query: Query, private val listener: OnChoreSelectedListener)
+open class HomeRecyclerAdapter(query: Query,
+                               private val listener: OnChoreSelectedListener,
+                               private val user : UserModel)
     : FirestoreAdapter<HomeRecyclerAdapter.ViewHolder>(query) {
     private lateinit var choreModel: ChoreModel
 
@@ -55,6 +64,27 @@ open class HomeRecyclerAdapter(query: Query, private val listener: OnChoreSelect
     }
 
     private fun onDoneClicked(snapshot: DocumentSnapshot) {
-        snapshot.reference.delete()
+        // TODO: this needs to update the points, the user assigned etc
+        user.points += choreModel.points
+        //TODO: update the db
+        val newChore = ChoreUtil.updateData(choreModel, user)
+
+        // Update the home variables
+        val homeRef = Firebase.firestore.collection("homes").document(choreModel.homeId)
+        val choreRef = homeRef.collection("chores").document(choreModel.UID)
+
+        // Write the stuff in a batch
+        Firebase.firestore.runBatch {
+
+            // Handle points
+            it.update(homeRef, "points", user.points)
+
+            // If non repeating -> delete, else update due date
+            when(choreModel.repeatsEvery) {
+                RepeatInterval.None -> it.delete(snapshot.reference)
+                else ->  it.set(choreRef, newChore)
+            }
+        }
     }
+
 }

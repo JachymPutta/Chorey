@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
@@ -17,6 +18,7 @@ import com.chorey.adapter.NoteRecyclerAdapter
 import com.chorey.data.ChoreModel
 import com.chorey.data.NoteModel
 import com.chorey.databinding.FragmentHomeBinding
+import com.chorey.viewmodel.LoginViewModel
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.EventListener
@@ -38,6 +40,7 @@ class HomeFragment : Fragment(),
     NoteRecyclerAdapter.OnNoteSelectedListener {
 
     private val args: HomeFragmentArgs by navArgs()
+    private val viewModel by activityViewModels<LoginViewModel>()
     private lateinit var home : HomeModel
 
     private lateinit var homeRef: DocumentReference
@@ -46,6 +49,7 @@ class HomeFragment : Fragment(),
 
     private lateinit var firestore: FirebaseFirestore
     private lateinit var binding: FragmentHomeBinding
+
 
     enum class CurFrag {
         HOME, BOARD, SUMMARY
@@ -77,7 +81,8 @@ class HomeFragment : Fragment(),
         val choreQuery: Query = homeRef.collection("chores")
         val noteQuery: Query = homeRef.collection("notes")
 
-        hrvAdapter = object : HomeRecyclerAdapter(choreQuery, this@HomeFragment) {
+        hrvAdapter = object : HomeRecyclerAdapter(choreQuery,
+            this@HomeFragment, viewModel.user!!) {
             override fun onDataChanged() {
                 if (itemCount == 0) {
 //                    binding.allChoresRecycler.visibility = View.GONE
