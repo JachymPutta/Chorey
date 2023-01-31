@@ -1,8 +1,6 @@
 package com.chorey.util
 
 import android.content.Context
-import android.util.Log
-import com.chorey.BuildConfig
 import com.chorey.POINTS_MULTIPLIER
 import com.chorey.R
 import com.chorey.RANDOM_SEED
@@ -34,17 +32,15 @@ object ChoreUtil {
         return ((hrs * 60) + min) * POINTS_MULTIPLIER
     }
 
-    fun updateData(oldChore:ChoreModel, completedBy: UserModel) : ChoreModel {
+    fun updateData(chore:ChoreModel, completedBy: UserModel) : ChoreModel {
 
-        val newChore = updateTime(oldChore, ChoreModel())
-        updateAssignment(newChore, completedBy)
+        updateTime(chore)
+        updateAssignment(chore, completedBy)
 
-
-
-        return newChore
+        return chore
     }
 
-    private fun updateTime(oldChore:ChoreModel, newChore: ChoreModel) : ChoreModel {
+    private fun updateTime(oldChore:ChoreModel) {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = oldChore.whenDue!!
         when (oldChore.repeatsEvery) {
@@ -55,13 +51,18 @@ object ChoreUtil {
             RepeatInterval.Hour -> calendar.add(Calendar.HOUR_OF_DAY, 1)
         }
 
-        newChore.whenDue = calendar.timeInMillis
-        return newChore
+        oldChore.whenDue = calendar.timeInMillis
     }
 
-    private fun updateAssignment(choreModel: ChoreModel, completedBy: UserModel) {
-        // TODO: needs separate assignment field to change it
-
+    private fun updateAssignment(chore : ChoreModel, completedBy: UserModel) {
+        if (chore.curAssignee == completedBy.name) {
+            val oldId = chore.assignedTo.indexOf(chore.curAssignee)
+            val newAssignee = chore.assignedTo[(oldId + 1) % chore.curAssignee.length]
+            chore.curAssignee = newAssignee
+            chore.assignedTo = chore.assignedTo
+        } else {
+            chore.curAssignee = chore.curAssignee
+        }
     }
 
     private fun getRandomString(array: Array<String>, random: Random): String {

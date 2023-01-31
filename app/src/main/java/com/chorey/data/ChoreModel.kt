@@ -15,6 +15,7 @@ data class ChoreModel(
     var whenDue : Long? = null,
     var timeToComplete : Int = ChoreUtil.getPoints(0, 0),
     var assignedTo: ArrayList<String> = arrayListOf(),
+    var curAssignee: String = "",
     var points: Int = 0,
     var repeatsEvery: RepeatInterval = RepeatInterval.None,
 ) : Parcelable

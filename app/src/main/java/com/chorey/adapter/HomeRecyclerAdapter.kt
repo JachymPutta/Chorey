@@ -65,9 +65,10 @@ open class HomeRecyclerAdapter(query: Query,
 
     private fun onDoneClicked(snapshot: DocumentSnapshot) {
         // TODO: this needs to update the points, the user assigned etc
-        user.points += choreModel.points
         //TODO: update the db
-        val newChore = ChoreUtil.updateData(choreModel, user)
+        val lastCompleted = choreModel.curAssignee
+        val newChore = ChoreUtil.updateData(choreModel.copy(), user)
+
 
         // Update the home variables
         val homeRef = Firebase.firestore.collection("homes").document(choreModel.homeId)
