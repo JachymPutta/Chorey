@@ -40,7 +40,7 @@ open class HomeRecyclerAdapter(query: Query,
 
             // Bind visuals
             binding.choreName.text = choreModel.choreName
-            binding.choreAssignee.text = choreModel.assignedTo.joinToString()
+            binding.choreAssignee.text = choreModel.curAssignee
             if (choreModel.isTimed) {
                 binding.choreDueDate.text = choreModel.whenDue.toString()
             } else {

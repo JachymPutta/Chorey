@@ -4,6 +4,8 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
+import android.text.format.DateFormat.getDateFormat
+import android.text.format.DateFormat.getTimeFormat
 import android.text.format.DateFormat.is24HourFormat
 import android.util.Log
 import android.view.LayoutInflater
@@ -26,7 +28,9 @@ import com.google.android.material.timepicker.TimeFormat
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Random
 import java.util.UUID
 
 class ChoreDetailDialog : DialogFragment(),
@@ -102,16 +106,32 @@ class ChoreDetailDialog : DialogFragment(),
             }
             State.VIEW -> {
                 val choreModel = args.choreModel!!
-                // Logical Changes
-                binding.createChoreCreateButton.setOnClickListener { onCreateClicked() }
+
+                // Update the chore timings
+                if (choreModel.isTimed) {
+                    val lastDue = Calendar.getInstance()
+                    lastDue.timeInMillis = choreModel.whenDue!!
+                    val id = RepeatInterval.values().indexOf(choreModel.repeatsEvery)
+                    binding.choreDetailDueDate.text = getDateFormat(requireContext()).format(lastDue)
+                    binding.choreDetailDueTime.text = getTimeFormat(requireContext()).format(lastDue)
+                    binding.choreRepeatSpinner.setSelection(id)
+                } else {
+                    binding.choreDetailAt.visibility = GONE
+                    binding.choreDetailDueTime.visibility = GONE
+                    binding.choreDetailDueDate.setText(R.string.chore_detail_due_untimed)
+                }
 
                 // Fill in existing data
                 binding.createChoreNameInput.editText!!.setText(choreModel.choreName)
                 binding.choreDetailAssignedTo.text = choreModel.assignedTo.joinToString()
+                binding.choreDetailCompleteTime.text = choreModel.timeToComplete.toString()
 
                 // Visual Changes
                 binding.createChoreRemoveButton.visibility = VISIBLE
                 binding.createChoreCreateButton.setText(R.string.create_chore_edit_button)
+
+                // Logical Changes
+                binding.createChoreCreateButton.setOnClickListener { onCreateClicked() }
             }
         }
     }
@@ -161,7 +181,7 @@ class ChoreDetailDialog : DialogFragment(),
             dueTime.set(Calendar.MINUTE, minute)
         } else if (picker == COMPLETE_PICKER) {
             binding.choreDetailCompleteTime.text = time
-            binding.choreDetailPoints.text = time
+            binding.choreDetailPoints.text = ChoreUtil.getPoints(hourOfDay,minute).toString()
             timeToComplete[0] = hourOfDay
             timeToComplete[1] = minute
         }
@@ -218,8 +238,12 @@ class ChoreDetailDialog : DialogFragment(),
             choreName = binding.createChoreNameInput.editText?.text.toString(),
             homeId = args.homeModel.UID,
             assignedTo = assignedTo,
+            curAssignee = assignedTo.random(),
+            repeatsEvery = binding.choreRepeatSpinner.selectedItem as RepeatInterval,
+            timeToComplete = timeToComplete.sum(),
             points = ChoreUtil.getPoints(timeToComplete[0], timeToComplete[1]),
-            whenDue = dueTime.time.time
+            whenDue = dueTime.time.time,
+            isTimed = true
         )
 
         Firebase.firestore.collection("homes").document(args.homeModel.UID)
