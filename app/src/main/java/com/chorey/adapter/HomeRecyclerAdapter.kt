@@ -38,11 +38,14 @@ open class HomeRecyclerAdapter(query: Query,
 
             choreModel = snapshot.toObject<ChoreModel>() ?: return
 
+            val lastDue = Calendar.getInstance()
+            lastDue.timeInMillis = choreModel.whenDue!!
+
             // Bind visuals
             binding.choreName.text = choreModel.choreName
             binding.choreAssignee.text = choreModel.curAssignee
             if (choreModel.isTimed) {
-                binding.choreDueDate.text = choreModel.whenDue.toString()
+                binding.choreDueDate.text = lastDue.time.toString()
             } else {
                 binding.choreDueDate.visibility = View.GONE
                 binding.choreDueText.visibility = View.GONE

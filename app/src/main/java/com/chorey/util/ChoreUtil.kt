@@ -28,8 +28,8 @@ object ChoreUtil {
         )
     }
 
-    fun getPoints(hrs : Int, min : Int) : Int {
-        return ((hrs * 60) + min) * POINTS_MULTIPLIER
+    fun getPoints(min : Int) : Int {
+        return min * POINTS_MULTIPLIER
     }
 
     fun updateData(chore:ChoreModel, completedBy: UserModel) : ChoreModel {

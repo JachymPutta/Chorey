@@ -7,6 +7,7 @@
     android:layout_gravity="center"
     android:minWidth="350dp"
     android:minHeight="350dp"
+    android:padding="15dp"
     tools:context=".dialog.ChoreDetailDialog"
     >
 
@@ -39,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:maxWidth="488dp"
-        android:minWidth="250dp"
+        android:minWidth="350dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/createChoreTitle">
@@ -63,7 +64,7 @@
         android:id="@+id/choreDetailAssignedTo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minWidth="300dp"
+        android:minWidth="200dp"
         app:layout_constraintStart_toEndOf="@id/choreDetailAssignedToText"
         app:layout_constraintTop_toTopOf="@id/choreDetailAssignedToText"
         app:layout_constraintBottom_toBottomOf="@id/choreDetailAssignedToText"
@@ -74,10 +75,68 @@
         app:drawableRightCompat="@android:drawable/arrow_down_float" />
 
     <TextView
-        android:id="@+id/choreDetailDueText"
+        android:id="@+id/choreDetailTimeToDoText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/choreDetailAssignedTo"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:text="@string/chore_detail_time_to_complete" />
+
+    <TextView
+        android:id="@+id/choreDetailCompleteTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="@string/chore_detail_due_time_hint"
+        app:layout_constraintBottom_toBottomOf="@id/choreDetailTimeToDoText"
+        app:layout_constraintStart_toEndOf="@id/choreDetailTimeToDoText"
+        app:layout_constraintTop_toTopOf="@id/choreDetailTimeToDoText" />
+
+    <TextView
+        android:id="@+id/choreDetailRewardText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/choreDetailTimeToDoText"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:text="@string/chore_detail_reward" />
+
+    <TextView
+        android:id="@+id/choreDetailPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/choreDetailRewardText"
+        app:layout_constraintBottom_toBottomOf="@id/choreDetailRewardText"
+        app:layout_constraintStart_toEndOf="@id/choreDetailRewardText"
+        android:layout_marginStart="20dp"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/choreDetailIsTimedText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/choreDetailRewardText"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:text="@string/chore_detail_timed_text" />
+
+    <Spinner
+        android:id="@+id/choreIsTimedSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        app:layout_constraintTop_toTopOf="@id/choreDetailIsTimedText"
+        app:layout_constraintBottom_toBottomOf="@id/choreDetailIsTimedText"
+        app:layout_constraintStart_toEndOf="@id/choreDetailIsTimedText"
+        android:spinnerMode="dropdown"
+        />
+
+    <TextView
+        android:id="@+id/choreDetailDueText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/choreDetailIsTimedText"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="20dp"
         android:text="@string/chore_detail_due_text" />
@@ -119,13 +178,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/choreDetailDueText"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="327dp"
         android:text="@string/chore_detail_repeats_text"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/choreDetailDueText" />
 
     <Spinner
-        android:id="@+id/choreRepeatSpinner"
+        android:id="@+id/choreIntervalSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -135,54 +194,16 @@
         android:spinnerMode="dropdown"
         />
 
-    <TextView
-        android:id="@+id/choreDetailTimeToDoText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/choreRepeatText"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="20dp"
-        android:text="@string/chore_detail_time_to_complete" />
-
-
-    <TextView
-        android:id="@+id/choreDetailCompleteTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:text="@string/chore_detail_due_time_hint"
-        app:layout_constraintBottom_toBottomOf="@id/choreDetailTimeToDoText"
-        app:layout_constraintStart_toEndOf="@id/choreDetailTimeToDoText"
-        app:layout_constraintTop_toTopOf="@id/choreDetailTimeToDoText" />
-
-    <TextView
-        android:id="@+id/choreDetailRewardText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/choreDetailTimeToDoText"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="20dp"
-        android:text="@string/chore_detail_reward" />
-
-    <TextView
-        android:id="@+id/choreDetailPoints"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/choreDetailRewardText"
-        app:layout_constraintBottom_toBottomOf="@id/choreDetailRewardText"
-        app:layout_constraintStart_toEndOf="@id/choreDetailRewardText"
-        android:layout_marginStart="20dp"
-        android:text="" />
 
     <LinearLayout
         android:id="@+id/createChoreButtonLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:orientation="horizontal"
-        >
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/choreRepeatText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/createChoreRemoveButton"

@@ -13,9 +13,11 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.TimePicker
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.navArgs
 import com.chorey.R
@@ -44,7 +46,7 @@ class ChoreDetailDialog : DialogFragment(),
     private lateinit var state: State
     private lateinit var assignedTo: ArrayList<String>
 
-    private val timeToComplete = arrayOf(0,0)
+    private var timeToComplete = 0
     private val dueTime = Calendar.getInstance()
 
     enum class State {
@@ -66,9 +68,6 @@ class ChoreDetailDialog : DialogFragment(),
         assignedTo = args.choreModel?.assignedTo ?: arrayListOf()
         state = if (args.choreModel == null) { State.CREATE } else { State.VIEW }
 
-        changeUI(state)
-
-
         binding.createChoreCancelButton.setOnClickListener { onCancelClicked() }
         binding.choreDetailAssignedTo.setOnClickListener { onAssignClicked() }
         binding.createChoreRemoveButton.setOnClickListener { onRemoveClicked() }
@@ -78,16 +77,38 @@ class ChoreDetailDialog : DialogFragment(),
         binding.choreDetailDueTime.setOnClickListener { onTimePickerClicked() }
         binding.choreDetailCompleteTime.setOnClickListener { onCompleteTimeClicked() }
 
-        // Hook up spinner
+        // Hook up spinners
         val repeatAdapter = ArrayAdapter(requireContext(), R.layout.chore_spinner_item, RepeatInterval.values())
+        val timedAdapter = ArrayAdapter(requireContext(), R.layout.chore_spinner_item, arrayOf("No", "Yes"))
         repeatAdapter.setDropDownViewResource(R.layout.chore_spinner_dropdown)
-        binding.choreRepeatSpinner.adapter = repeatAdapter
+        timedAdapter.setDropDownViewResource(R.layout.chore_spinner_dropdown)
+        binding.choreIntervalSpinner.adapter = repeatAdapter
+        binding.choreIsTimedSpinner.adapter = timedAdapter
+
+        changeUI(state)
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        binding.choreIsTimedSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+                when (pos) {
+                    SPINNER_NO -> toggleTimeUI(GONE)
+                    SPINNER_YES -> toggleTimeUI(VISIBLE)
+                }
+            }
+
+            // Don't need this to do anything, since default is NO
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
 
     private fun changeUI(state: State) {
         // TODO - the input fields need to be disabled -> global variable?
@@ -112,19 +133,21 @@ class ChoreDetailDialog : DialogFragment(),
                     val lastDue = Calendar.getInstance()
                     lastDue.timeInMillis = choreModel.whenDue!!
                     val id = RepeatInterval.values().indexOf(choreModel.repeatsEvery)
-                    binding.choreDetailDueDate.text = getDateFormat(requireContext()).format(lastDue)
-                    binding.choreDetailDueTime.text = getTimeFormat(requireContext()).format(lastDue)
-                    binding.choreRepeatSpinner.setSelection(id)
+                    binding.choreDetailDueDate.text = getDateFormat(requireContext()).format(lastDue.time)
+                    binding.choreDetailDueTime.text = getTimeFormat(requireContext()).format(lastDue.time)
+                    binding.choreIntervalSpinner.setSelection(id)
+                    binding.choreIsTimedSpinner.setSelection(SPINNER_YES)
+
+                    toggleTimeUI(VISIBLE)
                 } else {
-                    binding.choreDetailAt.visibility = GONE
-                    binding.choreDetailDueTime.visibility = GONE
-                    binding.choreDetailDueDate.setText(R.string.chore_detail_due_untimed)
+                    toggleTimeUI(GONE)
                 }
 
                 // Fill in existing data
                 binding.createChoreNameInput.editText!!.setText(choreModel.choreName)
                 binding.choreDetailAssignedTo.text = choreModel.assignedTo.joinToString()
                 binding.choreDetailCompleteTime.text = choreModel.timeToComplete.toString()
+                binding.choreDetailPoints.text = choreModel.points.toString()
 
                 // Visual Changes
                 binding.createChoreRemoveButton.visibility = VISIBLE
@@ -173,17 +196,18 @@ class ChoreDetailDialog : DialogFragment(),
     }
 
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-        val time = String.format("$hourOfDay:$minute")
+        val timeString = String.format("$hourOfDay:$minute")
+        val timeVal = hourOfDay * 60 + minute
 
         if (picker == TIME_PICKER) {
-            binding.choreDetailDueTime.text = time
+            binding.choreDetailDueTime.text = timeString
             dueTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
             dueTime.set(Calendar.MINUTE, minute)
         } else if (picker == COMPLETE_PICKER) {
-            binding.choreDetailCompleteTime.text = time
-            binding.choreDetailPoints.text = ChoreUtil.getPoints(hourOfDay,minute).toString()
-            timeToComplete[0] = hourOfDay
-            timeToComplete[1] = minute
+
+            binding.choreDetailCompleteTime.text = timeVal.toString()
+            binding.choreDetailPoints.text = ChoreUtil.getPoints(timeVal).toString()
+            timeToComplete = timeVal
         }
     }
     /**********************************************************************************************/
@@ -229,9 +253,7 @@ class ChoreDetailDialog : DialogFragment(),
         // Take existing or create new
         val uid = args.choreModel?.UID ?: UUID.randomUUID().toString()
 
-        // TODO: this needs to return out of the function
-        checkChoreInput()
-        // TODO: Need to assemble the times and convert them to a long for storage
+        if (!checkChoreInput()) return
 
         val choreModel = ChoreModel(
             UID = uid,
@@ -239,12 +261,13 @@ class ChoreDetailDialog : DialogFragment(),
             homeId = args.homeModel.UID,
             assignedTo = assignedTo,
             curAssignee = assignedTo.random(),
-            repeatsEvery = binding.choreRepeatSpinner.selectedItem as RepeatInterval,
-            timeToComplete = timeToComplete.sum(),
-            points = ChoreUtil.getPoints(timeToComplete[0], timeToComplete[1]),
+            repeatsEvery = binding.choreIntervalSpinner.selectedItem as RepeatInterval,
+            timeToComplete = timeToComplete,
+            points = ChoreUtil.getPoints(timeToComplete),
             whenDue = dueTime.time.time,
-            isTimed = true
+            isTimed = binding.choreIsTimedSpinner.selectedItemId.toInt() == SPINNER_YES
         )
+        Toast.makeText(requireContext(), "IsTimed = ${choreModel.isTimed}", Toast.LENGTH_LONG).show()
 
         Firebase.firestore.collection("homes").document(args.homeModel.UID)
             .collection("chores").document(choreModel.UID).set(choreModel)
@@ -266,11 +289,20 @@ class ChoreDetailDialog : DialogFragment(),
             .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
 
         dismiss()
-
     }
 
-    private fun checkChoreInput() {
-        // TODO: Non-empty inputs etc
+    private fun checkChoreInput() : Boolean {
+        // TODO: Non-empty inputs etc - show what's missing in a dialog
+        return true
+    }
+
+    private fun toggleTimeUI(state : Int) {
+        binding.choreDetailDueText.visibility = state
+        binding.choreDetailDueDate.visibility = state
+        binding.choreDetailAt.visibility = state
+        binding.choreDetailDueTime.visibility = state
+        binding.choreRepeatText.visibility = state
+        binding.choreIntervalSpinner.visibility = state
     }
 
 
@@ -278,6 +310,8 @@ class ChoreDetailDialog : DialogFragment(),
         const val TAG = "CreateChoreDialog"
         const val TIME_PICKER = 1
         const val COMPLETE_PICKER = 2
+        const val SPINNER_YES = 1
+        const val SPINNER_NO = 0
     }
 
 

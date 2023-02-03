@@ -13,7 +13,7 @@ data class ChoreModel(
     var homeId: String = "home_name",
     var isTimed: Boolean = false,
     var whenDue : Long? = null,
-    var timeToComplete : Int = ChoreUtil.getPoints(0, 0),
+    var timeToComplete : Int = 0,
     var assignedTo: ArrayList<String> = arrayListOf(),
     var curAssignee: String = "",
     var points: Int = 0,

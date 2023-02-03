@@ -5,6 +5,8 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
@@ -85,21 +87,17 @@ class HomeFragment : Fragment(),
             this@HomeFragment, viewModel.user!!) {
             override fun onDataChanged() {
                 if (itemCount == 0) {
-//                    binding.allChoresRecycler.visibility = View.GONE
-                    binding.noChoresLeftText.visibility = View.VISIBLE
+                    binding.noChoresLeftText.visibility = VISIBLE
                 } else {
-//                    binding.allChoresRecycler.visibility = View.VISIBLE
-                    binding.noChoresLeftText.visibility = View.GONE
+                    binding.noChoresLeftText.visibility = GONE
                 }
             }
         }
 
         noteAdapter = NoteRecyclerAdapter(noteQuery, this@HomeFragment)
-//        binding.allChoresRecycler.adapter = noteAdapter
-//        binding.allChoresRecycler.layoutManager = GridLayoutManager(view.context, NOTE_COLUMN_CNT)
 
-
-        binding.root.visibility = View.GONE
+        // TODO: Instead of this, have the Home name and stuff as "Loading... " or something
+        binding.root.visibility = GONE
 
         binding.allChoresRecycler.adapter = hrvAdapter
         binding.allChoresRecycler.layoutManager = LinearLayoutManager(view.context)
@@ -176,23 +174,10 @@ class HomeFragment : Fragment(),
        if (curFrag == nextFrag) {
            return
        }
-        when (curFrag) {
-            CurFrag.HOME -> {
-                binding.allChoresRecycler.visibility = View.GONE
-                binding.noChoresLeftText.visibility = View.GONE
-                binding.addChoreButton.visibility = View.GONE
-            }
-            CurFrag.SUMMARY -> binding.homeRecyclerTitle.text = ""
-            CurFrag.BOARD -> binding.homeRecyclerTitle.text = ""
-        }
 
         when (nextFrag) {
             CurFrag.HOME -> {
                 binding.homeRecyclerTitle.setText(R.string.home_all_chores_text)
-                binding.allChoresRecycler.visibility = View.VISIBLE
-                binding.noChoresLeftText.visibility = View.VISIBLE
-                binding.addChoreButton.visibility = View.VISIBLE
-
                 binding.allChoresRecycler.adapter = hrvAdapter
                 binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
 
@@ -203,11 +188,9 @@ class HomeFragment : Fragment(),
             CurFrag.BOARD -> {
                 binding.homeRecyclerTitle.text = "Notice board"
 
-                binding.allChoresRecycler.visibility = View.VISIBLE
                 binding.allChoresRecycler.adapter = noteAdapter
                 binding.allChoresRecycler.layoutManager = GridLayoutManager(requireView().context, NOTE_COLUMN_CNT)
 
-                binding.addChoreButton.visibility = View.VISIBLE
                 binding.addChoreButton.setText(R.string.add_note_button)
                 binding.addChoreButton.setOnClickListener { addNoteHandle() }
             }
@@ -235,6 +218,12 @@ class HomeFragment : Fragment(),
         home = homeModel
         binding.homeName.text = homeModel.homeName
         binding.root.visibility = View.VISIBLE
+    }
+
+    private fun toggleRecycler(state : Int) {
+        binding.allChoresRecycler.visibility = state
+        binding.noChoresLeftText.visibility = state
+        binding.addChoreButton.visibility = state
     }
 
     companion object {
