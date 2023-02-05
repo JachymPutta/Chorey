@@ -83,15 +83,30 @@
         android:layout_marginTop="20dp"
         android:text="@string/chore_detail_time_to_complete" />
 
-    <TextView
-        android:id="@+id/choreDetailCompleteTime"
+
+<!--    <TextView-->
+<!--        android:id="@+id/choreDetailCompleteTime"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="20dp"-->
+<!--        android:text="@string/chore_detail_due_time_hint"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/choreDetailTimeToDoText"-->
+<!--        app:layout_constraintStart_toEndOf="@id/choreDetailTimeToDoText"-->
+<!--        app:layout_constraintTop_toTopOf="@id/choreDetailTimeToDoText" />-->
+
+    <EditText
+        android:id="@+id/choreDetailMinsToComplete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:ems="3"
+        android:inputType="number"
+        android:hint=""
         android:layout_marginStart="20dp"
-        android:text="@string/chore_detail_due_time_hint"
         app:layout_constraintBottom_toBottomOf="@id/choreDetailTimeToDoText"
         app:layout_constraintStart_toEndOf="@id/choreDetailTimeToDoText"
-        app:layout_constraintTop_toTopOf="@id/choreDetailTimeToDoText" />
+        app:layout_constraintTop_toTopOf="@id/choreDetailTimeToDoText"
+        android:importantForAutofill="no"
+        tools:ignore="LabelFor" />
 
     <TextView
         android:id="@+id/choreDetailRewardText"

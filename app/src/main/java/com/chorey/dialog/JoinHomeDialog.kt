@@ -118,9 +118,7 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
         firestore.runTransaction {
             val snap = it.get(homeRef)
             @Suppress("UNCHECKED_CAST")
-            val members : ArrayList<String> = snap["users"] as ArrayList<String>
-            members.add(viewModel.user!!.name)
-            members.add("This is a test")
+            val members = snap["users"] as Map<String, Int> + (viewModel.user!!.name to 0)
 
             it.update(homeRef, "users", members)
             null

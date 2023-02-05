@@ -46,7 +46,6 @@ class ChoreDetailDialog : DialogFragment(),
     private lateinit var state: State
     private lateinit var assignedTo: ArrayList<String>
 
-    private var timeToComplete = 0
     private val dueTime = Calendar.getInstance()
 
     enum class State {
@@ -75,7 +74,7 @@ class ChoreDetailDialog : DialogFragment(),
         // TODO: this needs to get disabled when viewing
         binding.choreDetailDueDate.setOnClickListener { onDatePickerClicked() }
         binding.choreDetailDueTime.setOnClickListener { onTimePickerClicked() }
-        binding.choreDetailCompleteTime.setOnClickListener { onCompleteTimeClicked() }
+//        binding.choreDetailCompleteTime.setOnClickListener { onCompleteTimeClicked() }
 
         // Hook up spinners
         val repeatAdapter = ArrayAdapter(requireContext(), R.layout.chore_spinner_item, RepeatInterval.values())
@@ -146,7 +145,7 @@ class ChoreDetailDialog : DialogFragment(),
                 // Fill in existing data
                 binding.createChoreNameInput.editText!!.setText(choreModel.choreName)
                 binding.choreDetailAssignedTo.text = choreModel.assignedTo.joinToString()
-                binding.choreDetailCompleteTime.text = choreModel.timeToComplete.toString()
+//                binding.choreDetailCompleteTime.text = choreModel.timeToComplete.toString()
                 binding.choreDetailPoints.text = choreModel.points.toString()
 
                 // Visual Changes
@@ -163,9 +162,9 @@ class ChoreDetailDialog : DialogFragment(),
      * Timing stuff
      **********************************************************************************************/
     private fun onDatePickerClicked() {
-        val mYear = dueTime.get(Calendar.YEAR);
-        val mMonth = dueTime.get(Calendar.MONTH);
-        val mDay = dueTime.get(Calendar.DAY_OF_MONTH);
+        val mYear = dueTime.get(Calendar.YEAR)
+        val mMonth = dueTime.get(Calendar.MONTH)
+        val mDay = dueTime.get(Calendar.DAY_OF_MONTH)
 
        DatePickerDialog(requireContext(), this, mYear, mMonth, mDay).show()
     }
@@ -197,17 +196,12 @@ class ChoreDetailDialog : DialogFragment(),
 
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
         val timeString = String.format("$hourOfDay:$minute")
-        val timeVal = hourOfDay * 60 + minute
 
+        // This is here so I know how to add multiple time pickers if I need
         if (picker == TIME_PICKER) {
             binding.choreDetailDueTime.text = timeString
             dueTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
             dueTime.set(Calendar.MINUTE, minute)
-        } else if (picker == COMPLETE_PICKER) {
-
-            binding.choreDetailCompleteTime.text = timeVal.toString()
-            binding.choreDetailPoints.text = ChoreUtil.getPoints(timeVal).toString()
-            timeToComplete = timeVal
         }
     }
     /**********************************************************************************************/
@@ -217,7 +211,7 @@ class ChoreDetailDialog : DialogFragment(),
      */
     private fun onAssignClicked() {
         val builder = AlertDialog.Builder(requireContext())
-        val userArray : Array<String> = args.homeModel.users.toTypedArray()
+        val userArray : Array<String> = args.homeModel.users.keys.toTypedArray()
         val selectedUsers : ArrayList<String> = arrayListOf()
         val selectionArray = BooleanArray(args.homeModel.users.size)
 
@@ -250,14 +244,16 @@ class ChoreDetailDialog : DialogFragment(),
     }
 
     private fun onCreateClicked() {
-        // Take existing or create new
-        val uid = args.choreModel?.UID ?: UUID.randomUUID().toString()
 
         if (!checkChoreInput()) return
 
+        val uid = args.choreModel?.UID ?: UUID.randomUUID().toString()
+        val choreName = binding.createChoreNameInput.editText?.text.toString()
+        val timeToComplete = binding.choreDetailMinsToComplete.text.toString().toInt()
+
         val choreModel = ChoreModel(
             UID = uid,
-            choreName = binding.createChoreNameInput.editText?.text.toString(),
+            choreName = choreName,
             homeId = args.homeModel.UID,
             assignedTo = assignedTo,
             curAssignee = assignedTo.random(),
@@ -267,7 +263,6 @@ class ChoreDetailDialog : DialogFragment(),
             whenDue = dueTime.time.time,
             isTimed = binding.choreIsTimedSpinner.selectedItemId.toInt() == SPINNER_YES
         )
-        Toast.makeText(requireContext(), "IsTimed = ${choreModel.isTimed}", Toast.LENGTH_LONG).show()
 
         Firebase.firestore.collection("homes").document(args.homeModel.UID)
             .collection("chores").document(choreModel.UID).set(choreModel)

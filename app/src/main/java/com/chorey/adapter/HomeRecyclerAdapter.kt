@@ -10,6 +10,7 @@ import com.chorey.data.UserModel
 import com.chorey.databinding.HomeRecyclerRowBinding
 import com.chorey.util.ChoreUtil
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -67,13 +68,7 @@ open class HomeRecyclerAdapter(query: Query,
     }
 
     private fun onDoneClicked(snapshot: DocumentSnapshot) {
-        // TODO: this needs to update the points, the user assigned etc
-        //TODO: update the db
-        val lastCompleted = choreModel.curAssignee
         val newChore = ChoreUtil.updateData(choreModel.copy(), user)
-
-
-        // Update the home variables
         val homeRef = Firebase.firestore.collection("homes").document(choreModel.homeId)
         val choreRef = homeRef.collection("chores").document(choreModel.UID)
 
@@ -81,7 +76,7 @@ open class HomeRecyclerAdapter(query: Query,
         Firebase.firestore.runBatch {
 
             // Handle points
-            it.update(homeRef, "points", user.points)
+            it.update(homeRef, "users.${user.name}", FieldValue.increment(choreModel.points.toLong()))
 
             // If non repeating -> delete, else update due date
             when(choreModel.repeatsEvery) {

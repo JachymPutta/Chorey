@@ -89,7 +89,7 @@
     <string name="chore_detail_due_time_hint">Select Time</string>
     <string name="chore_detail_repeats_text">Repeats?</string>
     <string name="chore_detail_at">at</string>
-    <string name="chore_detail_time_to_complete">Time to complete:</string>
+    <string name="chore_detail_time_to_complete">Minutes to complete task:</string>
     <string name="chore_detail_reward">Reward:</string>
 
     <!-- Add Member Dialog -->
