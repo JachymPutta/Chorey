@@ -97,7 +97,7 @@ class HomeFragment : Fragment(),
         noteAdapter = NoteRecyclerAdapter(noteQuery, this@HomeFragment)
 
         // TODO: Instead of this, have the Home name and stuff as "Loading... " or something
-        binding.root.visibility = GONE
+        binding.frameLayout.visibility = GONE
 
         binding.allChoresRecycler.adapter = hrvAdapter
         binding.allChoresRecycler.layoutManager = LinearLayoutManager(view.context)
@@ -217,7 +217,9 @@ class HomeFragment : Fragment(),
 
         home = homeModel
         binding.homeName.text = homeModel.homeName
-        binding.root.visibility = View.VISIBLE
+        binding.frameLayout.visibility = VISIBLE
+        binding.homeLoadingText.visibility = GONE
+
     }
 
     private fun toggleRecycler(state : Int) {

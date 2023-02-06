@@ -52,7 +52,7 @@ class CreateHomeDialog : DialogFragment() {
             UID = UUID.randomUUID().toString(),
             homeName = binding.createHomeNameInput.editText?.text.toString(),
             //TODO: Added random users for testing
-            users = mapOf(user!!.name to 0, "Lazy User" to 100, "Busy User" to 300)
+            users = arrayListOf(user!!.name, "Lazy User", "Busy User")
         )
 
         Firebase.firestore.collection("homes").document(home.UID).set(home)

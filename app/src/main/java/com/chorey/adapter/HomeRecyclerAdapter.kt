@@ -71,12 +71,13 @@ open class HomeRecyclerAdapter(query: Query,
         val newChore = ChoreUtil.updateData(choreModel.copy(), user)
         val homeRef = Firebase.firestore.collection("homes").document(choreModel.homeId)
         val choreRef = homeRef.collection("chores").document(choreModel.UID)
+        val userRef = homeRef.collection("users").document(user.UID)
 
         // Write the stuff in a batch
         Firebase.firestore.runBatch {
 
             // Handle points
-            it.update(homeRef, "users.${user.name}", FieldValue.increment(choreModel.points.toLong()))
+            it.update(userRef, "points", FieldValue.increment(choreModel.points.toLong()))
 
             // If non repeating -> delete, else update due date
             when(choreModel.repeatsEvery) {

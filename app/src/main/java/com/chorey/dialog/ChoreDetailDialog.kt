@@ -4,6 +4,8 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.text.format.DateFormat.getDateFormat
 import android.text.format.DateFormat.getTimeFormat
 import android.text.format.DateFormat.is24HourFormat
@@ -83,6 +85,22 @@ class ChoreDetailDialog : DialogFragment(),
         timedAdapter.setDropDownViewResource(R.layout.chore_spinner_dropdown)
         binding.choreIntervalSpinner.adapter = repeatAdapter
         binding.choreIsTimedSpinner.adapter = timedAdapter
+
+        binding.choreDetailMinsToComplete.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (s.isEmpty()) {
+                    binding.choreDetailPoints.text = "0"
+                } else {
+                    binding.choreDetailPoints.text = ChoreUtil.getPoints(s.toString().toInt()).toString()
+
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int,
+                                       before: Int, count: Int) {
+//                binding.choreDetailPoints.text = ChoreUtil.getPoints(s.toString().toInt()).toString()
+            }
+        })
 
         changeUI(state)
     }
@@ -211,7 +229,7 @@ class ChoreDetailDialog : DialogFragment(),
      */
     private fun onAssignClicked() {
         val builder = AlertDialog.Builder(requireContext())
-        val userArray : Array<String> = args.homeModel.users.keys.toTypedArray()
+        val userArray : Array<String> = args.homeModel.users.toTypedArray()
         val selectedUsers : ArrayList<String> = arrayListOf()
         val selectionArray = BooleanArray(args.homeModel.users.size)
 

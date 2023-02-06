@@ -84,16 +84,6 @@
         android:text="@string/chore_detail_time_to_complete" />
 
 
-<!--    <TextView-->
-<!--        android:id="@+id/choreDetailCompleteTime"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="20dp"-->
-<!--        android:text="@string/chore_detail_due_time_hint"-->
-<!--        app:layout_constraintBottom_toBottomOf="@id/choreDetailTimeToDoText"-->
-<!--        app:layout_constraintStart_toEndOf="@id/choreDetailTimeToDoText"-->
-<!--        app:layout_constraintTop_toTopOf="@id/choreDetailTimeToDoText" />-->
-
     <EditText
         android:id="@+id/choreDetailMinsToComplete"
         android:layout_width="wrap_content"
@@ -125,7 +115,7 @@
         app:layout_constraintBottom_toBottomOf="@id/choreDetailRewardText"
         app:layout_constraintStart_toEndOf="@id/choreDetailRewardText"
         android:layout_marginStart="20dp"
-        android:text="" />
+        android:text="@string/home_item_zero" />
 
     <TextView
         android:id="@+id/choreDetailIsTimedText"
