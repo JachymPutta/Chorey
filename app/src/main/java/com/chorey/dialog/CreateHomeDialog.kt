@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.chorey.data.HomeModel
+import com.chorey.data.HomeUserModel
 import com.chorey.databinding.DialogCreateHomeBinding
 import com.chorey.util.HomeUtil
 import com.chorey.viewmodel.LoginViewModel
@@ -42,6 +43,7 @@ class CreateHomeDialog : DialogFragment() {
 
     private fun onCreateClicked() {
         val user = loginViewModel.user
+        val db = Firebase.firestore
 
         if (binding.createHomeNameInput.editText?.text.isNullOrBlank()) {
             Toast.makeText(activity, "Please Enter Name", Toast.LENGTH_SHORT).show()
@@ -51,11 +53,15 @@ class CreateHomeDialog : DialogFragment() {
         val home = HomeModel(
             UID = UUID.randomUUID().toString(),
             homeName = binding.createHomeNameInput.editText?.text.toString(),
-            //TODO: Added random users for testing
-            users = arrayListOf(user!!.name, "Lazy User", "Busy User")
+            users = arrayListOf(user!!.name)
         )
+        val homeUserModel = HomeUserModel(name = user.name)
+        val homeRef = db.collection("homes").document(home.UID)
 
-        Firebase.firestore.collection("homes").document(home.UID).set(home)
+        db.runBatch {
+            it.set(homeRef, home)
+            it.set(homeRef.collection("users").document(user.name), homeUserModel)
+        }
 
         dismiss()
     }

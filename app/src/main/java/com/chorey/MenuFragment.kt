@@ -16,7 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chorey.adapter.MenuRecyclerAdapter
 import com.chorey.data.HomeModel
-import com.chorey.data.UserModel
+import com.chorey.data.LoggedUserModel
 import com.chorey.databinding.FragmentMenuBinding
 import com.chorey.dialog.AddHomeDialog
 import com.chorey.dialog.ConfirmRemoveDialog
@@ -213,7 +213,7 @@ class MenuFragment : Fragment(),
                 if (!ds.exists()) {
                     getUserNameDialog()
                 } else {
-                    viewModel.user = ds.toObject<UserModel>()
+                    viewModel.user = ds.toObject<LoggedUserModel>()
                 }
             }
             .addOnFailureListener {
@@ -240,12 +240,12 @@ class MenuFragment : Fragment(),
                 if (nameInput.text.toString().isBlank()) {
                     Toast.makeText(requireContext(), "Please input a name.", Toast.LENGTH_SHORT).show()
                 } else {
-                    val userModel = UserModel(
+                    val loggedUserModel = LoggedUserModel(
                         UID = Firebase.auth.currentUser!!.uid,
                         name = nameInput.text.toString()
                     )
-                    viewModel.user = userModel
-                    firestore.collection("users").document(userModel.UID).set(userModel)
+                    viewModel.user = loggedUserModel
+                    firestore.collection("users").document(loggedUserModel.UID).set(loggedUserModel)
                     dialog.dismiss()
                 }
             }

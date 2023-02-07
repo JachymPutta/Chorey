@@ -11,7 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.chorey.data.HomeModel
 import com.chorey.data.InviteModel
-import com.chorey.data.UserModel
+import com.chorey.data.LoggedUserModel
 import com.chorey.databinding.DialogAddMemberBinding
 import com.chorey.viewmodel.LoginViewModel
 import com.google.firebase.firestore.FirebaseFirestore
@@ -73,15 +73,15 @@ class AddMemberDialog : DialogFragment() {
                     success = false
                 } else {
                     // There will only ever be one name
-                    val destUserModel = snap.documents[0].toObject<UserModel>()
-                    val invites = destUserModel!!.invites
+                    val destLoggedUserModel = snap.documents[0].toObject<LoggedUserModel>()
+                    val invites = destLoggedUserModel!!.invites
 
                     if (invites.contains(invite)) {
                         Toast.makeText(requireContext(), "$dest already invited!", Toast.LENGTH_LONG).show()
                         success = false
                     } else {
                         invites.add(invite)
-                        firestore.collection("users").document(destUserModel.UID)
+                        firestore.collection("users").document(destLoggedUserModel.UID)
                             .collection("invites").add(invite)
                     }
                 }

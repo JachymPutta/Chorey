@@ -15,8 +15,9 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chorey.data.HomeModel
-import com.chorey.adapter.HomeRecyclerAdapter
+import com.chorey.adapter.ChoreRecyclerAdapter
 import com.chorey.adapter.NoteRecyclerAdapter
+import com.chorey.adapter.SummaryRecyclerAdapter
 import com.chorey.data.ChoreModel
 import com.chorey.data.NoteModel
 import com.chorey.databinding.FragmentHomeBinding
@@ -38,16 +39,20 @@ import com.google.firebase.ktx.Firebase
  */
 class HomeFragment : Fragment(),
     EventListener<DocumentSnapshot>,
-    HomeRecyclerAdapter.OnChoreSelectedListener,
-    NoteRecyclerAdapter.OnNoteSelectedListener {
+    ChoreRecyclerAdapter.OnChoreSelectedListener,
+    NoteRecyclerAdapter.OnNoteSelectedListener,
+    SummaryRecyclerAdapter.OnSummarySelectedListener {
 
     private val args: HomeFragmentArgs by navArgs()
     private val viewModel by activityViewModels<LoginViewModel>()
     private lateinit var home : HomeModel
 
     private lateinit var homeRef: DocumentReference
-    private lateinit var hrvAdapter: HomeRecyclerAdapter
+
+    private lateinit var hrvAdapter: ChoreRecyclerAdapter
     private lateinit var noteAdapter: NoteRecyclerAdapter
+    private lateinit var summaryAdapter: SummaryRecyclerAdapter
+
 
     private lateinit var firestore: FirebaseFirestore
     private lateinit var binding: FragmentHomeBinding
@@ -82,8 +87,9 @@ class HomeFragment : Fragment(),
 
         val choreQuery: Query = homeRef.collection("chores")
         val noteQuery: Query = homeRef.collection("notes")
+        val summaryQuery : Query = homeRef.collection("users")
 
-        hrvAdapter = object : HomeRecyclerAdapter(choreQuery,
+        hrvAdapter = object : ChoreRecyclerAdapter(choreQuery,
             this@HomeFragment, viewModel.user!!) {
             override fun onDataChanged() {
                 if (itemCount == 0) {
@@ -95,6 +101,7 @@ class HomeFragment : Fragment(),
         }
 
         noteAdapter = NoteRecyclerAdapter(noteQuery, this@HomeFragment)
+        summaryAdapter = SummaryRecyclerAdapter(summaryQuery, this@HomeFragment)
 
         // TODO: Instead of this, have the Home name and stuff as "Loading... " or something
         binding.frameLayout.visibility = GONE
@@ -146,7 +153,6 @@ class HomeFragment : Fragment(),
     override fun onChoreSelected(chore: DocumentSnapshot) {
         val action = HomeFragmentDirections.actionHomeFragmentToCreateChoreDialog(home).apply {
             choreModel = chore.toObject<ChoreModel>()
-//            Toast.makeText(activity, "Chore UID is ${choreModel!!.UID}", Toast.LENGTH_LONG).show()
         }
         findNavController().navigate(action)
     }
@@ -160,6 +166,10 @@ class HomeFragment : Fragment(),
             noteModel = note.toObject<NoteModel>()
         }
         findNavController().navigate(action)
+    }
+
+    override fun onSummarySelected(summary: DocumentSnapshot) {
+        // TODO: should this do something?
     }
 
     private fun addMemberHandle() {
@@ -184,7 +194,11 @@ class HomeFragment : Fragment(),
                 binding.addChoreButton.setText(R.string.add_chore_button)
                 binding.addChoreButton.setOnClickListener { addChoreHandle() }
             }
-            CurFrag.SUMMARY -> binding.homeRecyclerTitle.text = "Summary"
+            CurFrag.SUMMARY -> {
+                binding.homeRecyclerTitle.setText(R.string.home_icon_desc)
+                binding.allChoresRecycler.adapter = summaryAdapter
+                binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
+            }
             CurFrag.BOARD -> {
                 binding.homeRecyclerTitle.text = "Notice board"
 

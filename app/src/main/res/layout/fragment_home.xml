@@ -141,7 +141,7 @@
             android:layout_weight="1"
             style="?android:attr/buttonBarButtonStyle"
             android:drawableTop="@mipmap/home_icon"
-            android:text="@string/home_to_menu_button" />
+            android:text="@string/home_icon_desc" />
 
         <Button
             android:id="@+id/homeSummaryButton"

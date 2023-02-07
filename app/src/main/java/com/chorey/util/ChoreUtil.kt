@@ -6,7 +6,7 @@ import com.chorey.R
 import com.chorey.RANDOM_SEED
 import com.chorey.data.ChoreModel
 import com.chorey.data.RepeatInterval
-import com.chorey.data.UserModel
+import com.chorey.data.LoggedUserModel
 import java.util.Calendar
 import java.util.UUID
 import kotlin.random.Random
@@ -32,7 +32,7 @@ object ChoreUtil {
         return min * POINTS_MULTIPLIER
     }
 
-    fun updateData(chore:ChoreModel, completedBy: UserModel) : ChoreModel {
+    fun updateData(chore:ChoreModel, completedBy: LoggedUserModel) : ChoreModel {
 
         updateTime(chore)
         updateAssignment(chore, completedBy)
@@ -54,7 +54,7 @@ object ChoreUtil {
         oldChore.whenDue = calendar.timeInMillis
     }
 
-    private fun updateAssignment(chore : ChoreModel, completedBy: UserModel) {
+    private fun updateAssignment(chore : ChoreModel, completedBy: LoggedUserModel) {
         if (chore.curAssignee == completedBy.name) {
             val oldId = chore.assignedTo.indexOf(chore.curAssignee)
             val newAssignee = chore.assignedTo[(oldId + 1) % chore.curAssignee.length]

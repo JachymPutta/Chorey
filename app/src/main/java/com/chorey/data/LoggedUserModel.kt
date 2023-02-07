@@ -1,6 +1,6 @@
 package com.chorey.data
 
-data class UserModel(
+data class LoggedUserModel(
     var UID : String = "",
     var name : String = "",
     var points : Long = 0,

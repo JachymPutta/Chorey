@@ -76,7 +76,6 @@ class ChoreDetailDialog : DialogFragment(),
         // TODO: this needs to get disabled when viewing
         binding.choreDetailDueDate.setOnClickListener { onDatePickerClicked() }
         binding.choreDetailDueTime.setOnClickListener { onTimePickerClicked() }
-//        binding.choreDetailCompleteTime.setOnClickListener { onCompleteTimeClicked() }
 
         // Hook up spinners
         val repeatAdapter = ArrayAdapter(requireContext(), R.layout.chore_spinner_item, RepeatInterval.values())
@@ -96,10 +95,7 @@ class ChoreDetailDialog : DialogFragment(),
                 }
             }
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int,
-                                       before: Int, count: Int) {
-//                binding.choreDetailPoints.text = ChoreUtil.getPoints(s.toString().toInt()).toString()
-            }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         })
 
         changeUI(state)
@@ -203,13 +199,6 @@ class ChoreDetailDialog : DialogFragment(),
 
         picker = TIME_PICKER
         TimePickerDialog(activity, this, hour, minute, is24HourFormat(activity)).show()
-    }
-
-    private fun onCompleteTimeClicked() {
-        picker = COMPLETE_PICKER
-        val dialog = TimePickerDialog(activity, this, 0, 0, true)
-        dialog.setTitle("Time to complete the task")
-        dialog.show()
     }
 
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
@@ -322,7 +311,6 @@ class ChoreDetailDialog : DialogFragment(),
     companion object {
         const val TAG = "CreateChoreDialog"
         const val TIME_PICKER = 1
-        const val COMPLETE_PICKER = 2
         const val SPINNER_YES = 1
         const val SPINNER_NO = 0
     }

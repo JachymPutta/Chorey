@@ -45,7 +45,7 @@
         <string name="chore_item_due">Time</string>
         <string name="chore_item_completed">Done</string>
         <!-- Bottom navigation -->
-        <string name="home_icon_desc">Home</string>
+    <string name="home_icon_desc">Chores</string>
         <string name="notice_board_icon_desc">Board</string>
         <string name="summary_icon_desc">Summary</string>
 

@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chorey.data.ChoreModel
 import com.chorey.data.RepeatInterval
-import com.chorey.data.UserModel
+import com.chorey.data.LoggedUserModel
 import com.chorey.databinding.HomeRecyclerRowBinding
 import com.chorey.util.ChoreUtil
 import com.google.firebase.firestore.DocumentSnapshot
@@ -16,16 +16,15 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import java.util.Calendar
-import java.util.Date
 
 /**
  * Handles the list of all chores in each of the homes.
  * @param query : DB query to get all the chores for a home
  */
-open class HomeRecyclerAdapter(query: Query,
-                               private val listener: OnChoreSelectedListener,
-                               private val user : UserModel)
-    : FirestoreAdapter<HomeRecyclerAdapter.ViewHolder>(query) {
+open class ChoreRecyclerAdapter(query: Query,
+                                private val listener: OnChoreSelectedListener,
+                                private val user : LoggedUserModel)
+    : FirestoreAdapter<ChoreRecyclerAdapter.ViewHolder>(query) {
     private lateinit var choreModel: ChoreModel
 
     interface OnChoreSelectedListener {
@@ -71,7 +70,7 @@ open class HomeRecyclerAdapter(query: Query,
         val newChore = ChoreUtil.updateData(choreModel.copy(), user)
         val homeRef = Firebase.firestore.collection("homes").document(choreModel.homeId)
         val choreRef = homeRef.collection("chores").document(choreModel.UID)
-        val userRef = homeRef.collection("users").document(user.UID)
+        val userRef = homeRef.collection("users").document(user.name)
 
         // Write the stuff in a batch
         Firebase.firestore.runBatch {
