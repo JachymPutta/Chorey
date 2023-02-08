@@ -21,5 +21,17 @@
         <item name="layout_constraintVertical_bias">0.4</item>
         <item name="android:layout_height">450dp</item>
     </style>
+    
+    <style name="CardStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:elevation">8dp</item>
+        <item name="cardCornerRadius">10dp</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintHorizontal_bias">0.5</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+    </style>
 
 </resources>
