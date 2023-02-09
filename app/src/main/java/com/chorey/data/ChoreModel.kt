@@ -12,7 +12,7 @@ data class ChoreModel(
     var choreName: String = "chore_name",
     var homeId: String = "home_name",
     var isTimed: Boolean = false,
-    var whenDue : Long? = null,
+    var whenDue : Long = Long.MAX_VALUE,
     var timeToComplete : Int = 0,
     var assignedTo: ArrayList<String> = arrayListOf(),
     var curAssignee: String = "",

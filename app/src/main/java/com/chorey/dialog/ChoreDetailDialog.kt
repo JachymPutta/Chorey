@@ -36,6 +36,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Random
 import java.util.UUID
 
@@ -51,6 +52,7 @@ class ChoreDetailDialog : DialogFragment(),
     private lateinit var assignedTo: ArrayList<String>
 
     private val dueTime = Calendar.getInstance()
+    private var timeChanged = false
 
     enum class State {
         CREATE, VIEW
@@ -146,9 +148,9 @@ class ChoreDetailDialog : DialogFragment(),
                 // Update the chore timings
                 if (choreModel.isTimed) {
                     val lastDue = Calendar.getInstance()
-                    lastDue.timeInMillis = choreModel.whenDue!!
+                    lastDue.timeInMillis = choreModel.whenDue
                     val id = RepeatInterval.values().indexOf(choreModel.repeatsEvery)
-                    binding.choreDetailDueDate.text = getDateFormat(requireContext()).format(lastDue.time)
+                    binding.choreDetailDueDate.text = Date(choreModel.whenDue).toString()
                     binding.choreDetailDueTime.text = getTimeFormat(requireContext()).format(lastDue.time)
                     binding.choreIntervalSpinner.setSelection(id)
                     binding.choreIsTimedSpinner.setSelection(SPINNER_YES)
@@ -161,7 +163,7 @@ class ChoreDetailDialog : DialogFragment(),
                 // Fill in existing data
                 binding.createChoreNameInput.editText!!.setText(choreModel.choreName)
                 binding.choreDetailAssignedTo.text = choreModel.assignedTo.joinToString()
-//                binding.choreDetailCompleteTime.text = choreModel.timeToComplete.toString()
+                binding.choreDetailMinsToComplete.setText(choreModel.timeToComplete.toString())
                 binding.choreDetailPoints.text = choreModel.points.toString()
 
                 // Visual Changes
@@ -182,6 +184,7 @@ class ChoreDetailDialog : DialogFragment(),
         val mMonth = dueTime.get(Calendar.MONTH)
         val mDay = dueTime.get(Calendar.DAY_OF_MONTH)
 
+
        DatePickerDialog(requireContext(), this, mYear, mMonth, mDay).show()
     }
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
@@ -193,6 +196,7 @@ class ChoreDetailDialog : DialogFragment(),
         dueTime.set(Calendar.YEAR, year)
         dueTime.set(Calendar.MONTH, month)
         dueTime.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        timeChanged = true
     }
 
     private fun onTimePickerClicked() {
@@ -211,6 +215,7 @@ class ChoreDetailDialog : DialogFragment(),
             binding.choreDetailDueTime.text = timeString
             dueTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
             dueTime.set(Calendar.MINUTE, minute)
+            timeChanged = true
         }
     }
     /**********************************************************************************************/
@@ -259,6 +264,9 @@ class ChoreDetailDialog : DialogFragment(),
         val uid = args.choreModel?.UID ?: UUID.randomUUID().toString()
         val choreName = binding.createChoreNameInput.editText?.text.toString()
         val timeToComplete = binding.choreDetailMinsToComplete.text.toString().toInt()
+        // We only update the time if a different one is selected
+        val whenDue = if (timeChanged && (args.choreModel != null)) dueTime.timeInMillis
+                        else args.choreModel!!.whenDue
 
         val choreModel = ChoreModel(
             UID = uid,
@@ -269,7 +277,7 @@ class ChoreDetailDialog : DialogFragment(),
             repeatsEvery = binding.choreIntervalSpinner.selectedItem as RepeatInterval,
             timeToComplete = timeToComplete,
             points = ChoreUtil.getPoints(timeToComplete),
-            whenDue = dueTime.time.time,
+            whenDue = whenDue,
             isTimed = binding.choreIsTimedSpinner.selectedItemId.toInt() == SPINNER_YES
         )
 
@@ -296,8 +304,14 @@ class ChoreDetailDialog : DialogFragment(),
     }
 
     private fun checkChoreInput() : Boolean {
-        // TODO: Non-empty inputs etc - show what's missing in a dialog
-        return true
+        return if (!binding.createChoreNameInput.editText!!.text.isNullOrBlank() &&
+                    !binding.choreDetailAssignedTo.text.isNullOrBlank() &&
+                    !binding.choreDetailMinsToComplete.text.isNullOrBlank()) {
+            true
+        } else {
+            Toast.makeText(requireContext(), "Please fill in all the fields.", Toast.LENGTH_SHORT).show()
+            false
+        }
     }
 
     private fun toggleTimeUI(state : Int) {

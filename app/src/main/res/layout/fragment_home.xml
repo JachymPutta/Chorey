@@ -140,7 +140,7 @@
             android:layout_width="wrap_content"
             android:layout_weight="1"
             style="?android:attr/buttonBarButtonStyle"
-            android:drawableTop="@mipmap/home_icon"
+            android:drawableTop="@mipmap/ic_check_list"
             android:text="@string/home_icon_desc" />
 
         <Button

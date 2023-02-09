@@ -30,6 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.firestore.local.QueryEngine
 import com.google.firebase.ktx.Firebase
 
 
@@ -85,9 +86,10 @@ class HomeFragment : Fragment(),
                 e -> Log.d(MenuFragment.TAG, "onCreateHome error: $e")
             }
 
-        val choreQuery: Query = homeRef.collection(CHORE_COL)
+        val choreQuery: Query = homeRef.collection(CHORE_COL).orderBy("whenDue")
         val noteQuery: Query = homeRef.collection(NOTE_COL)
         val summaryQuery : Query = homeRef.collection(USER_COL)
+            .orderBy("points", Query.Direction.DESCENDING)
 
         hrvAdapter = object : ChoreRecyclerAdapter(choreQuery,
             this@HomeFragment, viewModel.user!!) {
@@ -190,6 +192,7 @@ class HomeFragment : Fragment(),
                 binding.allChoresRecycler.adapter = hrvAdapter
                 binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
 
+                binding.addChoreButton.visibility = VISIBLE
                 binding.addChoreButton.setText(R.string.add_chore_button)
                 binding.addChoreButton.setOnClickListener { addChoreHandle() }
             }
@@ -197,6 +200,8 @@ class HomeFragment : Fragment(),
                 binding.homeRecyclerTitle.setText(R.string.home_summary_title)
                 binding.allChoresRecycler.adapter = summaryAdapter
                 binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
+
+                binding.addChoreButton.visibility = GONE
             }
             CurFrag.BOARD -> {
                 binding.homeRecyclerTitle.setText(R.string.home_notes_title)
@@ -204,6 +209,7 @@ class HomeFragment : Fragment(),
                 binding.allChoresRecycler.adapter = noteAdapter
                 binding.allChoresRecycler.layoutManager = GridLayoutManager(requireView().context, NOTE_COLUMN_CNT)
 
+                binding.addChoreButton.visibility = VISIBLE
                 binding.addChoreButton.setText(R.string.add_note_button)
                 binding.addChoreButton.setOnClickListener { addNoteHandle() }
             }
