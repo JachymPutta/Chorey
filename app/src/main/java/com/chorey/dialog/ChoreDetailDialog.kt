@@ -22,6 +22,8 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.navArgs
+import com.chorey.CHORE_COL
+import com.chorey.HOME_COL
 import com.chorey.R
 import com.chorey.data.ChoreModel
 import com.chorey.data.RepeatInterval
@@ -271,8 +273,8 @@ class ChoreDetailDialog : DialogFragment(),
             isTimed = binding.choreIsTimedSpinner.selectedItemId.toInt() == SPINNER_YES
         )
 
-        Firebase.firestore.collection("homes").document(args.homeModel.UID)
-            .collection("chores").document(choreModel.UID).set(choreModel)
+        Firebase.firestore.collection(HOME_COL).document(args.homeModel.UID)
+            .collection(CHORE_COL).document(choreModel.UID).set(choreModel)
 
         dismiss()
     }
@@ -285,8 +287,8 @@ class ChoreDetailDialog : DialogFragment(),
         val uid = args.choreModel!!.UID
 
         //TODO: I could show the confirm remove dialog with the chore name and the doc reference
-        Firebase.firestore.collection("homes").document(args.homeModel.UID)
-            .collection("chores").document(uid).delete()
+        Firebase.firestore.collection(HOME_COL).document(args.homeModel.UID)
+            .collection(CHORE_COL).document(uid).delete()
             .addOnSuccessListener { Log.d(TAG, "Chore successfully deleted!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
 

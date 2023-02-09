@@ -76,7 +76,7 @@ class HomeFragment : Fragment(),
 
         firestore = Firebase.firestore
 
-        homeRef = firestore.collection("homes").document(args.homeModel.UID)
+        homeRef = firestore.collection(HOME_COL).document(args.homeModel.UID)
         homeRef.get()
             .addOnSuccessListener(requireActivity()) {
                 snapshot -> onHomeLoaded(snapshot.toObject<HomeModel>())
@@ -85,9 +85,9 @@ class HomeFragment : Fragment(),
                 e -> Log.d(MenuFragment.TAG, "onCreateHome error: $e")
             }
 
-        val choreQuery: Query = homeRef.collection("chores")
-        val noteQuery: Query = homeRef.collection("notes")
-        val summaryQuery : Query = homeRef.collection("users")
+        val choreQuery: Query = homeRef.collection(CHORE_COL)
+        val noteQuery: Query = homeRef.collection(NOTE_COL)
+        val summaryQuery : Query = homeRef.collection(USER_COL)
 
         hrvAdapter = object : ChoreRecyclerAdapter(choreQuery,
             this@HomeFragment, viewModel.user!!) {
@@ -216,12 +216,14 @@ class HomeFragment : Fragment(),
         super.onStart()
         hrvAdapter.startListening()
         noteAdapter.startListening()
+        summaryAdapter.startListening()
     }
 
     override fun onStop() {
         super.onStop()
         hrvAdapter.stopListening()
         noteAdapter.stopListening()
+        summaryAdapter.stopListening()
     }
 
     private fun onHomeLoaded(homeModel: HomeModel?) {

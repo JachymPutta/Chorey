@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
+import com.chorey.HOME_COL
+import com.chorey.NOTE_COL
 import com.chorey.R
 import com.chorey.data.NoteModel
 import com.chorey.databinding.DialogNoteDetailBinding
@@ -26,7 +28,7 @@ class NoteDetailDialog : DialogFragment(){
     private lateinit var state: State
 
     enum class State {
-        CREATE, EDIT, VIEW
+        CREATE, VIEW
     }
 
     override fun onCreateView(
@@ -46,6 +48,7 @@ class NoteDetailDialog : DialogFragment(){
 
         binding.noteDetailCancelButton.setOnClickListener { dismiss() }
         binding.noteDetailRemoveButton.setOnClickListener { onRemoveClicked() }
+        binding.noteDetailModifyButton.setOnClickListener { onCreateClicked() }
     }
 
     override fun onDestroyView() {
@@ -53,17 +56,12 @@ class NoteDetailDialog : DialogFragment(){
         _binding = null
     }
 
-    private fun onEditClicked() {
-        state = State.EDIT
-        changeUI(state)
-    }
-
     private fun onRemoveClicked() {
         val uid = args.noteModel!!.UID
 
         //TODO: I could show the confirm remove dialog with the chore name and the doc reference
-        Firebase.firestore.collection("homes").document(args.homeModel.UID)
-            .collection("notes").document(uid).delete()
+        Firebase.firestore.collection(HOME_COL).document(args.homeModel.UID)
+            .collection(NOTE_COL).document(uid).delete()
             .addOnSuccessListener { Log.d(TAG, "Note successfully deleted!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
 
@@ -81,8 +79,8 @@ class NoteDetailDialog : DialogFragment(){
             author = viewModel.user!!.name
         )
 
-        Firebase.firestore.collection("homes").document(args.homeModel.UID)
-            .collection("notes").document(uid).set(note)
+        Firebase.firestore.collection(HOME_COL).document(args.homeModel.UID)
+            .collection(NOTE_COL).document(uid).set(note)
 
         dismiss()
     }
@@ -90,28 +88,13 @@ class NoteDetailDialog : DialogFragment(){
     private fun changeUI(state: State) {
         when(state) {
             State.CREATE -> {
-                // Logical Changes
-                binding.noteDetailModifyButton.setOnClickListener { onCreateClicked() }
-                // Visual Changes
                 binding.noteDetailRemoveButton.visibility = View.GONE
             }
             State.VIEW -> {
-                // Logical Changes
-                binding.noteDetailModifyButton.setOnClickListener { onEditClicked() }
-
-                // Visual Changes
                 binding.noteDetailRemoveButton.visibility = View.VISIBLE
                 binding.noteDetailTitle.setText(R.string.note_detail_title_view)
                 binding.noteDetailModifyButton.setText(R.string.note_detail_edit_button)
                 binding.noteDetailTextInput.editText!!.setText(args.noteModel!!.note)
-            }
-            State.EDIT -> {
-                // Logical Changes
-                binding.noteDetailModifyButton.setOnClickListener { onCreateClicked() }
-
-                // Visual Changes
-                binding.noteDetailTitle.setText(R.string.note_detail_title_edit)
-                binding.noteDetailModifyButton.setText(R.string.note_detail_update_button)
             }
         }
     }

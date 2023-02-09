@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import com.chorey.HOME_COL
+import com.chorey.USER_COL
 import com.chorey.data.HomeModel
 import com.chorey.data.HomeUserModel
 import com.chorey.databinding.DialogCreateHomeBinding
@@ -56,11 +58,11 @@ class CreateHomeDialog : DialogFragment() {
             users = arrayListOf(user!!.name)
         )
         val homeUserModel = HomeUserModel(name = user.name)
-        val homeRef = db.collection("homes").document(home.UID)
+        val homeRef = db.collection(HOME_COL).document(home.UID)
 
         db.runBatch {
             it.set(homeRef, home)
-            it.set(homeRef.collection("users").document(user.name), homeUserModel)
+            it.set(homeRef.collection(USER_COL).document(user.name), homeUserModel)
         }
 
         dismiss()

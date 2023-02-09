@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
+import com.chorey.USER_COL
 import com.chorey.data.HomeModel
 import com.chorey.data.InviteModel
 import com.chorey.data.LoggedUserModel
@@ -66,7 +67,7 @@ class AddMemberDialog : DialogFragment() {
             fromUser = sender.name
         )
         // 3. check whether the user is valid
-        firestore.collection("users").whereEqualTo("name", dest).get()
+        firestore.collection(USER_COL).whereEqualTo("name", dest).get()
             .addOnSuccessListener {snap ->
                 if (snap.isEmpty) {
                     Toast.makeText(requireContext(), "User $dest not found!", Toast.LENGTH_LONG).show()
@@ -81,7 +82,7 @@ class AddMemberDialog : DialogFragment() {
                         success = false
                     } else {
                         invites.add(invite)
-                        firestore.collection("users").document(destLoggedUserModel.UID)
+                        firestore.collection(USER_COL).document(destLoggedUserModel.UID)
                             .collection("invites").add(invite)
                     }
                 }

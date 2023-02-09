@@ -68,7 +68,7 @@ class MenuFragment : Fragment(),
 
         // FireStore instance
         firestore = Firebase.firestore
-        query = firestore.collection("homes")
+        query = firestore.collection(HOME_COL)
 
         query?.let {
             mrvAdapter = object : MenuRecyclerAdapter(it, this@MenuFragment) {
@@ -207,7 +207,7 @@ class MenuFragment : Fragment(),
             return
         }
 
-        firestore.collection("users").document(user.uid)
+        firestore.collection(USER_COL).document(user.uid)
             .get()
             .addOnSuccessListener { ds ->
                 if (!ds.exists()) {
@@ -245,7 +245,7 @@ class MenuFragment : Fragment(),
                         name = nameInput.text.toString()
                     )
                     viewModel.user = loggedUserModel
-                    firestore.collection("users").document(loggedUserModel.UID).set(loggedUserModel)
+                    firestore.collection(USER_COL).document(loggedUserModel.UID).set(loggedUserModel)
                     dialog.dismiss()
                 }
             }
@@ -260,7 +260,7 @@ class MenuFragment : Fragment(),
      */
     private fun addHomeHandle() {
         // Adding random homes instead - TESTING
-//        val homesRef = firestore.collection("homes")
+//        val homesRef = firestore.collection(HOME_COL)
 //        homesRef.add(HomeUtil.makeRandomHome(requireContext()))
 
         // Stop removing - on remove cancel

@@ -10,7 +10,9 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.chorey.HOME_COL
 import com.chorey.R
+import com.chorey.USER_COL
 import com.chorey.adapter.JoinHomeRecyclerAdapter
 import com.chorey.data.HomeModel
 import com.chorey.data.InviteModel
@@ -56,7 +58,7 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
 
         firestore = Firebase.firestore
 
-        query = firestore.collection("users").document(viewModel.user!!.UID)
+        query = firestore.collection(USER_COL).document(viewModel.user!!.UID)
             .collection("invites")
 
         Toast.makeText(requireContext(), viewModel.user!!.UID, Toast.LENGTH_LONG).show()
@@ -113,14 +115,14 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
             return
         }
 
-        val homeRef = firestore.collection("homes").document(inviteModel.homeUID)
+        val homeRef = firestore.collection(HOME_COL).document(inviteModel.homeUID)
 
         firestore.runTransaction {
             val snap = it.get(homeRef)
             @Suppress("UNCHECKED_CAST")
             val members = snap["users"] as Map<String, Int> + (viewModel.user!!.name to 0)
 
-            it.update(homeRef, "users", members)
+            it.update(homeRef, USER_COL, members)
             null
         }
     }

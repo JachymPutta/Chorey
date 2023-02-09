@@ -4,6 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.chorey.CHORE_COL
+import com.chorey.HOME_COL
+import com.chorey.USER_COL
 import com.chorey.data.ChoreModel
 import com.chorey.data.RepeatInterval
 import com.chorey.data.LoggedUserModel
@@ -68,9 +71,9 @@ open class ChoreRecyclerAdapter(query: Query,
 
     private fun onDoneClicked(snapshot: DocumentSnapshot) {
         val newChore = ChoreUtil.updateData(choreModel.copy(), user)
-        val homeRef = Firebase.firestore.collection("homes").document(choreModel.homeId)
-        val choreRef = homeRef.collection("chores").document(choreModel.UID)
-        val userRef = homeRef.collection("users").document(user.name)
+        val homeRef = Firebase.firestore.collection(HOME_COL).document(choreModel.homeId)
+        val choreRef = homeRef.collection(CHORE_COL).document(choreModel.UID)
+        val userRef = homeRef.collection(USER_COL).document(user.name)
 
         // Write the stuff in a batch
         Firebase.firestore.runBatch {

@@ -1,6 +1,7 @@
 package com.chorey.util
 
 import android.content.Context
+import android.util.Log
 import com.chorey.POINTS_MULTIPLIER
 import com.chorey.R
 import com.chorey.RANDOM_SEED
@@ -57,7 +58,10 @@ object ChoreUtil {
     private fun updateAssignment(chore : ChoreModel, completedBy: LoggedUserModel) {
         if (chore.curAssignee == completedBy.name) {
             val oldId = chore.assignedTo.indexOf(chore.curAssignee)
-            val newAssignee = chore.assignedTo[(oldId + 1) % chore.curAssignee.length]
+            // Increment by 1 - loop around if end of array
+            val newId = (oldId + 1) % chore.assignedTo.size
+
+            val newAssignee = chore.assignedTo[newId]
             chore.curAssignee = newAssignee
             chore.assignedTo = chore.assignedTo
         } else {

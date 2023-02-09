@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
+import com.chorey.HOME_COL
 import com.chorey.HomeFragment
 import com.chorey.data.HomeModel
 import com.chorey.data.InviteModel
@@ -51,10 +52,10 @@ open class JoinHomeRecyclerAdapter(query: Query, private val listener: OnJoinSel
         val user = Firebase.auth.currentUser
         // TODO: Check whether I am in home already to not allow duplicates
         user?.let {
-            Firebase.firestore.collection("homes").document(inviteModel.homeUID)
+            Firebase.firestore.collection(HOME_COL).document(inviteModel.homeUID)
                 .get().addOnSuccessListener {snapshot ->
                     val homeModel = snapshot.toObject<HomeModel>()
-                    Firebase.firestore.collection("homes").add(homeModel!!)
+                    Firebase.firestore.collection(HOME_COL).add(homeModel!!)
                 }
                 .addOnFailureListener { e ->
                     // The home wasn't found
