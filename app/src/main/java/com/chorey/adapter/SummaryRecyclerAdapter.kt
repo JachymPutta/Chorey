@@ -23,7 +23,9 @@ open class SummaryRecyclerAdapter(query : Query, private val listener: OnSummary
             fun bind(snapshot: DocumentSnapshot, listener: OnSummarySelectedListener?) {
                 homeUserModel = snapshot.toObject<HomeUserModel>() ?: return
 
-                //TODO: bind the rest of the properties
+                binding.summaryCardUserName.text = homeUserModel.name
+                binding.summaryCardUserValue.text = homeUserModel.points.toString()
+
                 binding.root.setOnClickListener { listener?.onSummarySelected(snapshot) }
             }
         }

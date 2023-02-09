@@ -103,7 +103,6 @@ class HomeFragment : Fragment(),
         noteAdapter = NoteRecyclerAdapter(noteQuery, this@HomeFragment)
         summaryAdapter = SummaryRecyclerAdapter(summaryQuery, this@HomeFragment)
 
-        // TODO: Instead of this, have the Home name and stuff as "Loading... " or something
         binding.frameLayout.visibility = GONE
 
         binding.allChoresRecycler.adapter = hrvAdapter
