@@ -3,6 +3,7 @@ package com.chorey.util
 import android.content.Context
 import androidx.startup.Initializer
 import com.chorey.BuildConfig
+import com.chorey.IS_DEBUG
 import com.firebase.ui.auth.AuthUI
 
 class AuthUIInitializer : Initializer<AuthUI> {
@@ -14,7 +15,7 @@ class AuthUIInitializer : Initializer<AuthUI> {
     override fun create(context: Context): AuthUI {
         val authUI = AuthUI.getInstance()
         // Use emulators only in debug builds
-        if (BuildConfig.DEBUG) {
+        if (IS_DEBUG) {
             authUI.useEmulator(AUTH_EMULATOR_HOST, AUTH_EMULATOR_PORT)
         }
         return authUI

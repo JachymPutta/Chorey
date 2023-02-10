@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
@@ -59,7 +60,6 @@ class NoteDetailDialog : DialogFragment(){
     private fun onRemoveClicked() {
         val uid = args.noteModel!!.UID
 
-        //TODO: I could show the confirm remove dialog with the chore name and the doc reference
         Firebase.firestore.collection(HOME_COL).document(args.homeModel.UID)
             .collection(NOTE_COL).document(uid).delete()
             .addOnSuccessListener { Log.d(TAG, "Note successfully deleted!") }
@@ -70,7 +70,14 @@ class NoteDetailDialog : DialogFragment(){
 
     private fun onCreateClicked() {
         val uid = args.noteModel?.UID ?: UUID.randomUUID().toString()
-        //TODO Check for empty
+
+        if(checkEmpty()) {
+            Toast.makeText(requireContext(),
+                "Note cannot be empty.",
+                Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val text = binding.noteDetailTextInput.editText?.text.toString()
 
         val note = NoteModel(
@@ -84,6 +91,9 @@ class NoteDetailDialog : DialogFragment(){
 
         dismiss()
     }
+
+    private fun checkEmpty() = binding.noteDetailTextInput.editText!!.text.isNullOrBlank()
+
 
     private fun changeUI(state: State) {
         when(state) {

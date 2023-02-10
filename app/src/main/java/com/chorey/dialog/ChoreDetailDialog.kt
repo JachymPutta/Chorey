@@ -265,8 +265,8 @@ class ChoreDetailDialog : DialogFragment(),
         val choreName = binding.createChoreNameInput.editText?.text.toString()
         val timeToComplete = binding.choreDetailMinsToComplete.text.toString().toInt()
         // We only update the time if a different one is selected
-        val whenDue = if (timeChanged && (args.choreModel != null)) dueTime.timeInMillis
-                        else args.choreModel!!.whenDue
+        val whenDue = if (timeChanged) dueTime.timeInMillis
+                        else args.choreModel?.whenDue ?: Long.MAX_VALUE
 
         val choreModel = ChoreModel(
             UID = uid,
@@ -309,7 +309,9 @@ class ChoreDetailDialog : DialogFragment(),
                     !binding.choreDetailMinsToComplete.text.isNullOrBlank()) {
             true
         } else {
-            Toast.makeText(requireContext(), "Please fill in all the fields.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),
+                "Please fill in all the fields.",
+                     Toast.LENGTH_SHORT).show()
             false
         }
     }

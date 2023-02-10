@@ -64,7 +64,7 @@ class MenuFragment : Fragment(),
 
         // TODO: Re-enable logging - disabled while working on other stuff
         // Enable logging
-//        FirebaseFirestore.setLoggingEnabled(true)
+        FirebaseFirestore.setLoggingEnabled(true)
 
         // FireStore instance
         firestore = Firebase.firestore
