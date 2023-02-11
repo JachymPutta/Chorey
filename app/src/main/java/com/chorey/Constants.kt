@@ -6,7 +6,7 @@ const val MAX_CHORES = 30
 const val RANDOM_SEED = 42
 const val POINTS_MULTIPLIER = 12
 //TODO: Change this to BuildConfig.DEBUG when releasing
-const val IS_DEBUG = false
+const val IS_DEBUG = true
 
 // Database paths
 const val HOME_COL = "homes"

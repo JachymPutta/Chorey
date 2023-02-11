@@ -24,6 +24,7 @@
         android:id="@+id/joinHomeRecycler"
         style="@style/RecyclerStyleLarge"
         android:layout_height="300dp"
+        android:minHeight="200dp"
         tools:ignore="MissingConstraints"
         >
     </androidx.recyclerview.widget.RecyclerView>

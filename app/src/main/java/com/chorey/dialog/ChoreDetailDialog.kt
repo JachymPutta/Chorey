@@ -10,6 +10,7 @@ import android.text.format.DateFormat.getDateFormat
 import android.text.format.DateFormat.getTimeFormat
 import android.text.format.DateFormat.is24HourFormat
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -102,6 +103,10 @@ class ChoreDetailDialog : DialogFragment(),
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         })
 
+
+        binding.createChoreNameInput.editText!!.setOnKeyListener { _, keyCode, event ->
+            (event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)
+        }
         changeUI(state)
     }
 

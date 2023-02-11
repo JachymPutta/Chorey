@@ -61,16 +61,14 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
         query = firestore.collection(USER_COL).document(viewModel.user!!.UID)
             .collection("invites")
 
-        Toast.makeText(requireContext(), viewModel.user!!.UID, Toast.LENGTH_LONG).show()
-
         query?.let {
             joinHomeAdapter = object : JoinHomeRecyclerAdapter(it, this@JoinHomeDialog) {
                 override fun onDataChanged() {
                     if (itemCount == 0) {
-//                        binding.joinHomeRecycler.visibility = View.GONE
+                        binding.joinHomeRecycler.visibility = View.GONE
                         binding.joinHomeTitle.setText(R.string.join_home_your_invites_empty)
                     } else {
-//                        binding.joinHomeRecycler.visibility = View.VISIBLE
+                        binding.joinHomeRecycler.visibility = View.VISIBLE
                         binding.joinHomeTitle.setText(R.string.join_home_your_invites_full)
                     }
                 }
@@ -109,20 +107,23 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
 
     override fun onJoinSelected(invite: DocumentSnapshot) {
         val inviteModel = invite.toObject<InviteModel>()
+        val user = viewModel.user!!
 
         if (inviteModel == null) {
             Log.e(TAG, "Home/User not found!")
             return
         }
 
-        val homeRef = firestore.collection(HOME_COL).document(inviteModel.homeUID)
+        val db = Firebase.firestore
+        val homeRef = db.collection(HOME_COL).document(inviteModel.homeUID)
+        val userRef = db.collection(USER_COL).document(user.UID)
+        user.memberOf[inviteModel.homeUID] = inviteModel.homeName
 
-        firestore.runTransaction {
-            val snap = it.get(homeRef)
-            @Suppress("UNCHECKED_CAST")
-            val members = snap["users"] as Map<String, Int> + (viewModel.user!!.name to 0)
-
-            it.update(homeRef, USER_COL, members)
+        db.runTransaction {
+            val snapshot = it.get(homeRef)
+            val homeModel = snapshot.toObject<HomeModel>()
+            it.set(homeRef, homeModel!!)
+            it.update(userRef, "memberOf", user.memberOf)
             null
         }
     }

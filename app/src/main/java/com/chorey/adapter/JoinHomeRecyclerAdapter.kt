@@ -1,18 +1,14 @@
 package com.chorey.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.chorey.HOME_COL
-import com.chorey.HomeFragment
+import com.chorey.USER_COL
 import com.chorey.data.HomeModel
 import com.chorey.data.InviteModel
+import com.chorey.data.LoggedUserModel
 import com.chorey.databinding.JoinHomeRecyclerRowBinding
-import com.chorey.viewmodel.LoginViewModel
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -38,30 +34,13 @@ open class JoinHomeRecyclerAdapter(query: Query, private val listener: OnJoinSel
                 binding.joinHomeHomeName.text = inviteModel.homeName
                 binding.joinHomeSentByName.text = inviteModel.fromUser
 
-                binding.root.setOnClickListener { listener?.onJoinSelected(snapshot) }
                 binding.joinHomeAcceptButton.setOnClickListener {
-                    onAcceptInvite()
+                    listener?.onJoinSelected(snapshot)
                     snapshot.reference.delete()
                 }
                 binding.joinHomeDeclineInvite.setOnClickListener { onDeclineInvite(snapshot) }
 
             }
-    }
-
-    private fun onAcceptInvite() {
-        val user = Firebase.auth.currentUser
-        // TODO: Check whether I am in home already to not allow duplicates
-        user?.let {
-            Firebase.firestore.collection(HOME_COL).document(inviteModel.homeUID)
-                .get().addOnSuccessListener {snapshot ->
-                    val homeModel = snapshot.toObject<HomeModel>()
-                    Firebase.firestore.collection(HOME_COL).add(homeModel!!)
-                }
-                .addOnFailureListener { e ->
-                    // The home wasn't found
-                    Log.w(TAG, "home:onEvent ", e)
-                }
-        }
     }
 
     private fun onDeclineInvite(snapshot: DocumentSnapshot) {

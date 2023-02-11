@@ -2,6 +2,7 @@ package com.chorey.dialog
 
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +36,16 @@ class CreateHomeDialog : DialogFragment() {
         binding.createHomeCreateButton.setOnClickListener { onCreateClicked() }
         binding.createHomeCancelButton.setOnClickListener { onCancelClicked() }
 
+        // Pressing enter just submits the form
+        binding.createHomeNameInput.editText!!.setOnKeyListener { _, keyCode, event ->
+            if ((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                onCreateClicked()
+                true
+            } else {
+                false
+            }
+        }
+
         return binding.root
     }
 
@@ -59,10 +70,14 @@ class CreateHomeDialog : DialogFragment() {
         )
         val homeUserModel = HomeUserModel(name = user.name)
         val homeRef = db.collection(HOME_COL).document(home.UID)
+        val userRef = db.collection(USER_COL).document(user.UID)
+
+        user.memberOf[home.UID] = home.homeName
 
         db.runBatch {
             it.set(homeRef, home)
             it.set(homeRef.collection(USER_COL).document(user.name), homeUserModel)
+            it.update(userRef, "memberOf", user.memberOf)
         }
 
         dismiss()

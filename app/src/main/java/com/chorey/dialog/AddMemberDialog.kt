@@ -2,6 +2,7 @@ package com.chorey.dialog
 
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,6 +43,14 @@ class AddMemberDialog : DialogFragment() {
 
         binding.addMemberSendButton.setOnClickListener { onSendClicked() }
         binding.addMemberCancelButton.setOnClickListener { dismiss() }
+        binding.addMemberNameInput.editText!!.setOnKeyListener { _, keyCode, event ->
+            if ((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                onSendClicked()
+                true
+            } else {
+                false
+            }
+        }
         return binding.root
     }
 
@@ -53,7 +62,6 @@ class AddMemberDialog : DialogFragment() {
     private fun onSendClicked() {
         // 1. get the current user from the login model
         var success = true
-        // TODO: this could throw and error instead of failing silently - but should never happen
         val sender = loginViewModel.user ?: return
         // 2. get the destination user from the text input
         val dest = binding.addMemberNameInput.editText?.text.toString().ifBlank {
@@ -78,12 +86,23 @@ class AddMemberDialog : DialogFragment() {
                     val invites = destLoggedUserModel!!.invites
 
                     if (invites.contains(invite)) {
-                        Toast.makeText(requireContext(), "$dest already invited!", Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireParentFragment().requireContext(),
+                            "$dest already invited!",
+                                Toast.LENGTH_LONG).show()
                         success = false
-                    } else {
+                    } else if (destLoggedUserModel.memberOf.containsKey(home.UID)) {
+                        Toast.makeText(requireParentFragment().requireContext(),
+                            "$dest already member of ${home.homeName}!",
+                                Toast.LENGTH_LONG).show()
+                        //TODO: Uncomment the next line and remove the rest - enabled to debug invites
+//                        success = false
                         invites.add(invite)
                         firestore.collection(USER_COL).document(destLoggedUserModel.UID)
                             .collection("invites").add(invite)
+                    } else {
+                    invites.add(invite)
+                    firestore.collection(USER_COL).document(destLoggedUserModel.UID)
+                        .collection("invites").add(invite)
                     }
                 }
             }

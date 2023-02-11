@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,8 +19,9 @@ import com.chorey.adapter.MenuRecyclerAdapter
 import com.chorey.data.HomeModel
 import com.chorey.data.LoggedUserModel
 import com.chorey.databinding.FragmentMenuBinding
-import com.chorey.dialog.AddHomeDialog
 import com.chorey.dialog.ConfirmRemoveDialog
+import com.chorey.dialog.CreateHomeDialog
+import com.chorey.dialog.JoinHomeDialog
 import com.chorey.viewmodel.LoginViewModel
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.snackbar.Snackbar
@@ -43,7 +45,6 @@ class MenuFragment : Fragment(),
     private lateinit var firestore: FirebaseFirestore
 
     private lateinit var confirmRemoveDialog: ConfirmRemoveDialog
-    private lateinit var addHomeDialog: AddHomeDialog
 
     private var query: Query? = null
     private var curOp = HomeOperation.ADD
@@ -96,11 +97,10 @@ class MenuFragment : Fragment(),
         observeAuthState()
 
         confirmRemoveDialog = ConfirmRemoveDialog()
-        addHomeDialog = AddHomeDialog()
 
         binding.addHomeButton.setOnClickListener{ addHomeHandle() }
         binding.removeHomeButton.setOnClickListener { removeHomeToggle() }
-        binding.authButton.setOnClickListener {launchSignInFlow() }
+        binding.authButton.setOnClickListener { launchSignInFlow() }
     }
     override fun onStart() {
         super.onStart()
@@ -233,51 +233,66 @@ class MenuFragment : Fragment(),
 
         val dialog = builder.create()
 
+        fun submitNameHandle() {
+            if (nameInput.text.toString().isBlank()) {
+                Toast.makeText(requireContext(), "Please input a name.", Toast.LENGTH_SHORT).show()
+            } else {
+                val loggedUserModel = LoggedUserModel(
+                    UID = Firebase.auth.currentUser!!.uid,
+                    name = nameInput.text.toString()
+                )
+                viewModel.user = loggedUserModel
+                firestore.collection(USER_COL).document(loggedUserModel.UID).set(loggedUserModel)
+                dialog.dismiss()
+            }
+        }
+
+        nameInput.setOnKeyListener { _, keyCode, event ->
+            if ((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                submitNameHandle()
+                true
+            } else {
+                false
+            }
+        }
         // Need to override the onShow handle so the dialog doesn't dismiss with invalid inputs
         dialog.setOnShowListener {
             dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
                 // TODO: check if the username exists!!
-                if (nameInput.text.toString().isBlank()) {
-                    Toast.makeText(requireContext(), "Please input a name.", Toast.LENGTH_SHORT).show()
-                } else {
-                    val loggedUserModel = LoggedUserModel(
-                        UID = Firebase.auth.currentUser!!.uid,
-                        name = nameInput.text.toString()
-                    )
-                    viewModel.user = loggedUserModel
-                    firestore.collection(USER_COL).document(loggedUserModel.UID).set(loggedUserModel)
-                    dialog.dismiss()
-                }
+                submitNameHandle()
             }
         }
 
         dialog.show()
     }
 
+
     /**
      * Handles the addition of a new home, checks whether the max number of homes has been reached
      * and then continues through the dialogs
      */
     private fun addHomeHandle() {
-        // Adding random homes instead - TESTING
-//        val homesRef = firestore.collection(HOME_COL)
-//        homesRef.add(HomeUtil.makeRandomHome(requireContext()))
-
         // Stop removing - on remove cancel
         if (curOp == HomeOperation.DELETE) {
             binding.menuTitleText.setText(R.string.menu_title_default)
             curOp = HomeOperation.ADD
         }
 
-        val numHomes = mrvAdapter.itemCount
-        Log.d(TAG, "Total number of homes = $numHomes")
-
-        if (numHomes >= MAX_HOMES) {
+        if (mrvAdapter.itemCount >= MAX_HOMES) {
             Toast.makeText(activity, "Max number of homes reached!", Toast.LENGTH_SHORT).show()
             return
         }
 
-        addHomeDialog.show(parentFragmentManager, AddHomeDialog.TAG)
+        // Create the AddHomeDialog
+        val addHomeBuilder = AlertDialog.Builder(requireContext())
+       addHomeBuilder.setTitle(R.string.add_home_dialog_title)
+            .setPositiveButton(R.string.create_home_button) { _, _ ->
+                CreateHomeDialog().show(parentFragmentManager, "CreateNewHome")
+            }
+            .setNegativeButton(R.string.join_existing_home_button) { _, _ ->
+                JoinHomeDialog().show(parentFragmentManager, "JoinExistingHome")
+            }
+        addHomeBuilder.show()
     }
 
     /**

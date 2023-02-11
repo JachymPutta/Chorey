@@ -42,13 +42,17 @@ open class ChoreRecyclerAdapter(query: Query,
             choreModel = snapshot.toObject<ChoreModel>() ?: return
 
             val lastDue = Calendar.getInstance()
-            lastDue.timeInMillis = choreModel.whenDue!!
+            lastDue.timeInMillis = choreModel.whenDue
+            val date = String.format("${lastDue.get(Calendar.YEAR)}" +
+                    "-${lastDue.get(Calendar.MONTH) + 1}" +
+                    "-${lastDue.get(Calendar.DAY_OF_MONTH)}" +
+                    " ${lastDue.get(Calendar.HOUR_OF_DAY)}")
 
             // Bind visuals
             binding.choreName.text = choreModel.choreName
             binding.choreAssignee.text = choreModel.curAssignee
             if (choreModel.isTimed) {
-                binding.choreDueDate.text = lastDue.time.toString()
+                binding.choreDueDate.text = date
             } else {
                 binding.choreDueDate.visibility = View.GONE
                 binding.choreDueText.visibility = View.GONE

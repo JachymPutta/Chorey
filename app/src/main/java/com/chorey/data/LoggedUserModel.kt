@@ -5,5 +5,5 @@ data class LoggedUserModel(
     var name : String = "",
     var points : Long = 0,
     var invites : ArrayList<InviteModel> = arrayListOf(),
-//    var memberOf : ArrayList<String> = arrayListOf()
+    val memberOf : MutableMap<String, String> = mutableMapOf()
 )
