@@ -86,14 +86,16 @@ class AddMemberDialog : DialogFragment() {
                     val invites = destLoggedUserModel!!.invites
 
                     if (invites.contains(invite)) {
-                        Toast.makeText(requireParentFragment().requireContext(),
-                            "$dest already invited!",
-                                Toast.LENGTH_LONG).show()
+                        //TODO These Toast texts crash the app still, 'AddMemberDialog not attached to any context'
+//                        Toast.makeText(requireParentFragment().requireContext(),
+//                            "$dest already invited!",
+//                                Toast.LENGTH_LONG).show()
                         success = false
                     } else if (destLoggedUserModel.memberOf.containsKey(home.UID)) {
-                        Toast.makeText(requireParentFragment().requireContext(),
-                            "$dest already member of ${home.homeName}!",
-                                Toast.LENGTH_LONG).show()
+                        //TODO These Toast texts crash the app still, 'AddMemberDialog not attached to any context'
+//                        Toast.makeText(requireParentFragment().requireContext(),
+//                            "$dest already member of ${home.homeName}!",
+//                                Toast.LENGTH_LONG).show()
                         //TODO: Uncomment the next line and remove the rest - enabled to debug invites
 //                        success = false
                         invites.add(invite)

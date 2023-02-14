@@ -1,5 +1,6 @@
 package com.chorey.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -20,10 +21,11 @@ open class SummaryRecyclerAdapter(query : Query, private val listener: OnSummary
 
     inner class ViewHolder(private val binding: SummaryRecyclerRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
-            fun bind(snapshot: DocumentSnapshot, listener: OnSummarySelectedListener?) {
+            fun bind(snapshot: DocumentSnapshot, listener: OnSummarySelectedListener?, position : Int) {
                 homeUserModel = snapshot.toObject<HomeUserModel>() ?: return
+                val nameText = String.format("${position+1}. ${homeUserModel.name}")
 
-                binding.summaryCardUserName.text = homeUserModel.name
+                binding.summaryCardUserName.text = nameText
                 binding.summaryCardUserValue.text = homeUserModel.points.toString()
 
                 binding.root.setOnClickListener { listener?.onSummarySelected(snapshot) }
@@ -36,7 +38,7 @@ open class SummaryRecyclerAdapter(query : Query, private val listener: OnSummary
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getSnapshot(position), listener)
+        holder.bind(getSnapshot(position), listener, position)
     }
 
 }

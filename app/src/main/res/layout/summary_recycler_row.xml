@@ -8,6 +8,7 @@
 
     <androidx.cardview.widget.CardView
         style="@style/CardStyle"
+
         tools:ignore="MissingConstraints">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,6 +17,8 @@
 
             <TextView
                 android:id="@+id/summaryCardUserName"
+                style="@style/Title"
+                android:textSize="@dimen/medium_text_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
@@ -23,6 +26,8 @@
 
             <TextView
                 android:id="@+id/summaryCardUserValue"
+                style="@style/Title"
+                android:textSize="@dimen/medium_text_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"

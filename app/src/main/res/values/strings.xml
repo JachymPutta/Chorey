@@ -38,6 +38,7 @@
     <string name="home_no_chores_left">No Chores left to do!</string>
     <string name="home_loading">Loading…</string>
     <string name="home_summary_title">Summary</string>
+    <string name="home_summary_title_points">Top Contributors:</string>
     <string name="home_notes_title">Notice Board</string>
         <!-- Chore Recycler View -->
         <string name="chore_item_name">Chore</string>

@@ -2,8 +2,7 @@ package com.chorey.util
 
 import android.content.Context
 import androidx.startup.Initializer
-import com.chorey.BuildConfig
-import com.chorey.IS_DEBUG
+import com.chorey.RUN_EMULATOR
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -17,7 +16,7 @@ class AuthInitializer : Initializer<FirebaseAuth> {
     override fun create(context: Context): FirebaseAuth {
         val firebaseAuth = Firebase.auth
         // Use emulators only in debug builds
-        if (IS_DEBUG) {
+        if (RUN_EMULATOR) {
             firebaseAuth.useEmulator(AUTH_EMULATOR_HOST, AUTH_EMULATOR_PORT)
         }
         return firebaseAuth

@@ -197,7 +197,7 @@ class HomeFragment : Fragment(),
                 binding.addChoreButton.setOnClickListener { addChoreHandle() }
             }
             CurFrag.SUMMARY -> {
-                binding.homeRecyclerTitle.setText(R.string.home_summary_title)
+                binding.homeRecyclerTitle.setText(R.string.home_summary_title_points)
                 binding.allChoresRecycler.adapter = summaryAdapter
                 binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
 
@@ -207,7 +207,8 @@ class HomeFragment : Fragment(),
                 binding.homeRecyclerTitle.setText(R.string.home_notes_title)
 
                 binding.allChoresRecycler.adapter = noteAdapter
-                binding.allChoresRecycler.layoutManager = GridLayoutManager(requireView().context, NOTE_COLUMN_CNT)
+//                binding.allChoresRecycler.layoutManager = GridLayoutManager(requireView().context, NOTE_COLUMN_CNT)
+                binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireView().context)
 
                 binding.addChoreButton.visibility = VISIBLE
                 binding.addChoreButton.setText(R.string.add_note_button)

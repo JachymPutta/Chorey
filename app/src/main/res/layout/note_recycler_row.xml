@@ -8,10 +8,10 @@
 
     <androidx.cardview.widget.CardView
         android:minHeight="90dp"
-        android:backgroundTint="@color/material_dynamic_neutral80"
         style="@style/CardStyle"
-        tools:ignore="MissingConstraints"
-        >
+        tools:ignore="MissingConstraints">
+        <!-- TODO: This color crashes the phone version-->
+        <!--        android:backgroundTint="@color/material_dynamic_neutral80"-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

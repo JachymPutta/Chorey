@@ -1,11 +1,8 @@
 package com.chorey.util
 
 import android.content.Context
-import android.util.Log
 import androidx.startup.Initializer
-import com.chorey.BuildConfig
-import com.chorey.HomeFragment
-import com.chorey.IS_DEBUG
+import com.chorey.RUN_EMULATOR
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -20,7 +17,7 @@ class FirestoreInitializer : Initializer<FirebaseFirestore> {
     override fun create(context: Context): FirebaseFirestore {
         val firestore = Firebase.firestore
         // Use emulators only in debug builds
-        if (IS_DEBUG) {
+        if (RUN_EMULATOR) {
             firestore.useEmulator(FIRESTORE_EMULATOR_HOST, FIRESTORE_EMULATOR_PORT)
         }
         return firestore
