@@ -78,26 +78,21 @@ class AddMemberDialog : DialogFragment() {
         firestore.collection(USER_COL).whereEqualTo("name", dest).get()
             .addOnSuccessListener {snap ->
                 if (snap.isEmpty) {
-                    Toast.makeText(requireContext(), "User $dest not found!", Toast.LENGTH_LONG).show()
-                    success = false
+                    Toast.makeText(requireActivity(), "User $dest not found!", Toast.LENGTH_LONG).show()
                 } else {
                     // There will only ever be one name
                     val destLoggedUserModel = snap.documents[0].toObject<LoggedUserModel>()
                     val invites = destLoggedUserModel!!.invites
 
                     if (invites.contains(invite)) {
-                        //TODO These Toast texts crash the app still, 'AddMemberDialog not attached to any context'
-//                        Toast.makeText(requireParentFragment().requireContext(),
-//                            "$dest already invited!",
-//                                Toast.LENGTH_LONG).show()
-                        success = false
+                        Toast.makeText(requireActivity(),
+                            "$dest already invited!",
+                                Toast.LENGTH_LONG).show()
                     } else if (destLoggedUserModel.memberOf.containsKey(home.UID)) {
-                        //TODO These Toast texts crash the app still, 'AddMemberDialog not attached to any context'
-//                        Toast.makeText(requireParentFragment().requireContext(),
-//                            "$dest already member of ${home.homeName}!",
-//                                Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireActivity(),
+                            "$dest already member of ${home.homeName}!",
+                                Toast.LENGTH_LONG).show()
                         //TODO: Uncomment the next line and remove the rest - enabled to debug invites
-//                        success = false
                         invites.add(invite)
                         firestore.collection(USER_COL).document(destLoggedUserModel.UID)
                             .collection("invites").add(invite)
@@ -106,13 +101,12 @@ class AddMemberDialog : DialogFragment() {
                     firestore.collection(USER_COL).document(destLoggedUserModel.UID)
                         .collection("invites").add(invite)
                     }
+                    dismiss()
                 }
             }
             .addOnFailureListener {
                 e -> Log.w(TAG, "onSendClicked: error fetching user $e")
             }
-
-        if (success) { dismiss() }
     }
 
     companion object {

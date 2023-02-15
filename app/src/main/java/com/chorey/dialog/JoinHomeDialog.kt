@@ -15,6 +15,7 @@ import com.chorey.R
 import com.chorey.USER_COL
 import com.chorey.adapter.JoinHomeRecyclerAdapter
 import com.chorey.data.HomeModel
+import com.chorey.data.HomeUserModel
 import com.chorey.data.InviteModel
 import com.chorey.databinding.DialogJoinHomeBinding
 import com.chorey.viewmodel.LoginViewModel
@@ -46,7 +47,7 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = DialogJoinHomeBinding.inflate(inflater, container, false)
 
@@ -78,12 +79,9 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
                         Snackbar.LENGTH_LONG).show()
                 }
             }
-
             binding.joinHomeRecycler.adapter = joinHomeAdapter
         }
         binding.joinHomeRecycler.layoutManager = LinearLayoutManager(view.context)
-
-
         binding.joinHomeDismissButton.setOnClickListener { dismiss() }
     }
 
@@ -117,12 +115,22 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
         val db = Firebase.firestore
         val homeRef = db.collection(HOME_COL).document(inviteModel.homeUID)
         val userRef = db.collection(USER_COL).document(user.UID)
+        val homeUsersRef = homeRef.collection(USER_COL).document(user.name)
         user.memberOf[inviteModel.homeUID] = inviteModel.homeName
 
+        // Update the database -> $user joins $home
         db.runTransaction {
             val snapshot = it.get(homeRef)
             val homeModel = snapshot.toObject<HomeModel>()
-            it.set(homeRef, homeModel!!)
+            val homeUserModel = HomeUserModel(name = user.name)
+
+            // Add user to members array
+            homeModel!!.users.add(user.name)
+
+            it.set(homeRef, homeModel)
+
+            // Add user to 'users' sub-collection
+            it.set(homeUsersRef, homeUserModel)
             it.update(userRef, "memberOf", user.memberOf)
             null
         }

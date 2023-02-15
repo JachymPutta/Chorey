@@ -69,6 +69,7 @@ class MenuFragment : Fragment(),
 
         // FireStore instance
         firestore = Firebase.firestore
+        // This query needs to be updated -- check if user is null
         query = firestore.collection(HOME_COL)
 
         query?.let {

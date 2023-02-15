@@ -207,8 +207,7 @@ class HomeFragment : Fragment(),
                 binding.homeRecyclerTitle.setText(R.string.home_notes_title)
 
                 binding.allChoresRecycler.adapter = noteAdapter
-//                binding.allChoresRecycler.layoutManager = GridLayoutManager(requireView().context, NOTE_COLUMN_CNT)
-                binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireView().context)
+                binding.allChoresRecycler.layoutManager = GridLayoutManager(requireView().context, NOTE_COLUMN_CNT)
 
                 binding.addChoreButton.visibility = VISIBLE
                 binding.addChoreButton.setText(R.string.add_note_button)
