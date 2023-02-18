@@ -2,6 +2,7 @@ package com.chorey
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.opengl.Visibility
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
@@ -26,6 +27,7 @@ import com.chorey.viewmodel.LoginViewModel
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
@@ -46,7 +48,7 @@ class MenuFragment : Fragment(),
 
     private lateinit var confirmRemoveDialog: ConfirmRemoveDialog
 
-    private var query: Query? = null
+    private lateinit var query: Query
     private var curOp = HomeOperation.ADD
 
     private val viewModel by activityViewModels<LoginViewModel>()
@@ -63,36 +65,28 @@ class MenuFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // TODO: Re-enable logging - disabled while working on other stuff
         // Enable logging
         FirebaseFirestore.setLoggingEnabled(true)
 
         // FireStore instance
         firestore = Firebase.firestore
-        // This query needs to be updated -- check if user is null
-        query = firestore.collection(HOME_COL)
 
-        query?.let {
-            mrvAdapter = object : MenuRecyclerAdapter(it, this@MenuFragment) {
-                override fun onDataChanged() {
-                    // Change UI based on the number of homes present
-                    if (itemCount == 0) {
-                        binding.allRoomsRecycler.visibility = View.GONE
-                        binding.menuEmptyRecyclerText.visibility = View.VISIBLE
-                    } else {
-                        binding.allRoomsRecycler.visibility = View.VISIBLE
-                        binding.menuEmptyRecyclerText.visibility = View.GONE
-                    }
-                }
+        query = firestore.collection(HOME_COL).limit(MAX_HOMES.toLong())
 
-                override fun onError(e: FirebaseFirestoreException) {
-                    Snackbar.make(binding.root, "Error: check logs for info",
-                        Snackbar.LENGTH_LONG).show()
+        mrvAdapter = object : MenuRecyclerAdapter(query, this@MenuFragment) {
+            override fun onDataChanged() {
+                // Change UI based on the number of homes present
+                if (itemCount == 0) {
+                    binding.allRoomsRecycler.visibility = View.GONE
+                    binding.menuEmptyRecyclerText.visibility = View.VISIBLE
+                } else {
+                    binding.allRoomsRecycler.visibility = View.VISIBLE
+                    binding.menuEmptyRecyclerText.visibility = View.GONE
                 }
             }
-            binding.allRoomsRecycler.adapter = mrvAdapter
         }
 
+        binding.allRoomsRecycler.adapter = mrvAdapter
         binding.allRoomsRecycler.layoutManager = LinearLayoutManager(view.context)
 
         observeAuthState()
@@ -109,13 +103,9 @@ class MenuFragment : Fragment(),
         // Start sign in if necessary
         if (needSignIn()) {
             makeWelcomeScreen()
-            return
+        } else {
+            checkUserName()
         }
-
-        checkUserName()
-
-        // Start listening for Firestore updates
-        mrvAdapter.startListening()
     }
 
     override fun onStop() {
@@ -129,6 +119,7 @@ class MenuFragment : Fragment(),
                 val homeVal = doc.toObject<HomeModel>()
 
                 if (curOp == HomeOperation.DELETE) {
+                    //TODO: this has to update the memberOf user field and remove sub-collections
                     confirmRemoveDialog.snapshot = home
                     confirmRemoveDialog.name = homeVal!!.homeName
                     confirmRemoveDialog.show(childFragmentManager, ConfirmRemoveDialog.TAG)
@@ -140,7 +131,6 @@ class MenuFragment : Fragment(),
             }.addOnFailureListener{
                 e -> Log.d(TAG, "Error fetching home from snap: $e!")
             }
-
     }
 
     private fun observeAuthState() {
@@ -202,25 +192,29 @@ class MenuFragment : Fragment(),
     }
 
     private fun checkUserName() {
-        val user = Firebase.auth.currentUser
-        if(user == null) {
-            Log.e(TAG, "checkUserName got a null user")
-            return
-        }
+        val user = Firebase.auth.currentUser ?: return
+        //TODO: Show a loading screen
+        binding.root.visibility = View.GONE
 
         firestore.collection(USER_COL).document(user.uid)
             .get()
-            .addOnSuccessListener { ds ->
-                if (!ds.exists()) {
-                    getUserNameDialog()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val ds = task.result
+                    if (ds.exists()) {
+                        viewModel.user = ds.toObject<LoggedUserModel>()
+                    } else {
+                        getUserNameDialog()
+                    }
+
+                    val myHomes = viewModel.user!!.memberOf.values
+                    query = firestore.collection(HOME_COL).whereIn("homeName", myHomes.toList())
+                    mrvAdapter.setQuery(query)
+                    binding.root.visibility = View.VISIBLE
                 } else {
-                    viewModel.user = ds.toObject<LoggedUserModel>()
+                    Log.d(TAG, "Failed with: ${task.exception}")
                 }
             }
-            .addOnFailureListener {
-                e -> Log.e(TAG, "Error fetching user $e")
-            }
-
     }
     private fun getUserNameDialog() {
         val builder = AlertDialog.Builder(requireContext())

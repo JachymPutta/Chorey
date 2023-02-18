@@ -75,7 +75,7 @@ class AddMemberDialog : DialogFragment() {
             fromUser = sender.name
         )
         // 3. check whether the user is valid
-        firestore.collection(USER_COL).whereEqualTo("name", dest).get()
+        firestore.collection(USER_COL).whereEqualTo("name", dest).limit(1).get()
             .addOnSuccessListener {snap ->
                 if (snap.isEmpty) {
                     Toast.makeText(requireActivity(), "User $dest not found!", Toast.LENGTH_LONG).show()
