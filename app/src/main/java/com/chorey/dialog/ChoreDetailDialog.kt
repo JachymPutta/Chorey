@@ -299,13 +299,21 @@ class ChoreDetailDialog : DialogFragment(),
     private fun onRemoveClicked() {
         val uid = args.choreModel!!.UID
 
-        //TODO: I could show the confirm remove dialog with the chore name and the doc reference
-        Firebase.firestore.collection(HOME_COL).document(args.homeModel.UID)
-            .collection(CHORE_COL).document(uid).delete()
-            .addOnSuccessListener { Log.d(TAG, "Chore successfully deleted!") }
-            .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
-
-        dismiss()
+        val builder = AlertDialog.Builder(requireActivity())
+        builder.setMessage("Are you sure you want to remove this chore?")
+            .setPositiveButton(R.string.confirm_remove_yes)
+            { _, _ ->
+                Firebase.firestore.collection(HOME_COL).document(args.homeModel.UID)
+                    .collection(CHORE_COL).document(uid).delete()
+                    .addOnSuccessListener { Log.d(TAG, "Chore successfully deleted!") }
+                    .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
+                dismiss()
+            }
+            .setNegativeButton(R.string.confirm_remove_no)
+            { a, _ ->
+               a.dismiss()
+            }
+        builder.show()
     }
 
     private fun checkChoreInput() : Boolean {

@@ -37,7 +37,8 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
 class MenuFragment : Fragment(),
-    MenuRecyclerAdapter.OnHomeSelectedListener {
+    MenuRecyclerAdapter.OnHomeSelectedListener,
+    CreateHomeDialog.CreateHomeListener {
     enum class HomeOperation {
         ADD, DELETE
     }
@@ -45,10 +46,8 @@ class MenuFragment : Fragment(),
     private lateinit var mrvAdapter: MenuRecyclerAdapter
     private lateinit var binding: FragmentMenuBinding
     private lateinit var firestore: FirebaseFirestore
-
-    private lateinit var confirmRemoveDialog: ConfirmRemoveDialog
-
     private lateinit var query: Query
+
     private var curOp = HomeOperation.ADD
 
     private val viewModel by activityViewModels<LoginViewModel>()
@@ -89,9 +88,9 @@ class MenuFragment : Fragment(),
         binding.allRoomsRecycler.adapter = mrvAdapter
         binding.allRoomsRecycler.layoutManager = LinearLayoutManager(view.context)
 
-        observeAuthState()
+        binding.menuContentLayout.visibility = View.GONE
 
-        confirmRemoveDialog = ConfirmRemoveDialog()
+        observeAuthState()
 
         binding.addHomeButton.setOnClickListener{ addHomeHandle() }
         binding.removeHomeButton.setOnClickListener { removeHomeToggle() }
@@ -120,9 +119,8 @@ class MenuFragment : Fragment(),
 
                 if (curOp == HomeOperation.DELETE) {
                     //TODO: this has to update the memberOf user field and remove sub-collections
-                    confirmRemoveDialog.snapshot = home
-                    confirmRemoveDialog.name = homeVal!!.homeName
-                    confirmRemoveDialog.show(childFragmentManager, ConfirmRemoveDialog.TAG)
+                    val confirmDialog = ConfirmRemoveDialog(home, homeVal!!.homeName, true)
+                    confirmDialog.show(childFragmentManager, ConfirmRemoveDialog.TAG)
                     removeHomeToggle()
                 } else {
                     val action = MenuFragmentDirections.actionMenuToHome(homeVal!!)
@@ -131,6 +129,15 @@ class MenuFragment : Fragment(),
             }.addOnFailureListener{
                 e -> Log.d(TAG, "Error fetching home from snap: $e!")
             }
+    }
+
+    override fun onHomeCreated() {
+        val myHomes = viewModel.user!!.memberOf.values
+
+        if (!myHomes.isEmpty()) {
+            query = firestore.collection(HOME_COL).whereIn("homeName", myHomes.toList())
+            mrvAdapter.setQuery(query)
+        }
     }
 
     private fun observeAuthState() {
@@ -193,8 +200,6 @@ class MenuFragment : Fragment(),
 
     private fun checkUserName() {
         val user = Firebase.auth.currentUser ?: return
-        //TODO: Show a loading screen
-        binding.root.visibility = View.GONE
 
         firestore.collection(USER_COL).document(user.uid)
             .get()
@@ -208,9 +213,14 @@ class MenuFragment : Fragment(),
                     }
 
                     val myHomes = viewModel.user!!.memberOf.values
-                    query = firestore.collection(HOME_COL).whereIn("homeName", myHomes.toList())
-                    mrvAdapter.setQuery(query)
-                    binding.root.visibility = View.VISIBLE
+
+                    if (!myHomes.isEmpty()) {
+                        query = firestore.collection(HOME_COL).whereIn("homeName", myHomes.toList())
+                        mrvAdapter.setQuery(query)
+                    }
+
+                    binding.menuContentLayout.visibility = View.VISIBLE
+                    binding.menuLoadingText.visibility = View.GONE
                 } else {
                     Log.d(TAG, "Failed with: ${task.exception}")
                 }
@@ -282,7 +292,7 @@ class MenuFragment : Fragment(),
         val addHomeBuilder = AlertDialog.Builder(requireContext())
        addHomeBuilder.setTitle(R.string.add_home_dialog_title)
             .setPositiveButton(R.string.create_home_button) { _, _ ->
-                CreateHomeDialog().show(parentFragmentManager, "CreateNewHome")
+                CreateHomeDialog(this@MenuFragment).show(parentFragmentManager, "CreateNewHome")
             }
             .setNegativeButton(R.string.join_existing_home_button) { _, _ ->
                 JoinHomeDialog().show(parentFragmentManager, "JoinExistingHome")

@@ -14,3 +14,10 @@ data class HomeModel (
     var homeName: String = "",
     val users : ArrayList<String> = arrayListOf()
 ) : Parcelable
+{
+    companion object {
+        const val FIELD_UID = "UID"
+        const val FIELD_NAME = "homeName"
+        const val FIELD_USERS = "users"
+    }
+}

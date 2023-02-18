@@ -17,6 +17,7 @@ import com.chorey.adapter.JoinHomeRecyclerAdapter
 import com.chorey.data.HomeModel
 import com.chorey.data.HomeUserModel
 import com.chorey.data.InviteModel
+import com.chorey.data.LoggedUserModel
 import com.chorey.databinding.DialogJoinHomeBinding
 import com.chorey.viewmodel.LoginViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -31,19 +32,15 @@ import com.google.firebase.ktx.Firebase
 
 class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedListener{
 
-    private var joinHomeListener: JoinHomeListener? = null
     private var _binding: DialogJoinHomeBinding? = null
     private val binding get() = _binding!!
-    private var query: Query? = null
 
+    private lateinit var query: Query
     private lateinit var firestore: FirebaseFirestore
     private lateinit var joinHomeAdapter: JoinHomeRecyclerAdapter
 
     private val viewModel by activityViewModels<LoginViewModel>()
 
-    internal interface JoinHomeListener {
-        fun onJoinClicked(homeModel: HomeModel)
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -62,35 +59,21 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
         query = firestore.collection(USER_COL).document(viewModel.user!!.UID)
             .collection("invites")
 
-        query?.let {
-            joinHomeAdapter = object : JoinHomeRecyclerAdapter(it, this@JoinHomeDialog) {
-                override fun onDataChanged() {
-                    if (itemCount == 0) {
-                        binding.joinHomeRecycler.visibility = View.GONE
-                        binding.joinHomeTitle.setText(R.string.join_home_your_invites_empty)
-                    } else {
-                        binding.joinHomeRecycler.visibility = View.VISIBLE
-                        binding.joinHomeTitle.setText(R.string.join_home_your_invites_full)
-                    }
-                }
-
-                override fun onError(e: FirebaseFirestoreException) {
-                    Snackbar.make(binding.root, "Error: check logs for info",
-                        Snackbar.LENGTH_LONG).show()
+        joinHomeAdapter = object : JoinHomeRecyclerAdapter(query, this@JoinHomeDialog) {
+            override fun onDataChanged() {
+                if (itemCount == 0) {
+                    binding.joinHomeRecycler.visibility = View.GONE
+                    binding.joinHomeTitle.setText(R.string.join_home_your_invites_empty)
+                } else {
+                    binding.joinHomeRecycler.visibility = View.VISIBLE
+                    binding.joinHomeTitle.setText(R.string.join_home_your_invites_full)
                 }
             }
-            binding.joinHomeRecycler.adapter = joinHomeAdapter
         }
+
+        binding.joinHomeRecycler.adapter = joinHomeAdapter
         binding.joinHomeRecycler.layoutManager = LinearLayoutManager(view.context)
         binding.joinHomeDismissButton.setOnClickListener { dismiss() }
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        if (parentFragment is JoinHomeListener) {
-            joinHomeListener = parentFragment as JoinHomeListener
-        }
     }
 
     override fun onStart() {
@@ -131,7 +114,7 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
 
             // Add user to 'users' sub-collection
             it.set(homeUsersRef, homeUserModel)
-            it.update(userRef, "memberOf", user.memberOf)
+            it.update(userRef, LoggedUserModel.FIELD_MEMBER_OF, user.memberOf)
             null
         }
     }

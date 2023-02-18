@@ -1,7 +1,6 @@
 package com.chorey.dialog
 
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -13,18 +12,21 @@ import com.chorey.HOME_COL
 import com.chorey.USER_COL
 import com.chorey.data.HomeModel
 import com.chorey.data.HomeUserModel
+import com.chorey.data.LoggedUserModel
 import com.chorey.databinding.DialogCreateHomeBinding
-import com.chorey.util.HomeUtil
 import com.chorey.viewmodel.LoginViewModel
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.util.UUID
 
-class CreateHomeDialog : DialogFragment() {
+class CreateHomeDialog(private val listener : CreateHomeListener?) : DialogFragment() {
     private var _binding: DialogCreateHomeBinding? = null
     private val binding get() = _binding!!
     private val loginViewModel by activityViewModels<LoginViewModel>()
+
+    interface CreateHomeListener {
+        fun onHomeCreated()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -77,9 +79,10 @@ class CreateHomeDialog : DialogFragment() {
         db.runBatch {
             it.set(homeRef, home)
             it.set(homeRef.collection(USER_COL).document(user.name), homeUserModel)
-            it.update(userRef, "memberOf", user.memberOf)
+            it.update(userRef, LoggedUserModel.FIELD_MEMBER_OF, user.memberOf)
         }
 
+        listener?.onHomeCreated()
         dismiss()
     }
 

@@ -83,7 +83,7 @@ open class ChoreRecyclerAdapter(query: Query,
         Firebase.firestore.runBatch {
 
             // Handle points
-            it.update(userRef, "points", FieldValue.increment(choreModel.points.toLong()))
+            it.update(userRef, LoggedUserModel.FIELD_POINTS, FieldValue.increment(choreModel.points.toLong()))
 
             // If non repeating -> delete, else update due date
             when(choreModel.repeatsEvery) {

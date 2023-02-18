@@ -7,3 +7,12 @@ data class LoggedUserModel(
     var invites : ArrayList<InviteModel> = arrayListOf(),
     val memberOf : MutableMap<String, String> = mutableMapOf()
 )
+{
+    companion object {
+        const val FIELD_UID = "UID"
+        const val FIELD_NAME = "homeName"
+        const val FIELD_POINTS = "points"
+        const val FIELD_INVITES = "invites"
+        const val FIELD_MEMBER_OF = "memberOf"
+    }
+}
