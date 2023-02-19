@@ -12,11 +12,10 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="materialButtonStyle">@style/ChoreyButtonStyle</item>
-<!--        <item name="buttonBarButtonStyle">@style/ChoreyBarButtonStyle</item>-->
-        <item name="buttonStyle">@style/ChoreyButtonStyle</item>
-        <item name="buttonBarStyle">@style/ChoreyButtonStyle</item>
-        <item name="buttonBarButtonStyle">@style/ChoreyButtonStyle</item>
+        <item name="cardViewStyle">@style/CardStyle.Light</item>
+        <item name="buttonStyle">@style/ChoreyButton.Light</item>
+        <item name="buttonBarButtonStyle">@style/ChoreyBarButton.Light</item>
+        <item name="recyclerViewStyle">@style/RecyclerStyleLarge</item>
 
 
     </style>

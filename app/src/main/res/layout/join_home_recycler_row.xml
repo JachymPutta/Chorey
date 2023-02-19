@@ -8,7 +8,7 @@
     >
 
     <androidx.cardview.widget.CardView
-        style="@style/CardStyle"
+        style="?attr/cardViewStyle"
         tools:ignore="MissingConstraints">
 
         <androidx.constraintlayout.widget.ConstraintLayout

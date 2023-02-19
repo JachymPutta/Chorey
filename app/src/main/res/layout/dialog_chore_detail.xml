@@ -212,14 +212,14 @@
 
         <Button
             android:id="@+id/createChoreRemoveButton"
-            style="?android:attr/buttonBarButtonStyle"
+            style="?attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/create_chore_remove_button" />
 
         <Button
             android:id="@+id/createChoreCreateButton"
-            style="?android:attr/buttonBarButtonStyle"
+            style="?attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/create_home_yes" />

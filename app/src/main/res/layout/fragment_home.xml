@@ -37,7 +37,7 @@
 
         <ImageButton
             android:id="@+id/addMemberButton"
-            style="?android:attr/buttonBarButtonStyle"
+            style="?attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/add_members_button"
@@ -60,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/home_item_place_holder"
-            style="?android:attr/buttonBarButtonStyle"
+            style="?attr/buttonBarButtonStyle"
             android:minWidth="0dp"
             android:minHeight="0dp"
             android:src="@mipmap/home_icon"
@@ -97,7 +97,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/allChoresRecycler"
-        style="@style/RecyclerStyleLarge"
+        style="?attr/recyclerViewStyle"
         tools:ignore="MissingConstraints"
         app:layout_constraintTop_toBottomOf="@id/homeRecyclerTitle"
         >
@@ -108,7 +108,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_chore_button"
-        style="?android:attr/buttonStyle"
+        style="?attr/buttonStyle"
         app:layout_constraintTop_toBottomOf="@id/allChoresRecycler"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -131,7 +131,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/notice_board_icon_desc"
-            style="?android:attr/buttonBarButtonStyle"
+            style="?attr/buttonBarButtonStyle"
             android:drawableTop="@mipmap/notice_board_icon"
             />
 
@@ -140,7 +140,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_weight="1"
-            style="?android:attr/buttonBarButtonStyle"
+            style="?attr/buttonBarButtonStyle"
             android:drawableTop="@mipmap/ic_check_list"
             android:text="@string/home_icon_desc" />
 
@@ -151,7 +151,7 @@
             android:layout_weight="1"
             android:text="@string/home_summary_button"
             android:drawableTop="@mipmap/summary_icon"
-            style="?android:attr/buttonBarButtonStyle"
+            style="?attr/buttonBarButtonStyle"
             />
     </LinearLayout>
 

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
-        style="@style/CardStyle"
+        style="?attr/cardViewStyle"
         app:strokeWidth="1dp"
         app:strokeColor="@color/black"
         tools:ignore="MissingConstraints">

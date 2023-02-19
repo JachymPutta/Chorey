@@ -22,7 +22,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/joinHomeRecycler"
-        style="@style/RecyclerStyleLarge"
+        style="?attr/recyclerViewStyle"
         android:layout_height="300dp"
         android:minHeight="200dp"
         tools:ignore="MissingConstraints"
@@ -42,7 +42,7 @@
             android:id="@+id/joinHomeDismissButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?android:attr/buttonBarButtonStyle"
+            style="?attr/buttonBarButtonStyle"
             android:text="@string/create_home_no" />
 
     </LinearLayout>

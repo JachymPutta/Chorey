@@ -22,7 +22,7 @@
         <item name="android:layout_height">450dp</item>
     </style>
     
-    <style name="CardStyle">
+    <style name="CardStyle" parent="Widget.MaterialComponents.CardView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:elevation">10dp</item>
@@ -35,15 +35,27 @@
         <item name="layout_constraintTop_toTopOf">parent</item>
     </style>
 
-    <style name="ChoreyButtonStyle">
-        <item name="backgroundTint">@color/purple_200</item>
-        <item name="android:color">@color/purple_200</item>
-        <item name="colorAccent">@color/purple_200</item>
-        <item name="android:colorAccent">@color/purple_200</item>
+    <style name="CardStyle.Light">
+
+    </style>
+    <style name="CardStyle.Dark">
+
     </style>
 
-    <style name="ChoreyBarButtonStyle">
-        <item name="android:background">@color/secondaryColor</item>
-        <item name="cornerRadius">10dp</item>
+    <style name="ChoreyButton" parent="Widget.AppCompat.Button">
+    </style>
+    <style name="ChoreyButton.Light">
+        <item name="backgroundTint">@color/secondaryColor</item>
+    </style>
+    <style name="ChoreyButton.Dark">
+        <item name="backgroundTint">@color/purple_200</item>
+    </style>
+
+    <!-- Bar buttons -->
+    <style name="ChoreyBarButton" parent="Widget.AppCompat.Button.Borderless">
+    </style>
+    <style name="ChoreyBarButton.Light">
+    </style>
+    <style name="ChoreyBarButton.Dark">
     </style>
 </resources>
