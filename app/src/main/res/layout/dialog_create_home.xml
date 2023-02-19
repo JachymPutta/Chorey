@@ -57,7 +57,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:counterEnabled="true"
-        app:counterMaxLength="15"
+        app:counterMaxLength="10"
         >
 
         <com.google.android.material.textfield.TextInputEditText

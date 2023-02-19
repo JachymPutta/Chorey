@@ -8,12 +8,33 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="primaryColor">#632700</color>
-    <color name="primaryLightColor">#95512b</color>
-    <color name="primaryDarkColor">#390000</color>
-    <color name="secondaryColor">#635900</color>
-    <color name="secondaryLightColor">#938533</color>
-    <color name="secondaryDarkColor">#383000</color>
-    <color name="primaryTextColor">#ffffff</color>
-    <color name="secondaryTextColor">#ffffff</color>
+<!--    Brown colors -->
+<!--    <color name="primaryColor">#632700</color>-->
+<!--    <color name="primaryLightColor">#95512b</color>-->
+<!--    <color name="primaryDarkColor">#390000</color>-->
+<!--    <color name="secondaryColor">#635900</color>-->
+<!--    <color name="secondaryLightColor">#938533</color>-->
+<!--    <color name="secondaryDarkColor">#383000</color>-->
+<!--    <color name="primaryTextColor">#ffffff</color>-->
+<!--    <color name="secondaryTextColor">#ffffff</color>-->
+
+<!--    Light mode colors -->
+<!--    <color name="primaryColor">#c7e5c8</color>-->
+<!--    <color name="primaryLightColor">#fafffb</color>-->
+<!--    <color name="primaryDarkColor">#96b397</color>-->
+<!--    <color name="secondaryColor">#ffc107</color>-->
+<!--    <color name="secondaryLightColor">#fff350</color>-->
+<!--    <color name="secondaryDarkColor">#c79100</color>-->
+<!--    <color name="primaryTextColor">#000000</color>-->
+<!--    <color name="secondaryTextColor">#000000</color>-->
+
+<!--    Dark mode V1-->
+    <color name="primaryColor">#009688</color>
+    <color name="primaryLightColor">#52c7b8</color>
+    <color name="primaryDarkColor">#00675b</color>
+    <color name="secondaryColor">#ffa000</color>
+    <color name="secondaryLightColor">#ffd149</color>
+    <color name="secondaryDarkColor">#c67100</color>
+    <color name="primaryTextColor">#000000</color>
+    <color name="secondaryTextColor">#000000</color>
 </resources>

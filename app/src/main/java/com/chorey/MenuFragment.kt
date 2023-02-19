@@ -172,6 +172,9 @@ class MenuFragment : Fragment(),
      * Function to change the UI when there is no user logged in
      */
     private fun makeWelcomeScreen() {
+        binding.menuContentLayout.visibility = View.VISIBLE
+        binding.menuLoadingText.visibility = View.GONE
+
         binding.allRoomsRecycler.visibility = View.GONE
         binding.addHomeButton.visibility = View.GONE
         binding.removeHomeButton.visibility = View.GONE
@@ -208,15 +211,9 @@ class MenuFragment : Fragment(),
                     val ds = task.result
                     if (ds.exists()) {
                         viewModel.user = ds.toObject<LoggedUserModel>()
+                        updateQuery()
                     } else {
                         getUserNameDialog()
-                    }
-
-                    val myHomes = viewModel.user!!.memberOf.values
-
-                    if (!myHomes.isEmpty()) {
-                        query = firestore.collection(HOME_COL).whereIn("homeName", myHomes.toList())
-                        mrvAdapter.setQuery(query)
                     }
 
                     binding.menuContentLayout.visibility = View.VISIBLE
@@ -225,6 +222,16 @@ class MenuFragment : Fragment(),
                     Log.d(TAG, "Failed with: ${task.exception}")
                 }
             }
+    }
+
+    private fun updateQuery() {
+        val myHomes = viewModel.user!!.memberOf.values
+
+        if (!myHomes.isEmpty()) {
+            query = firestore.collection(HOME_COL).whereIn("homeName", myHomes.toList())
+            mrvAdapter.setQuery(query)
+        }
+
     }
     private fun getUserNameDialog() {
         val builder = AlertDialog.Builder(requireContext())
@@ -247,6 +254,7 @@ class MenuFragment : Fragment(),
                     name = nameInput.text.toString()
                 )
                 viewModel.user = loggedUserModel
+                updateQuery()
                 firestore.collection(USER_COL).document(loggedUserModel.UID).set(loggedUserModel)
                 dialog.dismiss()
             }

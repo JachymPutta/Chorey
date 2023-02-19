@@ -53,7 +53,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/auth_button_logout"
-        style="?android:attr/buttonBarButtonStyle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -76,7 +75,6 @@
 
         <Button
             android:id="@+id/addHomeButton"
-            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -92,7 +90,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/remove_home_button"
-            style="?android:attr/buttonBarButtonStyle"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             />
 
