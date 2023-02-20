@@ -13,7 +13,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:padding="5dp"
+            android:padding="7dp"
             android:layout_height="match_parent">
 
             <TextView
@@ -24,6 +24,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:flow_horizontalAlign="center"
                 android:text="@string/chore_item_name"
+                android:textColor="?attr/colorOnPrimary"
                 />
 
             <TextView
@@ -32,6 +33,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/choreName"
+                android:textColor="?attr/colorOnPrimary"
                 android:text="@string/chore_item_assignee_text"
                 />
 
@@ -41,6 +43,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/choreName"
                 app:layout_constraintStart_toEndOf="@id/choreAssignedToText"
+                android:textColor="?attr/colorOnPrimary"
                 android:text="@string/chore_item_assignee"
                 />
 
@@ -50,6 +53,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/choreAssignedToText"
+                android:textColor="?attr/colorOnPrimary"
                 android:text="@string/chore_item_due_text"
                 />
 
@@ -60,6 +64,7 @@
                 app:layout_constraintTop_toTopOf="@id/choreDueText"
                 app:layout_constraintBottom_toBottomOf="@id/choreDueText"
                 app:layout_constraintStart_toEndOf="@id/choreDueText"
+                android:textColor="?attr/colorOnPrimary"
                 android:text="@string/chore_item_due"
                 />
 
@@ -72,6 +77,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:minHeight="0dp"
                 android:minWidth="0dp"
+                style="?attr/buttonStyle"
                 android:text="@string/chore_item_completed" />
 
 

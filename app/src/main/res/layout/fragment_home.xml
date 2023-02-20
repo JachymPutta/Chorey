@@ -32,18 +32,21 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
+        android:background="?attr/colorPrimary"
         android:gravity="center"
         >
 
         <ImageButton
             android:id="@+id/addMemberButton"
-            style="?attr/buttonBarButtonStyle"
+            style="?attr/buttonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/add_members_button"
             android:minWidth="0dp"
             android:minHeight="0dp"
-            android:src="@mipmap/ic_add_member_round" />
+            android:src="@mipmap/ic_add_member_round"
+            />
+
 
         <TextView
             android:id="@+id/homeName"
@@ -55,15 +58,15 @@
             android:paddingStart="20dp"
             />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/homeToMenuButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/home_item_place_holder"
-            style="?attr/buttonBarButtonStyle"
+            style="?attr/buttonStyle"
             android:minWidth="0dp"
             android:minHeight="0dp"
-            android:src="@mipmap/home_icon"
+            android:src="@mipmap/home_icon_round"
             android:layout_marginStart="20dp"
             />
     </LinearLayout>
@@ -75,10 +78,12 @@
         android:text="@string/home_all_chores_text"
         app:layout_constraintTop_toBottomOf="@id/homeFragmentTopLayout"
         app:layout_constraintBottom_toTopOf="@id/allChoresRecycler"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="20dp"
-        android:textSize="16sp"
+        android:textSize="@dimen/medium_text_size"
         android:textStyle="bold"
         />
 
@@ -100,6 +105,7 @@
         style="?attr/recyclerViewStyle"
         tools:ignore="MissingConstraints"
         app:layout_constraintTop_toBottomOf="@id/homeRecyclerTitle"
+        app:layout_constraintBottom_toTopOf="@id/addChoreButton"
         >
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -123,6 +129,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:background="?attr/colorPrimaryVariant"
         >
 
         <Button

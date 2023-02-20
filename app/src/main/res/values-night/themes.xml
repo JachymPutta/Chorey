@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Chorey" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Chorey" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primaryLightColorDark</item>
         <item name="colorPrimaryVariant">@color/primaryColorDark</item>
@@ -12,9 +12,12 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="cardViewStyle">@style/CardStyle.Dark</item>
-        <item name="buttonStyle">@style/ChoreyButton.Dark</item>
-        <item name="buttonBarButtonStyle">@style/ChoreyBarButton.Dark</item>
+        <item name="cardViewStyle">@style/CardStyle</item>
+        <item name="buttonStyle">@style/ChoreyButton</item>
+        <item name="buttonBarButtonStyle">@style/ChoreyBarButton</item>
         <item name="recyclerViewStyle">@style/RecyclerStyleLarge</item>
+
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 </resources>

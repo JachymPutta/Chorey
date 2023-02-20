@@ -5,13 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         style="?attr/cardViewStyle"
         tools:ignore="MissingConstraints">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            >
 
             <ImageView
                 android:id="@+id/homesListIcon"
@@ -22,7 +24,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.5"
-                app:srcCompat="@android:drawable/ic_dialog_map" />
+                />
 
             <TextView
                 android:id="@+id/homesListName"
@@ -30,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/home_item_place_holder"
                 android:textSize="22sp"
+                android:textColor="?attr/colorOnPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -39,6 +42,7 @@
                 android:id="@+id/homesListMembersText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="?attr/colorOnPrimary"
                 android:text="@string/home_item_members"
                 app:layout_constraintEnd_toStartOf="@id/homesListMembers"
                 app:layout_constraintTop_toTopOf="parent"
@@ -48,6 +52,7 @@
                 android:id="@+id/homesListMembers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="?attr/colorOnPrimary"
                 android:text="@string/home_item_zero"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -56,6 +61,7 @@
                 android:id="@+id/homesListPointsText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="?attr/colorOnPrimary"
                 android:text="@string/home_item_score"
                 app:layout_constraintEnd_toStartOf="@id/homesListPoints"
                 app:layout_constraintTop_toBottomOf="@id/homesListMembersText"
@@ -65,10 +71,11 @@
                 android:id="@+id/homesListPoints"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="?attr/colorOnPrimary"
                 android:text="@string/home_item_zero"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/homesListMembers" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,45 +24,65 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <LinearLayout
+            android:id="@+id/menuTitleLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimaryVariant"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            >
+            <TextView
+                android:id="@+id/menuTitleText"
+                style="@style/Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/menu_title_default"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
 
-    <TextView
-        style="@style/Title"
-        android:id="@+id/menuTitleText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/menu_title_default"
-        app:layout_constraintBottom_toTopOf="@id/all_rooms_recycler"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        </LinearLayout>
 
     <TextView
         android:id="@+id/menuEmptyRecyclerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/menu_text_empty_recycler"
-        app:layout_constraintTop_toBottomOf="@id/menuTitleText"
+        app:layout_constraintTop_toBottomOf="@id/menuTitleLayout"
         app:layout_constraintBottom_toTopOf="@id/menuButtonLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
 
 
-    <Button
-        android:id="@+id/authButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/auth_button_logout"
-        style="?attr/buttonStyle"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        <LinearLayout
+            android:id="@+id/menuBottomLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:background="?attr/colorPrimaryVariant"
+            >
+
+            <Button
+                android:id="@+id/authButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/auth_button_logout"
+                style="?attr/buttonStyle"
+                />
+        </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/all_rooms_recycler"
         style="?attr/recyclerViewStyle"
         tools:ignore="MissingConstraints"
+        app:layout_constraintBottom_toTopOf="@id/menuButtonLayout"
+        app:layout_constraintTop_toBottomOf="@id/menuTitleLayout"
+        android:layout_marginTop="10dp"
         />
 
     <LinearLayout
@@ -72,7 +92,10 @@
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/all_rooms_recycler">
+        app:layout_constraintBottom_toTopOf="@id/menuBottomLayout"
+        android:layout_marginBottom="10dp"
+        >
+
 
         <Button
             android:id="@+id/addHomeButton"

@@ -7,7 +7,7 @@
     android:minWidth="300dp"
     >
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         style="?attr/cardViewStyle"
         tools:ignore="MissingConstraints">
 
@@ -68,5 +68,5 @@
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
