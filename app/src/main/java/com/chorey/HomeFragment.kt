@@ -1,5 +1,6 @@
 package com.chorey
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -21,6 +22,7 @@ import com.chorey.adapter.SummaryRecyclerAdapter
 import com.chorey.data.ChoreModel
 import com.chorey.data.NoteModel
 import com.chorey.databinding.FragmentHomeBinding
+import com.chorey.dialog.AddMemberDialog
 import com.chorey.viewmodel.LoginViewModel
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
@@ -176,6 +178,10 @@ class HomeFragment : Fragment(),
     private fun addMemberHandle() {
         val action = HomeFragmentDirections.actionHomeFragmentToAddMemberDialog(home)
         findNavController().navigate(action)
+        // TODO: This might not work
+//        val dialog = AddMemberDialog()
+//        dialog.view?.setBackgroundColor(Color.TRANSPARENT)
+//        dialog.show(childFragmentManager, TAG)
     }
 
     /**

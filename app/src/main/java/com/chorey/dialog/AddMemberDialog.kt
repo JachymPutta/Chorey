@@ -11,6 +11,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.chorey.INVITE_COL
+import com.chorey.R
 import com.chorey.USER_COL
 import com.chorey.data.HomeModel
 import com.chorey.data.InviteModel
@@ -41,6 +42,7 @@ class AddMemberDialog : DialogFragment() {
 
         home = args.homeModel
         firestore = Firebase.firestore
+
 
         binding.addMemberSendButton.setOnClickListener { onSendClicked() }
         binding.addMemberCancelButton.setOnClickListener { dismiss() }

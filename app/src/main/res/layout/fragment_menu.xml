@@ -28,6 +28,7 @@
             android:id="@+id/menuTitleLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
             android:background="?attr/colorPrimaryVariant"
             android:orientation="horizontal"
             android:gravity="center_horizontal"
@@ -54,6 +55,7 @@
         app:layout_constraintBottom_toTopOf="@id/menuButtonLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="?attr/colorOnPrimary"
         />
 
 

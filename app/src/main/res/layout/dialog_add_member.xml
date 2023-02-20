@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/dialog_background"
     tools:context=".dialog.AddMemberDialog">
 
 
@@ -31,7 +32,7 @@
 
         <Button
             android:id="@+id/addMemberCancelButton"
-            style="?attr/borderlessButtonStyle"
+            style="?attr/buttonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_member_dialog_no"/>
@@ -43,7 +44,7 @@
 
         <Button
             android:id="@+id/addMemberSendButton"
-            style="?attr/borderlessButtonStyle"
+            style="?attr/buttonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_member_dialog_yes" />
@@ -51,17 +52,23 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/addMemberNameInput"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minWidth="300dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:textColorHint="?attr/colorOnPrimary"
+        app:hintTextColor="?attr/colorOnPrimary"
+        app:boxStrokeColor="?attr/colorOnPrimary"
         app:counterEnabled="true"
         app:counterMaxLength="30"
         >
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
+            android:textColor="?attr/colorOnPrimary"
+            android:background="?attr/colorSecondary"
             android:layout_height="wrap_content"
             android:hint="@string/add_member_dialog_hint" />
     </com.google.android.material.textfield.TextInputLayout>

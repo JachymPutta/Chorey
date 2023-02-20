@@ -2,6 +2,7 @@ package com.chorey
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.graphics.Color
 import android.opengl.Visibility
 import android.os.Bundle
 import android.text.InputType
