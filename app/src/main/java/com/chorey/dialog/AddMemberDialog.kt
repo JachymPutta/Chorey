@@ -23,15 +23,13 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
-class AddMemberDialog : DialogFragment() {
+class AddMemberDialog(private val home : HomeModel) : DialogFragment() {
 
     private var _binding: DialogAddMemberBinding? = null
     private val binding get() = _binding!!
     private val loginViewModel by activityViewModels<LoginViewModel>()
-    private val args: AddMemberDialogArgs by navArgs()
 
     private lateinit var firestore: FirebaseFirestore
-    private lateinit var home : HomeModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +38,6 @@ class AddMemberDialog : DialogFragment() {
     ): View {
         _binding = DialogAddMemberBinding.inflate(inflater, container, false)
 
-        home = args.homeModel
         firestore = Firebase.firestore
 
 
@@ -55,6 +52,11 @@ class AddMemberDialog : DialogFragment() {
             }
         }
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
     }
 
     override fun onDestroyView() {

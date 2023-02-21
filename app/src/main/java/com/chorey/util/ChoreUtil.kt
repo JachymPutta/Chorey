@@ -43,7 +43,7 @@ object ChoreUtil {
 
     private fun updateTime(oldChore:ChoreModel) {
         val calendar = Calendar.getInstance()
-        calendar.timeInMillis = oldChore.whenDue!!
+        calendar.timeInMillis = oldChore.whenDue
         when (oldChore.repeatsEvery) {
             RepeatInterval.None -> {}
             RepeatInterval.Year -> calendar.add(Calendar.YEAR, 1)

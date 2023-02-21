@@ -97,8 +97,8 @@
     <string name="chore_detail_reward">Reward:</string>
 
     <!-- Add Member Dialog -->
-    <string name="add_member_dialog_title">Invite user!</string>
-    <string name="add_member_dialog_yes">Send Invite</string>
+    <string name="add_member_dialog_title">Invite User</string>
+    <string name="add_member_dialog_yes">Send</string>
     <string name="add_member_dialog_no">Cancel</string>
     <string name="add_member_dialog_hint">Enter User name:</string>
 

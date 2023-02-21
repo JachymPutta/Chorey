@@ -14,10 +14,9 @@
         android:layout_height="wrap_content"
         style="@style/Title"
         app:layout_constraintBottom_toTopOf="@id/addMemberNameInput"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:paddingBottom="20dp"
-        android:textSize="@dimen/medium_text_size"
         android:text="@string/add_member_dialog_title" />
 
 
@@ -61,6 +60,7 @@
         android:textColorHint="?attr/colorOnPrimary"
         app:hintTextColor="?attr/colorOnPrimary"
         app:boxStrokeColor="?attr/colorOnPrimary"
+        app:counterTextColor="?attr/colorOnPrimary"
         app:counterEnabled="true"
         app:counterMaxLength="30"
         >

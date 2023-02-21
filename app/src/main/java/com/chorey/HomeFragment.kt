@@ -1,5 +1,6 @@
 package com.chorey
 
+import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -176,12 +177,7 @@ class HomeFragment : Fragment(),
     }
 
     private fun addMemberHandle() {
-        val action = HomeFragmentDirections.actionHomeFragmentToAddMemberDialog(home)
-        findNavController().navigate(action)
-        // TODO: This might not work
-//        val dialog = AddMemberDialog()
-//        dialog.view?.setBackgroundColor(Color.TRANSPARENT)
-//        dialog.show(childFragmentManager, TAG)
+        AddMemberDialog(home).show(parentFragmentManager, "AddMemberDialog")
     }
 
     /**
