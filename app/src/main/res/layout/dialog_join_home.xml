@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:padding="20dp"
+    android:background="@drawable/dialog_background"
     tools:context=".dialog.JoinHomeDialog">
 
     <TextView

@@ -52,6 +52,11 @@ class NoteDetailDialog : DialogFragment(){
         binding.noteDetailModifyButton.setOnClickListener { onCreateClicked() }
     }
 
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

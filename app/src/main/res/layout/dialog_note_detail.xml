@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/dialog_background"
     tools:context=".dialog.NoteDetailDialog">
 
 
@@ -44,7 +45,7 @@
 
         <Button
             android:id="@+id/noteDetailRemoveButton"
-            style="?attr/borderlessButtonStyle"
+            style="?attr/buttonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/note_detail_remove_button" />
@@ -56,7 +57,7 @@
 
         <Button
             android:id="@+id/noteDetailModifyButton"
-            style="?attr/borderlessButtonStyle"
+            style="?attr/buttonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/note_detail_create_button" />
@@ -66,7 +67,7 @@
         android:id="@+id/noteDetailTextInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minWidth="200dp"
+        android:minWidth="300dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:counterEnabled="true"

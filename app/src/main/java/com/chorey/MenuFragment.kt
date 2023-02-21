@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -164,6 +165,7 @@ class MenuFragment : Fragment(),
         val intent = AuthUI.getInstance().createSignInIntentBuilder()
             .setAvailableProviders(providers)
             .setIsSmartLockEnabled(false)
+            .setTheme(R.style.Theme_Chorey_Login)
             .build()
 
         viewModel.launcher.launch(intent)
@@ -299,13 +301,17 @@ class MenuFragment : Fragment(),
 
         // Create the AddHomeDialog
         val addHomeBuilder = AlertDialog.Builder(requireContext())
-       addHomeBuilder.setTitle(R.string.add_home_dialog_title)
+            .setTitle(R.string.add_home_dialog_title)
+            .setView(layoutInflater.inflate(R.layout.dialog_add_home, null))
             .setPositiveButton(R.string.create_home_button) { _, _ ->
                 CreateHomeDialog(this@MenuFragment).show(parentFragmentManager, "CreateNewHome")
             }
             .setNegativeButton(R.string.join_existing_home_button) { _, _ ->
                 JoinHomeDialog().show(parentFragmentManager, "JoinExistingHome")
             }
+           .create()
+
+        addHomeBuilder.window?.setBackgroundDrawableResource(android.R.color.transparent)
         addHomeBuilder.show()
     }
 

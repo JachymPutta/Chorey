@@ -124,6 +124,7 @@ class ChoreDetailDialog : DialogFragment(),
             // Don't need this to do anything, since default is NO
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
+        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
     }
 
     override fun onDestroyView() {

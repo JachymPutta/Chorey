@@ -56,6 +56,11 @@ class CreateHomeDialog(private val listener : CreateHomeListener?) : DialogFragm
         _binding = null
     }
 
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+    }
+
     private fun onCreateClicked() {
         val user = loginViewModel.user
         val db = Firebase.firestore

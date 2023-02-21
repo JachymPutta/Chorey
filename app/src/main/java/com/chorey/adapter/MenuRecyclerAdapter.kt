@@ -26,7 +26,6 @@ open class MenuRecyclerAdapter(query: Query, private val listener: OnHomeSelecte
 
             binding.homesListIcon.setImageResource(R.mipmap.home_icon)
             binding.homesListName.text = home.homeName
-            binding.homesListMembers.text = home.users.size.toString()
 
             binding.root.setOnClickListener {
                 listener?.onHomeSelected(snapshot)

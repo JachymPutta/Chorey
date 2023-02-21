@@ -79,6 +79,7 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
     override fun onStart() {
         super.onStart()
         joinHomeAdapter.startListening()
+        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
     }
 
     override fun onStop() {

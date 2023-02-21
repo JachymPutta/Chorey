@@ -8,6 +8,7 @@
     android:minWidth="350dp"
     android:minHeight="350dp"
     android:padding="15dp"
+    android:background="@drawable/dialog_background"
     tools:context=".dialog.ChoreDetailDialog"
     >
 

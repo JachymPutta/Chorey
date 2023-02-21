@@ -21,11 +21,14 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
-class ConfirmRemoveDialog(val snapshot : DocumentSnapshot,
-                          val name : String,
-                          var isHome : Boolean = false) : DialogFragment() {
+class ConfirmRemoveDialog(
+    private val snapshot : DocumentSnapshot,
+    val name : String,
+    var isHome : Boolean = false) : DialogFragment() {
+
     private val viewModel by activityViewModels<LoginViewModel>()
 
+    // TODO: make this create a normal view like everything else
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             // Use the Builder class for convenient dialog construction

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    >
 
     <com.google.android.material.card.MaterialCardView
         style="?attr/cardViewStyle"
@@ -12,7 +13,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="5dp"
+            android:padding="20dp"
             >
 
             <ImageView
@@ -32,33 +33,34 @@
                 android:layout_height="wrap_content"
                 android:text="@string/home_item_place_holder"
                 android:textSize="22sp"
+                android:textStyle="bold"
                 android:textColor="?attr/colorOnPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/homesListMembersText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="?attr/colorOnPrimary"
-                android:text="@string/home_item_members"
-                app:layout_constraintEnd_toStartOf="@id/homesListMembers"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                />
+<!--            <TextView-->
+<!--                android:id="@+id/homesListMembersText"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textColor="?attr/colorOnPrimary"-->
+<!--                android:text="@string/home_item_members"-->
+<!--                app:layout_constraintEnd_toStartOf="@id/homesListMembers"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                />-->
 
-            <TextView
-                android:id="@+id/homesListMembers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="?attr/colorOnPrimary"
-                android:text="@string/home_item_zero"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                />
+<!--            <TextView-->
+<!--                android:id="@+id/homesListMembers"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textColor="?attr/colorOnPrimary"-->
+<!--                android:text="@string/home_item_zero"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                />-->
 
 <!--            <TextView-->
 <!--                android:id="@+id/homesListPointsText"-->
