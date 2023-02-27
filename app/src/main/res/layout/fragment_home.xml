@@ -36,18 +36,17 @@
         android:gravity="center"
         >
 
+
         <ImageButton
-            android:id="@+id/addMemberButton"
+            android:id="@+id/homeToMenuButton"
             style="?attr/imageButtonStyle"
             android:layout_width="@dimen/large_text_size"
             android:layout_height="@dimen/large_text_size"
-            android:contentDescription="@string/add_members_button"
+            android:layout_marginEnd="30dp"
+            android:contentDescription="@string/home_item_place_holder"
             android:minWidth="0dp"
             android:minHeight="0dp"
-            android:src="@mipmap/ic_add_member_round"
-            android:layout_marginEnd="30dp"
-            />
-
+            android:src="@mipmap/home_icon_round" />
 
         <TextView
             android:id="@+id/homeName"
@@ -58,16 +57,16 @@
             />
 
         <ImageButton
-            android:id="@+id/homeToMenuButton"
+            android:id="@+id/addMemberButton"
+            style="?attr/imageButtonStyle"
             android:layout_width="@dimen/large_text_size"
             android:layout_height="@dimen/large_text_size"
-            android:contentDescription="@string/home_item_place_holder"
-            style="?attr/imageButtonStyle"
+            android:layout_marginStart="30dp"
+            android:contentDescription="@string/add_members_button"
             android:minWidth="0dp"
             android:minHeight="0dp"
-            android:src="@mipmap/home_icon_round"
-            android:layout_marginStart="30dp"
-            />
+            android:src="@mipmap/ic_add_member_round" />
+
     </LinearLayout>
 
     <TextView
@@ -108,15 +107,16 @@
         >
     </androidx.recyclerview.widget.RecyclerView>
 
-    <Button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addChoreButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_chore_button"
-        style="?attr/buttonStyle"
         app:layout_constraintTop_toBottomOf="@id/allChoresRecycler"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/ic_add_foreground"
         app:layout_constraintBottom_toTopOf="@+id/homeFragmentBottomLayout"
         />
 

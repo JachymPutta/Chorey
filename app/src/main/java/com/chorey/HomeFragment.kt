@@ -115,6 +115,8 @@ class HomeFragment : Fragment(),
 
         // Hooking up buttons
         binding.addChoreButton.setOnClickListener { addChoreHandle() }
+        //TODO: Change this button to a settings button and have adding members as an option
+        binding.addMemberButton.visibility = GONE
         binding.addMemberButton.setOnClickListener { addMemberHandle() }
         binding.homeToMenuButton.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMenuFragment())
@@ -195,7 +197,7 @@ class HomeFragment : Fragment(),
                 binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
 
                 binding.addChoreButton.visibility = VISIBLE
-                binding.addChoreButton.setText(R.string.add_chore_button)
+//                binding.addChoreButton.setText(R.string.add_chore_button)
                 binding.addChoreButton.setOnClickListener { addChoreHandle() }
             }
             CurFrag.SUMMARY -> {
@@ -212,7 +214,7 @@ class HomeFragment : Fragment(),
                 binding.allChoresRecycler.layoutManager = GridLayoutManager(requireView().context, NOTE_COLUMN_CNT)
 
                 binding.addChoreButton.visibility = VISIBLE
-                binding.addChoreButton.setText(R.string.add_note_button)
+//                binding.addChoreButton.setText(R.string.add_note_button)
                 binding.addChoreButton.setOnClickListener { addNoteHandle() }
             }
         }
