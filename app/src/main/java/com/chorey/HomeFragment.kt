@@ -24,6 +24,7 @@ import com.chorey.data.ChoreModel
 import com.chorey.data.NoteModel
 import com.chorey.databinding.FragmentHomeBinding
 import com.chorey.dialog.AddMemberDialog
+import com.chorey.util.OnSwipeTouchListener
 import com.chorey.viewmodel.LoginViewModel
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
@@ -56,6 +57,7 @@ class HomeFragment : Fragment(),
     private lateinit var hrvAdapter: ChoreRecyclerAdapter
     private lateinit var noteAdapter: NoteRecyclerAdapter
     private lateinit var summaryAdapter: SummaryRecyclerAdapter
+    private lateinit var swipeTouchListener: OnSwipeTouchListener
 
 
     private lateinit var firestore: FirebaseFirestore
@@ -105,6 +107,24 @@ class HomeFragment : Fragment(),
             }
         }
 
+        swipeTouchListener = object : OnSwipeTouchListener(requireContext()){
+            override fun onSwipeLeft() {
+                when(curFrag){
+                    CurFrag.HOME -> changeUI(CurFrag.SUMMARY)
+                    CurFrag.BOARD -> changeUI(CurFrag.HOME)
+                    CurFrag.SUMMARY -> {}
+                }
+            }
+
+            override fun onSwipeRight() {
+                when(curFrag){
+                    CurFrag.HOME -> changeUI(CurFrag.BOARD)
+                    CurFrag.BOARD -> {}
+                    CurFrag.SUMMARY -> changeUI(CurFrag.HOME)
+                }
+            }
+        }
+
         noteAdapter = NoteRecyclerAdapter(noteQuery, this@HomeFragment)
         summaryAdapter = SummaryRecyclerAdapter(summaryQuery, this@HomeFragment)
 
@@ -116,7 +136,6 @@ class HomeFragment : Fragment(),
         // Hooking up buttons
         binding.addChoreButton.setOnClickListener { addChoreHandle() }
         //TODO: Change this button to a settings button and have adding members as an option
-        binding.addMemberButton.visibility = GONE
         binding.addMemberButton.setOnClickListener { addMemberHandle() }
         binding.homeToMenuButton.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMenuFragment())
@@ -127,6 +146,9 @@ class HomeFragment : Fragment(),
         binding.noticeBoardButton.setOnClickListener { changeUI(CurFrag.BOARD) }
         binding.homeChoreButton.setOnClickListener { changeUI(CurFrag.HOME) }
 
+        //Swipe navigation
+        binding.root.setOnTouchListener(swipeTouchListener)
+        binding.allChoresRecycler.setOnTouchListener(swipeTouchListener)
     }
 
     override fun onEvent(value: DocumentSnapshot?, error: FirebaseFirestoreException?) {

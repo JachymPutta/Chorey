@@ -24,7 +24,7 @@ open class MenuRecyclerAdapter(query: Query, private val listener: OnHomeSelecte
             listener: OnHomeSelectedListener?) {
             val home = snapshot.toObject<HomeModel>() ?: return
 
-            binding.homesListIcon.setImageResource(R.mipmap.home_icon)
+            binding.homesListIcon.setImageResource(R.drawable.baseline_home_24)
             binding.homesListName.text = home.homeName
 
             binding.root.setOnClickListener {

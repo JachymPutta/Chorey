@@ -30,7 +30,7 @@
         android:contentDescription="@string/note_detail_cancel_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@mipmap/ic_cancel_round"
+        android:src="@drawable/baseline_close_24"
         android:minWidth="0dp"
         android:minHeight="0dp"
         />

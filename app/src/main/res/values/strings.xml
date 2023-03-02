@@ -16,7 +16,7 @@
     <!-- Menu Fragment -->
     <string name="add_home_button">Add Home</string>
     <string name="remove_home_button">Remove Home</string>
-    <string name="menu_title_default">Your Homes:</string>
+    <string name="menu_title_default">Your Homes</string>
     <string name="menu_title_remove">Click to Remove</string>
     <string name="menu_text_empty_recycler">Click to create new or join existing.</string>
     <string name="menu_title_welcome">Welcome to Chorey!</string>

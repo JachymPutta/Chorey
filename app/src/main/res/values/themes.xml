@@ -15,7 +15,7 @@
         <!-- Component styles -->
         <item name="cardViewStyle">@style/CardStyle</item>
         <item name="buttonStyle">@style/ChoreyButton</item>
-        <item name="imageButtonStyle">@style/ChoreyButton.Icon</item>
+        <item name="imageButtonStyle">@style/ChoreyButtonIcon</item>
         <item name="buttonBarButtonStyle">@style/ChoreyBarButton</item>
         <item name="recyclerViewStyle">@style/RecyclerStyleLarge</item>
 

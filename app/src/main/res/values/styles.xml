@@ -42,7 +42,7 @@
 
     </style>
 
-    <style name="ChoreyButton.Icon">
+    <style name="ChoreyButtonIcon">
         <item name="android:background">@drawable/button_round</item>
     </style>
 

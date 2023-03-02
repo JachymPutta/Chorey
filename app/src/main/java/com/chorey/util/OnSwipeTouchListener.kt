@@ -20,7 +20,6 @@ open class OnSwipeTouchListener(ctx: Context) : View.OnTouchListener {
     }
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
-        //TODO: not sure if this breaks shit
         v.performClick()
         return gestureDetector.onTouchEvent(event)
     }
