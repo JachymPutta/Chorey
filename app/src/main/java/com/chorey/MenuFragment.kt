@@ -25,6 +25,7 @@ import com.chorey.databinding.FragmentMenuBinding
 import com.chorey.dialog.ConfirmRemoveDialog
 import com.chorey.dialog.CreateHomeDialog
 import com.chorey.dialog.JoinHomeDialog
+import com.chorey.dialog.UserDetailDialog
 import com.chorey.viewmodel.LoginViewModel
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.snackbar.Snackbar
@@ -97,6 +98,9 @@ class MenuFragment : Fragment(),
         binding.addHomeButton.setOnClickListener{ addHomeHandle() }
         binding.removeHomeButton.setOnClickListener { removeHomeToggle() }
         binding.authButton.setOnClickListener { launchSignInFlow() }
+        binding.menuSettingsButton.setOnClickListener {
+            UserDetailDialog().show(parentFragmentManager, "UserDetailDialog")
+        }
     }
     override fun onStart() {
         super.onStart()

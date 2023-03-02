@@ -24,6 +24,7 @@ import com.chorey.data.ChoreModel
 import com.chorey.data.NoteModel
 import com.chorey.databinding.FragmentHomeBinding
 import com.chorey.dialog.AddMemberDialog
+import com.chorey.dialog.HomeDetailDialog
 import com.chorey.util.OnSwipeTouchListener
 import com.chorey.viewmodel.LoginViewModel
 import com.google.firebase.firestore.DocumentReference
@@ -135,8 +136,7 @@ class HomeFragment : Fragment(),
 
         // Hooking up buttons
         binding.addChoreButton.setOnClickListener { addChoreHandle() }
-        //TODO: Change this button to a settings button and have adding members as an option
-        binding.addMemberButton.setOnClickListener { addMemberHandle() }
+        binding.homeSettingsButton.setOnClickListener { settingsHandle() }
         binding.homeToMenuButton.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMenuFragment())
         }
@@ -200,8 +200,9 @@ class HomeFragment : Fragment(),
         // TODO: should this do something?
     }
 
-    private fun addMemberHandle() {
-        AddMemberDialog(home).show(parentFragmentManager, "AddMemberDialog")
+
+    private fun settingsHandle() {
+        HomeDetailDialog(home).show(parentFragmentManager, "HomeDetailDialog")
     }
 
     /**

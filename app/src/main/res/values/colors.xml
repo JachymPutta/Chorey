@@ -30,12 +30,21 @@
     <color name="secondaryTextColor">#000000</color>
 
 <!--    Dark mode -->
-    <color name="primaryColorDark">#009688</color>
-    <color name="primaryLightColorDark">#52c7b8</color>
-    <color name="primaryDarkColorDark">#00675b</color>
-    <color name="secondaryColorDark">#ffa000</color>
-    <color name="secondaryLightColorDark">#ffd149</color>
-    <color name="secondaryDarkColorDark">#c67100</color>
+    <color name="primaryColorDark">#96b397</color>
+    <color name="primaryLightColorDark">#c7e5c8</color>
+    <color name="primaryDarkColorDark">#688369</color>
+    <color name="secondaryColorDark">#ffc107</color>
+    <color name="secondaryLightColorDark">#fff350</color>
+    <color name="secondaryDarkColorDark">#c79100</color>
     <color name="primaryTextColorDark">#000000</color>
     <color name="secondaryTextColorDark">#000000</color>
+
+<!--    <color name="primaryColorDark">#009688</color>-->
+<!--    <color name="primaryLightColorDark">#52c7b8</color>-->
+<!--    <color name="primaryDarkColorDark">#00675b</color>-->
+<!--    <color name="secondaryColorDark">#ffa000</color>-->
+<!--    <color name="secondaryLightColorDark">#ffd149</color>-->
+<!--    <color name="secondaryDarkColorDark">#c67100</color>-->
+<!--    <color name="primaryTextColorDark">#000000</color>-->
+<!--    <color name="secondaryTextColorDark">#000000</color>-->
 </resources>

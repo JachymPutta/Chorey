@@ -65,11 +65,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:textColor="?attr/colorOnPrimary"
             android:text="@string/home_name_placeholder"
             />
 
         <ImageButton
-            android:id="@+id/addMemberButton"
+            android:id="@+id/homeSettingsButton"
             android:layout_width="@dimen/large_text_size"
             android:layout_height="@dimen/large_text_size"
             android:contentDescription="@string/add_members_button"
