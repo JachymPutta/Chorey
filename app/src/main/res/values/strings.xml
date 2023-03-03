@@ -57,8 +57,8 @@
         <string name="summary_icon_desc">Summary</string>
 
     <!-- Add Home Dialog -->
-    <string name="create_home_button">Create new!</string>
-    <string name="join_existing_home_button">Join existing!</string>
+    <string name="create_home_button">Create!</string>
+    <string name="join_existing_home_button">Join!</string>
     <string name="add_home_dialog_title">Create a new home or join existing?</string>
     <!-- Create Home Dialog -->
     <string name="create_home_title">Create New Home!</string>

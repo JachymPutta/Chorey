@@ -48,5 +48,6 @@
 
     <!-- Bar buttons -->
     <style name="ChoreyBarButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
 </resources>

@@ -25,6 +25,7 @@ class HomeDetailDialog(private val home : HomeModel) : DialogFragment(){
         super.onViewCreated(view, savedInstanceState)
 
         //TODO: bind stuff
+
     }
 
     override fun onStart() {

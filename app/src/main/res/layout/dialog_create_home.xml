@@ -32,7 +32,7 @@
 
         <Button
             android:id="@+id/createHomeCancelButton"
-            style="?attr/borderlessButtonStyle"
+            style="?attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/create_home_no"/>
@@ -44,7 +44,7 @@
 
         <Button
             android:id="@+id/createHomeCreateButton"
-            style="?attr/borderlessButtonStyle"
+            style="?attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/create_home_yes" />

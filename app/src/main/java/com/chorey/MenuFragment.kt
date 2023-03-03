@@ -22,6 +22,7 @@ import com.chorey.adapter.MenuRecyclerAdapter
 import com.chorey.data.HomeModel
 import com.chorey.data.LoggedUserModel
 import com.chorey.databinding.FragmentMenuBinding
+import com.chorey.dialog.AddHomeDialog
 import com.chorey.dialog.ConfirmRemoveDialog
 import com.chorey.dialog.CreateHomeDialog
 import com.chorey.dialog.JoinHomeDialog
@@ -42,16 +43,11 @@ import com.google.firebase.ktx.Firebase
 class MenuFragment : Fragment(),
     MenuRecyclerAdapter.OnHomeSelectedListener,
     CreateHomeDialog.CreateHomeListener {
-    enum class HomeOperation {
-        ADD, DELETE
-    }
 
     private lateinit var mrvAdapter: MenuRecyclerAdapter
     private lateinit var binding: FragmentMenuBinding
     private lateinit var firestore: FirebaseFirestore
     private lateinit var query: Query
-
-    private var curOp = HomeOperation.ADD
 
     private val viewModel by activityViewModels<LoginViewModel>()
 
@@ -98,7 +94,7 @@ class MenuFragment : Fragment(),
         binding.addHomeButton.setOnClickListener{ addHomeHandle() }
         binding.authButton.setOnClickListener { launchSignInFlow() }
         binding.menuSettingsButton.setOnClickListener {
-            UserDetailDialog().show(parentFragmentManager, "UserDetailDialog")
+            UserDetailDialog().show(childFragmentManager, "UserDetailDialog")
         }
     }
     override fun onStart() {
@@ -122,13 +118,11 @@ class MenuFragment : Fragment(),
             .addOnSuccessListener { doc ->
                 val homeVal = doc.toObject<HomeModel>()
 
-                if (curOp == HomeOperation.DELETE) {
-                    val confirmDialog = ConfirmRemoveDialog(home, homeVal!!.homeName, true)
-                    confirmDialog.show(childFragmentManager, ConfirmRemoveDialog.TAG)
-                } else {
-                    val action = MenuFragmentDirections.actionMenuToHome(homeVal!!)
-                    findNavController().navigate(action)
-                }
+                //TODO: this removes the home->
+//                val confirmDialog = ConfirmRemoveDialog(home, homeVal!!.homeName, true)
+//                confirmDialog.show(childFragmentManager, ConfirmRemoveDialog.TAG)
+                val action = MenuFragmentDirections.actionMenuToHome(homeVal!!)
+                findNavController().navigate(action)
             }.addOnFailureListener{
                 e -> Log.d(TAG, "Error fetching home from snap: $e!")
             }
@@ -286,45 +280,11 @@ class MenuFragment : Fragment(),
      * and then continues through the dialogs
      */
     private fun addHomeHandle() {
-        // Stop removing - on remove cancel
-        if (curOp == HomeOperation.DELETE) {
-            binding.menuTitleText.setText(R.string.menu_title_default)
-            curOp = HomeOperation.ADD
-        }
-
         if (mrvAdapter.itemCount >= MAX_HOMES) {
             Toast.makeText(activity, "Max number of homes reached!", Toast.LENGTH_SHORT).show()
             return
         }
-
-        // Create the AddHomeDialog
-        val addHomeBuilder = AlertDialog.Builder(requireContext())
-            .setTitle(R.string.add_home_dialog_title)
-            .setView(layoutInflater.inflate(R.layout.dialog_add_home, null))
-            .setPositiveButton(R.string.create_home_button) { _, _ ->
-                CreateHomeDialog(this@MenuFragment).show(parentFragmentManager, "CreateNewHome")
-            }
-            .setNegativeButton(R.string.join_existing_home_button) { _, _ ->
-                JoinHomeDialog().show(parentFragmentManager, "JoinExistingHome")
-            }
-           .create()
-
-        addHomeBuilder.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        addHomeBuilder.show()
-    }
-
-    /**
-     * Triggers the visual and logical changes for removing a home from the list
-     */
-    private fun removeHomeToggle() {
-        // Already removing or no homes to remove
-        if (curOp == HomeOperation.DELETE) {
-            curOp = HomeOperation.ADD
-            binding.menuTitleText.setText(R.string.menu_title_default)
-        } else {
-            curOp = HomeOperation.DELETE
-            binding.menuTitleText.setText(R.string.menu_title_remove)
-        }
+        AddHomeDialog().show(childFragmentManager, "AddHomeDialog")
     }
 
     companion object {
