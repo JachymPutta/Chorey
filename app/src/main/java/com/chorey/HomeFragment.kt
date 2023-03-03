@@ -212,6 +212,12 @@ class HomeFragment : Fragment(),
        if (curFrag == nextFrag) {
            return
        }
+        //TODO: this doesn't do anything
+        when (curFrag) {
+            CurFrag.HOME -> binding.homeChoreButton.setBackgroundColor(resources.getColor(android.R.color.transparent,null))
+            CurFrag.BOARD -> binding.noticeBoardButton.setBackgroundColor(resources.getColor(android.R.color.transparent,null))
+            CurFrag.SUMMARY -> binding.homeSummaryButton.setBackgroundColor(resources.getColor(android.R.color.transparent,null))
+        }
 
         when (nextFrag) {
             CurFrag.HOME -> {
@@ -222,6 +228,7 @@ class HomeFragment : Fragment(),
                 binding.addChoreButton.visibility = VISIBLE
 //                binding.addChoreButton.setText(R.string.add_chore_button)
                 binding.addChoreButton.setOnClickListener { addChoreHandle() }
+                binding.homeChoreButton.setBackgroundColor(resources.getColor(R.color.ivory, null))
             }
             CurFrag.SUMMARY -> {
                 binding.homeRecyclerTitle.setText(R.string.home_summary_title_points)
@@ -229,6 +236,7 @@ class HomeFragment : Fragment(),
                 binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
 
                 binding.addChoreButton.visibility = GONE
+                binding.homeSummaryButton.setBackgroundColor(resources.getColor(R.color.ivory, null))
             }
             CurFrag.BOARD -> {
                 binding.homeRecyclerTitle.setText(R.string.home_notes_title)
@@ -239,6 +247,7 @@ class HomeFragment : Fragment(),
                 binding.addChoreButton.visibility = VISIBLE
 //                binding.addChoreButton.setText(R.string.add_note_button)
                 binding.addChoreButton.setOnClickListener { addNoteHandle() }
+                binding.noticeBoardButton.setBackgroundColor(resources.getColor(R.color.ivory, null))
             }
         }
 
@@ -267,6 +276,7 @@ class HomeFragment : Fragment(),
         binding.homeName.text = homeModel.homeName
         binding.frameLayout.visibility = VISIBLE
         binding.homeLoadingText.visibility = GONE
+        binding.homeChoreButton.setBackgroundColor(resources.getColor(R.color.ivory, null))
 
     }
 
