@@ -27,6 +27,10 @@
         <string name="home_item_score">Points:</string>
         <string name="home_item_members">Members:</string>
         <string name="home_item_zero">0</string>
+        <!-- User Detail Dialog-->
+        <string name="user_name_placeholder">user_name</string>
+        <string name="user_profile_pic_desc">user_profile_picture</string>
+
 
     <!-- Home Fragment -->
     <string name="home_all_chores_text">TODOs</string>
@@ -112,6 +116,7 @@
     <string name="note_detail_update_button">Update</string>
     <string name="note_detail_cancel_button">Cancel</string>
     <string name="note_detail_remove_button">Remove</string>
+    <string name="add_icon_description">add_icon</string>
 
     <!-- Debugging -->
     <string-array name="home_names">

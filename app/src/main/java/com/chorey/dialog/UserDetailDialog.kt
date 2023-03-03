@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.chorey.databinding.DialogUserDetailBinding
+import com.firebase.ui.auth.AuthUI
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class UserDetailDialog : DialogFragment() {
     private var _binding: DialogUserDetailBinding? = null
@@ -23,6 +26,11 @@ class UserDetailDialog : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.logoutButton.setOnClickListener {
+            Firebase.auth.signOut()
+            AuthUI.getInstance().signOut(requireContext())
+            dismiss()
+        }
         //TODO: bind stuff
     }
 

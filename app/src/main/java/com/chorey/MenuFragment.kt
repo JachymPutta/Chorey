@@ -96,7 +96,6 @@ class MenuFragment : Fragment(),
         observeAuthState()
 
         binding.addHomeButton.setOnClickListener{ addHomeHandle() }
-        binding.removeHomeButton.setOnClickListener { removeHomeToggle() }
         binding.authButton.setOnClickListener { launchSignInFlow() }
         binding.menuSettingsButton.setOnClickListener {
             UserDetailDialog().show(parentFragmentManager, "UserDetailDialog")
@@ -124,10 +123,8 @@ class MenuFragment : Fragment(),
                 val homeVal = doc.toObject<HomeModel>()
 
                 if (curOp == HomeOperation.DELETE) {
-                    //TODO: this has to update the memberOf user field and remove sub-collections
                     val confirmDialog = ConfirmRemoveDialog(home, homeVal!!.homeName, true)
                     confirmDialog.show(childFragmentManager, ConfirmRemoveDialog.TAG)
-                    removeHomeToggle()
                 } else {
                     val action = MenuFragmentDirections.actionMenuToHome(homeVal!!)
                     findNavController().navigate(action)
@@ -184,11 +181,11 @@ class MenuFragment : Fragment(),
 
         binding.allRoomsRecycler.visibility = View.GONE
         binding.addHomeButton.visibility = View.GONE
-        binding.removeHomeButton.visibility = View.GONE
         binding.menuEmptyRecyclerText.visibility = View.GONE
         binding.menuTitleText.setText(R.string.menu_title_welcome)
-        binding.authButton.setText(R.string.auth_button_login)
-        binding.authButton.setOnClickListener { launchSignInFlow() }
+        binding.authButton.visibility = View.VISIBLE
+        binding.menuSettingsButton.visibility = View.GONE
+
     }
 
     /**
@@ -197,15 +194,12 @@ class MenuFragment : Fragment(),
     private fun makeMenuScreen() {
         // UI changes
         binding.menuTitleText.setText(R.string.menu_title_default)
-        binding.authButton.setText(R.string.auth_button_logout)
         binding.allRoomsRecycler.visibility = View.VISIBLE
         binding.addHomeButton.visibility = View.VISIBLE
-        binding.removeHomeButton.visibility = View.VISIBLE
         binding.menuEmptyRecyclerText.visibility = View.VISIBLE
-        binding.authButton.setOnClickListener {
-            Firebase.auth.signOut()
-            AuthUI.getInstance().signOut(requireContext())
-        }
+        binding.menuSettingsButton.visibility = View.VISIBLE
+        binding.authButton.visibility = View.INVISIBLE
+        binding.menuBottomLayout.visibility = View.VISIBLE
     }
 
     private fun checkUserName() {
