@@ -32,19 +32,19 @@
 
         <Button
             android:id="@+id/createHomeCancelButton"
-            style="?attr/buttonBarButtonStyle"
+            style="?attr/buttonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/create_home_no"/>
 
         <android.widget.Space
-            android:layout_width="40dp"
+            android:layout_width="20dp"
             android:layout_height="wrap_content"
             />
 
         <Button
             android:id="@+id/createHomeCreateButton"
-            style="?attr/buttonBarButtonStyle"
+            style="?attr/buttonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/create_home_yes" />
@@ -55,6 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minWidth="300dp"
+        style="@style/EditTextLayout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:counterEnabled="true"
@@ -64,6 +65,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/ivory"
+            android:textColor="?attr/colorOnPrimary"
             android:hint="@string/create_home_hint" />
     </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

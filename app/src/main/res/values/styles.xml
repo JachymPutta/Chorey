@@ -50,4 +50,11 @@
     <style name="ChoreyBarButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
+
+    <style name="EditTextLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="android:textColorHint">?attr/colorOnPrimary</item>
+        <item name="hintTextColor">?attr/colorOnPrimary</item>
+        <item name="boxStrokeColor">?attr/colorOnPrimary</item>
+        <item name="counterTextColor">?attr/colorOnPrimary</item>
+    </style>
 </resources>

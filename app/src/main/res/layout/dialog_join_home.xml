@@ -14,39 +14,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/medium_text_size"
+        android:textColor="?attr/colorOnPrimary"
+        android:textStyle="bold"
         android:text="@string/join_home_your_invites_empty"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@id/joinHomeRecycler"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         />
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/joinHomeRecycler"
         style="?attr/recyclerViewStyle"
-        android:layout_height="300dp"
-        android:minHeight="200dp"
+        app:layout_constraintTop_toBottomOf="@id/joinHomeTitle"
+        app:layout_constraintBottom_toTopOf="@id/joinHomeDismissButton"
+        android:layout_height="0dp"
         tools:ignore="MissingConstraints"
         >
     </androidx.recyclerview.widget.RecyclerView>
 
-    <LinearLayout
+    <Button
+        android:id="@+id/joinHomeDismissButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/joinHomeRecycler"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        >
-
-        <Button
-            android:id="@+id/joinHomeDismissButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="?attr/buttonBarButtonStyle"
-            android:text="@string/create_home_no" />
-
-    </LinearLayout>
-
+        android:layout_marginTop="10dp"
+        style="?attr/buttonStyle"
+        android:text="@string/create_home_no" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

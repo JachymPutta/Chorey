@@ -62,10 +62,10 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
         joinHomeAdapter = object : JoinHomeRecyclerAdapter(query, this@JoinHomeDialog) {
             override fun onDataChanged() {
                 if (itemCount == 0) {
-                    binding.joinHomeRecycler.visibility = View.GONE
+//                    binding.joinHomeRecycler.visibility = View.GONE
                     binding.joinHomeTitle.setText(R.string.join_home_your_invites_empty)
                 } else {
-                    binding.joinHomeRecycler.visibility = View.VISIBLE
+//                    binding.joinHomeRecycler.visibility = View.VISIBLE
                     binding.joinHomeTitle.setText(R.string.join_home_your_invites_full)
                 }
             }

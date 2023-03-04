@@ -25,6 +25,7 @@
                 android:layout_height="match_parent"
                 android:padding="10dp"
                 android:text="@string/home_name_placeholder"
+                android:textColor="?attr/colorOnPrimary"
                 />
 
             <TextView
@@ -35,6 +36,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_margin="10dp"
                 android:paddingBottom="5dp"
+                android:textColor="?attr/colorOnPrimary"
                 android:text="@string/home_name_placeholder" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

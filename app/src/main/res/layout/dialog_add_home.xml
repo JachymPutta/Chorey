@@ -1,47 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/dialog_background"
-    android:padding="10dp"
+    android:padding="20dp"
     >
 
     <TextView
         android:id="@+id/addHomeDialogTitle"
-        android:layout_width="324dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_home_dialog_title"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/createNewHomeButton"
+        app:layout_constraintBottom_toTopOf="@id/addHomeButtonLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:textStyle="bold"
+        android:textColor="?attr/colorOnPrimary"
         android:textSize="@dimen/medium_text_size"
+        android:layout_marginBottom="20dp"
         />
 
 
-    <Button
-        android:id="@+id/joinExistingButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="?attr/buttonBarButtonStyle"
-        android:text="@string/join_existing_home_button"
-        app:layout_constraintEnd_toStartOf="@id/createNewHomeButton"
+    <LinearLayout
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/addHomeDialogTitle"
-        />
-
-    <Button
-        android:id="@+id/createNewHomeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/create_home_button"
-        style="?attr/buttonBarButtonStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/joinExistingButton"
         app:layout_constraintTop_toBottomOf="@id/addHomeDialogTitle"
-        />
+        android:id="@+id/addHomeButtonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/joinExistingButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/join_existing_home_button"
+            android:layout_marginEnd="10dp"
+            style="?attr/buttonStyle"
+            />
+
+        <Button
+            android:id="@+id/createNewHomeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_home_button"
+            android:layout_marginStart="10dp"
+            style="?attr/buttonStyle"
+            />
+    </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
