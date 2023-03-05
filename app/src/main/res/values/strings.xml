@@ -15,7 +15,7 @@
 
     <!-- Menu Fragment -->
     <string name="add_home_button">Add Home</string>
-    <string name="remove_home_button">Remove Home</string>
+    <string name="remove_home_button">Delete</string>
     <string name="menu_title_default">Your Homes</string>
     <string name="menu_title_remove">Click to Remove</string>
     <string name="menu_text_empty_recycler">Click to create new or join existing.</string>
@@ -52,9 +52,11 @@
         <string name="chore_item_due">Time</string>
         <string name="chore_item_completed">Done</string>
         <!-- Bottom navigation -->
-    <string name="home_icon_desc">Chores</string>
+        <string name="home_icon_desc">Chores</string>
         <string name="notice_board_icon_desc">Board</string>
         <string name="summary_icon_desc">Summary</string>
+        <!-- Home Detail Dialog   -->
+        <string name="home_detail_icon_desc">home_icon</string>
 
     <!-- Add Home Dialog -->
     <string name="create_home_button">Create</string>
@@ -81,8 +83,6 @@
 
     <!-- Chore Detail Dialog -->
     <string name="chore_detail_title_create">Create Chore:</string>
-    <string name="chore_detail_title_edit">Create Chore:</string>
-    <string name="chore_detail_title_view">Create Chore:</string>
     <string name="create_chore_name_hint">Chore Name</string>
     <string name="chore_detail_name_text">Name:</string>
     <string name="chore_detail_spinner_text">Template:</string>

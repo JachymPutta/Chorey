@@ -209,10 +209,10 @@ class HomeFragment : Fragment(),
      * Toggles the visibility of the UI elements based on the button clicked
      */
     private fun changeUI(nextFrag: CurFrag) {
-       if (curFrag == nextFrag) {
-           return
-       }
-        //TODO: this doesn't do anything
+        if (curFrag == nextFrag) {
+            return
+        }
+
         when (curFrag) {
             CurFrag.HOME -> binding.homeChoreButton.setBackgroundColor(resources.getColor(android.R.color.transparent,null))
             CurFrag.BOARD -> binding.noticeBoardButton.setBackgroundColor(resources.getColor(android.R.color.transparent,null))

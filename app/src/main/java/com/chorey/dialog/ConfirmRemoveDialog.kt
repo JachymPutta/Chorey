@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.chorey.CHORE_COL
 import com.chorey.HOME_COL
 import com.chorey.NOTE_COL
@@ -66,6 +67,8 @@ class ConfirmRemoveDialog(
         deleteCol(homeRef.collection(USER_COL))
 
         snapshot.reference.delete()
+        findNavController().navigate(R.id.menuFragment)
+        dismiss()
     }
 
     private fun deleteCol(colRef : CollectionReference) {
