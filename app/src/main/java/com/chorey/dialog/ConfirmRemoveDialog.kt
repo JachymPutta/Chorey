@@ -4,6 +4,9 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -15,6 +18,7 @@ import com.chorey.USER_COL
 import com.chorey.data.HomeModel
 import com.chorey.data.LoggedUserModel
 import com.chorey.data.LoggedUserModel.Companion.FIELD_MEMBER_OF
+import com.chorey.databinding.DialogConfirmRemoveBinding
 import com.chorey.viewmodel.LoginViewModel
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
@@ -24,31 +28,46 @@ import com.google.firebase.ktx.Firebase
 
 class ConfirmRemoveDialog(
     private val snapshot : DocumentSnapshot,
-    val name : String,
-    var isHome : Boolean = false) : DialogFragment() {
+    private val name : String,
+    private var isHome : Boolean = false) : DialogFragment() {
+
+    private var _binding: DialogConfirmRemoveBinding? = null
 
     private val viewModel by activityViewModels<LoginViewModel>()
+    private val binding get() = _binding!!
 
-    // TODO: make this create a normal view like everything else
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return activity?.let {
-            // Use the Builder class for convenient dialog construction
-            val builder = AlertDialog.Builder(it)
-            builder.setMessage("Are you sure you want to remove $name ?")
-                .setPositiveButton(R.string.confirm_remove_yes)
-                { _, _ ->
-                    if (isHome) {
-                        removeHome()
-                    } else {
-                        snapshot.reference.delete()
-                    }
-                }
-                .setNegativeButton(R.string.confirm_remove_no)
-                { _, _ ->
-                    dismiss()
-                }
-            builder.create()
-        } ?: throw IllegalStateException("Activity cannot be null")
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = DialogConfirmRemoveBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val titleMsg = "Are you sure you want to remove $name ?"
+
+        binding.confirmRemoveDialogTitle.text = titleMsg
+        binding.confirmRemoveButton.setOnClickListener { confirmRemoveHandle() }
+        binding.cancelRemoveButton.setOnClickListener { dismiss() }
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+    }
+
+    private fun confirmRemoveHandle() {
+        if (isHome) {
+            removeHome()
+        } else {
+            snapshot.reference.delete()
+        }
     }
 
     private fun removeHome() {

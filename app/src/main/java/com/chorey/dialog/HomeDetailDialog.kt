@@ -29,6 +29,8 @@ class HomeDetailDialog(private val home : HomeModel) : DialogFragment(){
         super.onViewCreated(view, savedInstanceState)
 
         binding.homeDetailName.text = home.homeName
+        binding.homeDetailMembers.text = home.users.joinToString(",")
+
         binding.removeHomeButton.setOnClickListener { removeHomeHandle() }
         binding.addMemberButton.setOnClickListener { addMemberHandle() }
     }

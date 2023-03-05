@@ -22,14 +22,26 @@
         android:layout_marginBottom="5dp"
         />
 
+    <View
+        android:id="@+id/addHomeNameDivider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="?attr/colorPrimaryVariant"
+        app:layout_constraintTop_toBottomOf="@id/addHomeDialogTitle"
+        android:layout_marginTop="5dp"
+        />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/addHomeDialogHint"
         android:text="@string/add_home_dialog_hint"
         android:textColor="?attr/colorOnPrimary"
-        app:layout_constraintTop_toBottomOf="@id/addHomeDialogTitle"
+        app:layout_constraintTop_toBottomOf="@id/addHomeNameDivider"
         app:layout_constraintBottom_toTopOf="@id/addHomeButtonLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="20dp"
         />
 
