@@ -88,7 +88,13 @@ class ChoreDetailDialog : DialogFragment(),
         repeatAdapter.setDropDownViewResource(R.layout.chore_spinner_dropdown)
         timedAdapter.setDropDownViewResource(R.layout.chore_spinner_dropdown)
         binding.choreIntervalSpinner.adapter = repeatAdapter
-        binding.choreIsTimedSpinner.adapter = timedAdapter
+        binding.choreDetailIsTimedBox.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                toggleTimeUI(VISIBLE)
+            } else {
+                toggleTimeUI(GONE)
+            }
+        }
 
         binding.choreDetailMinsToComplete.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
@@ -107,23 +113,12 @@ class ChoreDetailDialog : DialogFragment(),
         binding.createChoreNameInput.editText!!.setOnKeyListener { _, keyCode, event ->
             (event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)
         }
+        toggleTimeUI(GONE)
         changeUI(state)
     }
 
     override fun onStart() {
         super.onStart()
-
-        binding.choreIsTimedSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
-                when (pos) {
-                    SPINNER_NO -> toggleTimeUI(GONE)
-                    SPINNER_YES -> toggleTimeUI(VISIBLE)
-                }
-            }
-
-            // Don't need this to do anything, since default is NO
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
         dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
     }
 
@@ -159,7 +154,7 @@ class ChoreDetailDialog : DialogFragment(),
                     binding.choreDetailDueDate.text = Date(choreModel.whenDue).toString()
                     binding.choreDetailDueTime.text = getTimeFormat(requireContext()).format(lastDue.time)
                     binding.choreIntervalSpinner.setSelection(id)
-                    binding.choreIsTimedSpinner.setSelection(SPINNER_YES)
+                    binding.choreDetailIsTimedBox.isChecked = true
 
                     toggleTimeUI(VISIBLE)
                 } else {
@@ -284,7 +279,7 @@ class ChoreDetailDialog : DialogFragment(),
             timeToComplete = timeToComplete,
             points = ChoreUtil.getPoints(timeToComplete),
             whenDue = whenDue,
-            isTimed = binding.choreIsTimedSpinner.selectedItemId.toInt() == SPINNER_YES
+            isTimed = binding.choreDetailIsTimedBox.isChecked
         )
 
         Firebase.firestore.collection(HOME_COL).document(args.homeModel.UID)
@@ -343,8 +338,6 @@ class ChoreDetailDialog : DialogFragment(),
     companion object {
         const val TAG = "CreateChoreDialog"
         const val TIME_PICKER = 1
-        const val SPINNER_YES = 1
-        const val SPINNER_NO = 0
     }
 
 

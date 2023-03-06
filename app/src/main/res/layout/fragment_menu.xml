@@ -72,6 +72,8 @@
         android:id="@+id/menuEmptyRecyclerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="@dimen/medium_text_size"
+        android:textStyle="bold"
         android:text="@string/menu_text_empty_recycler"
         app:layout_constraintTop_toBottomOf="@id/menuTitleLayout"
         app:layout_constraintBottom_toTopOf="@id/menuBottomLayout"

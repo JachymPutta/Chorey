@@ -142,8 +142,9 @@
         android:layout_marginTop="20dp"
         android:text="@string/chore_detail_timed_text" />
 
-    <Spinner
-        android:id="@+id/choreIsTimedSpinner"
+
+    <CheckBox
+        android:id="@+id/choreDetailIsTimedBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -151,8 +152,19 @@
         app:layout_constraintTop_toTopOf="@id/choreDetailIsTimedText"
         app:layout_constraintBottom_toBottomOf="@id/choreDetailIsTimedText"
         app:layout_constraintStart_toEndOf="@id/choreDetailIsTimedText"
-        android:spinnerMode="dropdown"
-        />
+        android:text="" />
+
+<!--    <Spinner-->
+<!--        android:id="@+id/choreIsTimedSpinner"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="20dp"-->
+<!--        android:textColor="?attr/colorOnPrimary"-->
+<!--        app:layout_constraintTop_toTopOf="@id/choreDetailIsTimedText"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/choreDetailIsTimedText"-->
+<!--        app:layout_constraintStart_toEndOf="@id/choreDetailIsTimedText"-->
+<!--        android:spinnerMode="dropdown"-->
+<!--        />-->
 
     <TextView
         android:id="@+id/choreDetailDueText"

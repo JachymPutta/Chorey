@@ -3,5 +3,8 @@
     android:id="@android:id/text1"
     android:maxLines="1"
     android:layout_width="match_parent"
+    android:textColor="?attr/colorOnPrimary"
+    android:background="?attr/colorPrimary"
+    android:padding="2dp"
     android:layout_height="@dimen/large_text_size"
     android:ellipsize="marquee" />
