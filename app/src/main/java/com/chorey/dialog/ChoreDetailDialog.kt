@@ -129,7 +129,6 @@ class ChoreDetailDialog : DialogFragment(),
 
 
     private fun changeUI(state: State) {
-        // TODO - the input fields need to be disabled -> global variable?
         when(state) {
             State.CREATE -> {
                 // Logical Changes
@@ -151,7 +150,7 @@ class ChoreDetailDialog : DialogFragment(),
                     val lastDue = Calendar.getInstance()
                     lastDue.timeInMillis = choreModel.whenDue
                     val id = RepeatInterval.values().indexOf(choreModel.repeatsEvery)
-                    binding.choreDetailDueDate.text = Date(choreModel.whenDue).toString()
+                    binding.choreDetailDueDate.text = getDateFormat(requireContext()).format(Date(choreModel.whenDue))
                     binding.choreDetailDueTime.text = getTimeFormat(requireContext()).format(lastDue.time)
                     binding.choreIntervalSpinner.setSelection(id)
                     binding.choreDetailIsTimedBox.isChecked = true

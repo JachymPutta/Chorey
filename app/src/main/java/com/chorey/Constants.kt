@@ -8,6 +8,7 @@ const val POINTS_MULTIPLIER = 12
 //TODO: Change this to BuildConfig.DEBUG when releasing
 const val RUN_EMULATOR = true
 
+
 // Database paths
 const val HOME_COL = "homes"
 const val USER_COL = "users"

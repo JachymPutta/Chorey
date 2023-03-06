@@ -11,6 +11,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chorey.HOME_COL
+import com.chorey.INVITE_COL
 import com.chorey.R
 import com.chorey.USER_COL
 import com.chorey.adapter.JoinHomeRecyclerAdapter
@@ -57,15 +58,15 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
         firestore = Firebase.firestore
 
         query = firestore.collection(USER_COL).document(viewModel.user!!.UID)
-            .collection("invites")
+            .collection(INVITE_COL)
 
         joinHomeAdapter = object : JoinHomeRecyclerAdapter(query, this@JoinHomeDialog) {
             override fun onDataChanged() {
                 if (itemCount == 0) {
-//                    binding.joinHomeRecycler.visibility = View.GONE
+                    binding.joinHomeRecycler.visibility = View.GONE
                     binding.joinHomeTitle.setText(R.string.join_home_your_invites_empty)
                 } else {
-//                    binding.joinHomeRecycler.visibility = View.VISIBLE
+                    binding.joinHomeRecycler.visibility = View.VISIBLE
                     binding.joinHomeTitle.setText(R.string.join_home_your_invites_full)
                 }
             }

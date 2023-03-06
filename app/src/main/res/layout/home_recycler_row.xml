@@ -21,6 +21,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:flow_horizontalAlign="center"
+                android:textStyle="bold"
                 android:text="@string/chore_item_name"
                 android:textColor="?attr/colorOnPrimary"
                 />
@@ -43,6 +44,7 @@
                 app:layout_constraintStart_toEndOf="@id/choreAssignedToText"
                 android:textColor="?attr/colorOnPrimary"
                 android:text="@string/chore_item_assignee"
+                android:layout_marginStart="5dp"
                 />
 
             <TextView
@@ -64,6 +66,7 @@
                 app:layout_constraintStart_toEndOf="@id/choreDueText"
                 android:textColor="?attr/colorOnPrimary"
                 android:text="@string/chore_item_due"
+                android:layout_marginStart="5dp"
                 />
 
             <Button

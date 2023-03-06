@@ -1,5 +1,6 @@
 package com.chorey
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
@@ -78,6 +79,7 @@ class HomeFragment : Fragment(),
         return binding.root
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -213,6 +215,7 @@ class HomeFragment : Fragment(),
             return
         }
 
+        // Removes the highlight from the last tab
         when (curFrag) {
             CurFrag.HOME -> binding.homeChoreButton.setBackgroundColor(resources.getColor(android.R.color.transparent,null))
             CurFrag.BOARD -> binding.noticeBoardButton.setBackgroundColor(resources.getColor(android.R.color.transparent,null))
@@ -224,6 +227,7 @@ class HomeFragment : Fragment(),
                 // Visual
                 binding.homeRecyclerTitle.setText(R.string.home_all_chores_text)
                 binding.addChoreButton.visibility = VISIBLE
+                binding.noChoresLeftText.setText(R.string.home_no_chores_left)
                 binding.homeChoreButton.setBackgroundColor(resources.getColor(R.color.ivory, null))
 
                 // Logic
@@ -234,7 +238,7 @@ class HomeFragment : Fragment(),
             CurFrag.SUMMARY -> {
                 // Visual
                 binding.homeRecyclerTitle.setText(R.string.home_summary_title_points)
-                binding.noChoresLeftText.visibility = GONE
+                binding.noChoresLeftText.text = ""
                 binding.addChoreButton.visibility = GONE
                 binding.homeSummaryButton.setBackgroundColor(resources.getColor(R.color.ivory, null))
 
@@ -246,7 +250,7 @@ class HomeFragment : Fragment(),
             CurFrag.BOARD -> {
                 // Visual
                 binding.homeRecyclerTitle.setText(R.string.home_notes_title)
-                binding.noChoresLeftText.visibility = GONE
+                binding.noChoresLeftText.text = ""
                 binding.addChoreButton.visibility = VISIBLE
                 binding.noticeBoardButton.setBackgroundColor(resources.getColor(R.color.ivory, null))
 
@@ -284,12 +288,6 @@ class HomeFragment : Fragment(),
         binding.homeLoadingText.visibility = GONE
         binding.homeChoreButton.setBackgroundColor(resources.getColor(R.color.ivory, null))
 
-    }
-
-    private fun toggleRecycler(state : Int) {
-        binding.allChoresRecycler.visibility = state
-        binding.noChoresLeftText.visibility = state
-        binding.addChoreButton.visibility = state
     }
 
     companion object {

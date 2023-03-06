@@ -30,7 +30,7 @@
         style="?attr/recyclerViewStyle"
         app:layout_constraintTop_toBottomOf="@id/joinHomeTitle"
         app:layout_constraintBottom_toTopOf="@id/joinHomeDismissButton"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         tools:ignore="MissingConstraints"
         >
     </androidx.recyclerview.widget.RecyclerView>

@@ -79,13 +79,13 @@ class AddMemberDialog(private val home : HomeModel) : DialogFragment() {
             fromUser = sender.name
         )
         // 3. check whether the user is valid
-        firestore.collection(USER_COL).whereEqualTo(LoggedUserModel.FIELD_NAME, dest).limit(1).get()
+        firestore.collection(USER_COL).whereEqualTo(LoggedUserModel.FIELD_NAME, dest).get()
             .addOnSuccessListener {snap ->
                 if (snap.isEmpty) {
                     Toast.makeText(requireActivity(), "User $dest not found!", Toast.LENGTH_LONG).show()
                 } else {
                     // There will only ever be one name
-                    val destLoggedUserModel = snap.documents[0].toObject<LoggedUserModel>()
+                    val destLoggedUserModel = snap.documents[snap.documents.size - 1].toObject<LoggedUserModel>()
                     val invites = destLoggedUserModel!!.invites
 
                     if (invites.contains(invite)) {

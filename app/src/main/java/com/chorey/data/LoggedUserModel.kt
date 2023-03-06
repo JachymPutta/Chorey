@@ -10,7 +10,7 @@ data class LoggedUserModel(
 {
     companion object {
         const val FIELD_UID = "UID"
-        const val FIELD_NAME = "homeName"
+        const val FIELD_NAME = "name"
         const val FIELD_POINTS = "points"
         const val FIELD_INVITES = "invites"
         const val FIELD_MEMBER_OF = "memberOf"
