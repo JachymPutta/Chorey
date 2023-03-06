@@ -76,6 +76,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/baseline_person_add_24"
+        style="?attr/imageButtonStyle"
         app:layout_constraintStart_toEndOf="@id/homeDetailName"
         app:layout_constraintTop_toTopOf="@id/homeDetailName"
         app:layout_constraintBottom_toBottomOf="@id/homeDetailName"

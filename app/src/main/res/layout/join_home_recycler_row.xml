@@ -53,6 +53,7 @@
                 android:src="@drawable/baseline_check_24"
                 android:minWidth="30dp"
                 android:minHeight="30dp"
+                style="?attr/imageButtonStyle"
                 app:layout_constraintEnd_toStartOf="@id/joinHomeDeclineInvite"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"

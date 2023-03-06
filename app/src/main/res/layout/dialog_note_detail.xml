@@ -11,7 +11,7 @@
 
     <ImageButton
         android:id="@+id/noteDetailCancelButton"
-        style="?attr/borderlessButtonStyle"
+        style="?attr/imageButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/note_detail_cancel_button"
@@ -27,6 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/Title"
+        android:textColor="?attr/colorOnPrimary"
         app:layout_constraintBottom_toTopOf="@id/noteDetailTextInput"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

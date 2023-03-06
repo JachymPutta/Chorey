@@ -26,7 +26,7 @@
 
     <ImageButton
         android:id="@+id/createChoreCancelButton"
-        style="?attr/borderlessButtonStyle"
+        style="?attr/imageButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/note_detail_cancel_button"

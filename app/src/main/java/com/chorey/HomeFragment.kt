@@ -221,36 +221,39 @@ class HomeFragment : Fragment(),
 
         when (nextFrag) {
             CurFrag.HOME -> {
+                // Visual
                 binding.homeRecyclerTitle.setText(R.string.home_all_chores_text)
+                binding.addChoreButton.visibility = VISIBLE
+                binding.homeChoreButton.setBackgroundColor(resources.getColor(R.color.ivory, null))
+
+                // Logic
                 binding.allChoresRecycler.adapter = hrvAdapter
                 binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
-
-                binding.noChoresLeftText.visibility = VISIBLE
-                binding.addChoreButton.visibility = VISIBLE
-//                binding.addChoreButton.setText(R.string.add_chore_button)
                 binding.addChoreButton.setOnClickListener { addChoreHandle() }
-                binding.homeChoreButton.setBackgroundColor(resources.getColor(R.color.ivory, null))
             }
             CurFrag.SUMMARY -> {
+                // Visual
                 binding.homeRecyclerTitle.setText(R.string.home_summary_title_points)
-                binding.allChoresRecycler.adapter = summaryAdapter
-                binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
-
                 binding.noChoresLeftText.visibility = GONE
                 binding.addChoreButton.visibility = GONE
                 binding.homeSummaryButton.setBackgroundColor(resources.getColor(R.color.ivory, null))
+
+                // Logic
+                binding.allChoresRecycler.adapter = summaryAdapter
+                binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
+
             }
             CurFrag.BOARD -> {
+                // Visual
                 binding.homeRecyclerTitle.setText(R.string.home_notes_title)
-
                 binding.noChoresLeftText.visibility = GONE
+                binding.addChoreButton.visibility = VISIBLE
+                binding.noticeBoardButton.setBackgroundColor(resources.getColor(R.color.ivory, null))
+
+                // Logic
                 binding.allChoresRecycler.adapter = noteAdapter
                 binding.allChoresRecycler.layoutManager = GridLayoutManager(requireView().context, NOTE_COLUMN_CNT)
-
-                binding.addChoreButton.visibility = VISIBLE
-//                binding.addChoreButton.setText(R.string.add_note_button)
                 binding.addChoreButton.setOnClickListener { addNoteHandle() }
-                binding.noticeBoardButton.setBackgroundColor(resources.getColor(R.color.ivory, null))
             }
         }
 
