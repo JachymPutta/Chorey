@@ -117,10 +117,6 @@ class MenuFragment : Fragment(),
         home.reference.get()
             .addOnSuccessListener { doc ->
                 val homeVal = doc.toObject<HomeModel>()
-
-                //TODO: this removes the home->
-//                val confirmDialog = ConfirmRemoveDialog(home, homeVal!!.homeName, true)
-//                confirmDialog.show(childFragmentManager, ConfirmRemoveDialog.TAG)
                 val action = MenuFragmentDirections.actionMenuToHome(homeVal!!)
                 findNavController().navigate(action)
             }.addOnFailureListener{

@@ -125,7 +125,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/add_home_button"
-        android:src="@drawable/baseline_add_24"
+        android:src="@drawable/baseline_add_home_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/menuBottomLayout"
         android:layout_marginEnd="20dp"

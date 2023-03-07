@@ -85,6 +85,7 @@ open class ChoreRecyclerAdapter(query: Query,
             // Handle points
             it.update(userRef, LoggedUserModel.FIELD_POINTS, FieldValue.increment(choreModel.points.toLong()))
 
+            //TODO: don't delete the chores, but mark them as completed
             // If non repeating -> delete, else update due date
             when(choreModel.repeatsEvery) {
                 RepeatInterval.None -> it.delete(snapshot.reference)

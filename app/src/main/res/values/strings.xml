@@ -75,6 +75,7 @@
     <string name="join_home_your_invites_full">Invites</string>
     <string name="join_home_your_invites_empty">No Pending Invites!</string>
     <string name="join_home_request_invite_button">Request Invite!</string>
+    <string name="join_home_ask_for_invite">Ask your friends to invite you to their homes</string>
     <!-- Join Home Recycler View-->
         <string name="join_home_sent_by_name">user_name</string>
         <string name="join_home_sent_by_text">From:</string>

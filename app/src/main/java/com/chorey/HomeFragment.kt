@@ -104,8 +104,20 @@ class HomeFragment : Fragment(),
             override fun onDataChanged() {
                 if (itemCount == 0) {
                     binding.noChoresLeftText.visibility = VISIBLE
+                    binding.allChoresRecycler.visibility = GONE
                 } else {
                     binding.noChoresLeftText.visibility = GONE
+                    binding.allChoresRecycler.visibility = VISIBLE
+                }
+            }
+        }
+
+        noteAdapter = object : NoteRecyclerAdapter(noteQuery, this@HomeFragment) {
+            override fun onDataChanged() {
+                if (itemCount == 0) {
+                    binding.allChoresRecycler.visibility = GONE
+                } else {
+                    binding.allChoresRecycler.visibility = VISIBLE
                 }
             }
         }
@@ -128,7 +140,6 @@ class HomeFragment : Fragment(),
             }
         }
 
-        noteAdapter = NoteRecyclerAdapter(noteQuery, this@HomeFragment)
         summaryAdapter = SummaryRecyclerAdapter(summaryQuery, this@HomeFragment)
 
         binding.frameLayout.visibility = GONE
@@ -240,6 +251,7 @@ class HomeFragment : Fragment(),
                 binding.homeRecyclerTitle.setText(R.string.home_summary_title_points)
                 binding.noChoresLeftText.text = ""
                 binding.addChoreButton.visibility = GONE
+                binding.allChoresRecycler.visibility = VISIBLE
                 binding.homeSummaryButton.setBackgroundColor(resources.getColor(R.color.ivory, null))
 
                 // Logic

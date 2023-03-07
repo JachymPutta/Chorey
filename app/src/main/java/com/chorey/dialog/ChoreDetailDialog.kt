@@ -77,8 +77,6 @@ class ChoreDetailDialog : DialogFragment(),
         binding.createChoreCancelButton.setOnClickListener { onCancelClicked() }
         binding.choreDetailAssignedTo.setOnClickListener { onAssignClicked() }
         binding.createChoreRemoveButton.setOnClickListener { onRemoveClicked() }
-
-        // TODO: this needs to get disabled when viewing
         binding.choreDetailDueDate.setOnClickListener { onDatePickerClicked() }
         binding.choreDetailDueTime.setOnClickListener { onTimePickerClicked() }
 
