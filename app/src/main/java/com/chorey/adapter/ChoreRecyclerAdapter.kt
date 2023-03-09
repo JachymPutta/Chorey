@@ -78,9 +78,12 @@ open class ChoreRecyclerAdapter(query: Query,
     }
 
     private fun onDoneClicked(snapshot: DocumentSnapshot) {
+
         val newChore = ChoreUtil.updateData(choreModel.copy(), user)
         val homeRef = Firebase.firestore.collection(HOME_COL).document(choreModel.homeId)
-        val choreRef = homeRef.collection(CHORE_COL).document(choreModel.UID)
+
+        val oldChoreRef = homeRef.collection(CHORE_COL).document(choreModel.UID)
+        val newChoreRef = homeRef.collection(CHORE_COL).document(newChore.UID)
         val userRef = homeRef.collection(USER_COL).document(user.name)
 
         // Write the stuff in a batch
@@ -93,12 +96,12 @@ open class ChoreRecyclerAdapter(query: Query,
             // If non repeating -> delete, else update due date
             when(choreModel.repeatsEvery) {
                 RepeatInterval.None -> {
-//                    choreModel.isCompleted = true
-//                    it.set(choreRef, choreModel)
-                    it.delete(snapshot.reference)
+//                    it.delete(snapshot.reference)
                 }
-                else ->  it.set(choreRef, newChore)
+                else ->  it.set(newChoreRef, newChore)
             }
+
+            it.update(oldChoreRef, ChoreModel.FIELD_COMPLETED, FieldValue.increment(1L))
         }
     }
 

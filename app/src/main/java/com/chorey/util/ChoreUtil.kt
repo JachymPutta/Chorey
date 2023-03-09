@@ -35,6 +35,8 @@ object ChoreUtil {
 
     fun updateData(chore:ChoreModel, completedBy: LoggedUserModel) : ChoreModel {
 
+        chore.UID = UUID.randomUUID().toString()
+
         updateTime(chore)
         updateAssignment(chore, completedBy)
 

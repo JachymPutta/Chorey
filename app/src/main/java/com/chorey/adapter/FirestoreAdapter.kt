@@ -57,7 +57,7 @@ abstract class FirestoreAdapter<VH: RecyclerView.ViewHolder>(private var query: 
             for (change in documentSnapshots.documentChanges) {
                 // snapshot of the changed document
                 when (change.type) {
-                    DocumentChange.Type.ADDED -> {onDocumentAdded(change) }
+                    DocumentChange.Type.ADDED -> { onDocumentAdded(change) }
                     DocumentChange.Type.MODIFIED -> { onDocumentModified(change) }
                     DocumentChange.Type.REMOVED -> { onDocumentRemoved(change) }
                 }

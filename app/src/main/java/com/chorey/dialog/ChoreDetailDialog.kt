@@ -82,9 +82,7 @@ class ChoreDetailDialog : DialogFragment(),
 
         // Hook up spinners
         val repeatAdapter = ArrayAdapter(requireContext(), R.layout.chore_spinner_item, RepeatInterval.values())
-        val timedAdapter = ArrayAdapter(requireContext(), R.layout.chore_spinner_item, arrayOf("No", "Yes"))
         repeatAdapter.setDropDownViewResource(R.layout.chore_spinner_dropdown)
-        timedAdapter.setDropDownViewResource(R.layout.chore_spinner_dropdown)
         binding.choreIntervalSpinner.adapter = repeatAdapter
         binding.choreDetailIsTimedBox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -276,7 +274,8 @@ class ChoreDetailDialog : DialogFragment(),
             timeToComplete = timeToComplete,
             points = ChoreUtil.getPoints(timeToComplete),
             whenDue = whenDue,
-            isTimed = binding.choreDetailIsTimedBox.isChecked
+            isTimed = binding.choreDetailIsTimedBox.isChecked,
+            finished = 0
         )
 
         Firebase.firestore.collection(HOME_COL).document(args.homeModel.UID)

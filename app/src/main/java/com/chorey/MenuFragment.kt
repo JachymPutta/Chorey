@@ -224,6 +224,7 @@ class MenuFragment : Fragment(),
         }
 
     }
+    //TODO: use this to edit the name in the User Detail
     private fun getUserNameDialog() {
         val builder = AlertDialog.Builder(requireContext())
         val nameInput = EditText(requireContext())
