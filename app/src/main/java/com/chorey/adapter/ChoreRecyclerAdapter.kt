@@ -58,6 +58,10 @@ open class ChoreRecyclerAdapter(query: Query,
                 binding.choreDueText.visibility = View.GONE
             }
 
+//            if (choreModel.isCompleted) {
+//                binding.choreRecyclerCard.setCardBackgroundColor(R.color.purple_200)
+//            }
+
             // Bind logic
             binding.choreDoneButton.setOnClickListener { onDoneClicked(snapshot) }
             binding.root.setOnClickListener { listener.onChoreSelected(snapshot) }
@@ -88,7 +92,11 @@ open class ChoreRecyclerAdapter(query: Query,
             //TODO: don't delete the chores, but mark them as completed
             // If non repeating -> delete, else update due date
             when(choreModel.repeatsEvery) {
-                RepeatInterval.None -> it.delete(snapshot.reference)
+                RepeatInterval.None -> {
+//                    choreModel.isCompleted = true
+//                    it.set(choreRef, choreModel)
+                    it.delete(snapshot.reference)
+                }
                 else ->  it.set(choreRef, newChore)
             }
         }

@@ -18,4 +18,5 @@ data class ChoreModel(
     var curAssignee: String = "",
     var points: Int = 0,
     var repeatsEvery: RepeatInterval = RepeatInterval.None,
+    var isCompleted: Boolean = false
 ) : Parcelable

@@ -18,7 +18,7 @@
     <string name="remove_home_button">Delete</string>
     <string name="menu_title_default">Your Homes</string>
     <string name="menu_title_remove">Click to Remove</string>
-    <string name="menu_text_empty_recycler">Click to create new or join existing.</string>
+    <string name="menu_text_empty_recycler">No Homes Yet!</string>
     <string name="menu_title_welcome">Welcome to Chorey!</string>
     <string name="auth_button_login">Login</string>
     <string name="auth_button_logout">Logout</string>
@@ -40,6 +40,7 @@
     <string name="home_summary_button">Summary</string>
     <string name="home_to_menu_button">Home</string>
     <string name="home_no_chores_left">No Chores left to do!</string>
+    <string name="home_no_notes_left">No Notes yet</string>
     <string name="home_loading">Loading…</string>
     <string name="home_summary_title">Summary</string>
     <string name="home_summary_title_points">Top Contributors:</string>
@@ -75,7 +76,7 @@
     <string name="join_home_your_invites_full">Invites</string>
     <string name="join_home_your_invites_empty">No Pending Invites!</string>
     <string name="join_home_request_invite_button">Request Invite!</string>
-    <string name="join_home_ask_for_invite">Ask your friends to invite you to their homes</string>
+    <string name="join_home_ask_for_invite">Ask someone to invite you to their home</string>
     <!-- Join Home Recycler View-->
         <string name="join_home_sent_by_name">user_name</string>
         <string name="join_home_sent_by_text">From:</string>

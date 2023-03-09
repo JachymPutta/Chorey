@@ -262,7 +262,7 @@ class HomeFragment : Fragment(),
             CurFrag.BOARD -> {
                 // Visual
                 binding.homeRecyclerTitle.setText(R.string.home_notes_title)
-                binding.noChoresLeftText.text = ""
+                binding.noChoresLeftText.setText(R.string.home_no_notes_left)
                 binding.addChoreButton.visibility = VISIBLE
                 binding.noticeBoardButton.setBackgroundColor(resources.getColor(R.color.ivory, null))
 
