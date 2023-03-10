@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -122,8 +123,9 @@ class HomeFragment : Fragment(),
         binding.homeChoreButton.setOnClickListener { changeUI(CurFrag.HOME) }
 
         //Swipe navigation
-        binding.root.setOnTouchListener(swipeTouchListener)
-        binding.allChoresRecycler.setOnTouchListener(swipeTouchListener)
+        binding.fragHomeLayout.setOnTouchListener(swipeTouchListener)
+//        binding.allChoresRecycler.setOnTouchListener(swipeTouchListener)
+
 
     }
 

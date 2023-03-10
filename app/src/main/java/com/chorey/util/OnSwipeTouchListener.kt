@@ -1,5 +1,6 @@
 package com.chorey.util
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.GestureDetector
 import android.view.MotionEvent
@@ -19,8 +20,9 @@ open class OnSwipeTouchListener(ctx: Context) : View.OnTouchListener {
         gestureDetector = GestureDetector(ctx, GestureListener())
     }
 
-    override fun onTouch(v: View, event: MotionEvent): Boolean {
-        v.performClick()
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouch(v: View, event: MotionEvent?): Boolean {
+        if (event == null) return false
         return gestureDetector.onTouchEvent(event)
     }
 

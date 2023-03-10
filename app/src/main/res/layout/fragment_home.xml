@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragHomeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomeFragment">
@@ -112,13 +113,25 @@
         app:layout_constraintBottom_toTopOf="@id/addChoreButton"
         />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/allChoresRecycler"
-        style="?attr/recyclerViewStyle"
-        tools:ignore="MissingConstraints"
-        app:layout_constraintTop_toBottomOf="@id/homeRecyclerTitle"
-        app:layout_constraintBottom_toTopOf="@id/addChoreButton"
-        >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/allChoresRecycler"
+            style="?attr/recyclerViewStyle"
+            app:layout_constraintBottom_toTopOf="@id/completedChoresRecycler"
+            app:layout_constraintTop_toBottomOf="@id/homeRecyclerTitle"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="15dp">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/completedChoresRecycler"
+            style="?attr/recyclerViewStyle"
+            tools:ignore="MissingConstraints"
+            app:layout_constraintTop_toBottomOf="@id/allChoresRecycler"
+            app:layout_constraintBottom_toTopOf="@id/homeFragmentBottomLayout"
+            android:layout_height="150dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp">
     </androidx.recyclerview.widget.RecyclerView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -131,6 +144,7 @@
         android:layout_marginBottom="20dp"
         android:src="@drawable/baseline_add_24"
         app:layout_constraintBottom_toTopOf="@+id/homeFragmentBottomLayout"
+        android:contentDescription="@string/add_chore_button"
         />
 
     <LinearLayout
