@@ -12,6 +12,8 @@ import androidx.navigation.fragment.navArgs
 import com.chorey.HOME_COL
 import com.chorey.NOTE_COL
 import com.chorey.R
+import com.chorey.data.DialogState
+import com.chorey.data.HomeModel
 import com.chorey.data.NoteModel
 import com.chorey.databinding.DialogNoteDetailBinding
 import com.chorey.viewmodel.LoginViewModel
@@ -19,18 +21,12 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.util.UUID
 
-class NoteDetailDialog : DialogFragment(){
+class NoteDetailDialog(private val homeModel: HomeModel,
+                       private val noteModel: NoteModel?,
+                       private val state: DialogState) : DialogFragment(){
     private var _binding: DialogNoteDetailBinding? = null
     private val binding get() = _binding!!
-
-    private val args : NoteDetailDialogArgs by navArgs()
     private val viewModel by activityViewModels<LoginViewModel>()
-
-    private lateinit var state: State
-
-    enum class State {
-        CREATE, VIEW
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,7 +40,6 @@ class NoteDetailDialog : DialogFragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        state = if (args.noteModel == null) { State.CREATE } else { State.VIEW }
         changeUI(state)
 
         binding.noteDetailCancelButton.setOnClickListener { dismiss() }
@@ -63,9 +58,9 @@ class NoteDetailDialog : DialogFragment(){
     }
 
     private fun onRemoveClicked() {
-        val uid = args.noteModel!!.UID
+        val uid = noteModel!!.UID
 
-        Firebase.firestore.collection(HOME_COL).document(args.homeModel.UID)
+        Firebase.firestore.collection(HOME_COL).document(homeModel.UID)
             .collection(NOTE_COL).document(uid).delete()
             .addOnSuccessListener { Log.d(TAG, "Note successfully deleted!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
@@ -74,7 +69,7 @@ class NoteDetailDialog : DialogFragment(){
     }
 
     private fun onCreateClicked() {
-        val uid = args.noteModel?.UID ?: UUID.randomUUID().toString()
+        val uid = noteModel?.UID ?: UUID.randomUUID().toString()
 
         if(checkEmpty()) {
             Toast.makeText(requireContext(),
@@ -91,7 +86,7 @@ class NoteDetailDialog : DialogFragment(){
             author = viewModel.user!!.name
         )
 
-        Firebase.firestore.collection(HOME_COL).document(args.homeModel.UID)
+        Firebase.firestore.collection(HOME_COL).document(homeModel.UID)
             .collection(NOTE_COL).document(uid).set(note)
 
         dismiss()
@@ -100,16 +95,16 @@ class NoteDetailDialog : DialogFragment(){
     private fun checkEmpty() = binding.noteDetailTextInput.editText!!.text.isNullOrBlank()
 
 
-    private fun changeUI(state: State) {
+    private fun changeUI(state: DialogState) {
         when(state) {
-            State.CREATE -> {
+            DialogState.CREATE -> {
                 binding.noteDetailRemoveButton.visibility = View.GONE
             }
-            State.VIEW -> {
+            DialogState.VIEW -> {
                 binding.noteDetailRemoveButton.visibility = View.VISIBLE
                 binding.noteDetailTitle.setText(R.string.note_detail_title_view)
                 binding.noteDetailModifyButton.setText(R.string.note_detail_edit_button)
-                binding.noteDetailTextInput.editText!!.setText(args.noteModel!!.note)
+                binding.noteDetailTextInput.editText!!.setText(noteModel!!.note)
             }
         }
     }

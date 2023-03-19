@@ -16,47 +16,43 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
+import android.widget.EditText
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import androidx.navigation.fragment.navArgs
 import com.chorey.CHORE_COL
 import com.chorey.HOME_COL
 import com.chorey.R
 import com.chorey.data.ChoreModel
+import com.chorey.data.DialogState
+import com.chorey.data.HomeModel
 import com.chorey.data.RepeatInterval
 import com.chorey.databinding.DialogChoreDetailBinding
 import com.chorey.util.ChoreUtil
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
-import java.util.Random
 import java.util.UUID
 
-class ChoreDetailDialog : DialogFragment(),
+class ChoreDetailDialog(private val homeModel : HomeModel,
+                        private val choreModel: ChoreModel?,
+                        private val state: DialogState) : DialogFragment(),
     DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
     private var _binding: DialogChoreDetailBinding? = null
     private val binding get() = _binding!!
-    private val args : ChoreDetailDialogArgs by navArgs()
     private var picker = TIME_PICKER
 
-    private lateinit var state: State
     private lateinit var assignedTo: ArrayList<String>
 
     private val dueTime = Calendar.getInstance()
     private var timeChanged = false
 
     enum class State {
-        CREATE, VIEW
+        CREATE, VIEW, EDIT
     }
 
     override fun onCreateView(
@@ -71,8 +67,7 @@ class ChoreDetailDialog : DialogFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        assignedTo = args.choreModel?.assignedTo ?: arrayListOf()
-        state = if (args.choreModel == null) { State.CREATE } else { State.VIEW }
+        assignedTo = choreModel?.assignedTo ?: arrayListOf()
 
         binding.createChoreCancelButton.setOnClickListener { onCancelClicked() }
         binding.choreDetailAssignedTo.setOnClickListener { onAssignClicked() }
@@ -124,9 +119,9 @@ class ChoreDetailDialog : DialogFragment(),
     }
 
 
-    private fun changeUI(state: State) {
+    private fun changeUI(state: DialogState) {
         when(state) {
-            State.CREATE -> {
+            DialogState.CREATE -> {
                 // Logical Changes
                 binding.createChoreCreateButton.setOnClickListener { onCreateClicked() }
 
@@ -138,9 +133,10 @@ class ChoreDetailDialog : DialogFragment(),
                             "-${dueTime.get(Calendar.DAY_OF_MONTH)}")
                 binding.choreDetailDueDate.text = date
             }
-            State.VIEW -> {
-                val choreModel = args.choreModel!!
+            else -> {
+                val choreModel = choreModel!!
 
+                //TODO: if View, block editing
                 // Update the chore timings
                 if (choreModel.isTimed) {
                     val lastDue = Calendar.getInstance()
@@ -168,6 +164,11 @@ class ChoreDetailDialog : DialogFragment(),
 
                 // Logical Changes
                 binding.createChoreCreateButton.setOnClickListener { onCreateClicked() }
+
+                //TODO: disable the other fields
+                if (state == DialogState.VIEW) {
+                    disableEditText(binding.createChoreNameInput.editText!!)
+                }
             }
         }
     }
@@ -221,9 +222,9 @@ class ChoreDetailDialog : DialogFragment(),
      */
     private fun onAssignClicked() {
         val builder = AlertDialog.Builder(requireContext())
-        val userArray : Array<String> = args.homeModel.users.toTypedArray()
+        val userArray : Array<String> = homeModel.users.toTypedArray()
         val selectedUsers : ArrayList<String> = arrayListOf()
-        val selectionArray = BooleanArray(args.homeModel.users.size)
+        val selectionArray = BooleanArray(homeModel.users.size)
 
         builder.setTitle(R.string.chore_detail_assign_hint)
             .setMultiChoiceItems(userArray, selectionArray)
@@ -257,17 +258,17 @@ class ChoreDetailDialog : DialogFragment(),
 
         if (!checkChoreInput()) return
 
-        val uid = args.choreModel?.UID ?: UUID.randomUUID().toString()
+        val uid = choreModel?.UID ?: UUID.randomUUID().toString()
         val choreName = binding.createChoreNameInput.editText?.text.toString()
         val timeToComplete = binding.choreDetailMinsToComplete.text.toString().toInt()
         // We only update the time if a different one is selected
         val whenDue = if (timeChanged) dueTime.timeInMillis
-                        else args.choreModel?.whenDue ?: Long.MAX_VALUE
+                        else choreModel?.whenDue ?: Long.MAX_VALUE
 
         val choreModel = ChoreModel(
             UID = uid,
             choreName = choreName,
-            homeId = args.homeModel.UID,
+            homeId = homeModel.UID,
             assignedTo = assignedTo,
             curAssignee = assignedTo.random(),
             repeatsEvery = binding.choreIntervalSpinner.selectedItem as RepeatInterval,
@@ -278,7 +279,7 @@ class ChoreDetailDialog : DialogFragment(),
             finished = 0
         )
 
-        Firebase.firestore.collection(HOME_COL).document(args.homeModel.UID)
+        Firebase.firestore.collection(HOME_COL).document(homeModel.UID)
             .collection(CHORE_COL).document(choreModel.UID).set(choreModel)
 
         dismiss()
@@ -289,13 +290,13 @@ class ChoreDetailDialog : DialogFragment(),
     }
 
     private fun onRemoveClicked() {
-        val uid = args.choreModel!!.UID
+        val uid = choreModel!!.UID
 
         val builder = AlertDialog.Builder(requireActivity())
         builder.setMessage("Are you sure you want to remove this chore?")
             .setPositiveButton(R.string.confirm_remove_yes)
             { _, _ ->
-                Firebase.firestore.collection(HOME_COL).document(args.homeModel.UID)
+                Firebase.firestore.collection(HOME_COL).document(homeModel.UID)
                     .collection(CHORE_COL).document(uid).delete()
                     .addOnSuccessListener { Log.d(TAG, "Chore successfully deleted!") }
                     .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
@@ -328,6 +329,14 @@ class ChoreDetailDialog : DialogFragment(),
         binding.choreDetailDueTime.visibility = state
         binding.choreRepeatText.visibility = state
         binding.choreIntervalSpinner.visibility = state
+    }
+
+    private fun disableEditText(editText: EditText) {
+        editText.setFocusable(false);
+        editText.setEnabled(false);
+        editText.setCursorVisible(false);
+        editText.setKeyListener(null);
+        editText.setBackgroundColor(android.R.color.transparent);
     }
 
 

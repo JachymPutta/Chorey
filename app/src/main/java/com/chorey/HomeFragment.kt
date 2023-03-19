@@ -1,13 +1,10 @@
 package com.chorey
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -23,11 +20,13 @@ import com.chorey.adapter.ChoreRecyclerAdapter
 import com.chorey.adapter.NoteRecyclerAdapter
 import com.chorey.adapter.SummaryRecyclerAdapter
 import com.chorey.data.ChoreModel
+import com.chorey.data.DialogState
 import com.chorey.data.HomeUserModel
 import com.chorey.data.NoteModel
 import com.chorey.databinding.FragmentHomeBinding
-import com.chorey.dialog.AddMemberDialog
+import com.chorey.dialog.ChoreDetailDialog
 import com.chorey.dialog.HomeDetailDialog
+import com.chorey.dialog.NoteDetailDialog
 import com.chorey.util.OnSwipeTouchListener
 import com.chorey.viewmodel.LoginViewModel
 import com.google.firebase.firestore.DocumentReference
@@ -38,7 +37,6 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.firestore.local.QueryEngine
 import com.google.firebase.ktx.Firebase
 
 
@@ -152,26 +150,28 @@ class HomeFragment : Fragment(),
         }
 
         // Create a chore dialog
-        val action = HomeFragmentDirections.actionHomeFragmentToCreateChoreDialog(home)
-        findNavController().navigate(action)
+        ChoreDetailDialog(homeModel = home, null, DialogState.CREATE)
+            .show(parentFragmentManager, ChoreDetailDialog.TAG)
     }
 
+    /**
+     * Selecting a currently active chore, returns the edit state
+     */
     override fun onChoreSelected(chore: DocumentSnapshot) {
-        val action = HomeFragmentDirections.actionHomeFragmentToCreateChoreDialog(home).apply {
-            choreModel = chore.toObject<ChoreModel>()
-        }
-        findNavController().navigate(action)
+        val choreModel = chore.toObject<ChoreModel>()
+        ChoreDetailDialog(homeModel = home, choreModel = choreModel, DialogState.EDIT)
+            .show(parentFragmentManager, ChoreDetailDialog.TAG)
     }
 
     private fun addNoteHandle() {
-        val action = HomeFragmentDirections.actionHomeFragmentToNoteDetailDialog(home)
-        findNavController().navigate(action)
+        NoteDetailDialog(homeModel = home, noteModel = null, state = DialogState.CREATE)
+            .show(parentFragmentManager, NoteDetailDialog.TAG)
     }
     override fun onNoteSelected(note: DocumentSnapshot) {
-        val action = HomeFragmentDirections.actionHomeFragmentToNoteDetailDialog(home).apply {
-            noteModel = note.toObject<NoteModel>()
-        }
-        findNavController().navigate(action)
+        val noteModel = note.toObject<NoteModel>()
+
+        NoteDetailDialog(homeModel = home, noteModel = noteModel, state = DialogState.CREATE)
+            .show(parentFragmentManager, NoteDetailDialog.TAG)
     }
 
     override fun onSummarySelected(summary: DocumentSnapshot) {

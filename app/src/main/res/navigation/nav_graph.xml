@@ -49,12 +49,6 @@
         <argument
             android:name="homeModel"
             app:argType="com.chorey.data.HomeModel" />
-        <action
-            android:id="@+id/action_homeFragment_to_createChoreDialog"
-            app:destination="@id/createChoreDialog" />
-        <action
-            android:id="@+id/action_homeFragment_to_noteDetailDialog"
-            app:destination="@id/noteDetailDialog" />
     </fragment>
     <dialog
         android:id="@+id/addMemberDialog"
