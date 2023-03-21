@@ -20,9 +20,7 @@ open class OnSwipeTouchListener(ctx: Context) : View.OnTouchListener {
         gestureDetector = GestureDetector(ctx, GestureListener())
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onTouch(v: View, event: MotionEvent?): Boolean {
-        if (event == null) return false
+    override fun onTouch(v: View, event: MotionEvent): Boolean {
         return gestureDetector.onTouchEvent(event)
     }
 
@@ -47,13 +45,6 @@ open class OnSwipeTouchListener(ctx: Context) : View.OnTouchListener {
                         }
                         result = true
                     }
-                } else if (abs(diffY) > SWIPE_THRESHOLD && abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
-                    if (diffY > 0) {
-                        onSwipeBottom()
-                    } else {
-                        onSwipeTop()
-                    }
-                    result = true
                 }
             } catch (exception: Exception) {
                 exception.printStackTrace()
@@ -66,8 +57,4 @@ open class OnSwipeTouchListener(ctx: Context) : View.OnTouchListener {
     open fun onSwipeRight() {}
 
     open fun onSwipeLeft() {}
-
-    open fun onSwipeTop() {}
-
-    open fun onSwipeBottom() {}
 }

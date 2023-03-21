@@ -22,6 +22,8 @@
     <string name="menu_title_welcome">Welcome to Chorey!</string>
     <string name="auth_button_login">Login</string>
     <string name="auth_button_logout">Logout</string>
+    <string name="menu_arrow_desc">menu_arrow</string>
+    <string name="add_home_hint">Click Here to Add</string>
         <!-- Menu Recycler View -->
         <string name="home_item_place_holder">Home</string>
         <string name="home_item_score">Points:</string>
@@ -85,6 +87,7 @@
 
     <!-- Chore Detail Dialog -->
     <string name="chore_detail_title_create">Create Chore:</string>
+    <string name="chore_detail_title_edit">Edit Chore:</string>
     <string name="create_chore_name_hint">Chore Name</string>
     <string name="chore_detail_name_text">Name:</string>
     <string name="chore_detail_spinner_text">Template:</string>

@@ -153,6 +153,7 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
                 }
 
                 // Fill in existing data
+                binding.createChoreTitle.setText(R.string.chore_detail_title_edit)
                 binding.createChoreNameInput.editText!!.setText(choreModel.choreName)
                 binding.choreDetailAssignedTo.text = choreModel.assignedTo.joinToString()
                 binding.choreDetailMinsToComplete.setText(choreModel.timeToComplete.toString())

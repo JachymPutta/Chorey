@@ -14,7 +14,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ItemTouchHelper.LEFT
+import androidx.recyclerview.widget.ItemTouchHelper.RIGHT
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.chorey.data.HomeModel
 import com.chorey.adapter.ChoreRecyclerAdapter
 import com.chorey.adapter.NoteRecyclerAdapter
@@ -60,6 +64,8 @@ class HomeFragment : Fragment(),
     private lateinit var noteAdapter: NoteRecyclerAdapter
     private lateinit var summaryAdapter: SummaryRecyclerAdapter
     private lateinit var swipeTouchListener: OnSwipeTouchListener
+    //TODO: Swiping on individual items
+//    private lateinit var recyclerSwipeAdapter: ItemTouchHelper
 
     private lateinit var choreQuery: Query
     private lateinit var noteQuery: Query
@@ -122,9 +128,9 @@ class HomeFragment : Fragment(),
 
         //Swipe navigation
         binding.fragHomeLayout.setOnTouchListener(swipeTouchListener)
-//        binding.allChoresRecycler.setOnTouchListener(swipeTouchListener)
-
-
+        binding.allChoresRecycler.setOnTouchListener(swipeTouchListener)
+        //TODO: Swiping on individual items?
+//        recyclerSwipeAdapter.attachToRecyclerView(binding.allChoresRecycler)
     }
 
     override fun onEvent(value: DocumentSnapshot?, error: FirebaseFirestoreException?) {
@@ -296,6 +302,25 @@ class HomeFragment : Fragment(),
                 }
             }
         }
+
+        //TODO: Swiping on individual items
+//        recyclerSwipeAdapter = ItemTouchHelper(
+//            object : ItemTouchHelper.SimpleCallback(0,(LEFT or RIGHT)) {
+//                override fun onMove(
+//                    recyclerView: RecyclerView,
+//                    viewHolder: RecyclerView.ViewHolder,
+//                    target: RecyclerView.ViewHolder
+//                ): Boolean {
+//                    return false
+//                }
+//
+//                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+//                    when (direction) {
+//                        LEFT -> Toast.makeText(requireContext(), "LEFT SWIPE", Toast.LENGTH_SHORT).show()
+//                        RIGHT -> Toast.makeText(requireContext(), "RIGHT SWIPE", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//        })
     }
 
     private fun onHomeLoaded(homeModel: HomeModel?) {

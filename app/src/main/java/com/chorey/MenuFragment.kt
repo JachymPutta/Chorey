@@ -77,9 +77,13 @@ class MenuFragment : Fragment(),
                 if (itemCount == 0) {
                     binding.allRoomsRecycler.visibility = View.GONE
                     binding.menuEmptyRecyclerText.visibility = View.VISIBLE
+                    binding.addHomeHint.visibility = View.VISIBLE
+                    binding.menuArrow.visibility = View.VISIBLE
                 } else {
                     binding.allRoomsRecycler.visibility = View.VISIBLE
                     binding.menuEmptyRecyclerText.visibility = View.GONE
+                    binding.addHomeHint.visibility = View.GONE
+                    binding.menuArrow.visibility = View.GONE
                 }
             }
         }

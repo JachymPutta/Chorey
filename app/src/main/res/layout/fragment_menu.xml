@@ -131,5 +131,29 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:contentDescription="@string/add_icon_description" />
+
+
+        <TextView
+            android:id="@+id/addHomeHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/menuArrow"
+            app:layout_constraintStart_toStartOf="@id/menuArrow"
+            app:layout_constraintEnd_toEndOf="@id/menuArrow"
+            android:textSize="@dimen/medium_text_size"
+            android:textStyle="bold"
+            android:layout_marginEnd="50dp"
+            android:text="@string/add_home_hint" />
+
+        <ImageView
+            android:id="@+id/menuArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_subdirectory_arrow_right_24"
+            app:layout_constraintEnd_toStartOf="@id/addHomeButton"
+            app:layout_constraintBottom_toBottomOf="@id/addHomeButton"
+            android:contentDescription="@string/menu_arrow_desc"
+            />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
