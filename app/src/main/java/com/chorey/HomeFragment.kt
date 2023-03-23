@@ -14,11 +14,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.ItemTouchHelper.LEFT
-import androidx.recyclerview.widget.ItemTouchHelper.RIGHT
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.chorey.adapter.ChoreHistoryAdapter
 import com.chorey.data.HomeModel
 import com.chorey.adapter.ChoreRecyclerAdapter
 import com.chorey.adapter.NoteRecyclerAdapter
@@ -51,6 +48,7 @@ import com.google.firebase.ktx.Firebase
 class HomeFragment : Fragment(),
     EventListener<DocumentSnapshot>,
     ChoreRecyclerAdapter.OnChoreSelectedListener,
+    ChoreHistoryAdapter.OnHistorySelectedListener,
     NoteRecyclerAdapter.OnNoteSelectedListener,
     SummaryRecyclerAdapter.OnSummarySelectedListener {
 
@@ -61,6 +59,7 @@ class HomeFragment : Fragment(),
     private lateinit var homeRef: DocumentReference
 
     private lateinit var hrvAdapter: ChoreRecyclerAdapter
+    private lateinit var historyAdapter: ChoreHistoryAdapter
     private lateinit var noteAdapter: NoteRecyclerAdapter
     private lateinit var summaryAdapter: SummaryRecyclerAdapter
     private lateinit var swipeTouchListener: OnSwipeTouchListener
@@ -68,6 +67,7 @@ class HomeFragment : Fragment(),
 //    private lateinit var recyclerSwipeAdapter: ItemTouchHelper
 
     private lateinit var choreQuery: Query
+    private lateinit var historyQuery: Query
     private lateinit var noteQuery: Query
     private lateinit var summaryQuery: Query
 
@@ -105,8 +105,11 @@ class HomeFragment : Fragment(),
             }
 
         choreQuery = homeRef.collection(CHORE_COL)
-            .orderBy(ChoreModel.FIELD_COMPLETED)
+            .whereEqualTo(ChoreModel.FIELD_COMPLETED, false)
             .orderBy(ChoreModel.FIELD_WHEN_DUE)
+        historyQuery = homeRef.collection(CHORE_COL)
+            .whereEqualTo(ChoreModel.FIELD_COMPLETED, true)
+            .orderBy(ChoreModel.FIELD_WHEN_DUE, Query.Direction.DESCENDING)
         noteQuery = homeRef.collection(NOTE_COL)
         summaryQuery  = homeRef.collection(USER_COL)
             .orderBy(HomeUserModel.FIELD_POINTS, Query.Direction.DESCENDING)
@@ -129,6 +132,7 @@ class HomeFragment : Fragment(),
         //Swipe navigation
         binding.fragHomeLayout.setOnTouchListener(swipeTouchListener)
         binding.allChoresRecycler.setOnTouchListener(swipeTouchListener)
+        binding.completedChoresRecycler.adapter = historyAdapter
         //TODO: Swiping on individual items?
 //        recyclerSwipeAdapter.attachToRecyclerView(binding.allChoresRecycler)
     }
@@ -166,6 +170,12 @@ class HomeFragment : Fragment(),
     override fun onChoreSelected(chore: DocumentSnapshot) {
         val choreModel = chore.toObject<ChoreModel>()
         ChoreDetailDialog(homeModel = home, choreModel = choreModel, DialogState.EDIT)
+            .show(parentFragmentManager, ChoreDetailDialog.TAG)
+    }
+
+    override fun onHistorySelected(chore: DocumentSnapshot) {
+        val choreModel = chore.toObject<ChoreModel>()
+        ChoreDetailDialog(homeModel = home, choreModel = choreModel, DialogState.VIEW)
             .show(parentFragmentManager, ChoreDetailDialog.TAG)
     }
 
@@ -211,6 +221,7 @@ class HomeFragment : Fragment(),
                 binding.addChoreButton.visibility = VISIBLE
                 binding.noChoresLeftText.setText(R.string.home_no_chores_left)
                 binding.homeChoreButton.setBackgroundColor(resources.getColor(R.color.ivory, null))
+                binding.completedChoresRecycler.visibility = VISIBLE
 
                 // Logic
                 binding.allChoresRecycler.adapter = hrvAdapter
@@ -223,6 +234,7 @@ class HomeFragment : Fragment(),
                 binding.noChoresLeftText.text = ""
                 binding.addChoreButton.visibility = GONE
                 binding.allChoresRecycler.visibility = VISIBLE
+                binding.completedChoresRecycler.visibility = GONE
                 binding.homeSummaryButton.setBackgroundColor(resources.getColor(R.color.ivory, null))
 
                 // Logic
@@ -235,6 +247,7 @@ class HomeFragment : Fragment(),
                 binding.homeRecyclerTitle.setText(R.string.home_notes_title)
                 binding.noChoresLeftText.setText(R.string.home_no_notes_left)
                 binding.addChoreButton.visibility = VISIBLE
+                binding.completedChoresRecycler.visibility = GONE
                 binding.noticeBoardButton.setBackgroundColor(resources.getColor(R.color.ivory, null))
 
                 // Logic
@@ -284,6 +297,8 @@ class HomeFragment : Fragment(),
         }
 
         summaryAdapter = SummaryRecyclerAdapter(summaryQuery, this@HomeFragment)
+
+        historyAdapter = ChoreHistoryAdapter(historyQuery,  this@HomeFragment, viewModel.user!!)
 
         swipeTouchListener = object : OnSwipeTouchListener(requireContext()){
             override fun onSwipeLeft() {
@@ -339,5 +354,6 @@ class HomeFragment : Fragment(),
         const val TAG = "HomeFragment"
         const val NOTE_COLUMN_CNT = 2
     }
+
 
 }
