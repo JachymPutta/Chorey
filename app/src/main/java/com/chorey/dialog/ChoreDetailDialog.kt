@@ -51,10 +51,6 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
     private val dueTime = Calendar.getInstance()
     private var timeChanged = false
 
-    enum class State {
-        CREATE, VIEW, EDIT
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -70,10 +66,16 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
         assignedTo = choreModel?.assignedTo ?: arrayListOf()
 
         binding.createChoreCancelButton.setOnClickListener { onCancelClicked() }
+        toggleTimeUI(GONE)
+        changeUI(state)
+
+        if (state == DialogState.VIEW) { return }
+
         binding.choreDetailAssignedTo.setOnClickListener { onAssignClicked() }
         binding.createChoreRemoveButton.setOnClickListener { onRemoveClicked() }
         binding.choreDetailDueDate.setOnClickListener { onDatePickerClicked() }
         binding.choreDetailDueTime.setOnClickListener { onTimePickerClicked() }
+        binding.createChoreCreateButton.setOnClickListener { onCreateClicked() }
 
         // Hook up spinners
         val repeatAdapter = ArrayAdapter(requireContext(), R.layout.chore_spinner_item, RepeatInterval.values())
@@ -104,8 +106,6 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
         binding.createChoreNameInput.editText!!.setOnKeyListener { _, keyCode, event ->
             (event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)
         }
-        toggleTimeUI(GONE)
-        changeUI(state)
     }
 
     override fun onStart() {
@@ -122,9 +122,6 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
     private fun changeUI(state: DialogState) {
         when(state) {
             DialogState.CREATE -> {
-                // Logical Changes
-                binding.createChoreCreateButton.setOnClickListener { onCreateClicked() }
-
                 // Visual Changes
                 binding.createChoreCreateButton.setText(R.string.create_home_yes)
                 binding.createChoreRemoveButton.visibility = GONE
@@ -133,43 +130,19 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
                             "-${dueTime.get(Calendar.DAY_OF_MONTH)}")
                 binding.choreDetailDueDate.text = date
             }
-            else -> {
-                val choreModel = choreModel!!
+            DialogState.VIEW -> {
+                fillChoreData()
+                disableEditText(binding.createChoreNameInput.editText!!)
 
-                //TODO: if View, block editing
-                // Update the chore timings
-                if (choreModel.isTimed) {
-                    val lastDue = Calendar.getInstance()
-                    lastDue.timeInMillis = choreModel.whenDue
-                    val id = RepeatInterval.values().indexOf(choreModel.repeatsEvery)
-                    binding.choreDetailDueDate.text = getDateFormat(requireContext()).format(Date(choreModel.whenDue))
-                    binding.choreDetailDueTime.text = getTimeFormat(requireContext()).format(lastDue.time)
-                    binding.choreIntervalSpinner.setSelection(id)
-                    binding.choreDetailIsTimedBox.isChecked = true
-
-                    toggleTimeUI(VISIBLE)
-                } else {
-                    toggleTimeUI(GONE)
-                }
-
-                // Fill in existing data
-                binding.createChoreTitle.setText(R.string.chore_detail_title_edit)
-                binding.createChoreNameInput.editText!!.setText(choreModel.choreName)
-                binding.choreDetailAssignedTo.text = choreModel.assignedTo.joinToString()
-                binding.choreDetailMinsToComplete.setText(choreModel.timeToComplete.toString())
-                binding.choreDetailPoints.text = choreModel.points.toString()
+            }
+            DialogState.EDIT -> {
+                fillChoreData()
 
                 // Visual Changes
                 binding.createChoreRemoveButton.visibility = VISIBLE
                 binding.createChoreCreateButton.setText(R.string.create_chore_edit_button)
 
-                // Logical Changes
-                binding.createChoreCreateButton.setOnClickListener { onCreateClicked() }
 
-                //TODO: disable the other fields
-                if (state == DialogState.VIEW) {
-                    disableEditText(binding.createChoreNameInput.editText!!)
-                }
             }
         }
     }
@@ -280,8 +253,10 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
             finished = 0
         )
 
+        Log.d(TAG, "Creating chore $choreModel")
         Firebase.firestore.collection(HOME_COL).document(homeModel.UID)
             .collection(CHORE_COL).document(choreModel.UID).set(choreModel)
+
 
         dismiss()
     }
@@ -338,6 +313,34 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
         editText.setCursorVisible(false);
         editText.setKeyListener(null);
         editText.setBackgroundColor(android.R.color.transparent);
+    }
+
+    private fun fillChoreData() {
+        val choreModel = choreModel!!
+
+        //TODO: if View, block editing
+        // Update the chore timings
+        if (choreModel.isTimed) {
+            val lastDue = Calendar.getInstance()
+            lastDue.timeInMillis = choreModel.whenDue
+            val id = RepeatInterval.values().indexOf(choreModel.repeatsEvery)
+            binding.choreDetailDueDate.text = getDateFormat(requireContext()).format(Date(choreModel.whenDue))
+            binding.choreDetailDueTime.text = getTimeFormat(requireContext()).format(lastDue.time)
+            binding.choreIntervalSpinner.setSelection(id)
+            binding.choreDetailIsTimedBox.isChecked = true
+
+            toggleTimeUI(VISIBLE)
+        } else {
+            toggleTimeUI(GONE)
+        }
+
+        // Fill in existing data
+        binding.createChoreTitle.setText(R.string.chore_detail_title_edit)
+        binding.createChoreNameInput.editText!!.setText(choreModel.choreName)
+        binding.choreDetailAssignedTo.text = choreModel.assignedTo.joinToString()
+        binding.choreDetailMinsToComplete.setText(choreModel.timeToComplete.toString())
+        binding.choreDetailPoints.text = choreModel.points.toString()
+
     }
 
 

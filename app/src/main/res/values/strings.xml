@@ -23,7 +23,7 @@
     <string name="auth_button_login">Login</string>
     <string name="auth_button_logout">Logout</string>
     <string name="menu_arrow_desc">menu_arrow</string>
-    <string name="add_home_hint">Click Here to Add</string>
+    <string name="add_home_hint">Click Here To Add More</string>
         <!-- Menu Recycler View -->
         <string name="home_item_place_holder">Home</string>
         <string name="home_item_score">Points:</string>

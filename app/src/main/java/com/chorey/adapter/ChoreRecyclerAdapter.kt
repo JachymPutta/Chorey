@@ -58,10 +58,6 @@ open class ChoreRecyclerAdapter(query: Query,
                 binding.choreDueText.visibility = View.GONE
             }
 
-//            if (choreModel.isCompleted) {
-//                binding.choreRecyclerCard.setCardBackgroundColor(R.color.purple_200)
-//            }
-
             // Bind logic
             binding.choreDoneButton.setOnClickListener { onDoneClicked(snapshot) }
             binding.root.setOnClickListener { listener.onChoreSelected(snapshot) }

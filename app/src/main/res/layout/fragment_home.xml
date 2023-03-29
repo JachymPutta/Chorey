@@ -116,23 +116,13 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/allChoresRecycler"
             style="?attr/recyclerViewStyle"
-            app:layout_constraintBottom_toTopOf="@id/completedChoresRecycler"
+            app:layout_constraintBottom_toTopOf="@id/addChoreButton"
             app:layout_constraintTop_toBottomOf="@id/homeRecyclerTitle"
+            android:layout_marginBottom="5dp"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="15dp">
 
         </androidx.recyclerview.widget.RecyclerView>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/completedChoresRecycler"
-            style="?attr/recyclerViewStyle"
-            tools:ignore="MissingConstraints"
-            app:layout_constraintTop_toBottomOf="@id/allChoresRecycler"
-            app:layout_constraintBottom_toTopOf="@id/homeFragmentBottomLayout"
-            android:layout_height="150dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp">
-    </androidx.recyclerview.widget.RecyclerView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addChoreButton"

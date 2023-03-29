@@ -79,6 +79,11 @@ class HomeFragment : Fragment(),
     enum class CurFrag {
         HOME, BOARD, SUMMARY
     }
+
+    enum class ChoreType {
+        ACTIVE, COMPLETED
+    }
+
     private var curFrag = CurFrag.SUMMARY
 
     override fun onCreateView(
@@ -93,9 +98,27 @@ class HomeFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // DB queries
         firestore = Firebase.firestore
-
         homeRef = firestore.collection(HOME_COL).document(args.homeModel.UID)
+
+        choreQuery = homeRef.collection(CHORE_COL)
+            .whereEqualTo(ChoreModel.FIELD_COMPLETED, 0)
+            .orderBy(ChoreModel.FIELD_WHEN_DUE)
+
+        historyQuery = homeRef.collection(CHORE_COL)
+            .whereGreaterThanOrEqualTo(ChoreModel.FIELD_COMPLETED, 1)
+            .orderBy(ChoreModel.FIELD_COMPLETED)
+            .orderBy(ChoreModel.FIELD_WHEN_DUE, Query.Direction.DESCENDING)
+
+        noteQuery = homeRef.collection(NOTE_COL)
+
+        summaryQuery  = homeRef.collection(USER_COL)
+            .orderBy(HomeUserModel.FIELD_POINTS, Query.Direction.DESCENDING)
+
+        initAdapters()
+
+
         homeRef.get()
             .addOnSuccessListener(requireActivity()) {
                 snapshot -> onHomeLoaded(snapshot.toObject<HomeModel>())
@@ -104,18 +127,6 @@ class HomeFragment : Fragment(),
                 e -> Log.d(MenuFragment.TAG, "onCreateHome error: $e")
             }
 
-        choreQuery = homeRef.collection(CHORE_COL)
-            .whereEqualTo(ChoreModel.FIELD_COMPLETED, false)
-            .orderBy(ChoreModel.FIELD_WHEN_DUE)
-        historyQuery = homeRef.collection(CHORE_COL)
-            .whereEqualTo(ChoreModel.FIELD_COMPLETED, true)
-            .orderBy(ChoreModel.FIELD_WHEN_DUE, Query.Direction.DESCENDING)
-        noteQuery = homeRef.collection(NOTE_COL)
-        summaryQuery  = homeRef.collection(USER_COL)
-            .orderBy(HomeUserModel.FIELD_POINTS, Query.Direction.DESCENDING)
-
-
-        initAdapters()
         binding.frameLayout.visibility = GONE
 
         // Hooking up buttons
@@ -132,9 +143,20 @@ class HomeFragment : Fragment(),
         //Swipe navigation
         binding.fragHomeLayout.setOnTouchListener(swipeTouchListener)
         binding.allChoresRecycler.setOnTouchListener(swipeTouchListener)
-        binding.completedChoresRecycler.adapter = historyAdapter
         //TODO: Swiping on individual items?
 //        recyclerSwipeAdapter.attachToRecyclerView(binding.allChoresRecycler)
+    }
+
+    private fun onHomeLoaded(homeModel: HomeModel?) {
+        if (homeModel == null)
+            return
+
+        home = homeModel
+        binding.homeName.text = homeModel.homeName
+        binding.frameLayout.visibility = VISIBLE
+        binding.homeLoadingText.visibility = GONE
+
+        changeUI(CurFrag.HOME)
     }
 
     override fun onEvent(value: DocumentSnapshot?, error: FirebaseFirestoreException?) {
@@ -151,6 +173,9 @@ class HomeFragment : Fragment(),
         }
     }
 
+    /**
+     * Button Click Handlers
+     */
     private fun addChoreHandle() {
         // Check if chore limit reached
         val numChores = hrvAdapter.itemCount
@@ -164,8 +189,17 @@ class HomeFragment : Fragment(),
             .show(parentFragmentManager, ChoreDetailDialog.TAG)
     }
 
+    private fun addNoteHandle() {
+        NoteDetailDialog(homeModel = home, noteModel = null, state = DialogState.CREATE)
+            .show(parentFragmentManager, NoteDetailDialog.TAG)
+    }
+
+    private fun settingsHandle() {
+        HomeDetailDialog(home).show(parentFragmentManager, "HomeDetailDialog")
+    }
+
     /**
-     * Selecting a currently active chore, returns the edit state
+     * Clicking recycler items
      */
     override fun onChoreSelected(chore: DocumentSnapshot) {
         val choreModel = chore.toObject<ChoreModel>()
@@ -179,10 +213,6 @@ class HomeFragment : Fragment(),
             .show(parentFragmentManager, ChoreDetailDialog.TAG)
     }
 
-    private fun addNoteHandle() {
-        NoteDetailDialog(homeModel = home, noteModel = null, state = DialogState.CREATE)
-            .show(parentFragmentManager, NoteDetailDialog.TAG)
-    }
     override fun onNoteSelected(note: DocumentSnapshot) {
         val noteModel = note.toObject<NoteModel>()
 
@@ -192,11 +222,6 @@ class HomeFragment : Fragment(),
 
     override fun onSummarySelected(summary: DocumentSnapshot) {
         // TODO: should this do something?
-    }
-
-
-    private fun settingsHandle() {
-        HomeDetailDialog(home).show(parentFragmentManager, "HomeDetailDialog")
     }
 
     /**
@@ -217,24 +242,16 @@ class HomeFragment : Fragment(),
         when (nextFrag) {
             CurFrag.HOME -> {
                 // Visual
-                binding.homeRecyclerTitle.setText(R.string.home_all_chores_text)
-                binding.addChoreButton.visibility = VISIBLE
-                binding.noChoresLeftText.setText(R.string.home_no_chores_left)
                 binding.homeChoreButton.setBackgroundColor(resources.getColor(R.color.ivory, null))
-                binding.completedChoresRecycler.visibility = VISIBLE
+                //TODO: Hook up the history toggle button here
 
-                // Logic
-                binding.allChoresRecycler.adapter = hrvAdapter
-                binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
-                binding.addChoreButton.setOnClickListener { addChoreHandle() }
+                choreTypeToggle(ChoreType.ACTIVE)
             }
             CurFrag.SUMMARY -> {
                 // Visual
                 binding.homeRecyclerTitle.setText(R.string.home_summary_title_points)
                 binding.noChoresLeftText.text = ""
                 binding.addChoreButton.visibility = GONE
-                binding.allChoresRecycler.visibility = VISIBLE
-                binding.completedChoresRecycler.visibility = GONE
                 binding.homeSummaryButton.setBackgroundColor(resources.getColor(R.color.ivory, null))
 
                 // Logic
@@ -247,7 +264,6 @@ class HomeFragment : Fragment(),
                 binding.homeRecyclerTitle.setText(R.string.home_notes_title)
                 binding.noChoresLeftText.setText(R.string.home_no_notes_left)
                 binding.addChoreButton.visibility = VISIBLE
-                binding.completedChoresRecycler.visibility = GONE
                 binding.noticeBoardButton.setBackgroundColor(resources.getColor(R.color.ivory, null))
 
                 // Logic
@@ -260,11 +276,34 @@ class HomeFragment : Fragment(),
         curFrag = nextFrag
     }
 
+    private fun choreTypeToggle(choreType : ChoreType) {
+        when(choreType){
+            ChoreType.ACTIVE -> {
+                binding.homeRecyclerTitle.setText(R.string.home_all_chores_text)
+                binding.noChoresLeftText.setText(R.string.home_no_chores_left)
+
+                binding.addChoreButton.visibility = VISIBLE
+                binding.allChoresRecycler.adapter = hrvAdapter
+                binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
+                binding.addChoreButton.setOnClickListener { addChoreHandle() }
+            }
+            ChoreType.COMPLETED -> {
+
+                binding.allChoresRecycler.adapter = historyAdapter
+                binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
+
+                binding.addChoreButton.visibility = GONE
+
+            }
+        }
+    }
+
     override fun onStart() {
         super.onStart()
         hrvAdapter.startListening()
         noteAdapter.startListening()
         summaryAdapter.startListening()
+        historyAdapter.startListening()
     }
 
     override fun onStop() {
@@ -272,6 +311,7 @@ class HomeFragment : Fragment(),
         hrvAdapter.stopListening()
         noteAdapter.stopListening()
         summaryAdapter.stopListening()
+        historyAdapter.stopListening()
     }
 
     private fun initAdapters() {
@@ -338,17 +378,6 @@ class HomeFragment : Fragment(),
 //        })
     }
 
-    private fun onHomeLoaded(homeModel: HomeModel?) {
-        if (homeModel == null)
-            return
-
-        home = homeModel
-        binding.homeName.text = homeModel.homeName
-        binding.frameLayout.visibility = VISIBLE
-        binding.homeLoadingText.visibility = GONE
-
-        changeUI(CurFrag.HOME)
-    }
 
     companion object {
         const val TAG = "HomeFragment"
