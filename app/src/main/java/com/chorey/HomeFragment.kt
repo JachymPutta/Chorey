@@ -85,6 +85,7 @@ class HomeFragment : Fragment(),
     }
 
     private var curFrag = CurFrag.SUMMARY
+    private var curChores = ChoreType.COMPLETED
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -134,6 +135,10 @@ class HomeFragment : Fragment(),
         binding.homeToMenuButton.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMenuFragment())
         }
+
+        //Top navigation
+        binding.activeChoresButton.setOnClickListener { choreTypeToggle(ChoreType.ACTIVE) }
+        binding.historyChoresButton.setOnClickListener { choreTypeToggle(ChoreType.COMPLETED) }
 
         // Bottom navigation
         binding.homeSummaryButton.setOnClickListener { changeUI(CurFrag.SUMMARY) }
@@ -234,7 +239,11 @@ class HomeFragment : Fragment(),
 
         // Removes the highlight from the last tab
         when (curFrag) {
-            CurFrag.HOME -> binding.homeChoreButton.setBackgroundColor(resources.getColor(android.R.color.transparent,null))
+            CurFrag.HOME -> {
+                binding.homeChoreButton.setBackgroundColor(resources.getColor(android.R.color.transparent,null))
+                binding.activeChoresButton.visibility = GONE
+                binding.historyChoresButton.visibility = GONE
+            }
             CurFrag.BOARD -> binding.noticeBoardButton.setBackgroundColor(resources.getColor(android.R.color.transparent,null))
             CurFrag.SUMMARY -> binding.homeSummaryButton.setBackgroundColor(resources.getColor(android.R.color.transparent,null))
         }
@@ -243,8 +252,10 @@ class HomeFragment : Fragment(),
             CurFrag.HOME -> {
                 // Visual
                 binding.homeChoreButton.setBackgroundColor(resources.getColor(R.color.ivory, null))
-                //TODO: Hook up the history toggle button here
+                binding.activeChoresButton.visibility = VISIBLE
+                binding.historyChoresButton.visibility = VISIBLE
 
+                curChores = ChoreType.COMPLETED
                 choreTypeToggle(ChoreType.ACTIVE)
             }
             CurFrag.SUMMARY -> {
@@ -277,6 +288,19 @@ class HomeFragment : Fragment(),
     }
 
     private fun choreTypeToggle(choreType : ChoreType) {
+        if(curChores == choreType) return
+
+        when(curChores) {
+            ChoreType.ACTIVE -> {
+                binding.activeChoresButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
+                binding.activeChoresButton.setTextColor(resources.getColor(R.color.primaryColor, null))
+            }
+            ChoreType.COMPLETED -> {
+                binding.historyChoresButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
+                binding.historyChoresButton.setTextColor(resources.getColor(R.color.primaryColor, null))
+            }
+        }
+
         when(choreType){
             ChoreType.ACTIVE -> {
                 binding.homeRecyclerTitle.setText(R.string.home_all_chores_text)
@@ -286,16 +310,25 @@ class HomeFragment : Fragment(),
                 binding.allChoresRecycler.adapter = hrvAdapter
                 binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
                 binding.addChoreButton.setOnClickListener { addChoreHandle() }
+
+                //Active tab highlight
+                binding.activeChoresButton.setBackgroundColor(resources.getColor(R.color.primaryColor, null))
+                binding.activeChoresButton.setTextColor(resources.getColor(R.color.black, null))
             }
             ChoreType.COMPLETED -> {
-
                 binding.allChoresRecycler.adapter = historyAdapter
                 binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
 
                 binding.addChoreButton.visibility = GONE
+                binding.noChoresLeftText.visibility = GONE
 
+                //Active tab highlight
+                binding.historyChoresButton.setBackgroundColor(resources.getColor(R.color.primaryColor, null))
+                binding.historyChoresButton.setTextColor(resources.getColor(R.color.black, null))
             }
         }
+
+        curChores = choreType
     }
 
     override fun onStart() {

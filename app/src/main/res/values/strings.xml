@@ -47,6 +47,8 @@
     <string name="home_summary_title">Summary</string>
     <string name="home_summary_title_points">Top Contributors:</string>
     <string name="home_notes_title">Notice Board</string>
+    <string name="home_active_chores_button">Active</string>
+    <string name="home_history_chores_button">History</string>
         <!-- Chore Recycler View -->
         <string name="chore_item_name">Chore</string>
         <string name="chore_item_assignee_text">Assigned:</string>
