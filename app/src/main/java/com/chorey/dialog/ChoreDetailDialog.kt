@@ -258,6 +258,7 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
             .collection(CHORE_COL).document(choreModel.UID).set(choreModel)
 
 
+
         dismiss()
     }
 

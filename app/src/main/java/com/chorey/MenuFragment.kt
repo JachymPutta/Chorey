@@ -196,6 +196,9 @@ class MenuFragment : Fragment(),
         binding.menuSettingsButton.visibility = View.VISIBLE
         binding.authButton.visibility = View.INVISIBLE
         binding.menuBottomLayout.visibility = View.VISIBLE
+
+        binding.addHomeHint.visibility = View.VISIBLE
+        binding.menuArrow.visibility = View.VISIBLE
     }
 
     private fun checkUserName() {
@@ -230,7 +233,6 @@ class MenuFragment : Fragment(),
         }
 
     }
-    //TODO: use this to edit the name in the User Detail
     private fun getUserNameDialog() {
         val builder = AlertDialog.Builder(requireContext())
         val nameInput = EditText(requireContext())

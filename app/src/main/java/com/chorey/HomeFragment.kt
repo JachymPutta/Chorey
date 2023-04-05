@@ -99,9 +99,11 @@ class HomeFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         // DB queries
         firestore = Firebase.firestore
         homeRef = firestore.collection(HOME_COL).document(args.homeModel.UID)
+
 
         choreQuery = homeRef.collection(CHORE_COL)
             .whereEqualTo(ChoreModel.FIELD_COMPLETED, 0)
@@ -119,14 +121,14 @@ class HomeFragment : Fragment(),
 
         initAdapters()
 
-
         homeRef.get()
             .addOnSuccessListener(requireActivity()) {
-                snapshot -> onHomeLoaded(snapshot.toObject<HomeModel>())
+                    snapshot -> onHomeLoaded(snapshot.toObject<HomeModel>())
             }
             .addOnFailureListener(requireActivity()) {
-                e -> Log.d(MenuFragment.TAG, "onCreateHome error: $e")
+                    e -> Log.d(MenuFragment.TAG, "onCreateHome error: $e")
             }
+
 
         binding.frameLayout.visibility = GONE
 
@@ -243,9 +245,17 @@ class HomeFragment : Fragment(),
                 binding.homeChoreButton.setBackgroundColor(resources.getColor(android.R.color.transparent,null))
                 binding.activeChoresButton.visibility = GONE
                 binding.historyChoresButton.visibility = GONE
+                hrvAdapter.stopListening()
+                historyAdapter.stopListening()
             }
-            CurFrag.BOARD -> binding.noticeBoardButton.setBackgroundColor(resources.getColor(android.R.color.transparent,null))
-            CurFrag.SUMMARY -> binding.homeSummaryButton.setBackgroundColor(resources.getColor(android.R.color.transparent,null))
+            CurFrag.BOARD -> {
+                binding.noticeBoardButton.setBackgroundColor(resources.getColor(android.R.color.transparent,null))
+                noteAdapter.stopListening()
+            }
+            CurFrag.SUMMARY -> {
+                binding.homeSummaryButton.setBackgroundColor(resources.getColor(android.R.color.transparent,null))
+                summaryAdapter.stopListening()
+            }
         }
 
         when (nextFrag) {
@@ -256,6 +266,8 @@ class HomeFragment : Fragment(),
                 binding.historyChoresButton.visibility = VISIBLE
 
                 curChores = ChoreType.COMPLETED
+                hrvAdapter.startListening()
+                historyAdapter.startListening()
                 choreTypeToggle(ChoreType.ACTIVE)
             }
             CurFrag.SUMMARY -> {
@@ -268,6 +280,7 @@ class HomeFragment : Fragment(),
                 // Logic
                 binding.allChoresRecycler.adapter = summaryAdapter
                 binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
+                summaryAdapter.startListening()
 
             }
             CurFrag.BOARD -> {
@@ -281,6 +294,7 @@ class HomeFragment : Fragment(),
                 binding.allChoresRecycler.adapter = noteAdapter
                 binding.allChoresRecycler.layoutManager = GridLayoutManager(requireView().context, NOTE_COLUMN_CNT)
                 binding.addChoreButton.setOnClickListener { addNoteHandle() }
+                noteAdapter.startListening()
             }
         }
 
@@ -294,10 +308,14 @@ class HomeFragment : Fragment(),
             ChoreType.ACTIVE -> {
                 binding.activeChoresButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
                 binding.activeChoresButton.setTextColor(resources.getColor(R.color.primaryColor, null))
+
+                hrvAdapter.stopListening()
             }
             ChoreType.COMPLETED -> {
                 binding.historyChoresButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
                 binding.historyChoresButton.setTextColor(resources.getColor(R.color.primaryColor, null))
+
+                historyAdapter.stopListening()
             }
         }
 
@@ -314,6 +332,8 @@ class HomeFragment : Fragment(),
                 //Active tab highlight
                 binding.activeChoresButton.setBackgroundColor(resources.getColor(R.color.primaryColor, null))
                 binding.activeChoresButton.setTextColor(resources.getColor(R.color.black, null))
+
+                hrvAdapter.startListening()
             }
             ChoreType.COMPLETED -> {
                 binding.allChoresRecycler.adapter = historyAdapter
@@ -325,6 +345,8 @@ class HomeFragment : Fragment(),
                 //Active tab highlight
                 binding.historyChoresButton.setBackgroundColor(resources.getColor(R.color.primaryColor, null))
                 binding.historyChoresButton.setTextColor(resources.getColor(R.color.black, null))
+
+                historyAdapter.startListening()
             }
         }
 
@@ -333,18 +355,13 @@ class HomeFragment : Fragment(),
 
     override fun onStart() {
         super.onStart()
-        hrvAdapter.startListening()
-        noteAdapter.startListening()
         summaryAdapter.startListening()
-        historyAdapter.startListening()
     }
 
     override fun onStop() {
         super.onStop()
-        hrvAdapter.stopListening()
         noteAdapter.stopListening()
         summaryAdapter.stopListening()
-        historyAdapter.stopListening()
     }
 
     private fun initAdapters() {
