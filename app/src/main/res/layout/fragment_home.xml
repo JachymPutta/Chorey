@@ -105,6 +105,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minWidth="0dp"
+            android:padding="2dp"
             android:minHeight="0dp"
             android:textSize="12sp"
             android:textStyle="bold"
@@ -120,6 +121,7 @@
         <TextView
             android:id="@+id/historyChoresButton"
             android:minWidth="0dp"
+            android:padding="2dp"
             android:minHeight="0dp"
             android:textSize="12sp"
             android:textStyle="bold"

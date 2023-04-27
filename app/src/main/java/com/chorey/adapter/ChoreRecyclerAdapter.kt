@@ -10,7 +10,7 @@ import com.chorey.USER_COL
 import com.chorey.data.ChoreModel
 import com.chorey.data.RepeatInterval
 import com.chorey.data.LoggedUserModel
-import com.chorey.databinding.HomeRecyclerRowBinding
+import com.chorey.databinding.ChoreRecyclerRowBinding
 import com.chorey.util.ChoreUtil
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
@@ -35,7 +35,7 @@ open class ChoreRecyclerAdapter(query: Query,
         fun onChoreDone()
     }
 
-    inner class ViewHolder(private val binding: HomeRecyclerRowBinding)
+    inner class ViewHolder(private val binding: ChoreRecyclerRowBinding)
         : RecyclerView.ViewHolder(binding.root) {
         fun bind(snapshot: DocumentSnapshot,
                 listener: OnChoreSelectedListener) {
@@ -66,7 +66,7 @@ open class ChoreRecyclerAdapter(query: Query,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(HomeRecyclerRowBinding.inflate(LayoutInflater.from(parent.context),
+        return ViewHolder(ChoreRecyclerRowBinding.inflate(LayoutInflater.from(parent.context),
             parent, false))
     }
 
@@ -77,6 +77,11 @@ open class ChoreRecyclerAdapter(query: Query,
     private fun onDoneClicked(snapshot: DocumentSnapshot) {
 
         val curChore = snapshot.toObject<ChoreModel>() ?: return
+        // TODO: make a utility function to update the completion time
+        if (!curChore.isTimed) {
+            curChore.isTimed = true
+            curChore.repeatsEvery = RepeatInterval.None
+        }
 
         val newChore = ChoreUtil.updateData(curChore.copy(), user)
         val homeRef = Firebase.firestore.collection(HOME_COL).document(curChore.homeId)
@@ -87,16 +92,11 @@ open class ChoreRecyclerAdapter(query: Query,
 
         // Write the stuff in a batch
         Firebase.firestore.runBatch {
-
             // Handle points
             it.update(userRef, LoggedUserModel.FIELD_POINTS, FieldValue.increment(curChore.points.toLong()))
 
-            //TODO: don't delete the chores, but mark them as completed
-            // If non repeating -> delete, else update due date
             when(curChore.repeatsEvery) {
-                RepeatInterval.None -> {
-//                    it.delete(snapshot.reference)
-                }
+                RepeatInterval.None -> {}
                 else ->  it.set(newChoreRef, newChore)
             }
 

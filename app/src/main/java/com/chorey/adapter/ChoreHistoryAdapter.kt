@@ -5,16 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chorey.data.ChoreModel
-import com.chorey.data.LoggedUserModel
-import com.chorey.databinding.HomeRecyclerRowBinding
+import com.chorey.databinding.HistoryRecyclerRowBinding
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
 import java.util.Calendar
 
 open class ChoreHistoryAdapter(query: Query,
-                               private val listener: OnHistorySelectedListener,
-                               private val user : LoggedUserModel)
+                               private val listener: OnHistorySelectedListener)
     : FirestoreAdapter<ChoreHistoryAdapter.ViewHolder>(query) {
     private lateinit var choreModel: ChoreModel
 
@@ -22,8 +20,7 @@ open class ChoreHistoryAdapter(query: Query,
         fun onHistorySelected(chore : DocumentSnapshot)
     }
 
-    //TODO Create its own row XML file
-    inner class ViewHolder(private val binding: HomeRecyclerRowBinding)
+    inner class ViewHolder(private val binding: HistoryRecyclerRowBinding)
         : RecyclerView.ViewHolder(binding.root) {
             fun bind(snapshot: DocumentSnapshot,
                      listener: OnHistorySelectedListener) {
@@ -37,13 +34,13 @@ open class ChoreHistoryAdapter(query: Query,
                         " ${lastDue.get(Calendar.HOUR_OF_DAY)}")
 
                 // Bind visuals
-                binding.choreName.text = choreModel.choreName
-                binding.choreAssignee.text = choreModel.curAssignee
+                binding.historyName.text = choreModel.choreName
+                binding.historyAssignee.text = choreModel.curAssignee
                 if (choreModel.isTimed) {
-                    binding.choreDueDate.text = date
+                    binding.historyDueDate.text = date
                 } else {
-                    binding.choreDueDate.visibility = View.GONE
-                    binding.choreDueText.visibility = View.GONE
+                    binding.historyDueDate.visibility = View.GONE
+                    binding.historyDueText.visibility = View.GONE
                 }
 
                 // Display the history detail
@@ -52,7 +49,8 @@ open class ChoreHistoryAdapter(query: Query,
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(HomeRecyclerRowBinding.inflate(
+        return ViewHolder(
+            HistoryRecyclerRowBinding.inflate(
             LayoutInflater.from(parent.context),
             parent, false))
     }

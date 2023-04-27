@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        style="?attr/cardViewStyle"
+        android:id="@+id/historyRecyclerCard"
+        tools:ignore="MissingConstraints">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:padding="12dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/historyName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:flow_horizontalAlign="center"
+                android:textStyle="bold"
+                android:text="@string/history_item_name"
+                android:textColor="?attr/colorOnPrimary"
+                />
+
+            <TextView
+                android:id="@+id/historyAssignedToText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/historyName"
+                android:textColor="?attr/colorOnPrimary"
+                android:text="@string/history_item_assignee_text"
+                />
+
+            <TextView
+                android:id="@+id/historyAssignee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/historyName"
+                app:layout_constraintStart_toEndOf="@id/historyAssignedToText"
+                android:textColor="?attr/colorOnPrimary"
+                android:text="@string/history_item_assignee"
+                android:layout_marginStart="5dp"
+                />
+
+            <TextView
+                android:id="@+id/historyDueText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/historyAssignedToText"
+                android:textColor="?attr/colorOnPrimary"
+                android:text="@string/history_item_due_text"
+                />
+
+            <TextView
+                android:id="@+id/historyDueDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/historyDueText"
+                app:layout_constraintBottom_toBottomOf="@id/historyDueText"
+                app:layout_constraintStart_toEndOf="@id/historyDueText"
+                android:textColor="?attr/colorOnPrimary"
+                android:text="@string/history_item_due"
+                android:layout_marginStart="5dp"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

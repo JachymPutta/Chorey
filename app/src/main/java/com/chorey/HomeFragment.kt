@@ -50,7 +50,6 @@ class HomeFragment : Fragment(),
     ChoreRecyclerAdapter.OnChoreSelectedListener,
     ChoreHistoryAdapter.OnHistorySelectedListener,
     NoteRecyclerAdapter.OnNoteSelectedListener,
-    SummaryRecyclerAdapter.OnSummarySelectedListener,
     ChoreDetailDialog.ChoreDetailCB {
 
     private val args: HomeFragmentArgs by navArgs()
@@ -64,8 +63,6 @@ class HomeFragment : Fragment(),
     private lateinit var noteAdapter: NoteRecyclerAdapter
     private lateinit var summaryAdapter: SummaryRecyclerAdapter
     private lateinit var swipeTouchListener: OnSwipeTouchListener
-    //TODO: Swiping on individual items
-//    private lateinit var recyclerSwipeAdapter: ItemTouchHelper
 
     private lateinit var choreQuery: Query
     private lateinit var historyQuery: Query
@@ -151,8 +148,6 @@ class HomeFragment : Fragment(),
         //Swipe navigation
         binding.fragHomeLayout.setOnTouchListener(swipeTouchListener)
         binding.allChoresRecycler.setOnTouchListener(swipeTouchListener)
-        //TODO: Swiping on individual items?
-//        recyclerSwipeAdapter.attachToRecyclerView(binding.allChoresRecycler)
     }
 
     private fun onHomeLoaded(homeModel: HomeModel?) {
@@ -216,20 +211,15 @@ class HomeFragment : Fragment(),
     }
 
     override fun onHistorySelected(chore: DocumentSnapshot) {
-        val choreModel = chore.toObject<ChoreModel>()
-        ChoreDetailDialog(homeModel = home, choreModel = choreModel, DialogState.VIEW, this)
-            .show(parentFragmentManager, ChoreDetailDialog.TAG)
+//        val choreModel = chore.toObject<ChoreModel>()
+        // TODO: history detail dialog
     }
 
     override fun onNoteSelected(note: DocumentSnapshot) {
         val noteModel = note.toObject<NoteModel>()
 
-        NoteDetailDialog(homeModel = home, noteModel = noteModel, state = DialogState.CREATE)
+        NoteDetailDialog(homeModel = home, noteModel = noteModel, state = DialogState.EDIT)
             .show(parentFragmentManager, NoteDetailDialog.TAG)
-    }
-
-    override fun onSummarySelected(summary: DocumentSnapshot) {
-        // TODO: should this do something?
     }
 
     /**
@@ -358,22 +348,6 @@ class HomeFragment : Fragment(),
         curChores = choreType
     }
 
-    override fun onStart() {
-        super.onStart()
-        hrvAdapter.startListening()
-        noteAdapter.startListening()
-        historyAdapter.startListening()
-        summaryAdapter.startListening()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        hrvAdapter.stopListening()
-        historyAdapter.stopListening()
-        noteAdapter.stopListening()
-        summaryAdapter.stopListening()
-    }
-
     private fun initAdapters() {
         hrvAdapter = object : ChoreRecyclerAdapter(choreQuery,
             this@HomeFragment, viewModel.user!!) {
@@ -396,9 +370,9 @@ class HomeFragment : Fragment(),
             }
         }
 
-        summaryAdapter = SummaryRecyclerAdapter(summaryQuery, this@HomeFragment)
+        summaryAdapter = SummaryRecyclerAdapter(summaryQuery)
 
-        historyAdapter = ChoreHistoryAdapter(historyQuery,  this@HomeFragment, viewModel.user!!)
+        historyAdapter = ChoreHistoryAdapter(historyQuery,  this@HomeFragment)
 
         swipeTouchListener = object : OnSwipeTouchListener(requireContext()){
             override fun onSwipeLeft() {
@@ -417,25 +391,6 @@ class HomeFragment : Fragment(),
                 }
             }
         }
-
-        //TODO: Swiping on individual items
-//        recyclerSwipeAdapter = ItemTouchHelper(
-//            object : ItemTouchHelper.SimpleCallback(0,(LEFT or RIGHT)) {
-//                override fun onMove(
-//                    recyclerView: RecyclerView,
-//                    viewHolder: RecyclerView.ViewHolder,
-//                    target: RecyclerView.ViewHolder
-//                ): Boolean {
-//                    return false
-//                }
-//
-//                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-//                    when (direction) {
-//                        LEFT -> Toast.makeText(requireContext(), "LEFT SWIPE", Toast.LENGTH_SHORT).show()
-//                        RIGHT -> Toast.makeText(requireContext(), "RIGHT SWIPE", Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//        })
     }
 
 
@@ -444,7 +399,7 @@ class HomeFragment : Fragment(),
         const val NOTE_COLUMN_CNT = 2
     }
 
-    // TODO: this is a disgusting way to force the recycler update
+    // FIXME: this is a disgusting way to force the recycler update
     override fun createChoreCB() {
         changeUI(CurFrag.SUMMARY)
         changeUI(CurFrag.HOME)

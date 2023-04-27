@@ -100,9 +100,9 @@ class NoteDetailDialog(private val homeModel: HomeModel,
             DialogState.CREATE -> {
                 binding.noteDetailRemoveButton.visibility = View.GONE
             }
-            DialogState.VIEW -> {
+            DialogState.EDIT -> {
                 binding.noteDetailRemoveButton.visibility = View.VISIBLE
-                binding.noteDetailTitle.setText(R.string.note_detail_title_view)
+                binding.noteDetailTitle.setText(R.string.note_detail_title_edit)
                 binding.noteDetailModifyButton.setText(R.string.note_detail_edit_button)
                 binding.noteDetailTextInput.editText!!.setText(noteModel!!.note)
             }

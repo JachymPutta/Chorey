@@ -179,9 +179,6 @@ class MenuFragment : Fragment(),
         binding.menuTitleText.setText(R.string.menu_title_welcome)
         binding.authButton.visibility = View.VISIBLE
         binding.menuSettingsButton.visibility = View.GONE
-        binding.addHomeHint.visibility = View.GONE
-        binding.menuArrow.visibility = View.GONE
-
     }
 
     /**
@@ -196,9 +193,6 @@ class MenuFragment : Fragment(),
         binding.menuSettingsButton.visibility = View.VISIBLE
         binding.authButton.visibility = View.INVISIBLE
         binding.menuBottomLayout.visibility = View.VISIBLE
-
-        binding.addHomeHint.visibility = View.VISIBLE
-        binding.menuArrow.visibility = View.VISIBLE
     }
 
     private fun checkUserName() {

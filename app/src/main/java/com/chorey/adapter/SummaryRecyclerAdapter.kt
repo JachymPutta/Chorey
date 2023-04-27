@@ -10,25 +10,19 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
 
-open class SummaryRecyclerAdapter(query : Query, private val listener: OnSummarySelectedListener) :
+open class SummaryRecyclerAdapter(query : Query) :
     FirestoreAdapter<SummaryRecyclerAdapter.ViewHolder>(query) {
 
     private lateinit var homeUserModel : HomeUserModel
 
-    interface OnSummarySelectedListener {
-        fun onSummarySelected(summary : DocumentSnapshot)
-    }
-
     inner class ViewHolder(private val binding: SummaryRecyclerRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
-            fun bind(snapshot: DocumentSnapshot, listener: OnSummarySelectedListener?, position : Int) {
+            fun bind(snapshot: DocumentSnapshot, position : Int) {
                 homeUserModel = snapshot.toObject<HomeUserModel>() ?: return
                 val nameText = String.format("${position+1}. ${homeUserModel.name}")
 
                 binding.summaryCardUserName.text = nameText
                 binding.summaryCardUserValue.text = homeUserModel.points.toString()
-
-                binding.root.setOnClickListener { listener?.onSummarySelected(snapshot) }
             }
         }
 
@@ -38,7 +32,7 @@ open class SummaryRecyclerAdapter(query : Query, private val listener: OnSummary
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getSnapshot(position), listener, position)
+        holder.bind(getSnapshot(position), position)
     }
 
 }

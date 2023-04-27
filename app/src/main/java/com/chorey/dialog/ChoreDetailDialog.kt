@@ -74,8 +74,6 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
         toggleTimeUI(GONE)
         changeUI(state)
 
-        if (state == DialogState.VIEW) { return }
-
         binding.choreDetailAssignedTo.setOnClickListener { onAssignClicked() }
         binding.choreDetailDueDate.setOnClickListener { onDatePickerClicked() }
         binding.choreDetailDueTime.setOnClickListener { onTimePickerClicked() }
@@ -137,11 +135,6 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
                             "-${dueTime.get(Calendar.MONTH) + 1}" +
                             "-${dueTime.get(Calendar.DAY_OF_MONTH)}")
                 binding.choreDetailDueDate.text = date
-            }
-            DialogState.VIEW -> {
-                fillChoreData()
-                disableEditText(binding.createChoreNameInput.editText!!)
-
             }
             DialogState.EDIT -> {
                 fillChoreData()
@@ -326,8 +319,6 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
     private fun fillChoreData() {
         val choreModel = choreModel!!
 
-        //TODO: if View, block editing
-        // Update the chore timings
         if (choreModel.isTimed) {
             val lastDue = Calendar.getInstance()
             lastDue.timeInMillis = choreModel.whenDue

@@ -62,6 +62,12 @@
         <string name="summary_icon_desc">Summary</string>
         <!-- Home Detail Dialog   -->
         <string name="home_detail_icon_desc">home_icon</string>
+        <!-- History Recycler View -->
+        <string name="history_item_name">Chore</string>
+        <string name="history_item_assignee_text">Completed by:</string>
+        <string name="history_item_assignee">User</string>
+        <string name="history_item_due_text">Completed:</string>
+        <string name="history_item_due">Time</string>
 
     <!-- Add Home Dialog -->
     <string name="create_home_button">Create</string>
@@ -117,7 +123,6 @@
     <!-- Note Detail Dialog-->
     <string name="note_detail_title_create">Create Note</string>
     <string name="note_detail_title_edit">Edit Note</string>
-    <string name="note_detail_title_view">View</string>
     <string name="note_detail_note_text">Type here…</string>
     <string name="note_detail_create_button">Create</string>
     <string name="note_detail_edit_button">Edit</string>
