@@ -246,8 +246,12 @@ class HomeFragment : Fragment(),
                 binding.homeChoreButton.setBackgroundColor(resources.getColor(android.R.color.transparent,null))
                 binding.activeChoresButton.visibility = GONE
                 binding.historyChoresButton.visibility = GONE
-                hrvAdapter.stopListening()
-                historyAdapter.stopListening()
+
+                if (curChores == ChoreType.ACTIVE) {
+                    hrvAdapter.stopListening()
+                } else {
+                    historyAdapter.stopListening()
+                }
             }
             CurFrag.BOARD -> {
                 binding.noticeBoardButton.setBackgroundColor(resources.getColor(android.R.color.transparent,null))
@@ -324,20 +328,19 @@ class HomeFragment : Fragment(),
                 binding.homeRecyclerTitle.setText(R.string.home_all_chores_text)
                 binding.noChoresLeftText.setText(R.string.home_no_chores_left)
 
-                binding.addChoreButton.visibility = VISIBLE
-                binding.allChoresRecycler.adapter = hrvAdapter
-                binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
-                binding.addChoreButton.setOnClickListener { addChoreHandle() }
-
                 //Active tab highlight
                 binding.activeChoresButton.setBackgroundColor(resources.getColor(R.color.primaryColor, null))
                 binding.activeChoresButton.setTextColor(resources.getColor(R.color.black, null))
 
+                binding.addChoreButton.visibility = VISIBLE
+                binding.addChoreButton.setOnClickListener { addChoreHandle() }
+
+
+                binding.allChoresRecycler.adapter = hrvAdapter
+                binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
                 hrvAdapter.startListening()
             }
             ChoreType.COMPLETED -> {
-                binding.allChoresRecycler.adapter = historyAdapter
-                binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
 
                 binding.addChoreButton.visibility = GONE
                 binding.noChoresLeftText.visibility = GONE
@@ -346,6 +349,8 @@ class HomeFragment : Fragment(),
                 binding.historyChoresButton.setBackgroundColor(resources.getColor(R.color.primaryColor, null))
                 binding.historyChoresButton.setTextColor(resources.getColor(R.color.black, null))
 
+                binding.allChoresRecycler.adapter = historyAdapter
+                binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
                 historyAdapter.startListening()
             }
         }
@@ -355,11 +360,16 @@ class HomeFragment : Fragment(),
 
     override fun onStart() {
         super.onStart()
+        hrvAdapter.startListening()
+        noteAdapter.startListening()
+        historyAdapter.startListening()
         summaryAdapter.startListening()
     }
 
     override fun onStop() {
         super.onStop()
+        hrvAdapter.stopListening()
+        historyAdapter.stopListening()
         noteAdapter.stopListening()
         summaryAdapter.stopListening()
     }
@@ -428,19 +438,21 @@ class HomeFragment : Fragment(),
 //        })
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun update_adapters() {
-        binding.allChoresRecycler.adapter = hrvAdapter
-        binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
-    }
 
     companion object {
         const val TAG = "HomeFragment"
         const val NOTE_COLUMN_CNT = 2
     }
 
+    // TODO: this is a disgusting way to force the recycler update
     override fun createChoreCB() {
-        update_adapters()
+        changeUI(CurFrag.SUMMARY)
+        changeUI(CurFrag.HOME)
+    }
+
+    override fun onChoreDone() {
+        changeUI(CurFrag.SUMMARY)
+        changeUI(CurFrag.HOME)
     }
 
 

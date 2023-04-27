@@ -77,9 +77,9 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
         if (state == DialogState.VIEW) { return }
 
         binding.choreDetailAssignedTo.setOnClickListener { onAssignClicked() }
-        binding.createChoreRemoveButton.setOnClickListener { onRemoveClicked() }
         binding.choreDetailDueDate.setOnClickListener { onDatePickerClicked() }
         binding.choreDetailDueTime.setOnClickListener { onTimePickerClicked() }
+        binding.createChoreRemoveButton.setOnClickListener { onRemoveClicked() }
         binding.createChoreCreateButton.setOnClickListener {
             onCreateClicked()
             listener.createChoreCB()
@@ -284,6 +284,7 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
                     .addOnSuccessListener { Log.d(TAG, "Chore successfully deleted!") }
                     .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
                 dismiss()
+                listener.createChoreCB()
             }
             .setNegativeButton(R.string.confirm_remove_no)
             { a, _ ->
