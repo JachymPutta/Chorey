@@ -50,7 +50,8 @@ class HomeFragment : Fragment(),
     ChoreRecyclerAdapter.OnChoreSelectedListener,
     ChoreHistoryAdapter.OnHistorySelectedListener,
     NoteRecyclerAdapter.OnNoteSelectedListener,
-    SummaryRecyclerAdapter.OnSummarySelectedListener {
+    SummaryRecyclerAdapter.OnSummarySelectedListener,
+    ChoreDetailDialog.ChoreDetailCB {
 
     private val args: HomeFragmentArgs by navArgs()
     private val viewModel by activityViewModels<LoginViewModel>()
@@ -192,7 +193,7 @@ class HomeFragment : Fragment(),
         }
 
         // Create a chore dialog
-        ChoreDetailDialog(homeModel = home, null, DialogState.CREATE)
+        ChoreDetailDialog(homeModel = home, null, DialogState.CREATE, this)
             .show(parentFragmentManager, ChoreDetailDialog.TAG)
     }
 
@@ -210,13 +211,13 @@ class HomeFragment : Fragment(),
      */
     override fun onChoreSelected(chore: DocumentSnapshot) {
         val choreModel = chore.toObject<ChoreModel>()
-        ChoreDetailDialog(homeModel = home, choreModel = choreModel, DialogState.EDIT)
+        ChoreDetailDialog(homeModel = home, choreModel = choreModel, DialogState.EDIT, this)
             .show(parentFragmentManager, ChoreDetailDialog.TAG)
     }
 
     override fun onHistorySelected(chore: DocumentSnapshot) {
         val choreModel = chore.toObject<ChoreModel>()
-        ChoreDetailDialog(homeModel = home, choreModel = choreModel, DialogState.VIEW)
+        ChoreDetailDialog(homeModel = home, choreModel = choreModel, DialogState.VIEW, this)
             .show(parentFragmentManager, ChoreDetailDialog.TAG)
     }
 
@@ -266,9 +267,8 @@ class HomeFragment : Fragment(),
                 binding.historyChoresButton.visibility = VISIBLE
 
                 curChores = ChoreType.COMPLETED
-                hrvAdapter.startListening()
-                historyAdapter.startListening()
                 choreTypeToggle(ChoreType.ACTIVE)
+
             }
             CurFrag.SUMMARY -> {
                 // Visual
@@ -428,10 +428,19 @@ class HomeFragment : Fragment(),
 //        })
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun update_adapters() {
+        binding.allChoresRecycler.adapter = hrvAdapter
+        binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
+    }
 
     companion object {
         const val TAG = "HomeFragment"
         const val NOTE_COLUMN_CNT = 2
+    }
+
+    override fun createChoreCB() {
+        update_adapters()
     }
 
 

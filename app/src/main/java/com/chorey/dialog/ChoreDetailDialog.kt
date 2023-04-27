@@ -39,7 +39,8 @@ import java.util.UUID
 
 class ChoreDetailDialog(private val homeModel : HomeModel,
                         private val choreModel: ChoreModel?,
-                        private val state: DialogState) : DialogFragment(),
+                        private val state: DialogState,
+                        private val listener: ChoreDetailCB) : DialogFragment(),
     DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
     private var _binding: DialogChoreDetailBinding? = null
@@ -50,6 +51,10 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
 
     private val dueTime = Calendar.getInstance()
     private var timeChanged = false
+
+    interface ChoreDetailCB {
+        fun createChoreCB()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -75,7 +80,10 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
         binding.createChoreRemoveButton.setOnClickListener { onRemoveClicked() }
         binding.choreDetailDueDate.setOnClickListener { onDatePickerClicked() }
         binding.choreDetailDueTime.setOnClickListener { onTimePickerClicked() }
-        binding.createChoreCreateButton.setOnClickListener { onCreateClicked() }
+        binding.createChoreCreateButton.setOnClickListener {
+            onCreateClicked()
+            listener.createChoreCB()
+        }
 
         // Hook up spinners
         val repeatAdapter = ArrayAdapter(requireContext(), R.layout.chore_spinner_item, RepeatInterval.values())
@@ -257,8 +265,6 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
         Firebase.firestore.collection(HOME_COL).document(homeModel.UID)
             .collection(CHORE_COL).document(choreModel.UID).set(choreModel)
 
-
-
         dismiss()
     }
 
@@ -309,11 +315,11 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
     }
 
     private fun disableEditText(editText: EditText) {
-        editText.setFocusable(false);
-        editText.setEnabled(false);
-        editText.setCursorVisible(false);
-        editText.setKeyListener(null);
-        editText.setBackgroundColor(android.R.color.transparent);
+        editText.isFocusable = false
+        editText.isEnabled = false
+        editText.isCursorVisible = false
+        editText.keyListener = null
+        editText.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
     }
 
     private fun fillChoreData() {
