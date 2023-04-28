@@ -40,7 +40,7 @@ import java.util.UUID
 class ChoreDetailDialog(private val homeModel : HomeModel,
                         private val choreModel: ChoreModel?,
                         private val state: DialogState,
-                        private val listener: ChoreDetailCB) : DialogFragment(),
+                        ) : DialogFragment(),
     DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
     private var _binding: DialogChoreDetailBinding? = null
@@ -51,10 +51,6 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
 
     private val dueTime = Calendar.getInstance()
     private var timeChanged = false
-
-    interface ChoreDetailCB {
-        fun createChoreCB()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -78,10 +74,7 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
         binding.choreDetailDueDate.setOnClickListener { onDatePickerClicked() }
         binding.choreDetailDueTime.setOnClickListener { onTimePickerClicked() }
         binding.createChoreRemoveButton.setOnClickListener { onRemoveClicked() }
-        binding.createChoreCreateButton.setOnClickListener {
-            onCreateClicked()
-            listener.createChoreCB()
-        }
+        binding.createChoreCreateButton.setOnClickListener { onCreateClicked() }
 
         // Hook up spinners
         val repeatAdapter = ArrayAdapter(requireContext(), R.layout.chore_spinner_item, RepeatInterval.values())
@@ -277,7 +270,6 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
                     .addOnSuccessListener { Log.d(TAG, "Chore successfully deleted!") }
                     .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
                 dismiss()
-                listener.createChoreCB()
             }
             .setNegativeButton(R.string.confirm_remove_no)
             { a, _ ->

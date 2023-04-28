@@ -24,14 +24,14 @@
     <string name="auth_button_logout">Logout</string>
     <string name="menu_arrow_desc">menu_arrow</string>
     <string name="add_home_hint">Click Here To Add More</string>
-        <!-- Menu Recycler View -->
-        <string name="home_item_place_holder">Home</string>
-        <string name="home_item_score">Points:</string>
-        <string name="home_item_members">Members:</string>
-        <string name="home_item_zero">0</string>
-        <!-- User Detail Dialog-->
-        <string name="user_name_placeholder">user_name</string>
-        <string name="user_profile_pic_desc">user_profile_picture</string>
+    <!-- Menu Recycler View -->
+    <string name="home_item_place_holder">Home</string>
+    <string name="home_item_score">Points:</string>
+    <string name="home_item_members">Members:</string>
+    <string name="home_item_zero">0</string>
+    <!-- User Detail Dialog-->
+    <string name="user_name_placeholder">user_name</string>
+    <string name="user_profile_pic_desc">user_profile_picture</string>
 
 
     <!-- Home Fragment -->
@@ -49,25 +49,25 @@
     <string name="home_notes_title">Notice Board</string>
     <string name="home_active_chores_button">Active</string>
     <string name="home_history_chores_button">History</string>
-        <!-- Chore Recycler View -->
-        <string name="chore_item_name">Chore</string>
-        <string name="chore_item_assignee_text">Assigned:</string>
-        <string name="chore_item_assignee">User</string>
-        <string name="chore_item_due_text">Due:</string>
-        <string name="chore_item_due">Time</string>
-        <string name="chore_item_completed">Done</string>
-        <!-- Bottom navigation -->
-        <string name="home_icon_desc">Chores</string>
-        <string name="notice_board_icon_desc">Board</string>
-        <string name="summary_icon_desc">Summary</string>
-        <!-- Home Detail Dialog   -->
-        <string name="home_detail_icon_desc">home_icon</string>
-        <!-- History Recycler View -->
-        <string name="history_item_name">Chore</string>
-        <string name="history_item_assignee_text">Completed by:</string>
-        <string name="history_item_assignee">User</string>
-        <string name="history_item_due_text">Completed:</string>
-        <string name="history_item_due">Time</string>
+    <!-- Chore Recycler View -->
+    <string name="chore_item_name">Chore</string>
+    <string name="chore_item_assignee_text">Assigned:</string>
+    <string name="chore_item_assignee">User</string>
+    <string name="chore_item_due_text">Due:</string>
+    <string name="chore_item_due">Time</string>
+    <string name="chore_item_completed">Done</string>
+    <!-- Bottom navigation -->
+    <string name="home_icon_desc">Chores</string>
+    <string name="notice_board_icon_desc">Board</string>
+    <string name="summary_icon_desc">Summary</string>
+    <!-- Home Detail Dialog   -->
+    <string name="home_detail_icon_desc">home_icon</string>
+    <!-- History Recycler View -->
+    <string name="history_item_name">Chore</string>
+    <string name="history_item_assignee_text">Completed by:</string>
+    <string name="history_item_assignee">User</string>
+    <string name="history_item_due_text">Completed:</string>
+    <string name="history_item_due">Time</string>
 
     <!-- Add Home Dialog -->
     <string name="create_home_button">Create</string>
@@ -88,10 +88,10 @@
     <string name="join_home_request_invite_button">Request Invite!</string>
     <string name="join_home_ask_for_invite">Ask someone to invite you to their home</string>
     <!-- Join Home Recycler View-->
-        <string name="join_home_sent_by_name">user_name</string>
-        <string name="join_home_sent_by_text">From:</string>
-        <string name="join_home_accept_invite_desc">Accept Invite</string>
-        <string name="join_home_remove_invite_desc">Remove Invite</string>
+    <string name="join_home_sent_by_name">user_name</string>
+    <string name="join_home_sent_by_text">From:</string>
+    <string name="join_home_accept_invite_desc">Accept Invite</string>
+    <string name="join_home_remove_invite_desc">Remove Invite</string>
 
     <!-- Chore Detail Dialog -->
     <string name="chore_detail_title_create">Create Chore:</string>
@@ -150,4 +150,6 @@
         <item>Vacuum</item>
         <item>Clean the windows</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

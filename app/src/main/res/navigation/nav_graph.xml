@@ -15,16 +15,6 @@
             app:destination="@id/homeFragment" />
     </fragment>
     <dialog
-        android:id="@+id/createNewHomeDialog"
-        android:name="com.chorey.dialog.CreateHomeDialog"
-        android:label="dialog_create_new_home"
-        tools:layout="@layout/dialog_create_home" />
-    <dialog
-        android:id="@+id/joinHomeDialog"
-        android:name="com.chorey.dialog.JoinHomeDialog"
-        android:label="dialog_join_home"
-        tools:layout="@layout/dialog_join_home" />
-    <dialog
         android:id="@+id/createChoreDialog"
         android:name="com.chorey.dialog.ChoreDetailDialog"
         android:label="dialog_create_chore"
@@ -41,8 +31,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.chorey.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home">
+        android:label="fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_menuFragment"
             app:destination="@id/menuFragment" />
@@ -51,21 +40,31 @@
             app:argType="com.chorey.data.HomeModel" />
     </fragment>
     <dialog
-        android:id="@+id/addMemberDialog"
-        android:name="com.chorey.dialog.AddMemberDialog"
-        android:label="dialog_add_member"
-        tools:layout="@layout/dialog_add_member" />
-    <dialog
         android:id="@+id/noteDetailDialog"
         android:name="com.chorey.dialog.NoteDetailDialog"
-        android:label="NoteDetailDialog" >
+        android:label="NoteDetailDialog">
         <argument
             android:name="noteModel"
+            android:defaultValue="@null"
             app:argType="com.chorey.data.NoteModel"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
         <argument
             android:name="homeModel"
             app:argType="com.chorey.data.HomeModel" />
     </dialog>
+    <fragment
+        android:id="@+id/noteFragment"
+        tools:layout="@layout/fragment_notes"
+        android:name="com.chorey.NoteFragment"
+        android:label="NoteFragment" />
+    <fragment
+        android:id="@+id/summaryFragment"
+        tools:layout="@layout/fragment_summary"
+        android:name="com.chorey.SummaryFragment"
+        android:label="SummaryFragment" />
+    <fragment
+        android:id="@+id/choreFragment"
+        tools:layout="@layout/fragment_home"
+        android:name="com.chorey.ChoreFragment"
+        android:label="ChoreFragment" />
 </navigation>

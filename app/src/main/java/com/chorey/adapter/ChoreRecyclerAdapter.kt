@@ -32,7 +32,6 @@ open class ChoreRecyclerAdapter(query: Query,
 
     interface OnChoreSelectedListener {
         fun onChoreSelected(chore : DocumentSnapshot)
-        fun onChoreDone()
     }
 
     inner class ViewHolder(private val binding: ChoreRecyclerRowBinding)
@@ -102,8 +101,6 @@ open class ChoreRecyclerAdapter(query: Query,
 
             it.update(oldChoreRef, ChoreModel.FIELD_COMPLETED, FieldValue.increment(1L))
         }
-
-        listener.onChoreDone()
     }
 
 }
