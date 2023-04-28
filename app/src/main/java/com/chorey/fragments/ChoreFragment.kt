@@ -59,6 +59,7 @@ class ChoreFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.noChoresLeftText.visibility = GONE
 
         choreAdapter = object : ChoreRecyclerAdapter(choreQuery,
             this@ChoreFragment, viewModel.user!!) {
@@ -96,6 +97,7 @@ class ChoreFragment(
             HomeDetailDialog(home).show(parentFragmentManager, "HomeDetailDialog")
         }
 
+        curChores = ChoreType.COMPLETED
         choreTypeToggle(ChoreType.ACTIVE)
     }
 

@@ -88,6 +88,9 @@ class MenuFragment : Fragment(),
         binding.allRoomsRecycler.layoutManager = LinearLayoutManager(view.context)
 
         binding.menuContentLayout.visibility = View.GONE
+        binding.addHomeHint.visibility = View.GONE
+        binding.menuArrow.visibility = View.GONE
+        binding.menuEmptyRecyclerText.visibility = View.GONE
 
         observeAuthState()
 
@@ -172,6 +175,8 @@ class MenuFragment : Fragment(),
         binding.allRoomsRecycler.visibility = View.GONE
         binding.addHomeButton.visibility = View.GONE
         binding.menuEmptyRecyclerText.visibility = View.GONE
+        binding.addHomeHint.visibility = View.GONE
+        binding.menuArrow.visibility = View.GONE
         binding.menuTitleText.setText(R.string.menu_title_welcome)
         binding.authButton.visibility = View.VISIBLE
         binding.menuSettingsButton.visibility = View.GONE
@@ -186,6 +191,8 @@ class MenuFragment : Fragment(),
         binding.allRoomsRecycler.visibility = View.VISIBLE
         binding.addHomeButton.visibility = View.VISIBLE
         binding.menuEmptyRecyclerText.visibility = View.VISIBLE
+        binding.addHomeHint.visibility = View.VISIBLE
+        binding.menuArrow.visibility = View.VISIBLE
         binding.menuSettingsButton.visibility = View.VISIBLE
         binding.authButton.visibility = View.INVISIBLE
         binding.menuBottomLayout.visibility = View.VISIBLE

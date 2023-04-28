@@ -17,6 +17,7 @@ import com.chorey.data.ChoreModel
 import com.chorey.data.HomeModel
 import com.chorey.data.HomeUserModel
 import com.chorey.databinding.FragmentHomeBinding
+import com.chorey.util.ChoreUtil
 import com.chorey.util.OnSwipeTouchListener
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -44,13 +45,6 @@ class HomeFragment : Fragment() {
 
     private lateinit var firestore: FirebaseFirestore
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var swipeTouchListener: OnSwipeTouchListener
-
-    private var curFrag = CurFrag.CHORES
-    enum class CurFrag {
-        CHORES, NOTES, SUMMARY
-    }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,19 +56,14 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //TODO: hook up the botton navigation view
         firestore = Firebase.firestore
         homeRef = firestore.collection(HOME_COL).document(args.homeModel.UID)
 
-
         choreQuery = homeRef.collection(CHORE_COL)
             .orderBy(ChoreModel.FIELD_WHEN_DUE)
-
         historyQuery = homeRef.collection(CHORE_COL)
             .orderBy(ChoreModel.FIELD_WHEN_DUE, Query.Direction.DESCENDING)
-
         noteQuery = homeRef.collection(NOTE_COL)
-
         summaryQuery  = homeRef.collection(USER_COL)
             .orderBy(HomeUserModel.FIELD_POINTS, Query.Direction.DESCENDING)
 
@@ -88,54 +77,19 @@ class HomeFragment : Fragment() {
 
         supportFragmentManager = requireActivity().supportFragmentManager
 
-        swipeTouchListener = object : OnSwipeTouchListener(requireContext()){
-            override fun onSwipeLeft() {
-                when(curFrag){
-                    CurFrag.CHORES -> {
-                        loadFragment(summaryFragment)
-                        curFrag = CurFrag.SUMMARY
-                    }
-                    CurFrag.NOTES -> {
-                        loadFragment(noteFragment)
-                        curFrag = CurFrag.CHORES
-                    }
-                    CurFrag.SUMMARY -> {}
-                }
-            }
-
-            override fun onSwipeRight() {
-                when(curFrag){
-                    CurFrag.CHORES -> {
-                        loadFragment(noteFragment)
-                        curFrag = CurFrag.NOTES
-                    }
-                    CurFrag.NOTES -> {}
-                    CurFrag.SUMMARY -> {
-                        loadFragment(choreFragment)
-                        curFrag = CurFrag.CHORES
-                    }
-                }
-            }
-        }
-
-        binding.root.setOnTouchListener(swipeTouchListener)
 
         binding.homeBottomNav.setOnItemSelectedListener { homeFrag ->
             when (homeFrag.itemId) {
                 R.id.homeNavChores -> {
                     loadFragment(choreFragment)
-                    curFrag = CurFrag.CHORES
-                    choreFragment.requireView().setOnTouchListener(swipeTouchListener)
                     true
                 }
                 R.id.homeNavNotes -> {
                     loadFragment(noteFragment)
-                    curFrag = CurFrag.NOTES
                     true
                 }
                 R.id.homeNavSummary -> {
                     loadFragment(summaryFragment)
-                    curFrag = CurFrag.SUMMARY
                     true
                 }
                 else -> false

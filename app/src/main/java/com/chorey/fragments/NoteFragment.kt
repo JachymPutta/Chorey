@@ -46,8 +46,10 @@ class NoteFragment(
             override fun onDataChanged() {
                 if (itemCount == 0) {
                     binding.noChoresLeftText.visibility = View.VISIBLE
+                    binding.allChoresRecycler.visibility = View.GONE
                 } else {
                     binding.noChoresLeftText.visibility = View.GONE
+                    binding.allChoresRecycler.visibility = View.VISIBLE
                 }
             }
         }
@@ -64,6 +66,7 @@ class NoteFragment(
 
         binding.homeRecyclerTitle.setText(R.string.home_notes_title)
         binding.noChoresLeftText.setText(R.string.home_no_notes_left)
+        binding.noChoresLeftText.visibility = View.GONE
 
 
         binding.allChoresRecycler.adapter = noteAdapter
