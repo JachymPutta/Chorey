@@ -5,7 +5,7 @@
     android:id="@+id/fragHomeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SummaryFragment">
+    tools:context=".fragments.SummaryFragment">
 
         <LinearLayout
             android:id="@+id/homeFragmentTopLayout"

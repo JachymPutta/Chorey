@@ -1,4 +1,4 @@
-package com.chorey
+package com.chorey.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -8,10 +8,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.navArgs
+import com.chorey.CHORE_COL
+import com.chorey.HOME_COL
+import com.chorey.NOTE_COL
+import com.chorey.R
+import com.chorey.USER_COL
 import com.chorey.data.ChoreModel
 import com.chorey.data.HomeModel
 import com.chorey.data.HomeUserModel
 import com.chorey.databinding.FragmentHomeBinding
+import com.chorey.util.OnSwipeTouchListener
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -38,6 +44,13 @@ class HomeFragment : Fragment() {
 
     private lateinit var firestore: FirebaseFirestore
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var swipeTouchListener: OnSwipeTouchListener
+
+    private var curFrag = CurFrag.CHORES
+    enum class CurFrag {
+        CHORES, NOTES, SUMMARY
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,12 +68,9 @@ class HomeFragment : Fragment() {
 
 
         choreQuery = homeRef.collection(CHORE_COL)
-            .whereEqualTo(ChoreModel.FIELD_COMPLETED, 0)
             .orderBy(ChoreModel.FIELD_WHEN_DUE)
 
         historyQuery = homeRef.collection(CHORE_COL)
-            .whereGreaterThanOrEqualTo(ChoreModel.FIELD_COMPLETED, 1)
-            .orderBy(ChoreModel.FIELD_COMPLETED)
             .orderBy(ChoreModel.FIELD_WHEN_DUE, Query.Direction.DESCENDING)
 
         noteQuery = homeRef.collection(NOTE_COL)
@@ -78,18 +88,54 @@ class HomeFragment : Fragment() {
 
         supportFragmentManager = requireActivity().supportFragmentManager
 
+        swipeTouchListener = object : OnSwipeTouchListener(requireContext()){
+            override fun onSwipeLeft() {
+                when(curFrag){
+                    CurFrag.CHORES -> {
+                        loadFragment(summaryFragment)
+                        curFrag = CurFrag.SUMMARY
+                    }
+                    CurFrag.NOTES -> {
+                        loadFragment(noteFragment)
+                        curFrag = CurFrag.CHORES
+                    }
+                    CurFrag.SUMMARY -> {}
+                }
+            }
+
+            override fun onSwipeRight() {
+                when(curFrag){
+                    CurFrag.CHORES -> {
+                        loadFragment(noteFragment)
+                        curFrag = CurFrag.NOTES
+                    }
+                    CurFrag.NOTES -> {}
+                    CurFrag.SUMMARY -> {
+                        loadFragment(choreFragment)
+                        curFrag = CurFrag.CHORES
+                    }
+                }
+            }
+        }
+
+        binding.root.setOnTouchListener(swipeTouchListener)
+
         binding.homeBottomNav.setOnItemSelectedListener { homeFrag ->
             when (homeFrag.itemId) {
                 R.id.homeNavChores -> {
                     loadFragment(choreFragment)
+                    curFrag = CurFrag.CHORES
+                    choreFragment.requireView().setOnTouchListener(swipeTouchListener)
                     true
                 }
                 R.id.homeNavNotes -> {
                     loadFragment(noteFragment)
+                    curFrag = CurFrag.NOTES
                     true
                 }
                 R.id.homeNavSummary -> {
                     loadFragment(summaryFragment)
+                    curFrag = CurFrag.SUMMARY
                     true
                 }
                 else -> false
@@ -103,7 +149,7 @@ class HomeFragment : Fragment() {
 
         home = homeModel
 
-        choreFragment = ChoreFragment(home, choreQuery)
+        choreFragment = ChoreFragment(home, choreQuery, historyQuery)
         noteFragment = NoteFragment(home, noteQuery)
         summaryFragment = SummaryFragment(home, summaryQuery)
 

@@ -1,4 +1,4 @@
-package com.chorey
+package com.chorey.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,21 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.chorey.adapter.NoteRecyclerAdapter
+import com.chorey.R
 import com.chorey.adapter.SummaryRecyclerAdapter
-import com.chorey.data.DialogState
 import com.chorey.data.HomeModel
-import com.chorey.data.HomeUserModel
-import com.chorey.data.NoteModel
 import com.chorey.databinding.FragmentSummaryBinding
 import com.chorey.dialog.HomeDetailDialog
-import com.chorey.dialog.NoteDetailDialog
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.ktx.toObject
 
 class SummaryFragment(
     private val home : HomeModel,

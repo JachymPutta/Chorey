@@ -243,13 +243,12 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
             timeToComplete = timeToComplete,
             points = ChoreUtil.getPoints(timeToComplete),
             whenDue = whenDue,
-            isTimed = binding.choreDetailIsTimedBox.isChecked,
-            finished = 0
+            isTimed = binding.choreDetailIsTimedBox.isChecked
         )
 
         Log.d(TAG, "Creating chore $choreModel")
         Firebase.firestore.collection(HOME_COL).document(homeModel.UID)
-            .collection(CHORE_COL).document(choreModel.UID).set(choreModel)
+            .collection(CHORE_COL).document(uid).set(choreModel)
 
         dismiss()
     }
@@ -298,14 +297,6 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
         binding.choreDetailDueTime.visibility = state
         binding.choreRepeatText.visibility = state
         binding.choreIntervalSpinner.visibility = state
-    }
-
-    private fun disableEditText(editText: EditText) {
-        editText.isFocusable = false
-        editText.isEnabled = false
-        editText.isCursorVisible = false
-        editText.keyListener = null
-        editText.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
     }
 
     private fun fillChoreData() {

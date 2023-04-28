@@ -95,11 +95,12 @@ open class ChoreRecyclerAdapter(query: Query,
             it.update(userRef, LoggedUserModel.FIELD_POINTS, FieldValue.increment(curChore.points.toLong()))
 
             when(curChore.repeatsEvery) {
-                RepeatInterval.None -> {}
+                RepeatInterval.None -> it.delete(oldChoreRef)
                 else ->  it.set(newChoreRef, newChore)
             }
 
-            it.update(oldChoreRef, ChoreModel.FIELD_COMPLETED, FieldValue.increment(1L))
+            // TODO add to the history collection
+//            it.set(, FieldValue.increment(1L))
         }
     }
 

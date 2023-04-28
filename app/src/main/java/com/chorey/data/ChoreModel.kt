@@ -18,11 +18,9 @@ data class ChoreModel(
     var curAssignee: String = "",
     var points: Int = 0,
     var repeatsEvery: RepeatInterval = RepeatInterval.None,
-    var finished: Int = 0
 ) : Parcelable
 {
     companion object {
-        const val FIELD_COMPLETED = "finished"
         const val FIELD_WHEN_DUE = "whenDue"
     }
 }

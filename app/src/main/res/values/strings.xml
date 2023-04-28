@@ -36,12 +36,14 @@
 
     <!-- Home Fragment -->
     <string name="home_all_chores_text">TODOs</string>
+    <string name="home_history_title">History</string>
     <string name="add_chore_button">Add Chore</string>
     <string name="add_note_button">Add Note</string>
     <string name="add_members_button">Invite</string>
     <string name="home_summary_button">Summary</string>
     <string name="home_to_menu_button">Home</string>
     <string name="home_no_chores_left">No Chores left to do!</string>
+    <string name="home_history_empty">History empty!</string>
     <string name="home_no_notes_left">No Notes yet</string>
     <string name="home_loading">Loading…</string>
     <string name="home_summary_title">Summary</string>

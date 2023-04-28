@@ -1,4 +1,4 @@
-package com.chorey
+package com.chorey.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.chorey.R
 import com.chorey.adapter.NoteRecyclerAdapter
 import com.chorey.data.DialogState
 import com.chorey.data.HomeModel
@@ -55,6 +56,8 @@ class NoteFragment(
         binding.homeToMenuButton.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMenuFragment())
         }
+
+        binding.addChoreButton.setOnClickListener { addNoteHandle() }
         binding.homeSettingsButton.setOnClickListener {
             HomeDetailDialog(home).show(parentFragmentManager, "HomeDetailDialog")
         }
@@ -65,7 +68,6 @@ class NoteFragment(
 
         binding.allChoresRecycler.adapter = noteAdapter
         binding.allChoresRecycler.layoutManager = GridLayoutManager(requireView().context, NOTE_COLUMN_CNT)
-        binding.addChoreButton.setOnClickListener { addNoteHandle() }
         noteAdapter.startListening()
     }
 

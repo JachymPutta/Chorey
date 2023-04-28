@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/menuFragment"
-        android:name="com.chorey.MenuFragment"
+        android:name="com.chorey.fragments.MenuFragment"
         android:label="fragment_menu"
         tools:layout="@layout/fragment_menu">
         <action
@@ -30,7 +30,7 @@
     </dialog>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.chorey.HomeFragment"
+        android:name="com.chorey.fragments.HomeFragment"
         android:label="fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_menuFragment"
@@ -55,16 +55,16 @@
     <fragment
         android:id="@+id/noteFragment"
         tools:layout="@layout/fragment_notes"
-        android:name="com.chorey.NoteFragment"
+        android:name="com.chorey.fragments.NoteFragment"
         android:label="NoteFragment" />
     <fragment
         android:id="@+id/summaryFragment"
         tools:layout="@layout/fragment_summary"
-        android:name="com.chorey.SummaryFragment"
+        android:name="com.chorey.fragments.SummaryFragment"
         android:label="SummaryFragment" />
     <fragment
         android:id="@+id/choreFragment"
         tools:layout="@layout/fragment_home"
-        android:name="com.chorey.ChoreFragment"
+        android:name="com.chorey.fragments.ChoreFragment"
         android:label="ChoreFragment" />
 </navigation>
