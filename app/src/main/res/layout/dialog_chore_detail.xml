@@ -7,7 +7,7 @@
     android:layout_gravity="center"
     android:minWidth="350dp"
     android:minHeight="350dp"
-    android:padding="15dp"
+    android:padding="25dp"
     android:background="@drawable/dialog_background"
     tools:context=".dialog.ChoreDetailDialog"
     >
@@ -110,6 +110,17 @@
         app:layout_constraintTop_toTopOf="@id/choreDetailTimeToDoText"
         android:importantForAutofill="no"
         tools:ignore="LabelFor" />
+
+    <TextView
+        android:id="@+id/choreDetailMinsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintTop_toTopOf="@id/choreDetailTimeToDoText"
+        app:layout_constraintBottom_toBottomOf="@id/choreDetailTimeToDoText"
+        app:layout_constraintStart_toEndOf="@id/choreDetailMinsToComplete"
+        android:layout_marginStart="20dp"
+        android:text="@string/history_detail_time_mins" />
 
     <TextView
         android:id="@+id/choreDetailRewardText"

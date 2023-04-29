@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chorey.CHORE_COL
+import com.chorey.HISTORY_COL
 import com.chorey.HOME_COL
 import com.chorey.USER_COL
 import com.chorey.data.ChoreModel
@@ -74,19 +75,11 @@ open class ChoreRecyclerAdapter(query: Query,
     }
 
     private fun onDoneClicked(snapshot: DocumentSnapshot) {
-
         val curChore = snapshot.toObject<ChoreModel>() ?: return
-        // TODO: make a utility function to update the completion time
-        if (!curChore.isTimed) {
-            curChore.isTimed = true
-            curChore.repeatsEvery = RepeatInterval.None
-        }
 
-        val newChore = ChoreUtil.updateData(curChore.copy(), user)
         val homeRef = Firebase.firestore.collection(HOME_COL).document(curChore.homeId)
-
         val oldChoreRef = homeRef.collection(CHORE_COL).document(curChore.UID)
-        val newChoreRef = homeRef.collection(CHORE_COL).document(newChore.UID)
+        val historyRef = homeRef.collection(HISTORY_COL).document(curChore.UID)
         val userRef = homeRef.collection(USER_COL).document(user.name)
 
         // Write the stuff in a batch
@@ -94,13 +87,19 @@ open class ChoreRecyclerAdapter(query: Query,
             // Handle points
             it.update(userRef, LoggedUserModel.FIELD_POINTS, FieldValue.increment(curChore.points.toLong()))
 
+            it.delete(oldChoreRef)
             when(curChore.repeatsEvery) {
-                RepeatInterval.None -> it.delete(oldChoreRef)
-                else ->  it.set(newChoreRef, newChore)
+                RepeatInterval.None -> {}
+                else ->  {
+                    val newChore = ChoreUtil.updateData(curChore.copy(), user)
+                    val newChoreRef = homeRef.collection(CHORE_COL).document(newChore.UID)
+                    it.set(newChoreRef, newChore)
+                }
             }
 
-            // TODO add to the history collection
-//            it.set(, FieldValue.increment(1L))
+            ChoreUtil.completeChore(curChore, user)
+
+            it.set(historyRef, curChore)
         }
     }
 

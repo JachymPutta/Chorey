@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.navArgs
 import com.chorey.CHORE_COL
+import com.chorey.HISTORY_COL
 import com.chorey.HOME_COL
 import com.chorey.NOTE_COL
 import com.chorey.R
@@ -61,7 +62,7 @@ class HomeFragment : Fragment() {
 
         choreQuery = homeRef.collection(CHORE_COL)
             .orderBy(ChoreModel.FIELD_WHEN_DUE)
-        historyQuery = homeRef.collection(CHORE_COL)
+        historyQuery = homeRef.collection(HISTORY_COL)
             .orderBy(ChoreModel.FIELD_WHEN_DUE, Query.Direction.DESCENDING)
         noteQuery = homeRef.collection(NOTE_COL)
         summaryQuery  = homeRef.collection(USER_COL)

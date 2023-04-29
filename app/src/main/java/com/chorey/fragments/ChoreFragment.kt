@@ -20,6 +20,7 @@ import com.chorey.data.DialogState
 import com.chorey.data.HomeModel
 import com.chorey.databinding.FragmentChoreBinding
 import com.chorey.dialog.ChoreDetailDialog
+import com.chorey.dialog.HistoryDetailDialog
 import com.chorey.dialog.HomeDetailDialog
 import com.chorey.viewmodel.LoginViewModel
 import com.google.firebase.firestore.DocumentSnapshot
@@ -33,7 +34,6 @@ class ChoreFragment(
     private val choreQuery: Query,
     private val historyQuery: Query
 ) : Fragment(),
-    EventListener<DocumentSnapshot>,
     ChoreRecyclerAdapter.OnChoreSelectedListener,
     ChoreHistoryAdapter.OnHistorySelectedListener
 {
@@ -72,15 +72,7 @@ class ChoreFragment(
             }
         }
 
-        historyAdapter = object : ChoreHistoryAdapter(historyQuery,this@ChoreFragment) {
-            override fun onDataChanged() {
-                if (itemCount == 0) {
-                    binding.noChoresLeftText.visibility = VISIBLE
-                } else {
-                    binding.noChoresLeftText.visibility = GONE
-                }
-            }
-        }
+        historyAdapter = ChoreHistoryAdapter(historyQuery,this@ChoreFragment)
 
         binding.homeName.text = home.homeName
         binding.homeToMenuButton.setOnClickListener {
@@ -144,7 +136,7 @@ class ChoreFragment(
             }
             ChoreType.COMPLETED -> {
                 binding.homeRecyclerTitle.setText(R.string.home_history_title)
-                binding.noChoresLeftText.setText(R.string.home_history_empty)
+                binding.noChoresLeftText.text = ""
 
                 binding.addChoreButton.visibility = GONE
 
@@ -173,11 +165,6 @@ class ChoreFragment(
             .show(parentFragmentManager, ChoreDetailDialog.TAG)
     }
 
-    override fun onEvent(value: DocumentSnapshot?, error: FirebaseFirestoreException?) {
-        //TODO: not sure what this should do
-
-    }
-
     override fun onChoreSelected(chore: DocumentSnapshot) {
         val choreModel = chore.toObject<ChoreModel>()
         ChoreDetailDialog(homeModel = home, choreModel = choreModel, DialogState.EDIT)
@@ -185,10 +172,10 @@ class ChoreFragment(
     }
 
     override fun onHistorySelected(chore: DocumentSnapshot) {
-        TODO("Not yet implemented")
+        val choreModel = chore.toObject<ChoreModel>()
+        HistoryDetailDialog(choreModel!!).show(parentFragmentManager, HistoryDetailDialog.TAG)
     }
     companion object {
         const val TAG = "ChoreFragment"
     }
-
 }

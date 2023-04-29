@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:padding="25dp"
+    android:background="@drawable/dialog_background"
+    tools:context=".dialog.ChoreDetailDialog"
+    >
+
+    <TextView
+        android:id="@+id/createChoreTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/history_detail_title"
+        android:textSize="@dimen/medium_text_size"
+        android:textColor="?attr/colorOnPrimary"
+        />
+
+    <ImageButton
+        android:id="@+id/createChoreCancelButton"
+        style="?attr/imageButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/note_detail_cancel_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/baseline_close_24"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        />
+
+    <TextView
+        android:id="@+id/createChoreName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:maxWidth="488dp"
+        android:minWidth="350dp"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/createChoreTitle"
+        />
+
+
+    <TextView
+        android:id="@+id/choreDetailAssignedToText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/createChoreName"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="30dp"
+        android:textColor="?attr/colorOnPrimary"
+        android:text="@string/history_detail_completed_by" />
+
+    <TextView
+        android:id="@+id/choreDetailDoneBy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintStart_toEndOf="@id/choreDetailAssignedToText"
+        app:layout_constraintTop_toTopOf="@id/choreDetailAssignedToText"
+        app:layout_constraintBottom_toBottomOf="@id/choreDetailAssignedToText"
+        android:layout_marginStart="10dp"
+        />
+
+    <TextView
+        android:id="@+id/choreDetailTimeToDoText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintTop_toBottomOf="@id/choreDetailDoneBy"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:text="@string/history_detail_time_to_complete" />
+
+    <TextView
+        android:id="@+id/choreDetailMinsToComplete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorOnPrimary"
+        android:layout_marginStart="20dp"
+        app:layout_constraintBottom_toBottomOf="@id/choreDetailTimeToDoText"
+        app:layout_constraintStart_toEndOf="@id/choreDetailTimeToDoText"
+        app:layout_constraintTop_toTopOf="@id/choreDetailTimeToDoText"
+        tools:ignore="LabelFor" />
+
+    <TextView
+        android:id="@+id/choreDetailMinsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintTop_toTopOf="@id/choreDetailTimeToDoText"
+        app:layout_constraintBottom_toBottomOf="@id/choreDetailTimeToDoText"
+        app:layout_constraintStart_toEndOf="@id/choreDetailMinsToComplete"
+        android:layout_marginStart="20dp"
+        android:text="@string/history_detail_time_mins" />
+        />
+
+    <TextView
+        android:id="@+id/choreDetailRewardText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintTop_toBottomOf="@id/choreDetailTimeToDoText"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:text="@string/chore_detail_reward" />
+
+    <TextView
+        android:id="@+id/choreDetailPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintTop_toTopOf="@id/choreDetailRewardText"
+        app:layout_constraintBottom_toBottomOf="@id/choreDetailRewardText"
+        app:layout_constraintStart_toEndOf="@id/choreDetailRewardText"
+        android:layout_marginStart="20dp"
+        android:text="@string/home_item_zero" />
+
+    <TextView
+        android:id="@+id/choreDetailDueText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintTop_toBottomOf="@id/choreDetailRewardText"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:text="@string/chore_detail_due_text" />
+
+    <TextView
+        android:id="@+id/choreDetailAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintTop_toTopOf="@id/choreDetailDueText"
+        app:layout_constraintBottom_toBottomOf="@id/choreDetailDueText"
+        app:layout_constraintStart_toEndOf="@id/choreDetailDueDate"
+        android:text="@string/chore_detail_at" />
+
+    <TextView
+        android:id="@+id/choreDetailDueDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintTop_toTopOf="@id/choreDetailDueText"
+        app:layout_constraintBottom_toBottomOf="@id/choreDetailDueText"
+        app:layout_constraintStart_toEndOf="@id/choreDetailDueText"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:layout_marginStart="10dp"
+        />
+
+    <TextView
+        android:id="@+id/choreDetailDueTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintTop_toTopOf="@id/choreDetailDueText"
+        app:layout_constraintBottom_toBottomOf="@id/choreDetailDueText"
+        app:layout_constraintStart_toEndOf="@id/choreDetailAt"
+        android:layout_marginStart="20dp"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

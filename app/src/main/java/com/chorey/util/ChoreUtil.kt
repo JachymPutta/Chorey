@@ -33,6 +33,13 @@ object ChoreUtil {
         return min * POINTS_MULTIPLIER
     }
 
+    fun completeChore(chore: ChoreModel, completedBy: LoggedUserModel) {
+        chore.isTimed = true
+        chore.whenDue = Calendar.getInstance().timeInMillis
+        chore.repeatsEvery = RepeatInterval.None
+        chore.curAssignee = completedBy.name
+    }
+
     fun updateData(chore:ChoreModel, completedBy: LoggedUserModel) : ChoreModel {
 
         chore.UID = UUID.randomUUID().toString()

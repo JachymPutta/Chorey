@@ -113,8 +113,18 @@
     <string name="chore_detail_due_time_hint">Select Time</string>
     <string name="chore_detail_repeats_text">Repeats?</string>
     <string name="chore_detail_at">at</string>
-    <string name="chore_detail_time_to_complete">Minutes to complete task:</string>
+    <string name="chore_detail_time_to_complete">Time needed:</string>
     <string name="chore_detail_reward">Reward:</string>
+
+    <!-- History Detail Dialog -->
+    <string name="history_detail_title">Completed Chore</string>
+    <string name="history_detail_name_text">Name:</string>
+    <string name="history_detail_completed_by">Done by:</string>
+    <string name="history_detail_due_text">Done:</string>
+    <string name="history_detail_timed_text">Fixed schedule?</string>
+    <string name="history_detail_time_to_complete">Done in:</string>
+    <string name="history_detail_time_mins">min</string>
+    <string name="history_detail_reward">Reward:</string>
 
     <!-- Add Member Dialog -->
     <string name="add_member_dialog_title">Invite User</string>

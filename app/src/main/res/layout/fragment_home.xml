@@ -14,6 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/homeBottomNav"
+        app:itemIconTint="?attr/colorOnPrimary"
+        app:itemTextColor="?attr/colorOnPrimary"
+        app:itemBackground="?attr/colorPrimary"
         android:layout_alignParentBottom="true"
         app:menu="@menu/home_bottom_navigation"/>
 

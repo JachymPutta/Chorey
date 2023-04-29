@@ -15,4 +15,5 @@ const val USER_COL = "users"
 const val CHORE_COL = "chores"
 const val NOTE_COL = "notes"
 const val INVITE_COL = "invites"
+const val HISTORY_COL = "history"
 
