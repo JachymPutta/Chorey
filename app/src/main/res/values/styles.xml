@@ -38,7 +38,6 @@
 
     <style name="ChoreyButton" parent="Widget.AppCompat.Button">
         <item name="backgroundTint">@color/ivory</item>
-
     </style>
 
     <style name="ChoreyButtonIcon">
@@ -57,4 +56,17 @@
         <item name="boxStrokeColor">?attr/colorOnPrimary</item>
         <item name="counterTextColor">?attr/colorOnPrimary</item>
     </style>
+
+    <style name="TimePickerDialog" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="android:textColorPrimary">?attr/colorSecondary</item>
+        <item name="android:textColorSecondary">?attr/colorOnPrimary</item>
+        <item name="android:windowBackground">@drawable/dialog_background</item>
+    </style>
+
+    <style name="DatePickerDialog" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="android:textColorPrimary">?attr/colorOnPrimary</item>
+        <item name="android:textColorSecondary">?attr/colorOnPrimary</item>
+        <item name="android:windowBackground">@drawable/dialog_background</item>
+    </style>
+
 </resources>

@@ -5,8 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import com.chorey.DATE_PATTERN
+import com.chorey.TIME_PATTERN
 import com.chorey.data.ChoreModel
+import com.chorey.data.RepeatInterval
 import com.chorey.databinding.DialogHistoryDetailBinding
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class HistoryDetailDialog(private val choreModel: ChoreModel) : DialogFragment()
 {
@@ -24,13 +30,25 @@ class HistoryDetailDialog(private val choreModel: ChoreModel) : DialogFragment()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val reward =  choreModel.points.toString() + "points"
+        val reward =  choreModel.points.toString() + " points"
 
         binding.createChoreCancelButton.setOnClickListener { onCancelClicked() }
         binding.createChoreName.text = choreModel.choreName
         binding.choreDetailDoneBy.text = choreModel.curAssignee
         binding.choreDetailMinsToComplete.text = choreModel.timeToComplete.toString()
         binding.choreDetailPoints.text = reward
+
+        val lastDue = Calendar.getInstance()
+        lastDue.timeInMillis = choreModel.whenDue
+
+        val timeFormat = SimpleDateFormat(TIME_PATTERN, Locale.getDefault())
+        val dateFormat = SimpleDateFormat(DATE_PATTERN, Locale.getDefault())
+
+        val formattedTime = timeFormat.format(lastDue.time)
+        val formattedDate = dateFormat.format(lastDue.time)
+
+        binding.choreDetailDueDate.text = formattedDate
+        binding.choreDetailDueTime.text = formattedTime
     }
 
     override fun onStart() {

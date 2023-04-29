@@ -23,8 +23,11 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.chorey.CHORE_COL
+import com.chorey.DATE_PATTERN
+import com.chorey.DATE_TIME_PATTERN
 import com.chorey.HOME_COL
 import com.chorey.R
+import com.chorey.TIME_PATTERN
 import com.chorey.data.ChoreModel
 import com.chorey.data.DialogState
 import com.chorey.data.HomeModel
@@ -33,8 +36,10 @@ import com.chorey.databinding.DialogChoreDetailBinding
 import com.chorey.util.ChoreUtil
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 import java.util.UUID
 
 class ChoreDetailDialog(private val homeModel : HomeModel,
@@ -77,7 +82,8 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
         binding.createChoreCreateButton.setOnClickListener { onCreateClicked() }
 
         // Hook up spinners
-        val repeatAdapter = ArrayAdapter(requireContext(), R.layout.chore_spinner_item, RepeatInterval.values())
+        val repeatAdapter =
+            ArrayAdapter(requireContext(), R.layout.chore_spinner_item, RepeatInterval.values())
         repeatAdapter.setDropDownViewResource(R.layout.chore_spinner_dropdown)
         binding.choreIntervalSpinner.adapter = repeatAdapter
         binding.choreDetailIsTimedBox.setOnCheckedChangeListener { _, isChecked ->
@@ -93,10 +99,12 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
                 if (s.isEmpty()) {
                     binding.choreDetailPoints.text = "0"
                 } else {
-                    binding.choreDetailPoints.text = ChoreUtil.getPoints(s.toString().toInt()).toString()
+                    binding.choreDetailPoints.text =
+                        ChoreUtil.getPoints(s.toString().toInt()).toString()
 
                 }
             }
+
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         })
@@ -119,16 +127,17 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
 
 
     private fun changeUI(state: DialogState) {
-        when(state) {
+        when (state) {
             DialogState.CREATE -> {
                 // Visual Changes
                 binding.createChoreCreateButton.setText(R.string.create_home_yes)
                 binding.createChoreRemoveButton.visibility = GONE
-                val date = String.format("${dueTime.get(Calendar.YEAR)}" +
-                            "-${dueTime.get(Calendar.MONTH) + 1}" +
-                            "-${dueTime.get(Calendar.DAY_OF_MONTH)}")
-                binding.choreDetailDueDate.text = date
+                val dateFormat = SimpleDateFormat(DATE_TIME_PATTERN, Locale.getDefault())
+                val dateTime = Date(dueTime.timeInMillis)
+                val formattedDateTime = dateFormat.format(dateTime)
+                binding.choreDetailDueDate.text = formattedDateTime
             }
+
             DialogState.EDIT -> {
                 fillChoreData()
 
@@ -149,18 +158,23 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
         val mMonth = dueTime.get(Calendar.MONTH)
         val mDay = dueTime.get(Calendar.DAY_OF_MONTH)
 
-
-       DatePickerDialog(requireContext(), this, mYear, mMonth, mDay).show()
+        DatePickerDialog(
+            requireContext(),
+            R.style.DatePickerDialog,
+            this,
+            mYear, mMonth, mDay
+        ).show()
     }
-    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        // Months start at 0 for some reason
-        val displayMonth = month + 1
-        val date = String.format("$year-$displayMonth-$dayOfMonth")
-        binding.choreDetailDueDate.text = date
 
+    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         dueTime.set(Calendar.YEAR, year)
         dueTime.set(Calendar.MONTH, month)
         dueTime.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+        val dateFormat = SimpleDateFormat(DATE_PATTERN, Locale.getDefault())
+        val formattedDateTime = dateFormat.format(dueTime.time)
+
+        binding.choreDetailDueDate.text = formattedDateTime
         timeChanged = true
     }
 
@@ -169,17 +183,24 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
         val minute = dueTime.get(Calendar.MINUTE)
 
         picker = TIME_PICKER
-        TimePickerDialog(activity, this, hour, minute, is24HourFormat(activity)).show()
+        TimePickerDialog(
+            requireContext(),
+            R.style.TimePickerDialog,
+            this@ChoreDetailDialog,
+            hour, minute, is24HourFormat(activity)
+        ).show()
     }
 
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-        val timeString = String.format("$hourOfDay:$minute")
-
         // This is here so I know how to add multiple time pickers if I need
         if (picker == TIME_PICKER) {
-            binding.choreDetailDueTime.text = timeString
             dueTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
             dueTime.set(Calendar.MINUTE, minute)
+
+            val timeFormat = SimpleDateFormat(TIME_PATTERN, Locale.getDefault())
+            val formattedTime = timeFormat.format(dueTime.time)
+
+            binding.choreDetailDueTime.text = formattedTime
             timeChanged = true
         }
     }
@@ -190,20 +211,20 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
      */
     private fun onAssignClicked() {
         val builder = AlertDialog.Builder(requireContext())
-        val userArray : Array<String> = homeModel.users.toTypedArray()
-        val selectedUsers : ArrayList<String> = arrayListOf()
+        val userArray: Array<String> = homeModel.users.toTypedArray()
+        val selectedUsers: ArrayList<String> = arrayListOf()
         val selectionArray = BooleanArray(homeModel.users.size)
 
         builder.setTitle(R.string.chore_detail_assign_hint)
             .setMultiChoiceItems(userArray, selectionArray)
-            { _ , which, isChecked ->
+            { _, which, isChecked ->
                 if (isChecked) {
                     selectedUsers.add(userArray[which])
                 } else if (selectedUsers.contains(userArray[which])) {
                     selectedUsers.remove(userArray[which])
                 }
             }
-            .setPositiveButton("Select") {_ , _ ->
+            .setPositiveButton("Select") { _, _ ->
                 binding.choreDetailAssignedTo.text = selectedUsers.joinToString()
                 assignedTo = selectedUsers
             }
@@ -231,7 +252,7 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
         val timeToComplete = binding.choreDetailMinsToComplete.text.toString().toInt()
         // We only update the time if a different one is selected
         val whenDue = if (timeChanged) dueTime.timeInMillis
-                        else choreModel?.whenDue ?: Long.MAX_VALUE
+        else choreModel?.whenDue ?: Long.MAX_VALUE
 
         val choreModel = ChoreModel(
             UID = uid,
@@ -272,25 +293,28 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
             }
             .setNegativeButton(R.string.confirm_remove_no)
             { a, _ ->
-               a.dismiss()
+                a.dismiss()
             }
         builder.show()
     }
 
-    private fun checkChoreInput() : Boolean {
+    private fun checkChoreInput(): Boolean {
         return if (!binding.createChoreNameInput.editText!!.text.isNullOrBlank() &&
-                    !binding.choreDetailAssignedTo.text.isNullOrBlank() &&
-                    !binding.choreDetailMinsToComplete.text.isNullOrBlank()) {
+            !binding.choreDetailAssignedTo.text.isNullOrBlank() &&
+            !binding.choreDetailMinsToComplete.text.isNullOrBlank()
+        ) {
             true
         } else {
-            Toast.makeText(requireContext(),
+            Toast.makeText(
+                requireContext(),
                 "Please fill in all the fields.",
-                     Toast.LENGTH_SHORT).show()
+                Toast.LENGTH_SHORT
+            ).show()
             false
         }
     }
 
-    private fun toggleTimeUI(state : Int) {
+    private fun toggleTimeUI(state: Int) {
         binding.choreDetailDueText.visibility = state
         binding.choreDetailDueDate.visibility = state
         binding.choreDetailAt.visibility = state
@@ -306,8 +330,15 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
             val lastDue = Calendar.getInstance()
             lastDue.timeInMillis = choreModel.whenDue
             val id = RepeatInterval.values().indexOf(choreModel.repeatsEvery)
-            binding.choreDetailDueDate.text = getDateFormat(requireContext()).format(Date(choreModel.whenDue))
-            binding.choreDetailDueTime.text = getTimeFormat(requireContext()).format(lastDue.time)
+
+            val timeFormat = SimpleDateFormat(TIME_PATTERN, Locale.getDefault())
+            val dateFormat = SimpleDateFormat(DATE_PATTERN, Locale.getDefault())
+
+            val formattedTime = timeFormat.format(lastDue.time)
+            val formattedDate = dateFormat.format(lastDue.time)
+
+            binding.choreDetailDueDate.text = formattedDate
+            binding.choreDetailDueTime.text = formattedTime
             binding.choreIntervalSpinner.setSelection(id)
             binding.choreDetailIsTimedBox.isChecked = true
 
@@ -322,15 +353,12 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
         binding.choreDetailAssignedTo.text = choreModel.assignedTo.joinToString()
         binding.choreDetailMinsToComplete.setText(choreModel.timeToComplete.toString())
         binding.choreDetailPoints.text = choreModel.points.toString()
-
     }
-
 
     companion object {
         const val TAG = "CreateChoreDialog"
         const val TIME_PICKER = 1
     }
-
-
-
 }
+
+

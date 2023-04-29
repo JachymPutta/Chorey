@@ -3,10 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingVertical="3dp"
+    >
 
+    <!-- TODO: pick better background tint color -->
     <com.google.android.material.card.MaterialCardView
         style="?attr/cardViewStyle"
+        android:backgroundTint="@color/ivory"
+        app:strokeColor="?attr/colorControlNormal"
         android:id="@+id/historyRecyclerCard"
         tools:ignore="MissingConstraints">
 
@@ -68,6 +73,16 @@
                 android:textColor="?attr/colorOnPrimary"
                 android:text="@string/history_item_due"
                 android:layout_marginStart="5dp"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_check_48"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chorey.CHORE_COL
+import com.chorey.DATE_TIME_PATTERN
 import com.chorey.HISTORY_COL
 import com.chorey.HOME_COL
 import com.chorey.USER_COL
@@ -19,7 +20,9 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import java.util.Calendar
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 /**
  * Handles the list of all chores in each of the homes.
@@ -42,18 +45,15 @@ open class ChoreRecyclerAdapter(query: Query,
 
             choreModel = snapshot.toObject<ChoreModel>() ?: return
 
-            val lastDue = Calendar.getInstance()
-            lastDue.timeInMillis = choreModel.whenDue
-            val date = String.format("${lastDue.get(Calendar.YEAR)}" +
-                    "-${lastDue.get(Calendar.MONTH) + 1}" +
-                    "-${lastDue.get(Calendar.DAY_OF_MONTH)}" +
-                    " ${lastDue.get(Calendar.HOUR_OF_DAY)}")
+            val dateFormat = SimpleDateFormat(DATE_TIME_PATTERN, Locale.getDefault())
+            val dateTime = Date(choreModel.whenDue)
+            val formattedDateTime = dateFormat.format(dateTime)
 
             // Bind visuals
             binding.choreName.text = choreModel.choreName
             binding.choreAssignee.text = choreModel.curAssignee
             if (choreModel.isTimed) {
-                binding.choreDueDate.text = date
+                binding.choreDueDate.text = formattedDateTime
             } else {
                 binding.choreDueDate.visibility = View.GONE
                 binding.choreDueText.visibility = View.GONE

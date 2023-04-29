@@ -7,20 +7,9 @@
     android:layout_gravity="center"
     android:padding="25dp"
     android:background="@drawable/dialog_background"
+    android:backgroundTint="@color/ivory"
     tools:context=".dialog.ChoreDetailDialog"
     >
-
-    <TextView
-        android:id="@+id/createChoreTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:text="@string/history_detail_title"
-        android:textSize="@dimen/medium_text_size"
-        android:textColor="?attr/colorOnPrimary"
-        />
 
     <ImageButton
         android:id="@+id/createChoreCancelButton"
@@ -39,15 +28,26 @@
         android:id="@+id/createChoreName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:maxWidth="488dp"
         android:minWidth="350dp"
         android:textColor="?attr/colorOnPrimary"
+        android:textSize="@dimen/medium_text_size"
+        android:textStyle="bold"
+        android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/createChoreTitle"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/chore_name_placeholder"
         />
 
+    <View
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="10dp"
+        android:background="?attr/colorOnPrimary"
+        app:layout_constraintTop_toBottomOf="@id/createChoreName" />
 
     <TextView
         android:id="@+id/choreDetailAssignedToText"
@@ -69,6 +69,14 @@
         app:layout_constraintBottom_toBottomOf="@id/choreDetailAssignedToText"
         android:layout_marginStart="10dp"
         />
+
+    <View
+        android:id="@+id/line3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="10dp"
+        android:background="?attr/colorOnPrimary"
+        app:layout_constraintTop_toBottomOf="@id/choreDetailDoneBy" />
 
     <TextView
         android:id="@+id/choreDetailTimeToDoText"
@@ -103,6 +111,14 @@
         android:text="@string/history_detail_time_mins" />
         />
 
+    <View
+        android:id="@+id/line4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="10dp"
+        android:background="?attr/colorOnPrimary"
+        app:layout_constraintTop_toBottomOf="@id/choreDetailTimeToDoText" />
+
     <TextView
         android:id="@+id/choreDetailRewardText"
         android:layout_width="wrap_content"
@@ -124,6 +140,14 @@
         android:layout_marginStart="20dp"
         android:text="@string/home_item_zero" />
 
+    <View
+        android:id="@+id/line5"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="10dp"
+        android:background="?attr/colorOnPrimary"
+        app:layout_constraintTop_toBottomOf="@id/choreDetailRewardText" />
+
     <TextView
         android:id="@+id/choreDetailDueText"
         android:layout_width="wrap_content"
@@ -132,7 +156,7 @@
         app:layout_constraintTop_toBottomOf="@id/choreDetailRewardText"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="20dp"
-        android:text="@string/chore_detail_due_text" />
+        android:text="@string/history_detail_due_text" />
 
     <TextView
         android:id="@+id/choreDetailAt"

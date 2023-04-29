@@ -8,6 +8,9 @@ const val POINTS_MULTIPLIER = 12
 //TODO: Change this to BuildConfig.DEBUG when releasing
 const val RUN_EMULATOR = false
 
+const val DATE_PATTERN = "MMM dd, yyyy"
+const val TIME_PATTERN = "hh:mm a"
+const val DATE_TIME_PATTERN = "MMM dd, yyyy h:mm a"
 
 // Database paths
 const val HOME_COL = "homes"

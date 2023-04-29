@@ -2,6 +2,7 @@
     <!-- Top level -->
     <string name="app_name">Chorey</string>
     <string name="home_name_placeholder">home_name</string>
+    <string name="chore_name_placeholder">chore_name</string>
 
     <!-- Login -->
     <string name="prompt_email">Email</string>
@@ -33,9 +34,8 @@
     <string name="user_name_placeholder">user_name</string>
     <string name="user_profile_pic_desc">user_profile_picture</string>
 
-
     <!-- Home Fragment -->
-    <string name="home_all_chores_text">TODOs</string>
+    <string name="home_all_chores_text">Tasks</string>
     <string name="home_history_title">History</string>
     <string name="add_chore_button">Add Chore</string>
     <string name="add_note_button">Add Note</string>
@@ -162,6 +162,4 @@
         <item>Vacuum</item>
         <item>Clean the windows</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

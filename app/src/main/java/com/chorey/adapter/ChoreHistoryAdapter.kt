@@ -4,12 +4,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.chorey.DATE_TIME_PATTERN
 import com.chorey.data.ChoreModel
 import com.chorey.databinding.HistoryRecyclerRowBinding
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
-import java.util.Calendar
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 open class ChoreHistoryAdapter(query: Query,
                                private val listener: OnHistorySelectedListener)
@@ -26,18 +29,14 @@ open class ChoreHistoryAdapter(query: Query,
                      listener: OnHistorySelectedListener) {
                 choreModel = snapshot.toObject<ChoreModel>() ?: return
 
-                val lastDue = Calendar.getInstance()
-                lastDue.timeInMillis = choreModel.whenDue
-                val date = String.format("${lastDue.get(Calendar.YEAR)}" +
-                        "-${lastDue.get(Calendar.MONTH) + 1}" +
-                        "-${lastDue.get(Calendar.DAY_OF_MONTH)}" +
-                        " ${lastDue.get(Calendar.HOUR_OF_DAY)}")
-
+                val dateFormat = SimpleDateFormat(DATE_TIME_PATTERN, Locale.getDefault())
+                val dateTime = Date(choreModel.whenDue)
+                val formattedDateTime = dateFormat.format(dateTime)
                 // Bind visuals
                 binding.historyName.text = choreModel.choreName
                 binding.historyAssignee.text = choreModel.curAssignee
                 if (choreModel.isTimed) {
-                    binding.historyDueDate.text = date
+                    binding.historyDueDate.text = formattedDateTime
                 } else {
                     binding.historyDueDate.visibility = View.GONE
                     binding.historyDueText.visibility = View.GONE
