@@ -6,37 +6,83 @@
     android:layout_height="match_parent"
     tools:context=".fragments.MenuFragment">
 
-    <TextView
-        android:id="@+id/menuLoadingText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/menuWelcomeScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <ImageView
+            android:id="@+id/menuLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/chorey_logo"
+            android:scaleY="2"
+            android:scaleX="2"
+            android:layout_marginTop="@dimen/large_text_size"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0.3"
+            android:contentDescription="@string/chorey_logo"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/menu_title_welcome"
+            style="@style/Title"
+            android:layout_marginTop="50dp"
+            app:layout_constraintTop_toBottomOf="@id/menuLogo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <Button
+            android:id="@+id/authButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/auth_button_login"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            style="?attr/buttonStyle"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/menuBottomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="200dp"
-        android:text="@string/home_loading"
-        style="@style/Title"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:background="?attr/colorPrimaryVariant"
+        android:translationZ="-1dp"
         />
+
+    <View
+        android:id="@+id/menuTopLayout"
+        android:layout_width="match_parent"
+        android:layout_height="88dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="?attr/colorPrimaryVariant"
+        android:orientation="horizontal"
+        android:translationZ="-1dp"
+        android:gravity="center"/>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/menuContentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/menuTitleLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="?attr/colorPrimaryVariant"
-            android:orientation="horizontal"
-            android:gravity="center"
-            >
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/menuTitleLayout"
+                >
 
             <TextView
                 android:id="@+id/menuTitleText"
@@ -64,7 +110,6 @@
                 android:background="@android:color/transparent"
                 android:src="@drawable/baseline_person_24" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
 
     <TextView
         android:id="@+id/menuEmptyRecyclerText"
@@ -73,38 +118,11 @@
         android:textSize="@dimen/large_text_size"
         android:textStyle="bold"
         android:text="@string/menu_text_empty_recycler"
-        app:layout_constraintTop_toBottomOf="@id/menuTitleLayout"
-        app:layout_constraintBottom_toTopOf="@id/menuBottomLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
-
-
-        <LinearLayout
-            android:id="@+id/menuBottomLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:background="?attr/colorPrimaryVariant"
-            >
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:orientation="horizontal" />
-
-            <Button
-                android:id="@+id/authButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/auth_button_login"
-                style="?attr/buttonStyle"
-                />
-        </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/all_rooms_recycler"
@@ -116,7 +134,6 @@
         android:layout_marginTop="10dp"
         />
 
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addHomeButton"
         android:layout_width="wrap_content"
@@ -125,33 +142,32 @@
         android:text="@string/add_home_button"
         android:src="@drawable/baseline_add_home_24"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/menuBottomLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="70dp"
         android:contentDescription="@string/add_icon_description" />
-
-
-        <TextView
-            android:id="@+id/addHomeHint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/menuArrow"
-            app:layout_constraintStart_toStartOf="@id/menuArrow"
-            app:layout_constraintEnd_toEndOf="@id/menuArrow"
-            android:textSize="@dimen/medium_text_size"
-            android:textStyle="bold"
-            android:layout_marginEnd="70dp"
-            android:text="@string/add_home_hint" />
-
-        <ImageView
-            android:id="@+id/menuArrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/baseline_subdirectory_arrow_right_24"
-            app:layout_constraintEnd_toStartOf="@id/addHomeButton"
-            app:layout_constraintBottom_toBottomOf="@id/addHomeButton"
-            android:contentDescription="@string/menu_arrow_desc"
-            />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--TODO Do something about this ugly arrow-->
+    <!--        <TextView-->
+    <!--            android:id="@+id/addHomeHint"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            app:layout_constraintBottom_toTopOf="@id/menuArrow"-->
+    <!--            app:layout_constraintStart_toStartOf="@id/menuArrow"-->
+    <!--            app:layout_constraintEnd_toEndOf="@id/menuArrow"-->
+    <!--            android:textSize="@dimen/medium_text_size"-->
+    <!--            android:textStyle="bold"-->
+    <!--            android:layout_marginEnd="70dp"-->
+    <!--            android:text="@string/add_home_hint" />-->
+
+    <!--        <ImageView-->
+    <!--            android:id="@+id/menuArrow"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:src="@drawable/baseline_subdirectory_arrow_right_24"-->
+    <!--            app:layout_constraintEnd_toStartOf="@id/addHomeButton"-->
+    <!--            app:layout_constraintBottom_toBottomOf="@id/addHomeButton"-->
+    <!--            android:contentDescription="@string/menu_arrow_desc"-->
+    <!--            />-->

@@ -82,23 +82,12 @@ class MenuFragment : Fragment(),
         mrvAdapter = object : MenuRecyclerAdapter(query, this@MenuFragment) {
             override fun onDataChanged() {
                 // Change UI based on the number of homes present
-                if (authViewModel.isAuthed.value == true) {
-                    if (itemCount == 0) {
-                        binding.allRoomsRecycler.visibility = View.GONE
-                        binding.menuEmptyRecyclerText.visibility = View.VISIBLE
-                        binding.addHomeHint.visibility = View.VISIBLE
-                        binding.menuArrow.visibility = View.VISIBLE
-                    } else {
-                        binding.allRoomsRecycler.visibility = View.VISIBLE
-                        binding.menuEmptyRecyclerText.visibility = View.GONE
-                        binding.addHomeHint.visibility = View.GONE
-                        binding.menuArrow.visibility = View.GONE
-                    }
+                if (itemCount == 0) {
+                    binding.allRoomsRecycler.visibility = View.INVISIBLE
+                    binding.menuEmptyRecyclerText.visibility = View.VISIBLE
                 } else {
-                    binding.allRoomsRecycler.visibility = View.GONE
-                    binding.menuEmptyRecyclerText.visibility = View.GONE
-                    binding.addHomeHint.visibility = View.GONE
-                    binding.menuArrow.visibility = View.GONE
+                    binding.allRoomsRecycler.visibility = View.VISIBLE
+                    binding.menuEmptyRecyclerText.visibility = View.INVISIBLE
                 }
             }
         }
@@ -116,6 +105,8 @@ class MenuFragment : Fragment(),
             if (isAuthed) { makeMenuScreen() }
             else { makeWelcomeScreen() }
         }
+        makeWelcomeScreen()
+        if (userViewModel.user != null) { updateQuery() }
     }
     override fun onStart() {
         super.onStart()
@@ -182,37 +173,16 @@ class MenuFragment : Fragment(),
     }
 
 
-    /**
-     * Function to change the UI when there is no user logged in
-     */
     private fun makeWelcomeScreen() {
-        binding.menuContentLayout.visibility = View.VISIBLE
-        binding.menuLoadingText.visibility = View.GONE
-
-        binding.allRoomsRecycler.visibility = View.GONE
-        binding.addHomeButton.visibility = View.GONE
-        binding.menuEmptyRecyclerText.visibility = View.GONE
-        binding.addHomeHint.visibility = View.GONE
-        binding.menuArrow.visibility = View.GONE
-        binding.menuTitleText.setText(R.string.menu_title_welcome)
-        binding.authButton.visibility = View.VISIBLE
-        binding.menuSettingsButton.visibility = View.GONE
+        binding.menuContentLayout.visibility = View.GONE
+        binding.menuWelcomeScreen.visibility = View.VISIBLE
     }
 
-    /**
-     * Function to change the UI when there is a user authenticated
-     */
     private fun makeMenuScreen() {
+        checkUserName()
         // UI changes
-        binding.menuTitleText.setText(R.string.menu_title_default)
-        binding.allRoomsRecycler.visibility = View.VISIBLE
-        binding.addHomeButton.visibility = View.VISIBLE
-        binding.menuEmptyRecyclerText.visibility = View.VISIBLE
-        binding.addHomeHint.visibility = View.VISIBLE
-        binding.menuArrow.visibility = View.VISIBLE
-        binding.menuSettingsButton.visibility = View.VISIBLE
-        binding.authButton.visibility = View.INVISIBLE
-        binding.menuBottomLayout.visibility = View.VISIBLE
+        binding.menuContentLayout.visibility = View.VISIBLE
+        binding.menuWelcomeScreen.visibility = View.GONE
     }
 
     private fun checkUserName() {
@@ -232,11 +202,15 @@ class MenuFragment : Fragment(),
                         }
 
                         binding.menuContentLayout.visibility = View.VISIBLE
-                        binding.menuLoadingText.visibility = View.GONE
+//                        binding.menuLoadingText.visibility = View.GONE
                     } else {
                         Log.d(TAG, "Failed with: ${task.exception}")
                     }
                 }
+        } else {
+            binding.menuContentLayout.visibility = View.VISIBLE
+//            binding.menuLoadingText.visibility = View.GONE
+
         }
     }
 

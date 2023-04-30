@@ -3,6 +3,7 @@
     <string name="app_name">Chorey</string>
     <string name="home_name_placeholder">home_name</string>
     <string name="chore_name_placeholder">chore_name</string>
+    <string name="chorey_logo">chorey_logo</string>
 
     <!-- Login -->
     <string name="prompt_email">Email</string>
