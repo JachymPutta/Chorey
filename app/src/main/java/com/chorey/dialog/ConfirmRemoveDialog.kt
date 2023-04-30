@@ -1,7 +1,5 @@
 package com.chorey.dialog
 
-import android.app.AlertDialog
-import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,10 +14,9 @@ import com.chorey.NOTE_COL
 import com.chorey.R
 import com.chorey.USER_COL
 import com.chorey.data.HomeModel
-import com.chorey.data.LoggedUserModel
 import com.chorey.data.LoggedUserModel.Companion.FIELD_MEMBER_OF
 import com.chorey.databinding.DialogConfirmRemoveBinding
-import com.chorey.viewmodel.LoginViewModel
+import com.chorey.viewmodel.UserViewModel
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
@@ -33,7 +30,7 @@ class ConfirmRemoveDialog(
 
     private var _binding: DialogConfirmRemoveBinding? = null
 
-    private val viewModel by activityViewModels<LoginViewModel>()
+    private val viewModel by activityViewModels<UserViewModel>()
     private val binding get() = _binding!!
 
 

@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Chorey" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Chorey" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+<!--    <style name="Theme.Chorey" parent="Theme.AppCompat.DayNight.NoActionBar">-->
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primaryLightColorDark</item>
         <item name="colorPrimaryVariant">@color/primaryColorDark</item>

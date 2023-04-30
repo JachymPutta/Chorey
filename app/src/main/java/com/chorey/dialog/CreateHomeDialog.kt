@@ -14,7 +14,7 @@ import com.chorey.data.HomeModel
 import com.chorey.data.HomeUserModel
 import com.chorey.data.LoggedUserModel
 import com.chorey.databinding.DialogCreateHomeBinding
-import com.chorey.viewmodel.LoginViewModel
+import com.chorey.viewmodel.UserViewModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.util.UUID
@@ -22,7 +22,7 @@ import java.util.UUID
 class CreateHomeDialog(private val listener : CreateHomeListener?) : DialogFragment() {
     private var _binding: DialogCreateHomeBinding? = null
     private val binding get() = _binding!!
-    private val loginViewModel by activityViewModels<LoginViewModel>()
+    private val userViewModel by activityViewModels<UserViewModel>()
 
     interface CreateHomeListener {
         fun onHomeCreated()
@@ -62,7 +62,7 @@ class CreateHomeDialog(private val listener : CreateHomeListener?) : DialogFragm
     }
 
     private fun onCreateClicked() {
-        val user = loginViewModel.user
+        val user = userViewModel.user
         val db = Firebase.firestore
 
         if (binding.createHomeNameInput.editText?.text.isNullOrBlank()) {

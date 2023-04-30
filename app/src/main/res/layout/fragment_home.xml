@@ -19,6 +19,4 @@
         app:itemBackground="?attr/colorPrimary"
         android:layout_alignParentBottom="true"
         app:menu="@menu/home_bottom_navigation"/>
-
-
 </RelativeLayout>

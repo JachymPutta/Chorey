@@ -22,10 +22,8 @@ import com.chorey.databinding.FragmentChoreBinding
 import com.chorey.dialog.ChoreDetailDialog
 import com.chorey.dialog.HistoryDetailDialog
 import com.chorey.dialog.HomeDetailDialog
-import com.chorey.viewmodel.LoginViewModel
+import com.chorey.viewmodel.UserViewModel
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.EventListener
-import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
 
@@ -37,7 +35,7 @@ class ChoreFragment(
     ChoreRecyclerAdapter.OnChoreSelectedListener,
     ChoreHistoryAdapter.OnHistorySelectedListener
 {
-    private val viewModel by activityViewModels<LoginViewModel>()
+    private val viewModel by activityViewModels<UserViewModel>()
     private lateinit var choreAdapter: ChoreRecyclerAdapter
     private lateinit var historyAdapter: ChoreHistoryAdapter
 

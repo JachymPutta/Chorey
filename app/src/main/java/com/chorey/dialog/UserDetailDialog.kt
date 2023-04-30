@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.chorey.databinding.DialogUserDetailBinding
-import com.chorey.viewmodel.LoginViewModel
+import com.chorey.viewmodel.AuthViewModel
+import com.chorey.viewmodel.UserViewModel
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -15,7 +16,8 @@ import com.google.firebase.ktx.Firebase
 class UserDetailDialog : DialogFragment() {
     private var _binding: DialogUserDetailBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by activityViewModels<LoginViewModel>()
+    private val userViewModel by activityViewModels<UserViewModel>()
+    private val authViewModel by activityViewModels<AuthViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,12 +32,11 @@ class UserDetailDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.logoutButton.setOnClickListener {
-            Firebase.auth.signOut()
-            AuthUI.getInstance().signOut(requireContext())
+            authViewModel.onLogout()
             dismiss()
         }
 
-        binding.userDetailName.text = viewModel.user?.name
+        binding.userDetailName.text = userViewModel.user?.name
     }
 
     override fun onStart() {

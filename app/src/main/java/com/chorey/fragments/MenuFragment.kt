@@ -1,7 +1,10 @@
 package com.chorey.fragments
 
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
@@ -11,10 +14,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.chorey.DUMMY_FIELD
 import com.chorey.HOME_COL
 import com.chorey.MAX_HOMES
 import com.chorey.R
@@ -26,8 +33,10 @@ import com.chorey.databinding.FragmentMenuBinding
 import com.chorey.dialog.AddHomeDialog
 import com.chorey.dialog.CreateHomeDialog
 import com.chorey.dialog.UserDetailDialog
-import com.chorey.viewmodel.LoginViewModel
+import com.chorey.viewmodel.AuthViewModel
+import com.chorey.viewmodel.UserViewModel
 import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -44,8 +53,10 @@ class MenuFragment : Fragment(),
     private lateinit var binding: FragmentMenuBinding
     private lateinit var firestore: FirebaseFirestore
     private lateinit var query: Query
+    private lateinit var signInLauncher: ActivityResultLauncher<Intent>
 
-    private val viewModel by activityViewModels<LoginViewModel>()
+    private val userViewModel by activityViewModels<UserViewModel>()
+    private val authViewModel by activityViewModels<AuthViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,18 +76,26 @@ class MenuFragment : Fragment(),
         // FireStore instance
         firestore = Firebase.firestore
 
-        query = firestore.collection(HOME_COL).limit(MAX_HOMES.toLong())
+        // Empty query before user is loaded
+        query = firestore.collection(HOME_COL).whereEqualTo(DUMMY_FIELD, "")
 
         mrvAdapter = object : MenuRecyclerAdapter(query, this@MenuFragment) {
             override fun onDataChanged() {
                 // Change UI based on the number of homes present
-                if (itemCount == 0) {
-                    binding.allRoomsRecycler.visibility = View.GONE
-                    binding.menuEmptyRecyclerText.visibility = View.VISIBLE
-                    binding.addHomeHint.visibility = View.VISIBLE
-                    binding.menuArrow.visibility = View.VISIBLE
+                if (authViewModel.isAuthed.value == true) {
+                    if (itemCount == 0) {
+                        binding.allRoomsRecycler.visibility = View.GONE
+                        binding.menuEmptyRecyclerText.visibility = View.VISIBLE
+                        binding.addHomeHint.visibility = View.VISIBLE
+                        binding.menuArrow.visibility = View.VISIBLE
+                    } else {
+                        binding.allRoomsRecycler.visibility = View.VISIBLE
+                        binding.menuEmptyRecyclerText.visibility = View.GONE
+                        binding.addHomeHint.visibility = View.GONE
+                        binding.menuArrow.visibility = View.GONE
+                    }
                 } else {
-                    binding.allRoomsRecycler.visibility = View.VISIBLE
+                    binding.allRoomsRecycler.visibility = View.GONE
                     binding.menuEmptyRecyclerText.visibility = View.GONE
                     binding.addHomeHint.visibility = View.GONE
                     binding.menuArrow.visibility = View.GONE
@@ -87,28 +106,20 @@ class MenuFragment : Fragment(),
         binding.allRoomsRecycler.adapter = mrvAdapter
         binding.allRoomsRecycler.layoutManager = LinearLayoutManager(view.context)
 
-        binding.menuContentLayout.visibility = View.GONE
-        binding.addHomeHint.visibility = View.GONE
-        binding.menuArrow.visibility = View.GONE
-        binding.menuEmptyRecyclerText.visibility = View.GONE
-
-        observeAuthState()
-
         binding.addHomeButton.setOnClickListener{ addHomeHandle() }
         binding.authButton.setOnClickListener { launchSignInFlow() }
         binding.menuSettingsButton.setOnClickListener {
             UserDetailDialog().show(childFragmentManager, "UserDetailDialog")
         }
+
+        authViewModel.isAuthed.observe(viewLifecycleOwner) { isAuthed ->
+            if (isAuthed) { makeMenuScreen() }
+            else { makeWelcomeScreen() }
+        }
     }
     override fun onStart() {
         super.onStart()
-
-        // Start sign in if necessary
-        if (needSignIn()) {
-            makeWelcomeScreen()
-        } else {
-            checkUserName()
-        }
+        mrvAdapter.startListening()
     }
 
     override fun onStop() {
@@ -128,7 +139,7 @@ class MenuFragment : Fragment(),
     }
 
     override fun onHomeCreated() {
-        val myHomes = viewModel.user!!.memberOf.values
+        val myHomes = userViewModel.user!!.memberOf.values
 
         if (!myHomes.isEmpty()) {
             query = firestore.collection(HOME_COL).whereIn("homeName", myHomes.toList())
@@ -136,22 +147,26 @@ class MenuFragment : Fragment(),
         }
     }
 
-    private fun observeAuthState() {
-        viewModel.authState.observe(viewLifecycleOwner) { authState ->
-            when (authState) {
-                // Changes for a logged in user
-                LoginViewModel.AuthState.AUTHED -> { makeMenuScreen() }
-                else -> { makeWelcomeScreen() }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        signInLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            val response = IdpResponse.fromResultIntent(result.data)
+            if (result.resultCode == Activity.RESULT_OK) {
+                // Successfully signed in
+                authViewModel.onLoginSuccess()
+                checkUserName()
+            } else {
+                // Sign in failed
+                Toast.makeText(context, response?.error?.message, Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun needSignIn() = Firebase.auth.currentUser == null
-
     private fun launchSignInFlow() {
         val providers = arrayListOf(
             AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build(),
-            AuthUI.IdpConfig.GoogleBuilder().build()
+            AuthUI.IdpConfig.GoogleBuilder().build(),
+//            AuthUI.IdpConfig.FacebookBuilder().build()
             // TODO: Add more Sign-in methods
         )
 
@@ -159,11 +174,13 @@ class MenuFragment : Fragment(),
         val intent = AuthUI.getInstance().createSignInIntentBuilder()
             .setAvailableProviders(providers)
             .setIsSmartLockEnabled(false)
-            .setTheme(R.style.Theme_Chorey_Login)
+            .setLogo(R.mipmap.chorey_logo_foreground)
+            .setTheme(R.style.Chorey_AuthUI)
             .build()
 
-        viewModel.launcher.launch(intent)
+        signInLauncher.launch(intent)
     }
+
 
     /**
      * Function to change the UI when there is no user logged in
@@ -199,30 +216,32 @@ class MenuFragment : Fragment(),
     }
 
     private fun checkUserName() {
-        val user = Firebase.auth.currentUser ?: return
+        if (userViewModel.user == null) {
+            val user = Firebase.auth.currentUser!!
 
-        firestore.collection(USER_COL).document(user.uid)
-            .get()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val ds = task.result
-                    if (ds.exists()) {
-                        viewModel.user = ds.toObject<LoggedUserModel>()
-                        updateQuery()
+            firestore.collection(USER_COL).document(user.uid)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val ds = task.result
+                        if (ds.exists()) {
+                            userViewModel.user = ds.toObject<LoggedUserModel>()
+                            updateQuery()
+                        } else {
+                            getUserNameDialog()
+                        }
+
+                        binding.menuContentLayout.visibility = View.VISIBLE
+                        binding.menuLoadingText.visibility = View.GONE
                     } else {
-                        getUserNameDialog()
+                        Log.d(TAG, "Failed with: ${task.exception}")
                     }
-
-                    binding.menuContentLayout.visibility = View.VISIBLE
-                    binding.menuLoadingText.visibility = View.GONE
-                } else {
-                    Log.d(TAG, "Failed with: ${task.exception}")
                 }
-            }
+        }
     }
 
     private fun updateQuery() {
-        val myHomes = viewModel.user!!.memberOf.values
+        val myHomes = userViewModel.user!!.memberOf.values
 
         if (!myHomes.isEmpty()) {
             query = firestore.collection(HOME_COL).whereIn("homeName", myHomes.toList())
@@ -234,13 +253,15 @@ class MenuFragment : Fragment(),
         val builder = AlertDialog.Builder(requireContext())
         val nameInput = EditText(requireContext())
 
-        nameInput.inputType = InputType.TYPE_CLASS_TEXT
+        //TODO: Custom XML file
         builder.setTitle("Your name:")
             .setView(nameInput)
             .setCancelable(false)
             .setPositiveButton("Ok", null)
 
         val dialog = builder.create()
+        dialog.setIcon(R.mipmap.chorey_logo_foreground)
+        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         fun submitNameHandle() {
             if (nameInput.text.toString().isBlank()) {
@@ -250,7 +271,7 @@ class MenuFragment : Fragment(),
                     UID = Firebase.auth.currentUser!!.uid,
                     name = nameInput.text.toString()
                 )
-                viewModel.user = loggedUserModel
+                userViewModel.user = loggedUserModel
                 updateQuery()
                 firestore.collection(USER_COL).document(loggedUserModel.UID).set(loggedUserModel)
                 dialog.dismiss()

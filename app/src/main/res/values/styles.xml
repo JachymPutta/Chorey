@@ -32,8 +32,13 @@
         <item name="android:backgroundTint">?attr/colorPrimary</item>
     </style>
 
-    <style name="Theme.Chorey.Login">
-        <item name="android:windowBackground">?attr/colorPrimary</item>
+    <style name="Chorey.AuthUI">
+<!--        <item name="android:windowBackground">?attr/colorPrimary</item>-->
+<!--        <item name="android:windowBackground">@color/background_color</item>-->
+        <item name="android:colorPrimary">?attr/colorPrimary</item>
+        <item name="android:colorPrimaryDark">?attr/colorPrimaryVariant</item>
+        <item name="android:colorAccent">?attr/colorSecondary</item>
+        <item name="android:textColor">?attr/colorControlNormal</item>
     </style>
 
     <style name="ChoreyButton" parent="Widget.AppCompat.Button">

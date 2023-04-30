@@ -1,12 +1,10 @@
 package com.chorey.dialog
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,12 +18,9 @@ import com.chorey.data.HomeUserModel
 import com.chorey.data.InviteModel
 import com.chorey.data.LoggedUserModel
 import com.chorey.databinding.DialogJoinHomeBinding
-import com.chorey.viewmodel.LoginViewModel
-import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.ktx.auth
+import com.chorey.viewmodel.UserViewModel
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -40,7 +35,7 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
     private lateinit var firestore: FirebaseFirestore
     private lateinit var joinHomeAdapter: JoinHomeRecyclerAdapter
 
-    private val viewModel by activityViewModels<LoginViewModel>()
+    private val viewModel by activityViewModels<UserViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

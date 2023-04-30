@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Chorey" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Chorey" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryVariant">@color/primaryDarkColor</item>
@@ -18,6 +18,8 @@
         <item name="imageButtonStyle">@style/ChoreyButtonIcon</item>
         <item name="buttonBarButtonStyle">@style/ChoreyBarButton</item>
         <item name="recyclerViewStyle">@style/RecyclerStyleLarge</item>
+
+        <item name="logo"></item>
 
         <!-- Remove the top title -->
         <item name="android:windowActionBar">false</item>

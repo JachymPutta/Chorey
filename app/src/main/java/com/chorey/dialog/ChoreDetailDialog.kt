@@ -72,9 +72,6 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
         assignedTo = choreModel?.assignedTo ?: arrayListOf()
 
         binding.createChoreCancelButton.setOnClickListener { onCancelClicked() }
-        toggleTimeUI(GONE)
-        changeUI(state)
-
         binding.choreDetailAssignedTo.setOnClickListener { onAssignClicked() }
         binding.choreDetailDueDate.setOnClickListener { onDatePickerClicked() }
         binding.choreDetailDueTime.setOnClickListener { onTimePickerClicked() }
@@ -113,6 +110,9 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
         binding.createChoreNameInput.editText!!.setOnKeyListener { _, keyCode, event ->
             (event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)
         }
+
+        toggleTimeUI(GONE)
+        changeUI(state)
     }
 
     override fun onStart() {

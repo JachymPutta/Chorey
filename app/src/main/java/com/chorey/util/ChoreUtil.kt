@@ -57,6 +57,7 @@ object ChoreUtil {
             RepeatInterval.None -> {}
             RepeatInterval.Year -> calendar.add(Calendar.YEAR, 1)
             RepeatInterval.Month -> calendar.add(Calendar.MONTH, 1)
+            RepeatInterval.Week -> calendar.add(Calendar.DAY_OF_MONTH, 7)
             RepeatInterval.Day -> calendar.add(Calendar.DAY_OF_MONTH, 1)
             RepeatInterval.Hour -> calendar.add(Calendar.HOUR_OF_DAY, 1)
         }

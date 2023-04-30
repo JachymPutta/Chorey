@@ -18,8 +18,6 @@ import com.chorey.data.ChoreModel
 import com.chorey.data.HomeModel
 import com.chorey.data.HomeUserModel
 import com.chorey.databinding.FragmentHomeBinding
-import com.chorey.util.ChoreUtil
-import com.chorey.util.OnSwipeTouchListener
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query

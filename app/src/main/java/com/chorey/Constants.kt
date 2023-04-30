@@ -20,3 +20,5 @@ const val NOTE_COL = "notes"
 const val INVITE_COL = "invites"
 const val HISTORY_COL = "history"
 
+const val DUMMY_FIELD = "UNAUTHENTICATED"
+

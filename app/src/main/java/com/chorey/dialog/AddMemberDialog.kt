@@ -9,15 +9,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.navArgs
 import com.chorey.INVITE_COL
-import com.chorey.R
 import com.chorey.USER_COL
 import com.chorey.data.HomeModel
 import com.chorey.data.InviteModel
 import com.chorey.data.LoggedUserModel
 import com.chorey.databinding.DialogAddMemberBinding
-import com.chorey.viewmodel.LoginViewModel
+import com.chorey.viewmodel.UserViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -27,7 +25,7 @@ class AddMemberDialog(private val home : HomeModel) : DialogFragment() {
 
     private var _binding: DialogAddMemberBinding? = null
     private val binding get() = _binding!!
-    private val loginViewModel by activityViewModels<LoginViewModel>()
+    private val userViewModel by activityViewModels<UserViewModel>()
 
     private lateinit var firestore: FirebaseFirestore
 
@@ -66,7 +64,7 @@ class AddMemberDialog(private val home : HomeModel) : DialogFragment() {
 
     private fun onSendClicked() {
         // 1. get the current user from the login model
-        val sender = loginViewModel.user ?: return
+        val sender = userViewModel.user ?: return
         // 2. get the destination user from the text input
         val dest = binding.addMemberNameInput.editText?.text.toString().ifBlank {
             Toast.makeText(requireContext(), "Please enter a name", Toast.LENGTH_LONG).show()

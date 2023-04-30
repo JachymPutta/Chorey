@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.navArgs
 import com.chorey.HOME_COL
 import com.chorey.NOTE_COL
 import com.chorey.R
@@ -16,7 +15,7 @@ import com.chorey.data.DialogState
 import com.chorey.data.HomeModel
 import com.chorey.data.NoteModel
 import com.chorey.databinding.DialogNoteDetailBinding
-import com.chorey.viewmodel.LoginViewModel
+import com.chorey.viewmodel.UserViewModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.util.UUID
@@ -26,7 +25,7 @@ class NoteDetailDialog(private val homeModel: HomeModel,
                        private val state: DialogState) : DialogFragment(){
     private var _binding: DialogNoteDetailBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by activityViewModels<LoginViewModel>()
+    private val viewModel by activityViewModels<UserViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
