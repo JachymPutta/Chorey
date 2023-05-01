@@ -10,44 +10,30 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.chorey.R
 import com.chorey.adapter.SummaryRecyclerAdapter
 import com.chorey.data.HomeModel
+import com.chorey.databinding.FragmentFundBinding
 import com.chorey.databinding.FragmentSummaryBinding
 import com.chorey.dialog.HomeDetailDialog
 import com.google.firebase.firestore.Query
 
-class SummaryFragment(
+class FundFragment(
     private val home : HomeModel,
     private val query: Query
-) : Fragment()
-{
-    private lateinit var summaryAdapter: SummaryRecyclerAdapter
-    private lateinit var binding: FragmentSummaryBinding
+) : Fragment() {
+
+    private lateinit var binding: FragmentFundBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSummaryBinding.inflate(inflater, container, false)
+        binding = FragmentFundBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        summaryAdapter = SummaryRecyclerAdapter(query)
 
-        binding.homeRecyclerTitle.setText(R.string.home_summary_title_points)
-        binding.allChoresRecycler.adapter = summaryAdapter
-        binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
-    }
-
-    override fun onStart() {
-        super.onStart()
-        summaryAdapter.startListening()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        summaryAdapter.stopListening()
     }
 
     companion object {

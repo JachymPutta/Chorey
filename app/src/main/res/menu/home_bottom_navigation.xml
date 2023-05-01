@@ -5,8 +5,12 @@
         android:icon="@drawable/baseline_note_alt_24"
         />
     <item android:id="@+id/homeNavChores"
-        android:title="@string/home_icon_desc"
+        android:title="@string/chore_icon_desc"
         android:icon="@drawable/baseline_checklist_24"
+        />
+    <item android:id="@+id/homeNavFunds"
+        android:title="@string/fund_icon_desc"
+        android:icon="@drawable/baseline_money_24"
         />
     <item android:id="@+id/homeNavSummary"
         android:title="@string/summary_icon_desc"

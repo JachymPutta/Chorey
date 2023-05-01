@@ -52,6 +52,7 @@
     <string name="home_notes_title">Notice Board</string>
     <string name="home_active_chores_button">Active</string>
     <string name="home_history_chores_button">History</string>
+
     <!-- Chore Recycler View -->
     <string name="chore_item_name">Chore</string>
     <string name="chore_item_assignee_text">Assigned:</string>
@@ -59,10 +60,13 @@
     <string name="chore_item_due_text">Due:</string>
     <string name="chore_item_due">Time</string>
     <string name="chore_item_completed">Done</string>
+
     <!-- Bottom navigation -->
-    <string name="home_icon_desc">Chores</string>
+    <string name="chore_icon_desc">Chores</string>
     <string name="notice_board_icon_desc">Board</string>
+    <string name="fund_icon_desc">Funds</string>
     <string name="summary_icon_desc">Summary</string>
+
     <!-- Home Detail Dialog   -->
     <string name="home_detail_icon_desc">home_icon</string>
     <!-- History Recycler View -->
@@ -71,6 +75,14 @@
     <string name="history_item_assignee">User</string>
     <string name="history_item_due_text">Completed:</string>
     <string name="history_item_due">Time</string>
+
+    <!-- Fund Fragment   -->
+    <string name="fund_rent_button">Rent</string>
+    <string name="fund_utilities_button">Utilities</string>
+    <string name="fund_groceries_button">Food</string>
+    <string name="fund_household_items_button">Household</string>
+    <string name="fund_fun_button">Fun</string>
+    <string name="fund_other_button">Other</string>
 
     <!-- Add Home Dialog -->
     <string name="create_home_button">Create</string>

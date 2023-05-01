@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.chorey.CHORE_COL
+import com.chorey.FUND_COL
 import com.chorey.HISTORY_COL
 import com.chorey.HOME_COL
 import com.chorey.NOTE_COL
@@ -18,6 +20,7 @@ import com.chorey.data.ChoreModel
 import com.chorey.data.HomeModel
 import com.chorey.data.HomeUserModel
 import com.chorey.databinding.FragmentHomeBinding
+import com.chorey.dialog.HomeDetailDialog
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -37,10 +40,12 @@ class HomeFragment : Fragment() {
     private lateinit var historyQuery: Query
     private lateinit var noteQuery: Query
     private lateinit var summaryQuery: Query
+    private lateinit var fundQuery: Query
 
     private lateinit var choreFragment : ChoreFragment
     private lateinit var noteFragment: NoteFragment
     private lateinit var summaryFragment: SummaryFragment
+    private lateinit var fundFragment: FundFragment
 
     private lateinit var firestore: FirebaseFirestore
     private lateinit var binding: FragmentHomeBinding
@@ -65,6 +70,7 @@ class HomeFragment : Fragment() {
         noteQuery = homeRef.collection(NOTE_COL)
         summaryQuery  = homeRef.collection(USER_COL)
             .orderBy(HomeUserModel.FIELD_POINTS, Query.Direction.DESCENDING)
+        fundQuery = homeRef.collection(FUND_COL)
 
         homeRef.get()
             .addOnSuccessListener(requireActivity()) {
@@ -91,9 +97,14 @@ class HomeFragment : Fragment() {
                     loadFragment(summaryFragment)
                     true
                 }
+                R.id.homeNavFunds -> {
+                    loadFragment(fundFragment)
+                    true
+                }
                 else -> false
             }
         }
+
     }
 
     private fun onHomeLoaded(homeModel: HomeModel?) {
@@ -102,7 +113,17 @@ class HomeFragment : Fragment() {
 
         home = homeModel
 
+        binding.homeName.text = home.homeName
+        binding.homeToMenuButton.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMenuFragment())
+        }
+
+        binding.homeSettingsButton.setOnClickListener {
+            HomeDetailDialog(home).show(parentFragmentManager, "HomeDetailDialog")
+        }
+
         choreFragment = ChoreFragment(home, choreQuery, historyQuery)
+        fundFragment = FundFragment(home, fundQuery)
         noteFragment = NoteFragment(home, noteQuery)
         summaryFragment = SummaryFragment(home, summaryQuery)
 

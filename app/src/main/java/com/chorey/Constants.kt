@@ -4,7 +4,9 @@ package com.chorey
 const val MAX_HOMES = 10
 const val MAX_CHORES = 30
 const val RANDOM_SEED = 42
-const val POINTS_MULTIPLIER = 12
+const val MINS_MULTIPLIER = 7
+// Funds multiplier assumes an average $20/hr wage - converts to minutes of work
+const val FUNDS_MULTIPLIER = 3 * MINS_MULTIPLIER
 //TODO: Change this to BuildConfig.DEBUG when releasing
 const val RUN_EMULATOR = false
 
@@ -19,6 +21,7 @@ const val CHORE_COL = "chores"
 const val NOTE_COL = "notes"
 const val INVITE_COL = "invites"
 const val HISTORY_COL = "history"
+const val FUND_COL = "funds"
 
 const val DUMMY_FIELD = "UNAUTHENTICATED"
 

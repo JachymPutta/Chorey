@@ -72,20 +72,11 @@ class ChoreFragment(
 
         historyAdapter = ChoreHistoryAdapter(historyQuery,this@ChoreFragment)
 
-        binding.homeName.text = home.homeName
-        binding.homeToMenuButton.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMenuFragment())
-        }
-
-
         binding.activeChoresButton.setOnClickListener { choreTypeToggle(ChoreType.ACTIVE) }
         binding.historyChoresButton.setOnClickListener { choreTypeToggle(ChoreType.COMPLETED) }
 
 
         binding.addChoreButton.setOnClickListener { addChoreHandle() }
-        binding.homeSettingsButton.setOnClickListener {
-            HomeDetailDialog(home).show(parentFragmentManager, "HomeDetailDialog")
-        }
 
         curChores = ChoreType.COMPLETED
         choreTypeToggle(ChoreType.ACTIVE)

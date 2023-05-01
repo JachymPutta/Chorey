@@ -54,15 +54,7 @@ class NoteFragment(
             }
         }
 
-        binding.homeName.text = home.homeName
-        binding.homeToMenuButton.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMenuFragment())
-        }
-
         binding.addChoreButton.setOnClickListener { addNoteHandle() }
-        binding.homeSettingsButton.setOnClickListener {
-            HomeDetailDialog(home).show(parentFragmentManager, "HomeDetailDialog")
-        }
 
         binding.homeRecyclerTitle.setText(R.string.home_notes_title)
         binding.noChoresLeftText.setText(R.string.home_no_notes_left)

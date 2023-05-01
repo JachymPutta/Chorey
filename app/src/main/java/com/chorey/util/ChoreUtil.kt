@@ -1,8 +1,7 @@
 package com.chorey.util
 
 import android.content.Context
-import android.util.Log
-import com.chorey.POINTS_MULTIPLIER
+import com.chorey.MINS_MULTIPLIER
 import com.chorey.R
 import com.chorey.RANDOM_SEED
 import com.chorey.data.ChoreModel
@@ -30,7 +29,7 @@ object ChoreUtil {
     }
 
     fun getPoints(min : Int) : Int {
-        return min * POINTS_MULTIPLIER
+        return min * MINS_MULTIPLIER
     }
 
     fun completeChore(chore: ChoreModel, completedBy: LoggedUserModel) {

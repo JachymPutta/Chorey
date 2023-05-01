@@ -34,7 +34,10 @@
         android:label="fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_menuFragment"
-            app:destination="@id/menuFragment" />
+            app:destination="@id/menuFragment"
+            app:popUpTo="@id/menuFragment"
+            app:popUpToInclusive="true"
+            />
         <argument
             android:name="homeModel"
             app:argType="com.chorey.data.HomeModel" />
@@ -67,4 +70,9 @@
         tools:layout="@layout/fragment_home"
         android:name="com.chorey.fragments.ChoreFragment"
         android:label="ChoreFragment" />
+    <fragment
+        android:id="@+id/fundFragment"
+        tools:layout="@layout/fragment_fund"
+        android:name="com.chorey.fragments.FundFragment"
+        android:label="FundFragment" />
 </navigation>
