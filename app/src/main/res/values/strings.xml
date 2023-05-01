@@ -69,6 +69,7 @@
 
     <!-- Home Detail Dialog   -->
     <string name="home_detail_icon_desc">home_icon</string>
+
     <!-- History Recycler View -->
     <string name="history_item_name">Chore</string>
     <string name="history_item_assignee_text">Completed by:</string>
@@ -83,6 +84,7 @@
     <string name="fund_household_items_button">Household</string>
     <string name="fund_fun_button">Fun</string>
     <string name="fund_other_button">Other</string>
+    <string name="fund_empty_progress">0/0</string>
 
     <!-- Add Home Dialog -->
     <string name="create_home_button">Create</string>
