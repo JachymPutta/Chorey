@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputType
+import android.preference.PreferenceManager
 import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -16,7 +16,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -82,12 +81,29 @@ class MenuFragment : Fragment(),
         mrvAdapter = object : MenuRecyclerAdapter(query, this@MenuFragment) {
             override fun onDataChanged() {
                 // Change UI based on the number of homes present
-                if (itemCount == 0) {
-                    binding.allRoomsRecycler.visibility = View.INVISIBLE
-                    binding.menuEmptyRecyclerText.visibility = View.VISIBLE
-                } else {
-                    binding.allRoomsRecycler.visibility = View.VISIBLE
-                    binding.menuEmptyRecyclerText.visibility = View.INVISIBLE
+                when(itemCount) {
+                    0 -> {
+                        binding.allRoomsRecycler.visibility = View.INVISIBLE
+                        binding.menuEmptyRecyclerText.visibility = View.VISIBLE
+                    }
+                    1 -> {
+                        // If logging in and have only one home go directly there
+                        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+                        val initLoad = sharedPref.getBoolean("menu_init_load", false)
+                        if (!initLoad) {
+                            onHomeSelected(getSnapshot(0))
+                            val editor = sharedPref.edit()
+                            editor.putBoolean("menu_init_load", true)
+                            editor.apply()
+                        }
+                        binding.allRoomsRecycler.visibility = View.VISIBLE
+                        binding.menuEmptyRecyclerText.visibility = View.INVISIBLE
+                    }
+                    else -> {
+                        binding.allRoomsRecycler.visibility = View.VISIBLE
+                        binding.menuEmptyRecyclerText.visibility = View.INVISIBLE
+
+                    }
                 }
             }
         }
