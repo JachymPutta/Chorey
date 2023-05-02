@@ -72,7 +72,7 @@
         android:label="ChoreFragment" />
     <fragment
         android:id="@+id/fundFragment"
-        tools:layout="@layout/fragment_fund"
-        android:name="com.chorey.fragments.FundFragment"
+        tools:layout="@layout/fragment_expenses"
+        android:name="com.chorey.fragments.ExpenseFragment"
         android:label="FundFragment" />
 </navigation>

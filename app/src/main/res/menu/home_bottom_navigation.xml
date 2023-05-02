@@ -9,7 +9,7 @@
         android:icon="@drawable/baseline_checklist_24"
         />
     <item android:id="@+id/homeNavFunds"
-        android:title="@string/fund_icon_desc"
+        android:title="@string/expense_icon_desc"
         android:icon="@drawable/baseline_money_24"
         />
     <item android:id="@+id/homeNavSummary"

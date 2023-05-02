@@ -45,7 +45,7 @@ class HomeFragment : Fragment() {
     private lateinit var choreFragment : ChoreFragment
     private lateinit var noteFragment: NoteFragment
     private lateinit var summaryFragment: SummaryFragment
-    private lateinit var fundFragment: FundFragment
+    private lateinit var expenseFragment: ExpenseFragment
 
     private lateinit var firestore: FirebaseFirestore
     private lateinit var binding: FragmentHomeBinding
@@ -98,7 +98,7 @@ class HomeFragment : Fragment() {
                     true
                 }
                 R.id.homeNavFunds -> {
-                    loadFragment(fundFragment)
+                    loadFragment(expenseFragment)
                     true
                 }
                 else -> false
@@ -123,7 +123,7 @@ class HomeFragment : Fragment() {
         }
 
         choreFragment = ChoreFragment(home, choreQuery, historyQuery)
-        fundFragment = FundFragment(home, fundQuery)
+        expenseFragment = ExpenseFragment(home, fundQuery)
         noteFragment = NoteFragment(home, noteQuery)
         summaryFragment = SummaryFragment(home, summaryQuery)
 

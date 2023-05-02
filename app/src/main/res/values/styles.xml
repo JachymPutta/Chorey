@@ -123,7 +123,7 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">?attr/colorOnPrimary</item>
         <item name="android:textSize">15sp</item>
-        <item name="android:text">@string/fund_empty_progress</item>
+        <item name="android:text">@string/expense_empty_progress</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
         <item name="layout_constraintEnd_toEndOf">parent</item>
     </style>

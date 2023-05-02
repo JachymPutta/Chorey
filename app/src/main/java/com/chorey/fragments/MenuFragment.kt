@@ -92,6 +92,7 @@ class MenuFragment : Fragment(),
             }
         }
 
+        binding.menuEmptyRecyclerText.setText(R.string.home_loading)
         binding.allRoomsRecycler.adapter = mrvAdapter
         binding.allRoomsRecycler.layoutManager = LinearLayoutManager(view.context)
 
@@ -202,15 +203,12 @@ class MenuFragment : Fragment(),
                         }
 
                         binding.menuContentLayout.visibility = View.VISIBLE
-//                        binding.menuLoadingText.visibility = View.GONE
                     } else {
                         Log.d(TAG, "Failed with: ${task.exception}")
                     }
                 }
         } else {
             binding.menuContentLayout.visibility = View.VISIBLE
-//            binding.menuLoadingText.visibility = View.GONE
-
         }
     }
 
@@ -220,6 +218,7 @@ class MenuFragment : Fragment(),
         if (!myHomes.isEmpty()) {
             query = firestore.collection(HOME_COL).whereIn("homeName", myHomes.toList())
             mrvAdapter.setQuery(query)
+            binding.menuEmptyRecyclerText.setText(R.string.menu_text_empty_recycler)
         }
 
     }

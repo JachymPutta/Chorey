@@ -5,28 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.chorey.R
-import com.chorey.adapter.SummaryRecyclerAdapter
 import com.chorey.data.HomeModel
-import com.chorey.databinding.FragmentFundBinding
-import com.chorey.databinding.FragmentSummaryBinding
-import com.chorey.dialog.HomeDetailDialog
+import com.chorey.databinding.FragmentExpensesBinding
 import com.google.firebase.firestore.Query
 
-class FundFragment(
+class ExpenseFragment(
     private val home : HomeModel,
     private val query: Query
 ) : Fragment() {
 
-    private lateinit var binding: FragmentFundBinding
+    private lateinit var binding: FragmentExpensesBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentFundBinding.inflate(inflater, container, false)
+        binding = FragmentExpensesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -37,6 +31,6 @@ class FundFragment(
     }
 
     companion object {
-        const val TAG = "SummaryFragment"
+        const val TAG = "ExpenseFragment"
     }
 }

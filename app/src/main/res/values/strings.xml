@@ -64,7 +64,7 @@
     <!-- Bottom navigation -->
     <string name="chore_icon_desc">Chores</string>
     <string name="notice_board_icon_desc">Board</string>
-    <string name="fund_icon_desc">Funds</string>
+    <string name="expense_icon_desc">Funds</string>
     <string name="summary_icon_desc">Summary</string>
 
     <!-- Home Detail Dialog   -->
@@ -78,13 +78,13 @@
     <string name="history_item_due">Time</string>
 
     <!-- Fund Fragment   -->
-    <string name="fund_rent_button">Rent</string>
-    <string name="fund_utilities_button">Utilities</string>
-    <string name="fund_groceries_button">Food</string>
-    <string name="fund_household_items_button">Household</string>
-    <string name="fund_fun_button">Fun</string>
-    <string name="fund_other_button">Other</string>
-    <string name="fund_empty_progress">0/0</string>
+    <string name="expense_rent_button">Rent</string>
+    <string name="expense_utilities_button">Utilities</string>
+    <string name="expense_groceries_button">Groceries</string>
+    <string name="expense_household_items_button">Household</string>
+    <string name="expense_fun_button">Fun</string>
+    <string name="expense_other_button">Other</string>
+    <string name="expense_empty_progress">0/0</string>
 
     <!-- Add Home Dialog -->
     <string name="create_home_button">Create</string>

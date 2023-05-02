@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".fragments.FundFragment"
+    tools:context=".fragments.ExpenseFragment"
     >
 
     <GridLayout
@@ -19,26 +19,26 @@
         android:columnOrderPreserved="false">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/fundRentButton"
+            android:id="@+id/expenseRentButton"
             style="@style/FundTile">
 
             <ImageView
-                android:id="@+id/fundRentIcon"
+                android:id="@+id/expenseRentIcon"
                 android:src="@drawable/rent_icon_128"
-                android:contentDescription="@string/fund_rent_button"
+                android:contentDescription="@string/expense_rent_button"
                 style="@style/FundIcon"
                 tools:ignore="MissingConstraints" />
 
             <TextView
-                android:id="@+id/fundRentText"
-                android:text="@string/fund_rent_button"
-                app:layout_constraintTop_toBottomOf="@id/fundRentIcon"
+                android:id="@+id/expenseRentText"
+                android:text="@string/expense_rent_button"
+                app:layout_constraintTop_toBottomOf="@id/expenseRentIcon"
                 style="@style/FundName"
                 tools:ignore="MissingConstraints" />
 
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/rentProgressIndicator"
-                app:layout_constraintTop_toBottomOf="@id/fundRentText"
+                app:layout_constraintTop_toBottomOf="@id/expenseRentText"
                 style="@style/FundProgressIndicator"
                 tools:ignore="MissingConstraints" />
 
@@ -49,26 +49,26 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/fundUtilitiesButton"
+            android:id="@+id/expenseUtilitiesButton"
             style="@style/FundTile">
 
             <ImageView
-                android:id="@+id/fundUtilitiesIcon"
+                android:id="@+id/expenseUtilitiesIcon"
                 android:src="@drawable/utilities_icon_128"
-                android:contentDescription="@string/fund_utilities_button"
+                android:contentDescription="@string/expense_utilities_button"
                 style="@style/FundIcon"
                 tools:ignore="MissingConstraints" />
 
             <TextView
-                android:id="@+id/fundUtilitiesText"
-                app:layout_constraintTop_toBottomOf="@id/fundUtilitiesIcon"
-                android:text="@string/fund_utilities_button"
+                android:id="@+id/expenseUtilitiesText"
+                app:layout_constraintTop_toBottomOf="@id/expenseUtilitiesIcon"
+                android:text="@string/expense_utilities_button"
                 style="@style/FundName"
                 tools:ignore="MissingConstraints" />
 
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/utilitiesProgressIndicator"
-                app:layout_constraintTop_toBottomOf="@id/fundUtilitiesText"
+                app:layout_constraintTop_toBottomOf="@id/expenseUtilitiesText"
                 style="@style/FundProgressIndicator"
                 tools:ignore="MissingConstraints" />
 
@@ -80,28 +80,28 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/fundGroceriesButton"
+            android:id="@+id/expenseGroceriesButton"
             style="@style/FundTile">
 
             <ImageView
-                android:id="@+id/fundGroceriesIcon"
+                android:id="@+id/expenseGroceriesIcon"
                 android:src="@drawable/grocery_icon_128"
-                android:contentDescription="@string/fund_utilities_button"
+                android:contentDescription="@string/expense_utilities_button"
                 style="@style/FundIcon"
                 tools:ignore="MissingConstraints"
                 />
 
             <TextView
-                android:id="@+id/fundGroceriesText"
-                android:text="@string/fund_groceries_button"
-                app:layout_constraintTop_toBottomOf="@id/fundGroceriesIcon"
+                android:id="@+id/expenseGroceriesText"
+                android:text="@string/expense_groceries_button"
+                app:layout_constraintTop_toBottomOf="@id/expenseGroceriesIcon"
                 style="@style/FundName"
                 tools:ignore="MissingConstraints"
                 />
 
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/groceriesProgressIndicator"
-                app:layout_constraintTop_toBottomOf="@id/fundGroceriesText"
+                app:layout_constraintTop_toBottomOf="@id/expenseGroceriesText"
                 style="@style/FundProgressIndicator"
                 tools:ignore="MissingConstraints" />
 
@@ -113,28 +113,28 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/fundHouseholdItemsButton"
+            android:id="@+id/expenseHouseholdItemsButton"
             style="@style/FundTile">
 
             <ImageView
-                android:id="@+id/fundHouseholdItemsIcon"
+                android:id="@+id/expenseHouseholdItemsIcon"
                 android:src="@drawable/household_items_icon_128"
-                android:contentDescription="@string/fund_utilities_button"
+                android:contentDescription="@string/expense_utilities_button"
                 style="@style/FundIcon"
                 tools:ignore="MissingConstraints"
                 />
 
             <TextView
-                android:id="@+id/fundHouseholdItemsText"
-                android:text="@string/fund_household_items_button"
-                app:layout_constraintTop_toBottomOf="@id/fundHouseholdItemsIcon"
+                android:id="@+id/expenseHouseholdItemsText"
+                android:text="@string/expense_household_items_button"
+                app:layout_constraintTop_toBottomOf="@id/expenseHouseholdItemsIcon"
                 style="@style/FundName"
                 tools:ignore="MissingConstraints"
                 />
 
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/householdItemsProgressIndicator"
-                app:layout_constraintTop_toBottomOf="@id/fundHouseholdItemsText"
+                app:layout_constraintTop_toBottomOf="@id/expenseHouseholdItemsText"
                 style="@style/FundProgressIndicator"
                 tools:ignore="MissingConstraints" />
 
@@ -146,26 +146,26 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/fundFunButton"
+            android:id="@+id/expenseFunButton"
             style="@style/FundTile">
 
             <ImageView
-                android:id="@+id/fundFunIcon"
+                android:id="@+id/expenseFunIcon"
                 android:src="@drawable/fun_icon_128"
-                android:contentDescription="@string/fund_fun_button"
+                android:contentDescription="@string/expense_fun_button"
                 style="@style/FundIcon"
                 tools:ignore="MissingConstraints" />
 
             <TextView
-                android:id="@+id/fundFunText"
-                android:text="@string/fund_fun_button"
-                app:layout_constraintTop_toBottomOf="@id/fundFunIcon"
+                android:id="@+id/expenseFunText"
+                android:text="@string/expense_fun_button"
+                app:layout_constraintTop_toBottomOf="@id/expenseFunIcon"
                 style="@style/FundName"
                 tools:ignore="MissingConstraints" />
 
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/funProgressIndicator"
-                app:layout_constraintTop_toBottomOf="@id/fundFunText"
+                app:layout_constraintTop_toBottomOf="@id/expenseFunText"
                 style="@style/FundProgressIndicator"
                 tools:ignore="MissingConstraints" />
 
@@ -176,26 +176,26 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/fundOtherButton"
+            android:id="@+id/expenseOtherButton"
             style="@style/FundTile">
 
             <ImageView
-                android:id="@+id/fundOtherIcon"
+                android:id="@+id/expenseOtherIcon"
                 android:src="@drawable/other_icon_128"
-                android:contentDescription="@string/fund_other_button"
+                android:contentDescription="@string/expense_other_button"
                 style="@style/FundIcon"
                 tools:ignore="MissingConstraints" />
 
             <TextView
-                android:id="@+id/fundOtherText"
-                android:text="@string/fund_other_button"
-                app:layout_constraintTop_toBottomOf="@id/fundOtherIcon"
+                android:id="@+id/expenseOtherText"
+                android:text="@string/expense_other_button"
+                app:layout_constraintTop_toBottomOf="@id/expenseOtherIcon"
                 style="@style/FundName"
                 tools:ignore="MissingConstraints" />
 
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/otherProgressIndicator"
-                app:layout_constraintTop_toBottomOf="@id/fundOtherText"
+                app:layout_constraintTop_toBottomOf="@id/expenseOtherText"
                 style="@style/FundProgressIndicator"
                 tools:ignore="MissingConstraints" />
 
