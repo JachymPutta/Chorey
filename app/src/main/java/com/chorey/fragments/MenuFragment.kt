@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -20,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.chorey.Chorey
 import com.chorey.DUMMY_FIELD
 import com.chorey.HOME_COL
 import com.chorey.MAX_HOMES
@@ -88,13 +88,11 @@ class MenuFragment : Fragment(),
                     }
                     1 -> {
                         // If logging in and have only one home go directly there
-                        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-                        val initLoad = sharedPref.getBoolean("menu_init_load", false)
-                        if (!initLoad) {
+                        val choreyApp = requireActivity().application as Chorey
+                        val initLoad = choreyApp.initMenuLoad
+                        if (initLoad) {
                             onHomeSelected(getSnapshot(0))
-                            val editor = sharedPref.edit()
-                            editor.putBoolean("menu_init_load", true)
-                            editor.apply()
+                            choreyApp.initMenuLoad = false
                         }
                         binding.allRoomsRecycler.visibility = View.VISIBLE
                         binding.menuEmptyRecyclerText.visibility = View.INVISIBLE

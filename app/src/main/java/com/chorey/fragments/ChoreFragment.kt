@@ -1,5 +1,6 @@
 package com.chorey.fragments
 
+import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.chorey.Chorey
 import com.chorey.MAX_CHORES
 import com.chorey.R
 import com.chorey.adapter.ChoreHistoryAdapter
@@ -57,6 +59,7 @@ class ChoreFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.noChoresLeftText.visibility = GONE
 
         choreAdapter = object : ChoreRecyclerAdapter(choreQuery,
