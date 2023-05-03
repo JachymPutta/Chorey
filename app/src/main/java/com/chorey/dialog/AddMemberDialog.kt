@@ -64,8 +64,7 @@ class AddMemberDialog(private val home : HomeModel) : DialogFragment() {
 
     private fun onSendClicked() {
         // 1. get the current user from the login model
-        val sender = userViewModel.user ?: return
-        // 2. get the destination user from the text input
+        val sender = userViewModel.user.value!!        // 2. get the destination user from the text input
         val dest = binding.addMemberNameInput.editText?.text.toString().ifBlank {
             Toast.makeText(requireContext(), "Please enter a name", Toast.LENGTH_LONG).show()
             return

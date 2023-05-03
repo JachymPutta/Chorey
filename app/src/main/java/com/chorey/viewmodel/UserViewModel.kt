@@ -1,8 +1,15 @@
 package com.chorey.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.chorey.data.LoggedUserModel
 
 class UserViewModel : ViewModel() {
-    var user: LoggedUserModel? = null
+    private val _user = MutableLiveData<LoggedUserModel>()
+    val user: LiveData<LoggedUserModel> = _user
+
+    fun updateUser(newUser : LoggedUserModel) {
+        _user.value = newUser
+    }
 }

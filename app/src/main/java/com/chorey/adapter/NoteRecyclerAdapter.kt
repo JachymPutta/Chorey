@@ -23,10 +23,11 @@ open class NoteRecyclerAdapter(query : Query, private val listener: OnNoteSelect
 
             fun bind(snapshot: DocumentSnapshot, listener: OnNoteSelectedListener?) {
                 noteModel = snapshot.toObject<NoteModel>() ?: return
+                val author = "- ${noteModel.author}"
 
                 // Add buttons for editing
                 binding.noteRecyclerContent.text = noteModel.note
-                binding.noteRecyclerAuthor.text = "- ${noteModel.author}"
+                binding.noteRecyclerAuthor.text = author
 
                 binding.root.setOnClickListener { listener?.onNoteSelected(snapshot) }
         }

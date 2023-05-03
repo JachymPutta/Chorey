@@ -46,9 +46,10 @@ import com.google.firebase.ktx.Firebase
 
 class MenuFragment : Fragment(),
     MenuRecyclerAdapter.OnHomeSelectedListener,
-    CreateHomeDialog.CreateHomeListener {
+    CreateHomeDialog.CreateHomeListener,
+    UserDetailDialog.onIconChangedListener {
 
-    private lateinit var mrvAdapter: MenuRecyclerAdapter
+    private lateinit var menuRecyclerAdapter: MenuRecyclerAdapter
     private lateinit var binding: FragmentMenuBinding
     private lateinit var firestore: FirebaseFirestore
     private lateinit var query: Query
@@ -77,80 +78,61 @@ class MenuFragment : Fragment(),
 
         // Empty query before user is loaded
         query = firestore.collection(HOME_COL).whereEqualTo(DUMMY_FIELD, "")
-
-        mrvAdapter = object : MenuRecyclerAdapter(query, this@MenuFragment) {
-            override fun onDataChanged() {
-                // Change UI based on the number of homes present
-                when(itemCount) {
-                    0 -> {
-                        binding.allRoomsRecycler.visibility = View.INVISIBLE
-                        binding.menuEmptyRecyclerText.visibility = View.VISIBLE
-                    }
-                    1 -> {
-                        // If logging in and have only one home go directly there
-                        val choreyApp = requireActivity().application as Chorey
-                        val initLoad = choreyApp.initMenuLoad
-                        if (initLoad) {
-                            onHomeSelected(getSnapshot(0))
-                            choreyApp.initMenuLoad = false
-                        }
-                        binding.allRoomsRecycler.visibility = View.VISIBLE
-                        binding.menuEmptyRecyclerText.visibility = View.INVISIBLE
-                    }
-                    else -> {
-                        binding.allRoomsRecycler.visibility = View.VISIBLE
-                        binding.menuEmptyRecyclerText.visibility = View.INVISIBLE
-
-                    }
-                }
-            }
-        }
+        menuRecyclerAdapter = initMenuRecyclerAdapter()
 
         binding.menuEmptyRecyclerText.setText(R.string.home_loading)
-        binding.allRoomsRecycler.adapter = mrvAdapter
+        binding.allRoomsRecycler.adapter = menuRecyclerAdapter
         binding.allRoomsRecycler.layoutManager = LinearLayoutManager(view.context)
 
         binding.addHomeButton.setOnClickListener{ addHomeHandle() }
         binding.authButton.setOnClickListener { launchSignInFlow() }
-        binding.menuSettingsButton.setOnClickListener {
-            UserDetailDialog().show(childFragmentManager, "UserDetailDialog")
+        binding.menuUserButton.setOnClickListener {
+            UserDetailDialog(this@MenuFragment)
+                .show(childFragmentManager, "UserDetailDialog")
         }
 
         authViewModel.isAuthed.observe(viewLifecycleOwner) { isAuthed ->
             if (isAuthed) { makeMenuScreen() }
             else { makeWelcomeScreen() }
         }
+
+        userViewModel.user.observe(viewLifecycleOwner) {user ->
+            user?.let {
+                updateQuery()
+                onIconChanged()
+            }
+        }
+
         makeWelcomeScreen()
-        if (userViewModel.user != null) { updateQuery() }
     }
+
     override fun onStart() {
         super.onStart()
-        mrvAdapter.startListening()
+        menuRecyclerAdapter.startListening()
     }
 
     override fun onStop() {
         super.onStop()
-        mrvAdapter.stopListening()
+        menuRecyclerAdapter.stopListening()
     }
 
     override fun onHomeSelected(home: DocumentSnapshot) {
-        home.reference.get()
-            .addOnSuccessListener { doc ->
-                val homeVal = doc.toObject<HomeModel>()
-                val action = MenuFragmentDirections.actionMenuToHome(homeVal!!)
-                findNavController().navigate(action)
-            }.addOnFailureListener{
-                e -> Log.d(TAG, "Error fetching home from snap: $e!")
-            }
+        val homeVal = home.toObject<HomeModel>()
+        findNavController().navigate(MenuFragmentDirections.actionMenuToHome(homeVal!!))
     }
 
     override fun onHomeCreated() {
-        val myHomes = userViewModel.user!!.memberOf.values
+        val myHomes = userViewModel.user.value!!.memberOf.values
 
         if (!myHomes.isEmpty()) {
             query = firestore.collection(HOME_COL).whereIn("homeName", myHomes.toList())
-            mrvAdapter.setQuery(query)
+            menuRecyclerAdapter.setQuery(query)
         }
+    }
+
+    override fun onIconChanged() {
+        binding.menuSettingsButton.setImageResource(userViewModel.user.value!!.icon)
+        binding.menuUserName.text = userViewModel.user.value!!.name
     }
 
     override fun onAttach(context: Context) {
@@ -201,7 +183,7 @@ class MenuFragment : Fragment(),
     }
 
     private fun checkUserName() {
-        if (userViewModel.user == null) {
+        if (userViewModel.user.value == null) {
             val user = Firebase.auth.currentUser!!
 
             firestore.collection(USER_COL).document(user.uid)
@@ -210,12 +192,10 @@ class MenuFragment : Fragment(),
                     if (task.isSuccessful) {
                         val ds = task.result
                         if (ds.exists()) {
-                            userViewModel.user = ds.toObject<LoggedUserModel>()
-                            updateQuery()
+                            userViewModel.updateUser(ds.toObject<LoggedUserModel>()!!)
                         } else {
                             getUserNameDialog()
                         }
-
                         binding.menuContentLayout.visibility = View.VISIBLE
                     } else {
                         Log.d(TAG, "Failed with: ${task.exception}")
@@ -227,18 +207,21 @@ class MenuFragment : Fragment(),
     }
 
     private fun updateQuery() {
-        val myHomes = userViewModel.user!!.memberOf.values
+        val myHomes = userViewModel.user.value!!.memberOf.values
+
+        binding.menuEmptyRecyclerText.setText(R.string.menu_text_empty_recycler)
 
         if (!myHomes.isEmpty()) {
             query = firestore.collection(HOME_COL).whereIn("homeName", myHomes.toList())
-            mrvAdapter.setQuery(query)
-            binding.menuEmptyRecyclerText.setText(R.string.menu_text_empty_recycler)
+            menuRecyclerAdapter.setQuery(query)
         }
 
     }
     private fun getUserNameDialog() {
         val builder = AlertDialog.Builder(requireContext())
         val nameInput = EditText(requireContext())
+
+        nameInput.maxLines = 1
 
         //TODO: Custom XML file
         builder.setTitle("Your name:")
@@ -256,10 +239,10 @@ class MenuFragment : Fragment(),
             } else {
                 val loggedUserModel = LoggedUserModel(
                     UID = Firebase.auth.currentUser!!.uid,
-                    name = nameInput.text.toString()
+                    name = nameInput.text.toString(),
+                    icon = R.drawable.baseline_person_24
                 )
-                userViewModel.user = loggedUserModel
-                updateQuery()
+                userViewModel.updateUser(loggedUserModel)
                 firestore.collection(USER_COL).document(loggedUserModel.UID).set(loggedUserModel)
                 dialog.dismiss()
             }
@@ -284,17 +267,42 @@ class MenuFragment : Fragment(),
         dialog.show()
     }
 
-
-    /**
-     * Handles the addition of a new home, checks whether the max number of homes has been reached
-     * and then continues through the dialogs
-     */
     private fun addHomeHandle() {
-        if (mrvAdapter.itemCount >= MAX_HOMES) {
+        if (menuRecyclerAdapter.itemCount >= MAX_HOMES) {
             Toast.makeText(activity, "Max number of homes reached!", Toast.LENGTH_SHORT).show()
             return
         }
         AddHomeDialog().show(childFragmentManager, "AddHomeDialog")
+    }
+
+    private fun initMenuRecyclerAdapter() : MenuRecyclerAdapter {
+        return object : MenuRecyclerAdapter(query, this@MenuFragment) {
+            override fun onDataChanged() {
+                // Change UI based on the number of homes present
+                when(itemCount) {
+                    0 -> {
+                        binding.allRoomsRecycler.visibility = View.INVISIBLE
+                        binding.menuEmptyRecyclerText.visibility = View.VISIBLE
+                    }
+                    1 -> {
+                        // If logging in and have only one home go directly there
+                        val choreyApp = requireActivity().application as Chorey
+                        val initLoad = choreyApp.initMenuLoad
+                        if (initLoad) {
+                            onHomeSelected(getSnapshot(0))
+                            choreyApp.initMenuLoad = false
+                        }
+                        binding.allRoomsRecycler.visibility = View.VISIBLE
+                        binding.menuEmptyRecyclerText.visibility = View.INVISIBLE
+                    }
+                    else -> {
+                        binding.allRoomsRecycler.visibility = View.VISIBLE
+                        binding.menuEmptyRecyclerText.visibility = View.INVISIBLE
+
+                    }
+                }
+            }
+        }
     }
 
     companion object {

@@ -94,21 +94,47 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="20dp"
                 android:textColor="?attr/colorOnPrimary"
                 />
 
-            <ImageButton
-                android:id="@+id/menuSettingsButton"
-                android:layout_width="@dimen/large_text_size"
-                android:layout_height="@dimen/large_text_size"
-                android:contentDescription="@string/add_members_button"
-                android:layout_marginEnd="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:background="@android:color/transparent"
-                android:src="@drawable/baseline_person_24" />
+                <LinearLayout
+                    android:id="@+id/menuUserButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:background="@drawable/dialog_background"
+                    android:backgroundTint="@color/ivory"
+                    android:layout_marginEnd="5dp"
+                    android:padding="5dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/menuSettingsButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/add_members_button"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/baseline_person_24" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/menuUserName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:maxWidth="60dp"
+                        android:textSize="20sp"
+                        android:textColor="?attr/colorOnPrimary"
+                        android:text=""
+                        android:paddingHorizontal="5dp"
+                        app:autoSizeTextType="uniform"
+                        app:autoSizeMaxTextSize="20sp"
+                        app:autoSizeMinTextSize="10sp"
+                        />
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView

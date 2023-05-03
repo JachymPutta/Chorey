@@ -34,6 +34,7 @@
     <!-- User Detail Dialog-->
     <string name="user_name_placeholder">user_name</string>
     <string name="user_profile_pic_desc">user_profile_picture</string>
+    <string name="user_icon_title">Select an icon</string>
 
     <!-- Home Fragment -->
     <string name="home_all_chores_text">Tasks</string>
@@ -91,14 +92,17 @@
     <string name="join_existing_home_button">Join</string>
     <string name="add_home_dialog_title">Add Home</string>
     <string name="add_home_dialog_hint">Join an existing home or create your own!</string>
+
     <!-- Create Home Dialog -->
     <string name="create_home_title">Create New Home!</string>
     <string name="create_home_yes">Create</string>
     <string name="create_home_no">Cancel</string>
     <string name="create_home_hint">Enter Home name:</string>
+
     <!-- Remove Home Confirmation Dialog -->
     <string name="confirm_remove_yes">Remove</string>
     <string name="confirm_remove_no">Cancel</string>
+
     <!-- Join Home dialog -->
     <string name="join_home_your_invites_full">Invites</string>
     <string name="join_home_your_invites_empty">No Pending Invites!</string>

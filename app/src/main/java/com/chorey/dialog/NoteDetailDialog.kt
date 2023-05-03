@@ -82,7 +82,7 @@ class NoteDetailDialog(private val homeModel: HomeModel,
         val note = NoteModel(
             UID = uid,
             note = text,
-            author = viewModel.user!!.name
+            author = viewModel.user.value!!.name
         )
 
         Firebase.firestore.collection(HOME_COL).document(homeModel.UID)

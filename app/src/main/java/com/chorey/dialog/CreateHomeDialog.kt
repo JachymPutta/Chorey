@@ -62,7 +62,7 @@ class CreateHomeDialog(private val listener : CreateHomeListener?) : DialogFragm
     }
 
     private fun onCreateClicked() {
-        val user = userViewModel.user
+        val user = userViewModel.user.value!!
         val db = Firebase.firestore
 
         if (binding.createHomeNameInput.editText?.text.isNullOrBlank()) {
@@ -73,7 +73,7 @@ class CreateHomeDialog(private val listener : CreateHomeListener?) : DialogFragm
         val home = HomeModel(
             UID = UUID.randomUUID().toString(),
             homeName = binding.createHomeNameInput.editText?.text.toString(),
-            users = arrayListOf(user!!.name)
+            users = arrayListOf(user.name)
         )
         val homeUserModel = HomeUserModel(name = user.name)
         val homeRef = db.collection(HOME_COL).document(home.UID)

@@ -52,7 +52,7 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
 
         firestore = Firebase.firestore
 
-        query = firestore.collection(USER_COL).document(viewModel.user!!.UID)
+        query = firestore.collection(USER_COL).document(viewModel.user.value!!.UID)
             .collection(INVITE_COL)
 
         joinHomeAdapter = object : JoinHomeRecyclerAdapter(query, this@JoinHomeDialog) {
@@ -87,7 +87,7 @@ class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedL
 
     override fun onJoinSelected(invite: DocumentSnapshot) {
         val inviteModel = invite.toObject<InviteModel>()
-        val user = viewModel.user!!
+        val user = viewModel.user.value!!
 
         if (inviteModel == null) {
             Log.e(TAG, "Home/User not found!")

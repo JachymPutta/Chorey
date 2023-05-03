@@ -69,7 +69,7 @@ class ConfirmRemoveDialog(
 
     private fun removeHome() {
         val db = Firebase.firestore
-        val user = viewModel.user!!
+        val user = viewModel.user.value!!
         val home = snapshot.toObject<HomeModel>()
 
         val homeRef = db.collection(HOME_COL).document(home!!.UID)

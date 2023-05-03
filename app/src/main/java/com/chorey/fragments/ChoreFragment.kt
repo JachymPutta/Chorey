@@ -63,7 +63,7 @@ class ChoreFragment(
         binding.noChoresLeftText.visibility = GONE
 
         choreAdapter = object : ChoreRecyclerAdapter(choreQuery,
-            this@ChoreFragment, viewModel.user!!) {
+            this@ChoreFragment, viewModel.user.value!!) {
             override fun onDataChanged() {
                 if (itemCount == 0) {
                     binding.noChoresLeftText.visibility = VISIBLE
