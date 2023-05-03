@@ -58,6 +58,7 @@ class UserDetailDialog(
 
         when(state) {
             DialogState.CREATE -> {
+                isCancelable = false
                 binding.userIconHint.visibility = View.VISIBLE
                 binding.userIconHint.setOnClickListener {
                     iconDialog.show(parentFragmentManager, UserIconDialog.TAG)

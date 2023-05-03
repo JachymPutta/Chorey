@@ -83,6 +83,7 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
             ArrayAdapter(requireContext(), R.layout.chore_spinner_item, RepeatInterval.values())
         repeatAdapter.setDropDownViewResource(R.layout.chore_spinner_dropdown)
         binding.choreIntervalSpinner.adapter = repeatAdapter
+
         binding.choreDetailIsTimedBox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 toggleTimeUI(VISIBLE)
@@ -240,7 +241,10 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
                 assignedTo = selectedUsers
             }
 
-        builder.show()
+        val dialog = builder.create()
+        //TODO: custom view?
+//        dialog?.window?.setBackgroundDrawableResource(R.color.primaryColor)
+        dialog.show()
     }
 
     private fun onCreateClicked() {
@@ -279,23 +283,12 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
     }
 
     private fun onRemoveClicked() {
-        val uid = choreModel!!.UID
-
-        val builder = AlertDialog.Builder(requireActivity())
-        builder.setMessage("Are you sure you want to remove this chore?")
-            .setPositiveButton(R.string.confirm_remove_yes)
-            { _, _ ->
-                Firebase.firestore.collection(HOME_COL).document(homeModel.UID)
-                    .collection(CHORE_COL).document(uid).delete()
-                    .addOnSuccessListener { Log.d(TAG, "Chore successfully deleted!") }
-                    .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
-                dismiss()
+        Firebase.firestore.collection(HOME_COL).document(homeModel.UID)
+                .collection(CHORE_COL).document(choreModel!!.UID)
+            .get().addOnSuccessListener {
+                ConfirmRemoveDialog(it, choreModel.choreName)
+                    .show(parentFragmentManager, ConfirmRemoveDialog.TAG)
             }
-            .setNegativeButton(R.string.confirm_remove_no)
-            { a, _ ->
-                a.dismiss()
-            }
-        builder.show()
     }
 
     private fun checkChoreInput(): Boolean {

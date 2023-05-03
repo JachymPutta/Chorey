@@ -46,7 +46,7 @@ class ConfirmRemoveDialog(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val titleMsg = "Are you sure you want to remove $name ?"
+        val titleMsg = "Remove $name?"
 
         binding.confirmRemoveDialogTitle.text = titleMsg
         binding.confirmRemoveButton.setOnClickListener { confirmRemoveHandle() }
@@ -64,6 +64,7 @@ class ConfirmRemoveDialog(
             removeHome()
         } else {
             snapshot.reference.delete()
+            dismiss()
         }
     }
 

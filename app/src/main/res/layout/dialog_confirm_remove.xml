@@ -7,19 +7,25 @@ android:background="@drawable/dialog_background"
 android:padding="15dp"
 >
 
-<TextView
+<androidx.appcompat.widget.AppCompatTextView
     android:id="@+id/confirmRemoveDialogTitle"
-    android:layout_width="wrap_content"
+    style="@style/Title"
+    android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:text="@string/home_name_placeholder"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintBottom_toTopOf="@id/confirmRemoveButtonLayout"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    android:textStyle="bold"
-    android:textColor="?attr/colorOnPrimary"
-    android:textSize="@dimen/medium_text_size"
     android:layout_marginBottom="5dp"
+    android:gravity="center"
+    android:maxLines="1"
+    android:maxWidth="280dp"
+    android:textSize="20sp"
+    android:textColor="?attr/colorOnPrimary"
+    android:text=""
+    app:autoSizeTextType="uniform"
+    app:autoSizeMaxTextSize="25sp"
+    app:autoSizeMinTextSize="15sp"
     />
 
 <View
