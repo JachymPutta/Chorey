@@ -5,16 +5,6 @@
     <string name="chore_name_placeholder">chore_name</string>
     <string name="chorey_logo">chorey_logo</string>
 
-    <!-- Login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="login_successful">"Login Successful!"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
-
     <!-- Menu Fragment -->
     <string name="add_home_button">Add Home</string>
     <string name="remove_home_button">Delete</string>
@@ -26,15 +16,19 @@
     <string name="auth_button_logout">Logout</string>
     <string name="menu_arrow_desc">menu_arrow</string>
     <string name="add_home_hint">Click Here To Add More</string>
+
     <!-- Menu Recycler View -->
     <string name="home_item_place_holder">Home</string>
     <string name="home_item_score">Points:</string>
     <string name="home_item_members">Members:</string>
     <string name="home_item_zero">0</string>
+
     <!-- User Detail Dialog-->
     <string name="user_name_placeholder">user_name</string>
     <string name="user_profile_pic_desc">user_profile_picture</string>
     <string name="user_icon_title">Select an icon</string>
+    <string name="user_name_hint">Your name:</string>
+    <string name="user_detail_submit">Confirm</string>
 
     <!-- Home Fragment -->
     <string name="home_all_chores_text">Tasks</string>

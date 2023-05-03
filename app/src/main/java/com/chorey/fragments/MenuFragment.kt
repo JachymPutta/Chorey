@@ -26,6 +26,7 @@ import com.chorey.MAX_HOMES
 import com.chorey.R
 import com.chorey.USER_COL
 import com.chorey.adapter.MenuRecyclerAdapter
+import com.chorey.data.DialogState
 import com.chorey.data.HomeModel
 import com.chorey.data.LoggedUserModel
 import com.chorey.databinding.FragmentMenuBinding
@@ -47,7 +48,7 @@ import com.google.firebase.ktx.Firebase
 class MenuFragment : Fragment(),
     MenuRecyclerAdapter.OnHomeSelectedListener,
     CreateHomeDialog.CreateHomeListener,
-    UserDetailDialog.onIconChangedListener {
+    UserDetailDialog.OnIconChangedListener {
 
     private lateinit var menuRecyclerAdapter: MenuRecyclerAdapter
     private lateinit var binding: FragmentMenuBinding
@@ -87,7 +88,7 @@ class MenuFragment : Fragment(),
         binding.addHomeButton.setOnClickListener{ addHomeHandle() }
         binding.authButton.setOnClickListener { launchSignInFlow() }
         binding.menuUserButton.setOnClickListener {
-            UserDetailDialog(this@MenuFragment)
+            UserDetailDialog(this@MenuFragment, DialogState.EDIT)
                 .show(childFragmentManager, "UserDetailDialog")
         }
 
@@ -183,9 +184,9 @@ class MenuFragment : Fragment(),
     }
 
     private fun checkUserName() {
-        if (userViewModel.user.value == null) {
-            val user = Firebase.auth.currentUser!!
+        val user = Firebase.auth.currentUser!!
 
+        if (userViewModel.user.value == null || user.uid != userViewModel.user.value!!.UID) {
             firestore.collection(USER_COL).document(user.uid)
                 .get()
                 .addOnCompleteListener { task ->
@@ -194,7 +195,7 @@ class MenuFragment : Fragment(),
                         if (ds.exists()) {
                             userViewModel.updateUser(ds.toObject<LoggedUserModel>()!!)
                         } else {
-                            getUserNameDialog()
+                            UserDetailDialog(this, DialogState.CREATE).show(parentFragmentManager, TAG)
                         }
                         binding.menuContentLayout.visibility = View.VISIBLE
                     } else {
@@ -215,57 +216,57 @@ class MenuFragment : Fragment(),
             query = firestore.collection(HOME_COL).whereIn("homeName", myHomes.toList())
             menuRecyclerAdapter.setQuery(query)
         }
-
     }
-    private fun getUserNameDialog() {
-        val builder = AlertDialog.Builder(requireContext())
-        val nameInput = EditText(requireContext())
 
-        nameInput.maxLines = 1
-
-        //TODO: Custom XML file
-        builder.setTitle("Your name:")
-            .setView(nameInput)
-            .setCancelable(false)
-            .setPositiveButton("Ok", null)
-
-        val dialog = builder.create()
-        dialog.setIcon(R.mipmap.chorey_logo_foreground)
-        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
-
-        fun submitNameHandle() {
-            if (nameInput.text.toString().isBlank()) {
-                Toast.makeText(requireContext(), "Please input a name.", Toast.LENGTH_SHORT).show()
-            } else {
-                val loggedUserModel = LoggedUserModel(
-                    UID = Firebase.auth.currentUser!!.uid,
-                    name = nameInput.text.toString(),
-                    icon = R.drawable.baseline_person_24
-                )
-                userViewModel.updateUser(loggedUserModel)
-                firestore.collection(USER_COL).document(loggedUserModel.UID).set(loggedUserModel)
-                dialog.dismiss()
-            }
-        }
-
-        nameInput.setOnKeyListener { _, keyCode, event ->
-            if ((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                submitNameHandle()
-                true
-            } else {
-                false
-            }
-        }
-        // Need to override the onShow handle so the dialog doesn't dismiss with invalid inputs
-        dialog.setOnShowListener {
-            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-                // TODO: check if the username exists!!
-                submitNameHandle()
-            }
-        }
-
-        dialog.show()
-    }
+//    private fun getUserNameDialog() {
+//        val builder = AlertDialog.Builder(requireContext())
+//        val nameInput = EditText(requireContext())
+//
+//        nameInput.maxLines = 1
+//
+//        //TODO: Custom XML file
+//        builder.setTitle("Your name:")
+//            .setView(nameInput)
+//            .setCancelable(false)
+//            .setPositiveButton("Ok", null)
+//
+//        val dialog = builder.create()
+//        dialog.setIcon(R.mipmap.chorey_logo_foreground)
+//        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+//
+//        fun submitNameHandle() {
+//            if (nameInput.text.toString().isBlank()) {
+//                Toast.makeText(requireContext(), "Please input a name.", Toast.LENGTH_SHORT).show()
+//            } else {
+//                val loggedUserModel = LoggedUserModel(
+//                    UID = Firebase.auth.currentUser!!.uid,
+//                    name = nameInput.text.toString(),
+//                    icon = R.drawable.baseline_person_24
+//                )
+//                userViewModel.updateUser(loggedUserModel)
+//                firestore.collection(USER_COL).document(loggedUserModel.UID).set(loggedUserModel)
+//                dialog.dismiss()
+//            }
+//        }
+//
+//        nameInput.setOnKeyListener { _, keyCode, event ->
+//            if ((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+//                submitNameHandle()
+//                true
+//            } else {
+//                false
+//            }
+//        }
+//        // Need to override the onShow handle so the dialog doesn't dismiss with invalid inputs
+//        dialog.setOnShowListener {
+//            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
+//                // TODO: check if the username exists!!
+//                submitNameHandle()
+//            }
+//        }
+//
+//        dialog.show()
+//    }
 
     private fun addHomeHandle() {
         if (menuRecyclerAdapter.itemCount >= MAX_HOMES) {

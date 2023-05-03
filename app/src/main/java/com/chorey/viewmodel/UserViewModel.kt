@@ -12,4 +12,8 @@ class UserViewModel : ViewModel() {
     fun updateUser(newUser : LoggedUserModel) {
         _user.value = newUser
     }
+
+    fun resetUser() {
+        _user.value = null
+    }
 }

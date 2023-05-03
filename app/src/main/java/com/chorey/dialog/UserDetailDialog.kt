@@ -1,33 +1,44 @@
 package com.chorey.dialog
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.chorey.R
 import com.chorey.USER_COL
 import com.chorey.adapter.UserIconAdapter
+import com.chorey.data.DialogState
 import com.chorey.data.LoggedUserModel
 import com.chorey.databinding.DialogUserDetailBinding
 import com.chorey.viewmodel.AuthViewModel
 import com.chorey.viewmodel.UserViewModel
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class UserDetailDialog(private val listener : onIconChangedListener) : DialogFragment(),
+class UserDetailDialog(
+    private val listener : OnIconChangedListener,
+    private val state: DialogState
+) : DialogFragment(),
         UserIconAdapter.UserIconDialogListener
 {
     private var _binding: DialogUserDetailBinding? = null
     private val binding get() = _binding!!
+
     private val userViewModel by activityViewModels<UserViewModel>()
     private val authViewModel by activityViewModels<AuthViewModel>()
 
-    private lateinit var iconDialog: UserIconDialog
 
-    interface onIconChangedListener {
+    private lateinit var iconDialog: UserIconDialog
+    private var curIcon = R.drawable.baseline_person_24
+
+    interface OnIconChangedListener {
         fun onIconChanged()
     }
 
@@ -44,18 +55,46 @@ class UserDetailDialog(private val listener : onIconChangedListener) : DialogFra
         super.onViewCreated(view, savedInstanceState)
 
         iconDialog = UserIconDialog(this)
-        val icon = userViewModel.user.value!!.icon
 
-        binding.userDetailName.text = userViewModel.user.value!!.name
-        binding.userIcon.setImageResource(icon)
+        when(state) {
+            DialogState.CREATE -> {
+                binding.userIconHint.visibility = View.VISIBLE
+                binding.userIconHint.setOnClickListener {
+                    iconDialog.show(parentFragmentManager, UserIconDialog.TAG)
+                }
+
+                binding.userDetailName.setOnKeyListener { _, keyCode, event ->
+                    if ((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                        submitNameHandle()
+                        true
+                    } else {
+                        false
+                    }
+                }
+                binding.logoutButton.setText(R.string.user_detail_submit)
+                binding.logoutButton.setOnClickListener { submitNameHandle() }
+            }
+            DialogState.EDIT -> {
+                curIcon = userViewModel.user.value!!.icon
+                binding.userIconHint.visibility = View.GONE
+
+                binding.userDetailName.editText!!.isEnabled = false
+                binding.userDetailName.editText!!.isFocusable = false
+                binding.userDetailName.editText!!.setText(userViewModel.user.value!!.name)
+
+
+                binding.logoutButton.setOnClickListener {
+                    authViewModel.onLogout()
+                    userViewModel.resetUser()
+                    dismiss()
+                }
+            }
+        }
 
         binding.userIcon.setOnClickListener {
             iconDialog.show(parentFragmentManager, UserIconDialog.TAG)
         }
-        binding.logoutButton.setOnClickListener {
-            authViewModel.onLogout()
-            dismiss()
-        }
+        binding.userIcon.setImageResource(curIcon)
     }
 
     override fun onStart() {
@@ -64,17 +103,42 @@ class UserDetailDialog(private val listener : onIconChangedListener) : DialogFra
     }
 
     override fun onIconSelected(icon: Int) {
-        binding.userIcon.setImageResource(icon)
-        userViewModel.user.value!!.icon = icon
-        listener.onIconChanged()
-
-        //Update the db
-        Firebase.firestore.collection(USER_COL).document(userViewModel.user.value!!.UID)
-            .update(LoggedUserModel.FIELD_ICON, icon)
-            .addOnFailureListener { e -> Log.e(TAG, "onIconSelected: error while updating user icon $e")
+        when (state) {
+            DialogState.CREATE -> {
+                curIcon = icon
             }
-        iconDialog.dismiss()
+            DialogState.EDIT -> {
+                userViewModel.user.value!!.icon = icon
+                listener.onIconChanged()
+
+                //Update the db
+                Firebase.firestore.collection(USER_COL).document(userViewModel.user.value!!.UID)
+                    .update(LoggedUserModel.FIELD_ICON, icon)
+                    .addOnFailureListener { e -> Log.e(TAG, "onIconSelected: error while updating user icon $e")
+                    }
+                iconDialog.dismiss()
+            }
+        }
+
+        binding.userIcon.setImageResource(icon)
     }
+
+    private fun submitNameHandle() {
+        val nameInput = binding.userDetailName.editText!!
+        if (nameInput.text.toString().isBlank()) {
+            Toast.makeText(requireContext(), "Please input a name.", Toast.LENGTH_SHORT).show()
+        } else {
+            val loggedUserModel = LoggedUserModel(
+                UID = Firebase.auth.currentUser!!.uid,
+                name = nameInput.text.toString(),
+                icon = curIcon
+            )
+            userViewModel.updateUser(loggedUserModel)
+            Firebase.firestore.collection(USER_COL).document(loggedUserModel.UID).set(loggedUserModel)
+        }
+        dismiss()
+    }
+
 
     companion object {
         const val TAG = "UserDetailDialog"
