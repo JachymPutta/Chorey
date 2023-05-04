@@ -44,9 +44,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/auth_button_login"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             style="?attr/buttonStyle"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -56,6 +57,18 @@
         android:id="@+id/menuContentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <com.google.android.gms.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adViewMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimaryVariant"
+            ads:layout_constraintTop_toTopOf="parent"
+            ads:layout_constraintStart_toStartOf="parent"
+            ads:layout_constraintEnd_toEndOf="parent"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-7280349628854769/6593993547"/>
 
         <View
             android:layout_width="match_parent"
@@ -67,11 +80,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/adViewMenu"
                 android:id="@+id/menuTitleLayout"
                 android:background="?attr/colorPrimaryVariant"
                 >
-
 
             <TextView
                 android:id="@+id/menuTitleText"
@@ -151,17 +163,17 @@
         android:layout_marginTop="20dp"
         />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addHomeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/add_home_button"
-        android:src="@drawable/baseline_add_home_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="50dp"
-        android:contentDescription="@string/add_icon_description" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addHomeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="50dp"
+            android:contentDescription="@string/add_icon_description"
+            android:src="@drawable/baseline_add_home_24"
+            android:text="@string/add_home_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

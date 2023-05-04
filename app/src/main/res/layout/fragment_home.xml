@@ -5,12 +5,25 @@
     android:layout_height="match_parent"
     >
 
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adViewHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:background="?attr/colorPrimaryVariant"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-7280349628854769/6593993547">
+    </com.google.android.gms.ads.AdView>
+
     <LinearLayout
         android:id="@+id/homeFragmentTopLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_below="@id/adViewHome"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -93,6 +106,7 @@
         android:background="?attr/colorPrimaryDark"
         android:layout_below="@id/homeFragContainer"
         />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -104,4 +118,17 @@
         app:menu="@menu/home_bottom_navigation"
         app:labelVisibilityMode="labeled"
     />
+
+<!--    <com.google.android.gms.ads.AdView-->
+<!--        xmlns:ads="http://schemas.android.com/apk/res-auto"-->
+<!--        android:id="@+id/adViewBottom"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_alignParentStart="true"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:background="?attr/colorPrimary"-->
+<!--        ads:adSize="BANNER"-->
+<!--        ads:adUnitId="ca-app-pub-7280349628854769/6593993547"/>-->
+
 </RelativeLayout>
