@@ -1,17 +1,13 @@
 package com.chorey.fragments
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -37,6 +33,7 @@ import com.chorey.viewmodel.AuthViewModel
 import com.chorey.viewmodel.UserViewModel
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
+import com.google.android.gms.ads.AdRequest
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -73,6 +70,11 @@ class MenuFragment : Fragment(),
 
         // Enable logging
         FirebaseFirestore.setLoggingEnabled(true)
+
+        // Ads
+        val adRequest = AdRequest.Builder().build()
+        binding.adViewMenu.loadAd(adRequest)
+
 
         // FireStore instance
         firestore = Firebase.firestore

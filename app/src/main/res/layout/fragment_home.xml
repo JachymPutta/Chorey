@@ -114,20 +114,20 @@
         app:itemIconTint="?attr/colorOnPrimary"
         app:itemTextColor="?attr/colorOnPrimary"
         android:background="?attr/colorPrimary"
-        android:layout_above="@id/adViewBottom"
+        android:layout_above="@id/adViewHome"
         app:menu="@menu/home_bottom_navigation"
         app:labelVisibilityMode="labeled"
     />
 
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/adViewBottom"
+        android:id="@+id/adViewHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:background="@color/purple_200"
+        android:background="?attr/colorPrimary"
         ads:adSize="BANNER"
         ads:adUnitId="ca-app-pub-7280349628854769/6593993547"/>
 

@@ -168,7 +168,7 @@
             android:id="@+id/adViewMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/purple_200"
+            android:background="?attr/colorPrimary"
             ads:layout_constraintStart_toStartOf="parent"
             ads:layout_constraintEnd_toEndOf="parent"
             ads:layout_constraintBottom_toBottomOf="parent"

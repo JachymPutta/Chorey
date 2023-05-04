@@ -21,6 +21,7 @@ import com.chorey.data.HomeModel
 import com.chorey.data.HomeUserModel
 import com.chorey.databinding.FragmentHomeBinding
 import com.chorey.dialog.HomeDetailDialog
+import com.google.android.gms.ads.AdRequest
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -82,6 +83,9 @@ class HomeFragment : Fragment() {
 
         supportFragmentManager = requireActivity().supportFragmentManager
 
+        // Ads
+        val adRequest = AdRequest.Builder().build()
+        binding.adViewHome.loadAd(adRequest)
 
         binding.homeBottomNav.setOnItemSelectedListener { homeFrag ->
             when (homeFrag.itemId) {
