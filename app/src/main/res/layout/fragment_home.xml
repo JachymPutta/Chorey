@@ -5,25 +5,25 @@
     android:layout_height="match_parent"
     >
 
-    <com.google.android.gms.ads.AdView
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/adViewHome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:background="?attr/colorPrimaryVariant"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-7280349628854769/6593993547">
-    </com.google.android.gms.ads.AdView>
+<!--    <com.google.android.gms.ads.AdView-->
+<!--        xmlns:ads="http://schemas.android.com/apk/res-auto"-->
+<!--        android:id="@+id/adViewHome"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        android:layout_alignParentStart="true"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:background="?attr/colorPrimaryVariant"-->
+<!--        ads:adSize="BANNER"-->
+<!--        ads:adUnitId="ca-app-pub-7280349628854769/6593993547">-->
+<!--    </com.google.android.gms.ads.AdView>-->
 
     <LinearLayout
         android:id="@+id/homeFragmentTopLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@id/adViewHome"
+        android:layout_alignParentTop="true"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -114,21 +114,21 @@
         app:itemIconTint="?attr/colorOnPrimary"
         app:itemTextColor="?attr/colorOnPrimary"
         android:background="?attr/colorPrimary"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@id/adViewBottom"
         app:menu="@menu/home_bottom_navigation"
         app:labelVisibilityMode="labeled"
     />
 
-<!--    <com.google.android.gms.ads.AdView-->
-<!--        xmlns:ads="http://schemas.android.com/apk/res-auto"-->
-<!--        android:id="@+id/adViewBottom"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        android:layout_alignParentStart="true"-->
-<!--        android:layout_alignParentEnd="true"-->
-<!--        android:background="?attr/colorPrimary"-->
-<!--        ads:adSize="BANNER"-->
-<!--        ads:adUnitId="ca-app-pub-7280349628854769/6593993547"/>-->
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adViewBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:background="@color/purple_200"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-7280349628854769/6593993547"/>
 
 </RelativeLayout>

@@ -58,18 +58,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.gms.ads.AdView
-            xmlns:ads="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/adViewMenu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimaryVariant"
-            ads:layout_constraintTop_toTopOf="parent"
-            ads:layout_constraintStart_toStartOf="parent"
-            ads:layout_constraintEnd_toEndOf="parent"
-            ads:adSize="BANNER"
-            ads:adUnitId="ca-app-pub-7280349628854769/6593993547"/>
-
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -78,67 +66,67 @@
             />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/adViewMenu"
-                android:id="@+id/menuTitleLayout"
-                android:background="?attr/colorPrimaryVariant"
-                >
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/menuTitleLayout"
+            android:background="?attr/colorPrimaryVariant"
+            >
 
-            <TextView
-                android:id="@+id/menuTitleText"
-                style="@style/Title"
+        <TextView
+            android:id="@+id/menuTitleText"
+            style="@style/Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/menu_title_default"
+            android:background="?attr/colorPrimaryVariant"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="?attr/colorOnPrimary"
+            />
+
+            <LinearLayout
+                android:id="@+id/menuUserButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/menu_title_default"
-                android:background="?attr/colorPrimaryVariant"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textColor="?attr/colorOnPrimary"
-                />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@drawable/dialog_background"
+                android:backgroundTint="?attr/colorPrimary"
+                android:backgroundTintMode="add"
+                android:layout_marginEnd="10dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/menuUserButton"
+                <ImageButton
+                    android:id="@+id/menuSettingsButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:background="@drawable/dialog_background"
-                    android:backgroundTint="?attr/colorPrimary"
-                    android:backgroundTintMode="add"
-                    android:layout_marginEnd="10dp"
+                    android:contentDescription="@string/add_members_button"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/baseline_person_24" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/menuUserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:padding="10dp"
-                    android:orientation="vertical">
-
-                    <ImageButton
-                        android:id="@+id/menuSettingsButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="@string/add_members_button"
-                        android:background="@android:color/transparent"
-                        android:src="@drawable/baseline_person_24" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/menuUserName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:maxWidth="60dp"
-                        android:textSize="16sp"
-                        android:textColor="?attr/colorOnPrimary"
-                        android:text="@string/user_name_placeholder"
-                        android:paddingHorizontal="5dp"
-                        app:autoSizeTextType="uniform"
-                        app:autoSizeMaxTextSize="16sp"
-                        app:autoSizeMinTextSize="10sp"
-                        />
-                </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:maxLines="1"
+                    android:maxWidth="60dp"
+                    android:textSize="16sp"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:text="@string/user_name_placeholder"
+                    android:paddingHorizontal="5dp"
+                    app:autoSizeTextType="uniform"
+                    app:autoSizeMaxTextSize="16sp"
+                    app:autoSizeMinTextSize="10sp"
+                    />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/menuEmptyRecyclerText"
@@ -168,12 +156,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="25dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="25dp"
             android:contentDescription="@string/add_icon_description"
             android:src="@drawable/baseline_add_home_24"
             android:text="@string/add_home_button"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/adViewMenu"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.gms.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adViewMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/purple_200"
+            ads:layout_constraintStart_toStartOf="parent"
+            ads:layout_constraintEnd_toEndOf="parent"
+            ads:layout_constraintBottom_toBottomOf="parent"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-7280349628854769/6593993547"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
