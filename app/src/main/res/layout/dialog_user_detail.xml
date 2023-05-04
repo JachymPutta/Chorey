@@ -7,6 +7,7 @@
     android:background="@drawable/dialog_background"
     >
 
+<!-- TODO this should just be a pen on the corner of the icon -->
     <TextView
         android:id="@+id/userIconHint"
         android:layout_width="wrap_content"
@@ -31,7 +32,8 @@
         android:scaleX="2"
         android:scaleY="2"
         android:background="@drawable/dialog_background"
-        android:backgroundTint="@color/ivory"
+        android:backgroundTint="?attr/colorPrimary"
+        android:backgroundTintMode="multiply"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +58,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/ivory"
+            android:background="?attr/colorPrimary"
             android:textColor="?attr/colorOnPrimary"
             android:hint="@string/user_name_hint" />
     </com.google.android.material.textfield.TextInputLayout>

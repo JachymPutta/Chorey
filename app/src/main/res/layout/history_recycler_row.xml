@@ -10,7 +10,7 @@
     <!-- TODO: pick better background tint color -->
     <com.google.android.material.card.MaterialCardView
         style="?attr/cardViewStyle"
-        android:backgroundTint="@color/ivory"
+        android:backgroundTint="?attr/colorPrimary"
         app:strokeColor="?attr/colorControlNormal"
         android:id="@+id/historyRecyclerCard"
         tools:ignore="MissingConstraints">

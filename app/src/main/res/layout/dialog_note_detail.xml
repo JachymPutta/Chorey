@@ -82,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="100dp"
-            android:background="@color/ivory"
+            android:background="?attr/colorPrimary"
             android:textColor="?attr/colorOnPrimary"
             android:hint="@string/note_detail_note_text" />
     </com.google.android.material.textfield.TextInputLayout>

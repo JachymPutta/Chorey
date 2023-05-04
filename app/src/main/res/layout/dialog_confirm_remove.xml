@@ -24,19 +24,18 @@ android:padding="15dp"
     android:textColor="?attr/colorOnPrimary"
     android:text=""
     app:autoSizeTextType="uniform"
-    app:autoSizeMaxTextSize="25sp"
-    app:autoSizeMinTextSize="15sp"
+    app:autoSizeMaxTextSize="20sp"
+    app:autoSizeMinTextSize="12sp"
     />
 
 <View
     android:id="@+id/confirmRemoveNameDivider"
     android:layout_width="match_parent"
-    android:layout_height="2dp"
-    android:background="?attr/colorPrimaryVariant"
+    android:layout_height="1dp"
+    android:background="?attr/colorPrimaryDark"
     app:layout_constraintTop_toBottomOf="@id/confirmRemoveDialogTitle"
     app:layout_constraintBottom_toTopOf="@id/confirmRemoveButtonLayout"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp"
+    android:layout_marginVertical="5dp"
     />
 
 

@@ -56,14 +56,18 @@ class NoteFragment(
 
         binding.addChoreButton.setOnClickListener { addNoteHandle() }
 
-        binding.homeRecyclerTitle.setText(R.string.home_notes_title)
-        binding.noChoresLeftText.setText(R.string.home_no_notes_left)
-        binding.noChoresLeftText.visibility = View.GONE
-
-
         binding.allChoresRecycler.adapter = noteAdapter
         binding.allChoresRecycler.layoutManager = GridLayoutManager(requireView().context, NOTE_COLUMN_CNT)
+    }
+
+    override fun onStart() {
+        super.onStart()
         noteAdapter.startListening()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        noteAdapter.stopListening()
     }
 
     private fun addNoteHandle() {

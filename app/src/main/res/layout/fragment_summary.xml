@@ -5,13 +5,15 @@
     android:id="@+id/fragHomeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorPrimary"
     tools:context=".fragments.SummaryFragment">
 
     <TextView
         android:id="@+id/homeRecyclerTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/home_all_chores_text"
+        android:text="@string/home_summary_title_points"
+        android:textColor="?attr/colorOnPrimary"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="20dp"

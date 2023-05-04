@@ -35,7 +35,6 @@ class SummaryFragment(
 
         summaryAdapter = SummaryRecyclerAdapter(query)
 
-        binding.homeRecyclerTitle.setText(R.string.home_summary_title_points)
         binding.allChoresRecycler.adapter = summaryAdapter
         binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
     }

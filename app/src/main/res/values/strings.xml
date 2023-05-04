@@ -27,7 +27,7 @@
     <string name="user_name_placeholder">user_name</string>
     <string name="user_profile_pic_desc">user_profile_picture</string>
     <string name="user_icon_title">Select an icon</string>
-    <string name="user_name_hint">Your name:</string>
+    <string name="user_name_hint">Your name</string>
     <string name="user_detail_submit">Confirm</string>
 
     <!-- Home Fragment -->

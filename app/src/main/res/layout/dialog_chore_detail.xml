@@ -20,7 +20,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="@string/chore_detail_title_create"
-        android:textSize="@dimen/medium_text_size"
+        android:textSize="@dimen/large_text_size"
+        android:textStyle="bold"
         android:textColor="?attr/colorOnPrimary"
         />
 
@@ -79,7 +80,7 @@
         app:layout_constraintBottom_toBottomOf="@id/choreDetailAssignedToText"
         android:layout_marginStart="10dp"
         android:background="@android:drawable/editbox_background"
-        android:backgroundTint="@color/ivory"
+        android:backgroundTint="?attr/colorPrimary"
         android:drawablePadding="16dp"
         android:hint="@string/chore_detail_assign_hint"
         android:textColorHint="?attr/colorOnPrimary"
@@ -106,7 +107,7 @@
         android:textColor="?attr/colorOnPrimary"
         android:layout_marginStart="20dp"
         android:background="@android:drawable/editbox_background"
-        android:backgroundTint="@color/ivory"
+        android:backgroundTint="?attr/colorPrimary"
         app:layout_constraintBottom_toBottomOf="@id/choreDetailTimeToDoText"
         app:layout_constraintStart_toEndOf="@id/choreDetailTimeToDoText"
         app:layout_constraintTop_toTopOf="@id/choreDetailTimeToDoText"
@@ -213,7 +214,7 @@
         app:layout_constraintBottom_toBottomOf="@id/choreDetailDueText"
         app:layout_constraintStart_toEndOf="@id/choreDetailDueText"
         android:background="@android:drawable/editbox_background"
-        android:backgroundTint="@color/ivory"
+        android:backgroundTint="?attr/colorPrimary"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:layout_marginStart="10dp"
@@ -225,7 +226,7 @@
         android:layout_height="wrap_content"
         android:textColor="?attr/colorOnPrimary"
         android:background="@android:drawable/editbox_background"
-        android:backgroundTint="@color/ivory"
+        android:backgroundTint="?attr/colorPrimary"
         app:layout_constraintTop_toTopOf="@id/choreDetailDueText"
         app:layout_constraintBottom_toBottomOf="@id/choreDetailDueText"
         app:layout_constraintStart_toEndOf="@id/choreDetailAt"
@@ -249,7 +250,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:backgroundTint="@color/ivory"
+        android:backgroundTint="?attr/colorPrimary"
         app:layout_constraintTop_toTopOf="@id/choreRepeatText"
         app:layout_constraintBottom_toBottomOf="@id/choreRepeatText"
         app:layout_constraintStart_toEndOf="@id/choreRepeatText"
@@ -274,6 +275,7 @@
             style="?attr/buttonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
             android:text="@string/create_chore_remove_button" />
 
         <Button
@@ -281,6 +283,7 @@
             style="?attr/buttonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
             android:text="@string/create_home_yes" />
     </LinearLayout>
 

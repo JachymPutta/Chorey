@@ -13,7 +13,7 @@
         android:id="@+id/joinHomeTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/medium_text_size"
+        android:textSize="@dimen/large_text_size"
         android:textColor="?attr/colorOnPrimary"
         android:textStyle="bold"
         android:text="@string/join_home_your_invites_empty"

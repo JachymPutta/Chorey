@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".fragments.ExpenseFragment"
+    android:background="?attr/colorPrimary"
     >
 
     <GridLayout
@@ -20,6 +21,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/expenseRentButton"
+            android:outlineProvider="bounds"
             style="@style/FundTile">
 
             <ImageView

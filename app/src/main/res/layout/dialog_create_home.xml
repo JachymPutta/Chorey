@@ -66,7 +66,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/ivory"
+            android:background="?attr/colorPrimary"
             android:textColor="?attr/colorOnPrimary"
             android:hint="@string/create_home_hint" />
     </com.google.android.material.textfield.TextInputLayout>

@@ -1,13 +1,17 @@
 package com.chorey.fragments
 
 import android.app.Application
+import android.content.res.Configuration
+import android.graphics.Paint
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -98,26 +102,32 @@ class ChoreFragment(
     }
     private fun choreTypeToggle(choreType : ChoreType) {
         if(curChores == choreType) return
+        var textColor = 0
+
+        when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_NO -> {
+                textColor = resources.getColor(R.color.black, null)
+            }
+            Configuration.UI_MODE_NIGHT_YES -> {
+                textColor = resources.getColor(R.color.ivory, null)
+            }
+        }
 
         when(curChores) {
             ChoreType.ACTIVE -> {
-                binding.activeChoresButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
-                binding.activeChoresButton.setTextColor(resources.getColor(R.color.primaryColor, null))
+                binding.activeChoresButton.paintFlags = binding.activeChoresButton.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
             }
             ChoreType.COMPLETED -> {
-                binding.historyChoresButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
-                binding.historyChoresButton.setTextColor(resources.getColor(R.color.primaryColor, null))
+                binding.historyChoresButton.paintFlags = binding.historyChoresButton.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
             }
         }
 
         when(choreType){
             ChoreType.ACTIVE -> {
-                binding.homeRecyclerTitle.setText(R.string.home_all_chores_text)
                 binding.noChoresLeftText.setText(R.string.home_no_chores_left)
 
                 //Active tab highlight
-                binding.activeChoresButton.setBackgroundColor(resources.getColor(R.color.primaryColor, null))
-                binding.activeChoresButton.setTextColor(resources.getColor(R.color.black, null))
+                binding.activeChoresButton.paintFlags = binding.activeChoresButton.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
                 binding.addChoreButton.visibility = VISIBLE
                 binding.addChoreButton.setOnClickListener { addChoreHandle() }
@@ -127,14 +137,12 @@ class ChoreFragment(
                 binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
             }
             ChoreType.COMPLETED -> {
-                binding.homeRecyclerTitle.setText(R.string.home_history_title)
                 binding.noChoresLeftText.text = ""
 
                 binding.addChoreButton.visibility = GONE
 
                 //Active tab highlight
-                binding.historyChoresButton.setBackgroundColor(resources.getColor(R.color.primaryColor, null))
-                binding.historyChoresButton.setTextColor(resources.getColor(R.color.black, null))
+                binding.historyChoresButton.paintFlags = binding.historyChoresButton.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
                 binding.allChoresRecycler.adapter = historyAdapter
                 binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())

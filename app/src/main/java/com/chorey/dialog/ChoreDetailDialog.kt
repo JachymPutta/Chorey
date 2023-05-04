@@ -133,7 +133,7 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
                 // Visual Changes
                 binding.createChoreCreateButton.setText(R.string.create_home_yes)
                 binding.createChoreRemoveButton.visibility = GONE
-                val dateFormat = SimpleDateFormat(DATE_TIME_PATTERN, Locale.getDefault())
+                val dateFormat = SimpleDateFormat(DATE_PATTERN, Locale.getDefault())
                 val dateTime = Date(dueTime.timeInMillis)
                 val formattedDateTime = dateFormat.format(dateTime)
                 binding.choreDetailDueDate.text = formattedDateTime

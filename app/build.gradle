@@ -55,6 +55,7 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:8.0.2'
     implementation 'androidx.startup:startup-runtime:1.1.1'
     implementation "androidx.activity:activity:1.7.0-alpha02"
+//    implementation 'com.google.android.gms:play-services-ads:20.6.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'

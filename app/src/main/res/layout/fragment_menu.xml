@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorPrimary"
     tools:context=".fragments.MenuFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,39 +51,27 @@
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View
-        android:id="@+id/menuBottomLayout"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:background="?attr/colorPrimaryVariant"
-        android:translationZ="-1dp"
-        />
-
-    <View
-        android:id="@+id/menuTopLayout"
-        android:layout_width="match_parent"
-        android:layout_height="88dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="?attr/colorPrimaryVariant"
-        android:orientation="horizontal"
-        android:translationZ="-1dp"
-        android:gravity="center"/>
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/menuContentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?attr/colorPrimaryDark"
+            app:layout_constraintTop_toBottomOf="@id/menuTitleLayout"
+            />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 android:id="@+id/menuTitleLayout"
+                android:background="?attr/colorPrimaryVariant"
                 >
+
 
             <TextView
                 android:id="@+id/menuTitleText"
@@ -90,6 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/menu_title_default"
+                android:background="?attr/colorPrimaryVariant"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -105,10 +95,11 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:background="@drawable/dialog_background"
-                    android:backgroundTint="@color/ivory"
-                    android:layout_marginEnd="5dp"
-                    android:padding="5dp"
+                    android:backgroundTint="?attr/colorPrimary"
+                    android:backgroundTintMode="add"
+                    android:layout_marginEnd="10dp"
                     android:gravity="center"
+                    android:padding="10dp"
                     android:orientation="vertical">
 
                     <ImageButton
@@ -126,12 +117,12 @@
                         android:gravity="center"
                         android:maxLines="1"
                         android:maxWidth="60dp"
-                        android:textSize="20sp"
+                        android:textSize="16sp"
                         android:textColor="?attr/colorOnPrimary"
-                        android:text=""
+                        android:text="@string/user_name_placeholder"
                         android:paddingHorizontal="5dp"
                         app:autoSizeTextType="uniform"
-                        app:autoSizeMaxTextSize="20sp"
+                        app:autoSizeMaxTextSize="16sp"
                         app:autoSizeMinTextSize="10sp"
                         />
                 </LinearLayout>
@@ -157,7 +148,7 @@
         app:layout_constraintTop_toBottomOf="@id/menuTitleLayout"
         app:layout_constraintBottom_toTopOf="@id/addHomeButton"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -170,30 +161,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="50dp"
         android:contentDescription="@string/add_icon_description" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-<!--TODO Do something about this ugly arrow-->
-    <!--        <TextView-->
-    <!--            android:id="@+id/addHomeHint"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            app:layout_constraintBottom_toTopOf="@id/menuArrow"-->
-    <!--            app:layout_constraintStart_toStartOf="@id/menuArrow"-->
-    <!--            app:layout_constraintEnd_toEndOf="@id/menuArrow"-->
-    <!--            android:textSize="@dimen/medium_text_size"-->
-    <!--            android:textStyle="bold"-->
-    <!--            android:layout_marginEnd="70dp"-->
-    <!--            android:text="@string/add_home_hint" />-->
-
-    <!--        <ImageView-->
-    <!--            android:id="@+id/menuArrow"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:src="@drawable/baseline_subdirectory_arrow_right_24"-->
-    <!--            app:layout_constraintEnd_toStartOf="@id/addHomeButton"-->
-    <!--            app:layout_constraintBottom_toBottomOf="@id/addHomeButton"-->
-    <!--            android:contentDescription="@string/menu_arrow_desc"-->
-    <!--            />-->
