@@ -24,7 +24,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="0.3"
+            app:layout_constraintVertical_bias="0.4"
             android:contentDescription="@string/chorey_logo"
             />
 
@@ -59,9 +59,10 @@
         android:layout_height="match_parent">
 
         <View
+            android:id="@+id/menuSeparationLine"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="?attr/colorPrimaryDark"
+            android:background="?attr/colorOutline"
             app:layout_constraintTop_toBottomOf="@id/menuTitleLayout"
             />
 
@@ -70,33 +71,43 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/menuTitleLayout"
-            android:background="?attr/colorPrimaryVariant"
+            android:background="?attr/colorPrimaryDark"
             >
 
-        <TextView
-            android:id="@+id/menuTitleText"
-            style="@style/Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/menu_title_default"
-            android:background="?attr/colorPrimaryVariant"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:textColor="?attr/colorOnPrimary"
-            />
+            <ImageView
+                android:id="@+id/menuTopLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleY="0.6"
+                android:scaleX="0.6"
+                android:src="@mipmap/chorey_logo_round"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:contentDescription="@string/chorey_logo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                app:layout_constraintStart_toEndOf="@id/menuTopLogo"
+                app:layout_constraintTop_toTopOf="@id/menuTopLogo"
+                app:layout_constraintBottom_toBottomOf="@id/menuTopLogo"
+                android:layout_marginStart="-10dp"
+                android:textStyle="bold"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="@dimen/medium_text_size"
+                />
 
             <LinearLayout
                 android:id="@+id/menuUserButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:background="@drawable/dialog_background"
-                android:backgroundTint="?attr/colorPrimary"
-                android:backgroundTintMode="add"
+                android:backgroundTint="?attr/colorPrimaryContainer"
                 android:layout_marginEnd="10dp"
                 android:gravity="center"
                 android:padding="10dp"
@@ -128,7 +139,21 @@
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
+        <com.google.android.gms.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adViewMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            ads:layout_constraintStart_toStartOf="parent"
+            ads:layout_constraintEnd_toEndOf="parent"
+            ads:layout_constraintTop_toBottomOf="@id/menuSeparationLine"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        />
+<!--  TODO: swap for real ID in production  -->
+<!--  ads:adUnitId="ca-app-pub-7280349628854769/6593993547"-->
+        <TextView
         android:id="@+id/menuEmptyRecyclerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -145,7 +170,7 @@
         android:id="@+id/all_rooms_recycler"
         style="?attr/recyclerViewStyle"
         tools:ignore="MissingConstraints"
-        app:layout_constraintTop_toBottomOf="@id/menuTitleLayout"
+        app:layout_constraintTop_toBottomOf="@id/adViewMenu"
         app:layout_constraintBottom_toTopOf="@id/addHomeButton"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="20dp"
@@ -155,25 +180,14 @@
             android:id="@+id/addHomeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="25dp"
-            android:layout_marginBottom="25dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="55dp"
             android:contentDescription="@string/add_icon_description"
             android:src="@drawable/baseline_add_home_24"
             android:text="@string/add_home_button"
-            app:layout_constraintBottom_toTopOf="@id/adViewMenu"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <com.google.android.gms.ads.AdView
-            xmlns:ads="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/adViewMenu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            ads:layout_constraintStart_toStartOf="parent"
-            ads:layout_constraintEnd_toEndOf="parent"
-            ads:layout_constraintBottom_toBottomOf="parent"
-            ads:adSize="BANNER"
-            ads:adUnitId="ca-app-pub-7280349628854769/6593993547"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

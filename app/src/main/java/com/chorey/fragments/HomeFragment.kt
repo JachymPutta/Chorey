@@ -1,5 +1,6 @@
 package com.chorey.fragments
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -64,14 +65,7 @@ class HomeFragment : Fragment() {
         firestore = Firebase.firestore
         homeRef = firestore.collection(HOME_COL).document(args.homeModel.UID)
 
-        choreQuery = homeRef.collection(CHORE_COL)
-            .orderBy(ChoreModel.FIELD_WHEN_DUE)
-        historyQuery = homeRef.collection(HISTORY_COL)
-            .orderBy(ChoreModel.FIELD_WHEN_DUE, Query.Direction.DESCENDING)
-        noteQuery = homeRef.collection(NOTE_COL)
-        summaryQuery  = homeRef.collection(USER_COL)
-            .orderBy(HomeUserModel.FIELD_POINTS, Query.Direction.DESCENDING)
-        fundQuery = homeRef.collection(FUND_COL)
+        initQueries()
 
         homeRef.get()
             .addOnSuccessListener(requireActivity()) {
@@ -87,6 +81,44 @@ class HomeFragment : Fragment() {
         val adRequest = AdRequest.Builder().build()
         binding.adViewHome.loadAd(adRequest)
 
+        initBottomNav()
+    }
+
+    private fun onHomeLoaded(homeModel: HomeModel?) {
+        if (homeModel == null)
+            return
+
+        home = homeModel
+
+        binding.homeName.text = home.homeName
+        binding.homeToMenuButton.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMenuFragment())
+        }
+
+        binding.homeSettingsButton.setOnClickListener {
+            HomeDetailDialog(home).show(parentFragmentManager, "HomeDetailDialog")
+        }
+
+        choreFragment = ChoreFragment(home, choreQuery, historyQuery)
+        expenseFragment = ExpenseFragment(home, fundQuery)
+        noteFragment = NoteFragment(home, noteQuery)
+        summaryFragment = SummaryFragment(home, summaryQuery)
+
+        // Start with Chore fragment
+        loadFragment(choreFragment)
+        binding.homeBottomNav.selectedItemId = R.id.homeNavChores
+    }
+
+    private fun loadFragment(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.homeFragContainer, fragment)
+        // TODO add animations here
+//        transaction.setCustomAnimations()
+        transaction.commit()
+
+    }
+
+    private fun initBottomNav() {
         binding.homeBottomNav.setOnItemSelectedListener { homeFrag ->
             when (homeFrag.itemId) {
                 R.id.homeNavChores -> {
@@ -110,36 +142,14 @@ class HomeFragment : Fragment() {
         }
 
     }
-
-    private fun onHomeLoaded(homeModel: HomeModel?) {
-        if (homeModel == null)
-            return
-
-        home = homeModel
-
-        binding.homeName.text = home.homeName
-        binding.homeToMenuButton.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMenuFragment())
-        }
-
-        binding.homeSettingsButton.setOnClickListener {
-            HomeDetailDialog(home).show(parentFragmentManager, "HomeDetailDialog")
-        }
-
-        choreFragment = ChoreFragment(home, choreQuery, historyQuery)
-        expenseFragment = ExpenseFragment(home, fundQuery)
-        noteFragment = NoteFragment(home, noteQuery)
-        summaryFragment = SummaryFragment(home, summaryQuery)
-
-        loadFragment(choreFragment)
-    }
-
-    private fun loadFragment(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.homeFragContainer, fragment)
-        // TODO add animations here
-//        transaction.setCustomAnimations()
-        transaction.commit()
-
+    private fun initQueries(){
+        choreQuery = homeRef.collection(CHORE_COL)
+            .orderBy(ChoreModel.FIELD_WHEN_DUE)
+        historyQuery = homeRef.collection(HISTORY_COL)
+            .orderBy(ChoreModel.FIELD_WHEN_DUE, Query.Direction.DESCENDING)
+        noteQuery = homeRef.collection(NOTE_COL)
+        summaryQuery  = homeRef.collection(USER_COL)
+            .orderBy(HomeUserModel.FIELD_POINTS, Query.Direction.DESCENDING)
+        fundQuery = homeRef.collection(FUND_COL)
     }
 }

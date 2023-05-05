@@ -2,15 +2,17 @@
     <!-- Base application theme. -->
     <style name="Chorey" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
-        <item name="colorPrimary">@color/primary_color</item>
-        <item name="colorPrimaryDark">@color/line_color</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorOutline">@color/line_color</item>
+        <item name="colorPrimaryContainer">@color/light_gray</item>
         <item name="colorAccent">@color/secondary_color</item>
         <item name="android:textColorPrimary">@color/text_color</item>
         <item name="android:textColorSecondary">@color/text_color</item>
         <item name="colorOnPrimary">@color/text_color</item>
         <item name="colorSecondary">@color/secondary_color</item>
         <item name="colorPrimaryVariant">@color/primary_color_green</item>
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
         <item name="android:navigationBarColor">?attr/colorPrimary</item>
 
         <!-- Component styles -->

@@ -25,6 +25,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:flow_horizontalAlign="center"
                 android:textStyle="bold"
+                android:textSize="@dimen/medium_text_size"
                 android:text="@string/chore_item_name"
                 android:textColor="?attr/colorOnPrimary"
                 />
@@ -37,14 +38,16 @@
                 app:layout_constraintTop_toBottomOf="@id/choreName"
                 android:textColor="?attr/colorOnPrimary"
                 android:text="@string/chore_item_assignee_text"
+                android:layout_marginTop="3dp"
                 />
 
             <TextView
                 android:id="@+id/choreAssignee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/choreName"
                 app:layout_constraintStart_toEndOf="@id/choreAssignedToText"
+                app:layout_constraintTop_toTopOf="@id/choreAssignedToText"
+                app:layout_constraintBottom_toBottomOf="@id/choreAssignedToText"
                 android:textColor="?attr/colorOnPrimary"
                 android:text="@string/chore_item_assignee"
                 android:layout_marginStart="5dp"

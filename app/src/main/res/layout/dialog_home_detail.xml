@@ -23,37 +23,36 @@
         android:id="@+id/homeDetailName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:drawable/editbox_background"
-        android:backgroundTint="?attr/colorPrimary"
-        android:textSize="20sp"
+        android:layout_marginVertical="@dimen/line_space"
+        android:textSize="@dimen/large_text_size"
         android:textColor="?attr/colorOnPrimary"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/homeDetailPicture"
-        app:layout_constraintBottom_toTopOf="@id/homeDetailMembersText"
+        app:layout_constraintBottom_toTopOf="@id/nameDivider"
         android:text="@string/home_name_placeholder" />
 
 
     <View
         android:id="@+id/nameDivider"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="?attr/colorPrimaryDark"
+        android:layout_height="1dp"
+        android:background="?attr/colorOutline"
         app:layout_constraintTop_toBottomOf="@id/homeDetailName"
-        android:layout_marginTop="5dp"
+        android:layout_marginVertical="@dimen/line_space"
         />
 
     <TextView
         android:id="@+id/homeDetailMembersText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/homeDetailName"
+        app:layout_constraintTop_toBottomOf="@id/nameDivider"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/homeDetailMembers"
         app:layout_constraintBottom_toTopOf="@id/removeHomeButton"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="35dp"
         android:textColor="?attr/colorOnPrimary"
         android:text="@string/home_item_members" />
 
@@ -78,7 +77,8 @@
         style="?attr/imageButtonStyle"
         app:layout_constraintStart_toEndOf="@id/homeDetailName"
         app:layout_constraintBottom_toTopOf="@id/homeDetailName"
-        android:layout_marginBottom="-10dp"
+        android:padding="3dp"
+        android:layout_marginBottom="-15dp"
         android:layout_marginStart="15dp"
         android:contentDescription="@string/add_members_button" />
 
@@ -87,10 +87,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/remove_home_button"
-        android:backgroundTint="@android:color/holo_red_light"
+        style="?attr/buttonStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/homeDetailMembersText"
+        android:layout_marginVertical="@dimen/line_space"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

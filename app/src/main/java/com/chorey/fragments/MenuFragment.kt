@@ -3,6 +3,7 @@ package com.chorey.fragments
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -180,6 +181,7 @@ class MenuFragment : Fragment(),
 
     private fun makeMenuScreen() {
         checkUserName()
+
         // UI changes
         binding.menuContentLayout.visibility = View.VISIBLE
         binding.menuWelcomeScreen.visibility = View.GONE

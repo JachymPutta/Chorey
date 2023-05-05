@@ -27,11 +27,12 @@
         <item name="layout_constraintHorizontal_bias">0.5</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
-        <item name="strokeWidth">3dp</item>
-        <item name="strokeColor">?attr/colorOnPrimary</item>
         <item name="android:background">@drawable/dialog_background</item>
-        <item name="android:backgroundTint">?attr/colorPrimaryDark</item>
+        <item name="android:backgroundTint">?attr/colorPrimaryContainer</item>
     </style>
+<!--  This adds a border -->
+<!--    <item name="strokeWidth">3dp</item>-->
+<!--    <item name="strokeColor">?attr/colorOnPrimary</item>-->
 
     <style name="Chorey.AuthUI">
         <item name="android:colorPrimary">?attr/colorPrimary</item>
@@ -49,7 +50,7 @@
 
     <style name="ChoreyButtonIcon">
         <item name="android:background">@drawable/button_round</item>
-        <item name="android:backgroundTint">@color/ivory</item>
+        <item name="android:backgroundTint">@color/white</item>
     </style>
 
     <!-- Bar buttons -->
@@ -115,7 +116,7 @@
 
     <style name="FundTile">
         <item name="android:background">@drawable/dialog_background</item>
-        <item name="android:backgroundTint">?attr/colorPrimaryDark</item>
+        <item name="android:backgroundTint">?attr/colorPrimaryContainer</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">0dp</item>
         <item name="android:layout_rowWeight">1</item>

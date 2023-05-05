@@ -102,16 +102,6 @@ class ChoreFragment(
     }
     private fun choreTypeToggle(choreType : ChoreType) {
         if(curChores == choreType) return
-        var textColor = 0
-
-        when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-            Configuration.UI_MODE_NIGHT_NO -> {
-                textColor = resources.getColor(R.color.black, null)
-            }
-            Configuration.UI_MODE_NIGHT_YES -> {
-                textColor = resources.getColor(R.color.ivory, null)
-            }
-        }
 
         when(curChores) {
             ChoreType.ACTIVE -> {

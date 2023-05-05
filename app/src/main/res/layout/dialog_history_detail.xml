@@ -35,8 +35,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:text="@string/chore_name_placeholder"
-        android:background="@android:drawable/editbox_background"
-        android:backgroundTint="?attr/colorPrimary"
         />
 
     <View
@@ -44,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
-        android:background="?attr/colorOnPrimary"
+        android:background="?attr/colorOutline"
         app:layout_constraintTop_toBottomOf="@id/createChoreName" />
 
     <TextView
@@ -70,22 +68,14 @@
         android:layout_marginStart="10dp"
         />
 
-    <View
-        android:id="@+id/line3"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginVertical="10dp"
-        android:background="?attr/colorOnPrimary"
-        app:layout_constraintTop_toBottomOf="@id/choreDetailDoneBy" />
-
     <TextView
         android:id="@+id/choreDetailTimeToDoText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="?attr/colorOnPrimary"
-        app:layout_constraintTop_toBottomOf="@id/choreDetailDoneBy"
+        app:layout_constraintTop_toBottomOf="@id/choreDetailAssignedToText"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="@string/history_detail_time_to_complete" />
 
     <TextView
@@ -111,15 +101,6 @@
         app:layout_constraintStart_toEndOf="@id/choreDetailMinsToComplete"
         android:layout_marginStart="20dp"
         android:text="@string/history_detail_time_mins" />
-        />
-
-    <View
-        android:id="@+id/line4"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginVertical="10dp"
-        android:background="?attr/colorOnPrimary"
-        app:layout_constraintTop_toBottomOf="@id/choreDetailTimeToDoText" />
 
     <TextView
         android:id="@+id/choreDetailRewardText"
@@ -128,7 +109,7 @@
         android:textColor="?attr/colorOnPrimary"
         app:layout_constraintTop_toBottomOf="@id/choreDetailTimeToDoText"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="@string/chore_detail_reward" />
 
     <TextView
@@ -144,14 +125,6 @@
         android:layout_marginStart="20dp"
         android:text="@string/home_item_zero" />
 
-    <View
-        android:id="@+id/line5"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginVertical="10dp"
-        android:background="?attr/colorOnPrimary"
-        app:layout_constraintTop_toBottomOf="@id/choreDetailRewardText" />
-
     <TextView
         android:id="@+id/choreDetailDueText"
         android:layout_width="wrap_content"
@@ -159,7 +132,7 @@
         android:textColor="?attr/colorOnPrimary"
         app:layout_constraintTop_toBottomOf="@id/choreDetailRewardText"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="@string/history_detail_due_text" />
 
     <TextView
@@ -198,6 +171,6 @@
         app:layout_constraintStart_toEndOf="@id/choreDetailAt"
         android:background="@android:drawable/editbox_background"
         android:backgroundTint="?attr/colorPrimary"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="10dp"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

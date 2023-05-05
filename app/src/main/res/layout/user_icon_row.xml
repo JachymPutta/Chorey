@@ -6,7 +6,7 @@
     android:layout_gravity="center"
     android:background="@drawable/dialog_background"
     android:backgroundTint="?attr/colorPrimary"
-    android:padding="16dp"
+    android:padding="18dp"
     android:src="@drawable/baseline_person_24"
     android:contentDescription="@string/user_profile_pic_desc"
     />

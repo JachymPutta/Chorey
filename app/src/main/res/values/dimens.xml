@@ -7,5 +7,7 @@
     <dimen name="large_text_size">20sp</dimen>
     <dimen name="medium_text_size">16sp</dimen>
     <dimen name="icon_size">50dp</dimen>
+    <dimen name="line_space">10dp</dimen>
+    <dimen name="line_space_large">20dp</dimen>
 
 </resources>

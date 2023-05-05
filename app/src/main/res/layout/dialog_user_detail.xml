@@ -18,8 +18,10 @@
         android:textSize="@dimen/medium_text_size"
         android:textColor="?attr/colorOnPrimary"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginVertical="@dimen/line_space"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/userIcon"
+        app:layout_constraintBottom_toTopOf="@id/userDetailName"
         />
 
     <ImageView
@@ -73,7 +75,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/userDetailName"
-        android:layout_marginBottom="10dp"
+        android:layout_marginVertical="@dimen/line_space"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

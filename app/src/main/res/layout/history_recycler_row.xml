@@ -27,6 +27,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:flow_horizontalAlign="center"
+                android:layout_marginVertical="@dimen/line_space"
+                android:textSize="@dimen/medium_text_size"
                 android:textStyle="bold"
                 android:text="@string/history_item_name"
                 android:textColor="?attr/colorOnPrimary"
@@ -40,14 +42,16 @@
                 app:layout_constraintTop_toBottomOf="@id/historyName"
                 android:textColor="?attr/colorOnPrimary"
                 android:text="@string/history_item_assignee_text"
+                android:layout_marginTop="3dp"
                 />
 
             <TextView
                 android:id="@+id/historyAssignee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/historyName"
                 app:layout_constraintStart_toEndOf="@id/historyAssignedToText"
+                app:layout_constraintTop_toTopOf="@id/historyAssignedToText"
+                app:layout_constraintBottom_toBottomOf="@id/historyAssignedToText"
                 android:textColor="?attr/colorOnPrimary"
                 android:text="@string/history_item_assignee"
                 android:layout_marginStart="5dp"
@@ -59,6 +63,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/historyAssignedToText"
+                app:layout_constraintBottom_toTopOf="@id/historySepLine"
                 android:textColor="?attr/colorOnPrimary"
                 android:text="@string/history_item_due_text"
                 />
@@ -82,7 +87,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                />
 
+
+            <View
+                android:id="@+id/historySepLine"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/historyDueText"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?attr/colorOutline"
+                android:translationZ="1dp"
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

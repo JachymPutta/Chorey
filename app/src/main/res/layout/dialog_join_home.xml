@@ -17,7 +17,7 @@
         android:textColor="?attr/colorOnPrimary"
         android:textStyle="bold"
         android:text="@string/join_home_your_invites_empty"
-        android:layout_marginBottom="10dp"
+        android:layout_marginVertical="@dimen/line_space"
         app:layout_constraintBottom_toTopOf="@id/joinHomeRecycler"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,7 +55,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="10dp"
+        android:layout_marginVertical="@dimen/line_space"
         style="?attr/buttonStyle"
         android:text="@string/create_home_no" />
 
