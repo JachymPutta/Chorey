@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/dialog_background"
+    android:backgroundTint="?attr/colorPrimaryContainer"
+    tools:context=".dialog.ExpenseOtherDialog"
+    android:padding="@dimen/line_space_large"
+    >
+
+    <TextView
+        android:id="@+id/expenseTypeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/expense_type_placeholder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/line_space_large"
+        style="@style/Title"
+        />
+
+    <ImageButton
+        android:id="@+id/expenseDetailCancelButton"
+        style="?attr/imageButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/note_detail_cancel_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/baseline_close_24"
+        android:padding="2dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/expensesRecycler"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/RecyclerStyleLarge"
+        android:layout_marginTop="@dimen/line_space_large"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/expenseTypeName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <Button
+        android:id="@+id/addContribButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/line_space"
+        app:layout_constraintTop_toBottomOf="@id/expensesRecycler"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/line_space_large"
+        style="?attr/buttonStyle"
+        android:text="@string/expense_type_add_expense"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

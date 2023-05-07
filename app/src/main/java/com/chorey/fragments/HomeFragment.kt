@@ -1,6 +1,5 @@
 package com.chorey.fragments
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,7 +10,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.chorey.CHORE_COL
-import com.chorey.FUND_COL
 import com.chorey.HISTORY_COL
 import com.chorey.HOME_COL
 import com.chorey.NOTE_COL
@@ -22,7 +20,6 @@ import com.chorey.data.HomeModel
 import com.chorey.data.HomeUserModel
 import com.chorey.databinding.FragmentHomeBinding
 import com.chorey.dialog.HomeDetailDialog
-import com.google.android.gms.ads.AdRequest
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -78,8 +75,8 @@ class HomeFragment : Fragment() {
         supportFragmentManager = requireActivity().supportFragmentManager
 
         // Ads
-        val adRequest = AdRequest.Builder().build()
-        binding.adViewHome.loadAd(adRequest)
+//        val adRequest = AdRequest.Builder().build()
+//        binding.adViewHome.loadAd(adRequest)
 
         initBottomNav()
     }
@@ -100,7 +97,7 @@ class HomeFragment : Fragment() {
         }
 
         choreFragment = ChoreFragment(home, choreQuery, historyQuery)
-        expenseFragment = ExpenseFragment(home, fundQuery)
+        expenseFragment = ExpenseFragment(home)
         noteFragment = NoteFragment(home, noteQuery)
         summaryFragment = SummaryFragment(home, summaryQuery)
 
@@ -150,6 +147,5 @@ class HomeFragment : Fragment() {
         noteQuery = homeRef.collection(NOTE_COL)
         summaryQuery  = homeRef.collection(USER_COL)
             .orderBy(HomeUserModel.FIELD_POINTS, Query.Direction.DESCENDING)
-        fundQuery = homeRef.collection(FUND_COL)
     }
 }

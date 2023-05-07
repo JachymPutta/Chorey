@@ -73,8 +73,8 @@ class MenuFragment : Fragment(),
         FirebaseFirestore.setLoggingEnabled(true)
 
         // Ads
-        val adRequest = AdRequest.Builder().build()
-        binding.adViewMenu.loadAd(adRequest)
+//        val adRequest = AdRequest.Builder().build()
+//        binding.adViewMenu.loadAd(adRequest)
 
 
         // FireStore instance

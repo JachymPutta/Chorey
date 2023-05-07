@@ -3,6 +3,8 @@
     <string name="app_name">Chorey</string>
     <string name="home_name_placeholder">home_name</string>
     <string name="chore_name_placeholder">chore_name</string>
+    <string name="expense_type_placeholder">expense_type</string>
+    <string name="expense_name_placeholder">expense_name</string>
     <string name="chorey_logo">chorey_logo</string>
 
     <!-- Menu Fragment -->
@@ -64,6 +66,11 @@
 
     <!-- Home Detail Dialog   -->
     <string name="home_detail_icon_desc">home_icon</string>
+
+    <!-- Expense detail dialog -->
+    <string name="contrib_recycler_empty">Be the first to contribute!</string>
+    <string name="expense_detail_add_contrib">Pay</string>
+    <string name="expense_type_add_expense">Add</string>
 
     <!-- History Recycler View -->
     <string name="history_item_name">Chore</string>

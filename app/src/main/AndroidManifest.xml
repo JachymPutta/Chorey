@@ -19,13 +19,15 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-7280349628854769~4783014580"/>
 
-<!--        <meta-data-->
-<!--        android:value="ca-app-pub-3940256099942544~3347511713"/>-->
+<!--        <meta-data for testing purposes-->
 <!--            android:name="com.google.android.gms.ads.ca-app-pub-7280349628854769~4783014580"-->
-<!--            android:value="ca-app-pub-7280349628854769/6593993547" />-->
+<!--        android:value="ca-app-pub-3940256099942544~3347511713"/>-->
 
+<!--  Add this to the "activity" tag to stop app from rotating-->
+        <!--            android:screenOrientation="portrait"-->
         <activity
             android:name=".MainActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

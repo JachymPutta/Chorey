@@ -4,10 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:minWidth="350dp"
-    android:minHeight="350dp"
-    android:padding="25dp"
+    android:padding="@dimen/line_space_large"
     android:background="@drawable/dialog_background"
     tools:context=".dialog.ChoreDetailDialog"
     >

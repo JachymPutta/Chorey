@@ -5,6 +5,7 @@
         <item name="android:layout_marginBottom">20dp</item>
         <item name="android:textSize">@dimen/large_text_size</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
 
     <style name="RecyclerStyleLarge" parent="Widget.AppCompat.ListView">
@@ -44,7 +45,7 @@
     <style name="ChoreyButton" parent="Widget.AppCompat.Button">
         <item name="backgroundTint">?attr/colorPrimary</item>
         <item name="android:background">@drawable/dialog_background</item>
-        <item name="backgroundTintMode">add</item>
+        <item name="backgroundTintMode">src_atop</item>
         <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
 
@@ -104,7 +105,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">25dp</item>
         <item name="android:layout_marginEnd">25dp</item>
-        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginTop">@dimen/line_space</item>
         <item name="android:indeterminate">false</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
         <item name="layout_constraintEnd_toEndOf">parent</item>

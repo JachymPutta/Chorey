@@ -5,19 +5,6 @@
     android:layout_height="match_parent"
     >
 
-<!--    <com.google.android.gms.ads.AdView-->
-<!--        xmlns:ads="http://schemas.android.com/apk/res-auto"-->
-<!--        android:id="@+id/adViewHome"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_alignParentTop="true"-->
-<!--        android:layout_alignParentStart="true"-->
-<!--        android:layout_alignParentEnd="true"-->
-<!--        android:background="?attr/colorPrimaryVariant"-->
-<!--        ads:adSize="BANNER"-->
-<!--        ads:adUnitId="ca-app-pub-7280349628854769/6593993547">-->
-<!--    </com.google.android.gms.ads.AdView>-->
-
     <LinearLayout
         android:id="@+id/homeFragmentTopLayout"
         android:layout_width="match_parent"
@@ -92,26 +79,27 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
-    <com.google.android.gms.ads.AdView
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/adViewHome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/homeFragmentTopLayout"
-        android:background="?attr/colorPrimary"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
-        />
+<!--    <com.google.android.gms.ads.AdView-->
+<!--        xmlns:ads="http://schemas.android.com/apk/res-auto"-->
+<!--        android:id="@+id/adViewHome"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentStart="true"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_below="@id/homeFragmentTopLayout"-->
+<!--        android:background="?attr/colorPrimary"-->
+<!--        ads:adSize="BANNER"-->
+<!--        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"-->
+<!--        />-->
 <!--    TODO: swap id for production -->
 <!--    ads:adUnitId="ca-app-pub-7280349628854769/6593993547"-->
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/homeFragContainer"
         android:layout_above="@+id/homeBottomSepLine"
-        android:layout_below="@id/adViewHome"
+        android:layout_below="@id/homeFragmentTopLayout"
         />
 
     <View

@@ -17,7 +17,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/summaryCardUserName"
+                android:id="@+id/contribCardName"
                 style="@style/Title"
                 android:textSize="@dimen/medium_text_size"
                 android:textColor="?attr/colorOnPrimary"
@@ -27,7 +27,7 @@
                 android:text="@string/user_name_placeholder" />
 
             <TextView
-                android:id="@+id/summaryCardUserValue"
+                android:id="@+id/contribCardValue"
                 style="@style/Title"
                 android:textSize="@dimen/medium_text_size"
                 android:layout_width="wrap_content"

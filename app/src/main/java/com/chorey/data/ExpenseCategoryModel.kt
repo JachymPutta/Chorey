@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class ExpenseCategoryModel(
-    var type: ExpenseType = ExpenseType.Other,
+    var type: ExpenseType = ExpenseType.Type,
 ) : Parcelable
 {
     companion object {
