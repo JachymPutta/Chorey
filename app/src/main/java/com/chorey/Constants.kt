@@ -21,5 +21,7 @@ const val CHORE_COL = "chores"
 const val NOTE_COL = "notes"
 const val INVITE_COL = "invites"
 const val HISTORY_COL = "history"
+const val OTHER_COL = "other"
+const val EXPENSE_COL = "expenses"
 
 const val DUMMY_FIELD = "UNAUTHENTICATED"

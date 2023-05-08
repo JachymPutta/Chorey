@@ -68,9 +68,12 @@
     <string name="home_detail_icon_desc">home_icon</string>
 
     <!-- Expense detail dialog -->
-    <string name="contrib_recycler_empty">Be the first to contribute!</string>
+    <string name="contrib_recycler_empty">Contributions this period</string>
     <string name="expense_detail_add_contrib">Pay</string>
     <string name="expense_type_add_expense">Add</string>
+    <string name="expense_edit_title">Edit Expense</string>
+    <string name="expense_edit_amount">Amount</string>
+    <string name="expense_edit_per">$</string>
 
     <!-- History Recycler View -->
     <string name="history_item_name">Chore</string>

@@ -6,8 +6,6 @@ import android.app.TimePickerDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.text.format.DateFormat.getDateFormat
-import android.text.format.DateFormat.getTimeFormat
 import android.text.format.DateFormat.is24HourFormat
 import android.util.Log
 import android.view.KeyEvent
@@ -18,13 +16,11 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
-import android.widget.EditText
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.chorey.CHORE_COL
 import com.chorey.DATE_PATTERN
-import com.chorey.DATE_TIME_PATTERN
 import com.chorey.HOME_COL
 import com.chorey.R
 import com.chorey.TIME_PATTERN
@@ -80,8 +76,8 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
 
         // Hook up spinners
         val repeatAdapter =
-            ArrayAdapter(requireContext(), R.layout.chore_spinner_item, RepeatInterval.values())
-        repeatAdapter.setDropDownViewResource(R.layout.chore_spinner_dropdown)
+            ArrayAdapter(requireContext(), R.layout.repetition_spinner_item, RepeatInterval.values())
+        repeatAdapter.setDropDownViewResource(R.layout.repetition_spinner_dropdown)
         binding.choreIntervalSpinner.adapter = repeatAdapter
 
         binding.choreDetailIsTimedBox.setOnCheckedChangeListener { _, isChecked ->

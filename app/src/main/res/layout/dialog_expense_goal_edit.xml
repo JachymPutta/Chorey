@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_background"
+    android:padding="@dimen/line_space_large"
+    tools:context=".dialog.CreateHomeDialog">
+
+
+    <TextView
+        android:id="@+id/createHomeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Title"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/editGoalLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginVertical="@dimen/line_space"
+        android:text="@string/expense_edit_title" />
+
+    <ImageButton
+        android:id="@+id/editGoalCancelButton"
+        style="?attr/imageButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/note_detail_cancel_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/baseline_close_24"
+        android:padding="2dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editGoalLayout"
+        app:layout_constraintTop_toBottomOf="@id/createHomeTitle"
+        app:layout_constraintBottom_toTopOf="@id/editGoalButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/medium_text_size"
+            android:text="@string/expense_edit_amount"
+            android:textColor="?attr/colorOnPrimary"
+            android:layout_marginHorizontal="@dimen/line_space"
+            />
+        <EditText
+            android:id="@+id/editGoalInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="3"
+            android:inputType="number"
+            android:hint=""
+            android:textColor="?attr/colorOnPrimary"
+            android:background="@android:drawable/editbox_background"
+            android:backgroundTint="?attr/colorPrimary"
+            android:importantForAutofill="no"
+            android:layout_marginHorizontal="@dimen/line_space"
+            tools:ignore="LabelFor"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/medium_text_size"
+            android:textColor="?attr/colorOnPrimary"
+            android:text="@string/expense_edit_per"
+            />
+
+        <Spinner
+            android:id="@+id/goalIntervalSpinner"
+            android:background="@android:drawable/editbox_background"
+            android:backgroundTint="?attr/colorPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginHorizontal="@dimen/line_space"
+            app:layout_constraintTop_toTopOf="@id/choreRepeatText"
+            app:layout_constraintBottom_toBottomOf="@id/choreRepeatText"
+            app:layout_constraintStart_toEndOf="@id/choreRepeatText"
+            android:text="@string/chore_detail_repeats_text"
+            android:spinnerMode="dropdown"
+            />
+    </LinearLayout>
+
+
+    <Button
+        app:layout_constraintTop_toBottomOf="@id/editGoalLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/editGoalButton"
+        style="?attr/buttonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/create_chore_edit_button" />
+</androidx.constraintlayout.widget.ConstraintLayout>

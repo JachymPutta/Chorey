@@ -14,6 +14,7 @@ import com.chorey.data.ExpenseModel
 import com.chorey.data.ExpenseType
 import com.chorey.data.HomeModel
 import com.chorey.data.LoggedUserModel
+import com.chorey.data.RepeatInterval
 import com.chorey.databinding.DialogExpenseDetailBinding
 import com.chorey.viewmodel.UserViewModel
 import com.google.firebase.firestore.Query
@@ -22,9 +23,9 @@ import com.google.firebase.ktx.Firebase
 
 class ExpenseDetailDialog(
         private val homeModel: HomeModel,
-        private val expense: ExpenseModel,
-        private val expenseType: ExpenseType
-    ) : DialogFragment() {
+        private val expense: ExpenseModel
+    ) : DialogFragment(),
+        ExpenseGoalEditDialog.EditExpenseListener {
 
     private var _binding: DialogExpenseDetailBinding? = null
     private val binding get() = _binding!!
@@ -47,25 +48,58 @@ class ExpenseDetailDialog(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Init values
         user = userViewModel.user.value!!
 
         myShare = expense.goal / expense.contributors.size
 
         setupAdapter()
 
-        binding.expenseName.text = expense.name
+        // UI
+        updateUI()
 
         // Buttons
         binding.expenseDetailCancelButton.setOnClickListener { this.dismiss() }
         binding.addContribButton.setOnClickListener { addContribHandle() }
+        binding.expenseMiddleLayout.setOnClickListener { editGoalHandle() }
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun updateUI() {
+        val progressTitle =
+            if (expense.repeatsEvery != RepeatInterval.None) {
+                "Progress this ${expense.repeatsEvery.name}:"
+            } else {
+                "Current progress:"
+            }
+        val progressText = "${expense.cur} / ${expense.goal}"
+
+        binding.expenseName.text = expense.type.name
+        binding.expenseProgressTitle.text = progressTitle
+        binding.expenseProgressIndicator.max = expense.goal
+        binding.expenseProgressIndicator.progress = expense.cur
+        binding.expenseProgressText.text = progressText
+    }
+
+    private fun editGoalHandle() {
+        ExpenseGoalEditDialog(this).show(parentFragmentManager, ExpenseGoalEditDialog.TAG)
     }
 
     private fun addContribHandle() {
-
-        val newContrib = ContribModel(user.name, myShare)
-        expense.contributors.add(newContrib)
-
-
+        val contrib = expense.contributors.find { user.name == it.contributor }!!
+        contrib.amount = myShare
+        //TODO: update the database
     }
 
     private fun setupAdapter() {
@@ -76,5 +110,11 @@ class ExpenseDetailDialog(
 
     companion object {
         const val TAG = "ExpenseDetailDialog"
+    }
+
+    override fun onGoalEdit(goal: Int, repeatInterval: RepeatInterval) {
+        if(goal != expense.goal || repeatInterval != expense.repeatsEvery) {
+            // Update db and UI
+        }
     }
 }

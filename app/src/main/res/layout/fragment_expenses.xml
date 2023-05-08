@@ -45,6 +45,7 @@
                 tools:ignore="MissingConstraints" />
 
             <TextView
+                android:id="@+id/rentProgressText"
                 app:layout_constraintTop_toBottomOf="@id/rentProgressIndicator"
                 style="@style/FundProgressText"
                 tools:ignore="MissingConstraints" />
@@ -141,7 +142,7 @@
                 tools:ignore="MissingConstraints" />
 
             <TextView
-                android:id="@+id/HouseholdItemsProgressText"
+                android:id="@+id/householdItemsProgressText"
                 app:layout_constraintTop_toBottomOf="@id/householdItemsProgressIndicator"
                 style="@style/FundProgressText"
                 tools:ignore="MissingConstraints" />
@@ -172,6 +173,7 @@
                 tools:ignore="MissingConstraints" />
 
             <TextView
+                android:id="@+id/funProgressText"
                 app:layout_constraintTop_toBottomOf="@id/funProgressIndicator"
                 style="@style/FundProgressText"
                 tools:ignore="MissingConstraints" />
@@ -179,7 +181,13 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/expenseOtherButton"
-            style="@style/FundTile">
+            android:background="@drawable/dialog_background_outlined"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="5dp"
+            >
 
             <ImageView
                 android:id="@+id/expenseOtherIcon"

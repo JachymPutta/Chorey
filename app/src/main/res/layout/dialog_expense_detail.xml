@@ -17,23 +17,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/line_space_large"
-        app:layout_constraintBottom_toTopOf="@id/expenseProgressIndicator"
+        android:layout_marginVertical="@dimen/line_space_large"
         style="@style/Title"
         />
-
-
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/expenseProgressIndicator"
+    <View
+        android:id="@+id/expenseNameLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/colorOutline"
         app:layout_constraintTop_toBottomOf="@id/expenseName"
-        style="@style/FundProgressIndicator"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/expenseProgressText"
-        app:layout_constraintTop_toBottomOf="@id/expenseProgressIndicator"
-        style="@style/FundProgressText"
-        tools:ignore="MissingConstraints" />
+        android:layout_marginTop="@dimen/line_space"
+        />
 
     <ImageButton
         android:id="@+id/expenseDetailCancelButton"
@@ -49,37 +43,104 @@
         android:minHeight="0dp"
         />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/expenseMiddleLayout"
+        android:background="@drawable/dialog_background_outlined"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/line_space"
+        app:layout_constraintTop_toBottomOf="@id/expenseNameLine"
+        app:layout_constraintBottom_toTopOf="@id/contribRecyclerTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+
+        <TextView
+            android:id="@+id/expenseProgressTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="@dimen/line_space"
+            app:layout_constraintStart_toStartOf="@id/expenseProgressIndicator"
+            android:layout_marginStart="-15dp"
+            android:textSize="@dimen/medium_text_size"
+            android:textColor="?attr/colorOnPrimary"
+            android:text="@string/expense_edit_amount"
+            />
+
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/expenseProgressIndicator"
+            app:layout_constraintBottom_toTopOf="@id/expenseProgressText"
+            app:layout_constraintTop_toBottomOf="@id/expenseProgressTitle"
+            android:layout_marginVertical="@dimen/line_space"
+            style="@style/FundProgressIndicator"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/expenseProgressText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/expenseProgressIndicator"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginVertical="@dimen/line_space"
+            style="@style/FundProgressText" />
+
+        <ImageButton
+            android:id="@+id/expenseEditGoal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_edit_24"
+            android:background="@color/fui_transparent"
+            android:scaleY="0.8"
+            android:scaleX="0.8"
+            app:layout_constraintStart_toEndOf="@id/expenseProgressText"
+            app:layout_constraintTop_toTopOf="@id/expenseProgressText"
+            app:layout_constraintBottom_toTopOf="@id/expenseProgressText"
+            android:layout_marginStart="@dimen/line_space"
+            android:contentDescription="@string/create_chore_edit_button"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <TextView
-        android:id="@+id/contribRecyclerEmpty"
+        android:id="@+id/contribRecyclerTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/Title"
         android:text="@string/contrib_recycler_empty"
         android:textSize="@dimen/medium_text_size"
-        app:layout_constraintTop_toTopOf="@id/contribRecycler"
-        app:layout_constraintBottom_toBottomOf="@id/contribRecycler"
+        app:layout_constraintBottom_toTopOf="@id/contribRecycler"
         app:layout_constraintStart_toStartOf="@id/contribRecycler"
         app:layout_constraintEnd_toEndOf="@id/contribRecycler"
+        app:layout_constraintTop_toBottomOf="@id/expenseMiddleLayout"
+        android:layout_marginBottom="@dimen/line_space"
         />
 
+    <View
+        android:id="@+id/recyclerLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/colorOutline"
+        app:layout_constraintTop_toBottomOf="@id/contribRecyclerTitle"
+        android:layout_marginVertical="@dimen/line_space"
+        android:layout_marginTop="@dimen/line_space"
+        />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/contribRecycler"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/RecyclerStyleLarge"
-        android:layout_marginTop="@dimen/line_space_large"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/expenseProgressText"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/addContribButton"
+        app:layout_constraintTop_toBottomOf="@id/recyclerLine"
         />
 
     <Button
         android:id="@+id/addContribButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/line_space"
-        app:layout_constraintTop_toBottomOf="@id/contribRecycler"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

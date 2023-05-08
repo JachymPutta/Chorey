@@ -110,7 +110,8 @@
         app:layout_constraintStart_toEndOf="@id/choreDetailTimeToDoText"
         app:layout_constraintTop_toTopOf="@id/choreDetailTimeToDoText"
         android:importantForAutofill="no"
-        tools:ignore="LabelFor" />
+        tools:ignore="LabelFor"
+        />
 
     <TextView
         android:id="@+id/choreDetailMinsText"

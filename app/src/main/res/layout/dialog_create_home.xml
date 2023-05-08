@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/dialog_background"
+    android:padding="@dimen/line_space_large"
     tools:context=".dialog.CreateHomeDialog">
 
 
@@ -21,6 +22,19 @@
         android:layout_marginVertical="@dimen/line_space"
         android:text="@string/create_home_title" />
 
+    <ImageButton
+        android:id="@+id/createHomeCancelButton"
+        style="?attr/imageButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/note_detail_cancel_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/baseline_close_24"
+        android:padding="2dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        />
 
     <LinearLayout
         android:id="@+id/createHomeButtonLayout"
@@ -33,18 +47,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginVertical="@dimen/line_space"
         >
-
-        <Button
-            android:id="@+id/createHomeCancelButton"
-            style="?attr/buttonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/create_home_no"/>
-
-        <android.widget.Space
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
-            />
 
         <Button
             android:id="@+id/createHomeCreateButton"

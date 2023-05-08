@@ -8,9 +8,9 @@ import java.util.UUID
 data class ExpenseModel(
     var UID: String = UUID.randomUUID().toString(),
     var goal: Int = 0,
-    var name: String = "",
+    var type: ExpenseType = ExpenseType.Rent,
     var cur: Int = 0,
-    var contributors: ArrayList<ContribModel>,
+    var contributors: ArrayList<ContribModel> = arrayListOf(),
     var repeatsEvery: RepeatInterval = RepeatInterval.None,
 ) : Parcelable
 {

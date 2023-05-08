@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chorey.HOME_COL
+import com.chorey.OTHER_COL
 import com.chorey.adapter.ExpenseRecyclerAdapter
 import com.chorey.data.ExpenseType
 import com.chorey.data.HomeModel
@@ -60,7 +61,7 @@ class ExpenseOtherDialog(
 
     private fun setupAdapter() {
         expenseQuery = Firebase.firestore.collection(HOME_COL).document(homeModel.UID)
-            .collection("other")
+            .collection(OTHER_COL)
 
         expenseAdapter = object : ExpenseRecyclerAdapter(expenseQuery,
             this@ExpenseOtherDialog) {
