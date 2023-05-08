@@ -7,10 +7,14 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
 import com.chorey.R
+import com.chorey.data.ExpenseModel
 import com.chorey.data.RepeatInterval
 import com.chorey.databinding.DialogExpenseGoalEditBinding
 
-class ExpenseGoalEditDialog(private val listener : EditExpenseListener) : DialogFragment() {
+class ExpenseGoalEditDialog(
+    private val expense: ExpenseModel,
+    private val listener : EditExpenseListener
+    ) : DialogFragment() {
     private var _binding: DialogExpenseGoalEditBinding? = null
     private val binding get() = _binding!!
 
@@ -33,6 +37,8 @@ class ExpenseGoalEditDialog(private val listener : EditExpenseListener) : Dialog
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.editGoalInput.setText(expense.goal.toString())
+
         binding.editGoalButton.setOnClickListener { onEditClicked() }
         binding.editGoalCancelButton.setOnClickListener { onCancelClicked() }
 
@@ -54,7 +60,13 @@ class ExpenseGoalEditDialog(private val listener : EditExpenseListener) : Dialog
     }
 
     private fun onEditClicked() {
-        listener.onGoalEdit(newGoal, newRepeatInterval)
+        newGoal = binding.editGoalInput.text.toString().toInt()
+        newRepeatInterval = binding.goalIntervalSpinner.selectedItem as RepeatInterval
+
+        if (newGoal != 0) {
+            listener.onGoalEdit(newGoal, newRepeatInterval)
+        }
+        this.dismiss()
     }
 
     private fun onCancelClicked() {

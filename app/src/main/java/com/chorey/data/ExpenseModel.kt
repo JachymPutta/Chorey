@@ -9,6 +9,7 @@ data class ExpenseModel(
     var UID: String = UUID.randomUUID().toString(),
     var goal: Int = 0,
     var type: ExpenseType = ExpenseType.Rent,
+    var name: String = "",
     var cur: Int = 0,
     var contributors: ArrayList<ContribModel> = arrayListOf(),
     var repeatsEvery: RepeatInterval = RepeatInterval.None,

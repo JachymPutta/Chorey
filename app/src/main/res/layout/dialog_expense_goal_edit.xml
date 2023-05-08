@@ -36,66 +36,83 @@
         android:minHeight="0dp"
         />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/editGoalLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editGoalLayout"
+        android:textSize="@dimen/medium_text_size"
+        android:text="@string/expense_edit_amount"
+        android:textColor="?attr/colorOnPrimary"
+        android:layout_marginHorizontal="@dimen/line_space"
+        android:layout_marginVertical="@dimen/line_space"
         app:layout_constraintTop_toBottomOf="@id/createHomeTitle"
-        app:layout_constraintBottom_toTopOf="@id/editGoalButton"
+        app:layout_constraintBottom_toTopOf="@id/choreRepeatText"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        >
+        />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/medium_text_size"
-            android:text="@string/expense_edit_amount"
-            android:textColor="?attr/colorOnPrimary"
-            android:layout_marginHorizontal="@dimen/line_space"
-            />
-        <EditText
-            android:id="@+id/editGoalInput"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="3"
-            android:inputType="number"
-            android:hint=""
-            android:textColor="?attr/colorOnPrimary"
-            android:background="@android:drawable/editbox_background"
-            android:backgroundTint="?attr/colorPrimary"
-            android:importantForAutofill="no"
-            android:layout_marginHorizontal="@dimen/line_space"
-            tools:ignore="LabelFor"
-            />
+    <EditText
+        android:id="@+id/editGoalInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="3"
+        android:inputType="number"
+        android:hint=""
+        android:textColor="?attr/colorOnPrimary"
+        android:background="@android:drawable/editbox_background"
+        android:backgroundTint="?attr/colorPrimary"
+        app:layout_constraintTop_toTopOf="@id/editGoalLayout"
+        app:layout_constraintBottom_toBottomOf="@id/editGoalLayout"
+        app:layout_constraintStart_toEndOf="@id/editGoalLayout"
+        android:importantForAutofill="no"
+        android:layout_marginHorizontal="@dimen/line_space"
+        tools:ignore="LabelFor"
+        />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/medium_text_size"
-            android:textColor="?attr/colorOnPrimary"
-            android:text="@string/expense_edit_per"
-            />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/medium_text_size"
+        android:textColor="?attr/colorOnPrimary"
+        android:text="@string/expense_edit_per"
+        app:layout_constraintTop_toTopOf="@id/editGoalLayout"
+        app:layout_constraintBottom_toBottomOf="@id/editGoalLayout"
+        app:layout_constraintStart_toEndOf="@id/editGoalInput"
 
-        <Spinner
-            android:id="@+id/goalIntervalSpinner"
-            android:background="@android:drawable/editbox_background"
-            android:backgroundTint="?attr/colorPrimary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginHorizontal="@dimen/line_space"
-            app:layout_constraintTop_toTopOf="@id/choreRepeatText"
-            app:layout_constraintBottom_toBottomOf="@id/choreRepeatText"
-            app:layout_constraintStart_toEndOf="@id/choreRepeatText"
-            android:text="@string/chore_detail_repeats_text"
-            android:spinnerMode="dropdown"
-            />
-    </LinearLayout>
+        />
+
+    <TextView
+        android:id="@+id/choreRepeatText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/line_space"
+        app:layout_constraintTop_toBottomOf="@id/editGoalLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/editGoalButton"
+        android:layout_marginTop="@dimen/line_space"
+        android:layout_marginBottom="@dimen/line_space_large"
+        android:layout_marginStart="@dimen/line_space"
+        android:text="@string/chore_detail_repeats_text"
+        android:textSize="@dimen/medium_text_size"
+        android:textColor="?attr/colorOnPrimary"
+        />
+
+    <Spinner
+        android:id="@+id/goalIntervalSpinner"
+        android:background="@android:drawable/editbox_background"
+        android:backgroundTint="?attr/colorPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginHorizontal="@dimen/line_space"
+        app:layout_constraintTop_toTopOf="@id/choreRepeatText"
+        app:layout_constraintBottom_toBottomOf="@id/choreRepeatText"
+        app:layout_constraintStart_toEndOf="@id/choreRepeatText"
+        android:spinnerMode="dropdown"
+        />
 
 
     <Button
-        app:layout_constraintTop_toBottomOf="@id/editGoalLayout"
+        app:layout_constraintTop_toBottomOf="@id/choreRepeatText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

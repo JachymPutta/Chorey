@@ -15,17 +15,15 @@ import com.chorey.data.HomeModel
 import com.chorey.databinding.FragmentExpensesBinding
 import com.chorey.dialog.ExpenseDetailDialog
 import com.chorey.dialog.ExpenseOtherDialog
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
 class ExpenseFragment(
     private val home: HomeModel
-) : Fragment() {
+) : Fragment(),
+    ExpenseDetailDialog.OnExpenseChangedListener {
 
     private lateinit var binding: FragmentExpensesBinding
     private lateinit var firestore: FirebaseFirestore
@@ -61,12 +59,19 @@ class ExpenseFragment(
             expenseModel.contributors = newContribs as ArrayList<ContribModel>
         }
 
-        // TODO: remove this --- testing only
-        rentExpenseModel.goal = 1100
-        rentExpenseModel.cur = 200
-
         // Button listeners
         setClickListeners()
+    }
+
+    override fun onExpenseDataChanged(expense: ExpenseModel) {
+        // Update visuals
+        updateExpenseModel(expense)
+        updateUI(expense)
+
+        // Write to DB
+        firestore.collection(HOME_COL).document(home.UID)
+            .collection(EXPENSE_COL).document(expense.UID).set(expense)
+
     }
 
     private fun fetchExpenseData() {
@@ -76,94 +81,111 @@ class ExpenseFragment(
             for (doc in result.documents) {
                 if (doc.exists()) {
                     val expenseModel = doc.toObject<ExpenseModel>()!!
-
-                    when(expenseModel.type){
-                        ExpenseType.Rent -> rentExpenseModel = expenseModel
-                        ExpenseType.Utilities -> utilExpenseModel = expenseModel
-                        ExpenseType.Groceries -> groceriesExpenseModel = expenseModel
-                        ExpenseType.Household -> householdExpenseModel = expenseModel
-                        ExpenseType.Fun -> funExpenseModel = expenseModel
-                    }
+                    updateExpenseModel(expenseModel)
                 }
             }
-            updateUI()
-        }
-        .addOnFailureListener { e ->
-            Log.e(TAG, "fetchExpenseData: error fetching data: $e")
+
+            allExpenseModels.forEach { model -> updateUI(model)}
+            }
+            .addOnFailureListener { e ->
+                Log.e(TAG, "fetchExpenseData: error fetching data: $e")
+            }
+    }
+
+    private fun updateExpenseModel(expenseModel: ExpenseModel) {
+        when(expenseModel.type){
+            ExpenseType.Rent -> rentExpenseModel = expenseModel
+            ExpenseType.Utilities -> utilExpenseModel = expenseModel
+            ExpenseType.Groceries -> groceriesExpenseModel = expenseModel
+            ExpenseType.Household -> householdExpenseModel = expenseModel
+            ExpenseType.Fun -> funExpenseModel = expenseModel
         }
     }
 
-    private fun updateUI() {
-        if (rentExpenseModel.goal == 0) {
-            binding.expenseRentButton.alpha = VAL_ALPHA
-        } else {
-            val progressText = "${rentExpenseModel.cur} / ${rentExpenseModel.goal}"
-            binding.rentProgressIndicator.max = rentExpenseModel.goal
-            binding.rentProgressIndicator.progress = rentExpenseModel.cur
-            binding.rentProgressText.text = progressText
-        }
-
-        if (utilExpenseModel.goal == 0) {
-            binding.expenseUtilitiesButton.alpha = VAL_ALPHA
-        } else {
-            val progressText = "${utilExpenseModel.cur} / ${utilExpenseModel.goal}"
-            binding.utilitiesProgressIndicator.max = utilExpenseModel.goal
-            binding.utilitiesProgressIndicator.progress = utilExpenseModel.cur
-            binding.utilitiesProgressText.text = progressText
-        }
-
-        if (groceriesExpenseModel.goal == 0) {
-            binding.expenseGroceriesButton.alpha = VAL_ALPHA
-        } else {
-            val progressText = "${groceriesExpenseModel.cur} / ${groceriesExpenseModel.goal}"
-            binding.groceriesProgressIndicator.max = groceriesExpenseModel.goal
-            binding.groceriesProgressIndicator.progress = groceriesExpenseModel.cur
-            binding.groceriesProgressText.text = progressText
-        }
-
-        if (householdExpenseModel.goal == 0) {
-            binding.expenseHouseholdItemsButton.alpha = VAL_ALPHA
-        } else {
-            val progressText = "${householdExpenseModel.cur} / ${householdExpenseModel.goal}"
-            binding.householdItemsProgressIndicator.max = householdExpenseModel.goal
-            binding.householdItemsProgressIndicator.progress = householdExpenseModel.cur
-            binding.householdItemsProgressText.text = progressText
-        }
-
-        if (funExpenseModel.goal == 0) {
-            binding.expenseFunButton.alpha = VAL_ALPHA
-        } else {
-            val progressText = "${funExpenseModel.cur} / ${funExpenseModel.goal}"
-            binding.funProgressIndicator.max = funExpenseModel.goal
-            binding.funProgressIndicator.progress = funExpenseModel.cur
-            binding.funProgressText.text = progressText
+    private fun updateUI(expenseModel: ExpenseModel) {
+        when(expenseModel.type) {
+            ExpenseType.Rent -> {
+                if (rentExpenseModel.goal == 0) {
+                    binding.expenseRentButton.alpha = VAL_ALPHA
+                } else {
+                    val progressText = "${rentExpenseModel.cur} / ${rentExpenseModel.goal}"
+                    binding.rentProgressIndicator.max = rentExpenseModel.goal
+                    binding.rentProgressIndicator.progress = rentExpenseModel.cur
+                    binding.rentProgressText.text = progressText
+                    binding.expenseRentButton.alpha = 1F
+                }
+            }
+            ExpenseType.Utilities -> {
+                if (utilExpenseModel.goal == 0) {
+                    binding.expenseUtilitiesButton.alpha = VAL_ALPHA
+                } else {
+                    val progressText = "${utilExpenseModel.cur} / ${utilExpenseModel.goal}"
+                    binding.utilitiesProgressIndicator.max = utilExpenseModel.goal
+                    binding.utilitiesProgressIndicator.progress = utilExpenseModel.cur
+                    binding.utilitiesProgressText.text = progressText
+                    binding.expenseUtilitiesButton.alpha = 1F
+                }
+            }
+            ExpenseType.Groceries -> {
+                if (groceriesExpenseModel.goal == 0) {
+                    binding.expenseGroceriesButton.alpha = VAL_ALPHA
+                } else {
+                    val progressText = "${groceriesExpenseModel.cur} / ${groceriesExpenseModel.goal}"
+                    binding.groceriesProgressIndicator.max = groceriesExpenseModel.goal
+                    binding.groceriesProgressIndicator.progress = groceriesExpenseModel.cur
+                    binding.groceriesProgressText.text = progressText
+                    binding.expenseGroceriesButton.alpha = 1F
+                }
+            }
+            ExpenseType.Household -> {
+                if (householdExpenseModel.goal == 0) {
+                    binding.expenseHouseholdItemsButton.alpha = VAL_ALPHA
+                } else {
+                    val progressText = "${householdExpenseModel.cur} / ${householdExpenseModel.goal}"
+                    binding.householdItemsProgressIndicator.max = householdExpenseModel.goal
+                    binding.householdItemsProgressIndicator.progress = householdExpenseModel.cur
+                    binding.householdItemsProgressText.text = progressText
+                    binding.expenseHouseholdItemsButton.alpha = 1F
+                }
+            }
+            ExpenseType.Fun -> {
+                if (funExpenseModel.goal == 0) {
+                    binding.expenseFunButton.alpha = VAL_ALPHA
+                } else {
+                    val progressText = "${funExpenseModel.cur} / ${funExpenseModel.goal}"
+                    binding.funProgressIndicator.max = funExpenseModel.goal
+                    binding.funProgressIndicator.progress = funExpenseModel.cur
+                    binding.funProgressText.text = progressText
+                    binding.expenseFunButton.alpha = 1F
+                }
+            }
         }
     }
 
     private fun setClickListeners() {
         binding.expenseRentButton.setOnClickListener {
-            ExpenseDetailDialog(home, rentExpenseModel)
-                .show(parentFragmentManager, ExpenseDetailDialog.TAG)
+            ExpenseDetailDialog(rentExpenseModel, this)
+                .show(childFragmentManager, ExpenseDetailDialog.TAG)
         }
         binding.expenseFunButton.setOnClickListener {
-            ExpenseDetailDialog(home, funExpenseModel)
-                .show(parentFragmentManager, ExpenseDetailDialog.TAG)
+            ExpenseDetailDialog(funExpenseModel, this)
+                .show(childFragmentManager, ExpenseDetailDialog.TAG)
         }
         binding.expenseGroceriesButton.setOnClickListener {
-            ExpenseDetailDialog(home, groceriesExpenseModel)
-                .show(parentFragmentManager, ExpenseDetailDialog.TAG)
+            ExpenseDetailDialog(groceriesExpenseModel, this)
+                .show(childFragmentManager, ExpenseDetailDialog.TAG)
         }
         binding.expenseHouseholdItemsButton.setOnClickListener {
-            ExpenseDetailDialog(home, householdExpenseModel)
-                .show(parentFragmentManager, ExpenseDetailDialog.TAG)
+            ExpenseDetailDialog(householdExpenseModel, this)
+                .show(childFragmentManager, ExpenseDetailDialog.TAG)
         }
 
         binding.expenseUtilitiesButton.setOnClickListener {
-            ExpenseDetailDialog(home, utilExpenseModel)
-                .show(parentFragmentManager, ExpenseDetailDialog.TAG)
+            ExpenseDetailDialog(utilExpenseModel, this)
+                .show(childFragmentManager, ExpenseDetailDialog.TAG)
         }
         binding.expenseOtherButton.setOnClickListener {
-            ExpenseOtherDialog(home).show(parentFragmentManager, ExpenseOtherDialog.TAG)
+            ExpenseOtherDialog(home).show(childFragmentManager, ExpenseOtherDialog.TAG)
         }
     }
 
@@ -172,4 +194,5 @@ class ExpenseFragment(
         const val TAG = "ExpenseFragment"
         const val VAL_ALPHA = 0.7F
     }
+
 }
