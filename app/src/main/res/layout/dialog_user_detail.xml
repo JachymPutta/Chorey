@@ -42,6 +42,24 @@
         android:contentDescription="@string/user_profile_pic_desc"
         />
 
+    <ImageButton
+        android:id="@+id/expenseEditGoal"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/baseline_edit_24"
+        android:scaleY="0.7"
+        android:scaleX="0.7"
+        android:background="@drawable/dialog_background_outlined"
+        app:layout_constraintStart_toEndOf="@id/userIcon"
+        app:layout_constraintTop_toTopOf="@id/userIcon"
+        app:layout_constraintBottom_toTopOf="@id/userIcon"
+        android:foregroundGravity="center"
+
+        android:translationZ="1dp"
+        app:tint="@color/black"
+        android:contentDescription="@string/create_chore_edit_button"
+        />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/userDetailName"
         android:layout_width="match_parent"
