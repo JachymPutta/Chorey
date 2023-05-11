@@ -78,7 +78,6 @@ class HomeFragment : Fragment() {
 //        val adRequest = AdRequest.Builder().build()
 //        binding.adViewHome.loadAd(adRequest)
 
-        initBottomNav()
     }
 
     private fun onHomeLoaded(homeModel: HomeModel?) {
@@ -86,6 +85,7 @@ class HomeFragment : Fragment() {
             return
 
         home = homeModel
+
 
         binding.homeName.text = home.homeName
         binding.homeToMenuButton.setOnClickListener {
@@ -96,10 +96,14 @@ class HomeFragment : Fragment() {
             HomeDetailDialog(home).show(parentFragmentManager, "HomeDetailDialog")
         }
 
+        initBottomNav()
+
         choreFragment = ChoreFragment(home, choreQuery, historyQuery)
         expenseFragment = ExpenseFragment(home)
         noteFragment = NoteFragment(home, noteQuery)
         summaryFragment = SummaryFragment(home, summaryQuery)
+
+        binding.loadingSpinner.visibility = View.GONE
 
         // Start with Chore fragment
         loadFragment(choreFragment)

@@ -47,6 +47,7 @@ class ExpenseOtherDialog(
 
     override fun onStart() {
         super.onStart()
+        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
         expenseAdapter.startListening()
     }
 

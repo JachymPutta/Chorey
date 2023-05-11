@@ -79,7 +79,17 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
-<!--    <com.google.android.gms.ads.AdView-->
+    <ProgressBar
+        android:id="@+id/loadingSpinner"
+        style="?android:attr/progressBarStyleLarge"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <!--    <com.google.android.gms.ads.AdView-->
 <!--        xmlns:ads="http://schemas.android.com/apk/res-auto"-->
 <!--        android:id="@+id/adViewHome"-->
 <!--        android:layout_width="wrap_content"-->

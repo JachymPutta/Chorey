@@ -76,6 +76,7 @@ class MenuFragment : Fragment(),
 //        val adRequest = AdRequest.Builder().build()
 //        binding.adViewMenu.loadAd(adRequest)
 
+        dataLoaded(false)
 
         // FireStore instance
         firestore = Firebase.firestore
@@ -84,7 +85,6 @@ class MenuFragment : Fragment(),
         query = firestore.collection(HOME_COL).whereEqualTo(DUMMY_FIELD, "")
         menuRecyclerAdapter = initMenuRecyclerAdapter()
 
-        binding.menuEmptyRecyclerText.setText(R.string.home_loading)
         binding.allRoomsRecycler.adapter = menuRecyclerAdapter
         binding.allRoomsRecycler.layoutManager = LinearLayoutManager(view.context)
 
@@ -214,7 +214,7 @@ class MenuFragment : Fragment(),
     private fun updateQuery() {
         val myHomes = userViewModel.user.value!!.memberOf.values
 
-        binding.menuEmptyRecyclerText.setText(R.string.menu_text_empty_recycler)
+        dataLoaded(true)
 
         if (!myHomes.isEmpty()) {
             query = firestore.collection(HOME_COL).whereIn("homeName", myHomes.toList())
@@ -222,55 +222,20 @@ class MenuFragment : Fragment(),
         }
     }
 
-//    private fun getUserNameDialog() {
-//        val builder = AlertDialog.Builder(requireContext())
-//        val nameInput = EditText(requireContext())
-//
-//        nameInput.maxLines = 1
-//
-//        //TODO: Custom XML file
-//        builder.setTitle("Your name:")
-//            .setView(nameInput)
-//            .setCancelable(false)
-//            .setPositiveButton("Ok", null)
-//
-//        val dialog = builder.create()
-//        dialog.setIcon(R.mipmap.chorey_logo_foreground)
-//        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
-//
-//        fun submitNameHandle() {
-//            if (nameInput.text.toString().isBlank()) {
-//                Toast.makeText(requireContext(), "Please input a name.", Toast.LENGTH_SHORT).show()
-//            } else {
-//                val loggedUserModel = LoggedUserModel(
-//                    UID = Firebase.auth.currentUser!!.uid,
-//                    name = nameInput.text.toString(),
-//                    icon = R.drawable.baseline_person_24
-//                )
-//                userViewModel.updateUser(loggedUserModel)
-//                firestore.collection(USER_COL).document(loggedUserModel.UID).set(loggedUserModel)
-//                dialog.dismiss()
-//            }
-//        }
-//
-//        nameInput.setOnKeyListener { _, keyCode, event ->
-//            if ((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-//                submitNameHandle()
-//                true
-//            } else {
-//                false
-//            }
-//        }
-//        // Need to override the onShow handle so the dialog doesn't dismiss with invalid inputs
-//        dialog.setOnShowListener {
-//            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-//                // TODO: check if the username exists!!
-//                submitNameHandle()
-//            }
-//        }
-//
-//        dialog.show()
-//    }
+    private fun dataLoaded(isLoaded : Boolean) {
+        if (isLoaded) {
+            binding.loadingSpinner.visibility = View.GONE
+            binding.menuEmptyRecyclerText.visibility = View.VISIBLE
+        } else {
+            binding.loadingSpinner.visibility = View.VISIBLE
+            binding.menuEmptyRecyclerText.visibility = View.GONE
+        }
+
+        binding.addHomeButton.isEnabled = isLoaded
+        binding.menuUserButton.isEnabled = isLoaded
+        binding.menuSettingsButton.isEnabled = isLoaded
+    }
+
 
     private fun addHomeHandle() {
         if (menuRecyclerAdapter.itemCount >= MAX_HOMES) {

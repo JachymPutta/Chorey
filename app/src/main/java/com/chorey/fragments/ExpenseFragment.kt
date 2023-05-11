@@ -50,6 +50,7 @@ class ExpenseFragment(
         super.onViewCreated(view, savedInstanceState)
         firestore = Firebase.firestore
 
+        dataLoaded(false)
         // Get the data from the database
         fetchExpenseData()
 
@@ -86,6 +87,7 @@ class ExpenseFragment(
             }
 
             allExpenseModels.forEach { model -> updateUI(model)}
+            dataLoaded(true)
             }
             .addOnFailureListener { e ->
                 Log.e(TAG, "fetchExpenseData: error fetching data: $e")
@@ -160,6 +162,21 @@ class ExpenseFragment(
                 }
             }
         }
+    }
+
+    private fun dataLoaded(isLoaded : Boolean) {
+        if (isLoaded) {
+            binding.loadingSpinner.visibility = View.GONE
+        } else {
+            binding.loadingSpinner.visibility = View.VISIBLE
+        }
+
+        binding.expenseHouseholdItemsButton.isEnabled = isLoaded
+        binding.expenseFunButton.isEnabled = isLoaded
+        binding.expenseUtilitiesButton.isEnabled = isLoaded
+        binding.expenseRentButton.isEnabled = isLoaded
+        binding.expenseOtherButton.isEnabled = isLoaded
+        binding.expenseGroceriesButton.isEnabled = isLoaded
     }
 
     private fun setClickListeners() {
