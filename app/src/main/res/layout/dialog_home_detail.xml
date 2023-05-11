@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/rent_icon_128"
+        android:layout_marginTop="@dimen/line_space_large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -33,6 +34,22 @@
         app:layout_constraintBottom_toTopOf="@id/nameDivider"
         android:text="@string/home_name_placeholder" />
 
+    <ImageButton
+        android:id="@+id/homeEditIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/baseline_edit_24"
+        android:scaleY="0.7"
+        android:scaleX="0.7"
+        android:background="@drawable/dialog_background_outlined"
+        app:layout_constraintStart_toEndOf="@id/homeDetailPicture"
+        app:layout_constraintTop_toTopOf="@id/homeDetailPicture"
+        app:layout_constraintBottom_toTopOf="@id/homeDetailPicture"
+        android:foregroundGravity="center"
+        android:translationZ="1dp"
+        app:tint="@color/black"
+        android:contentDescription="@string/create_chore_edit_button"
+        />
 
     <View
         android:id="@+id/nameDivider"

@@ -1,6 +1,7 @@
 package com.chorey.data
 
 import android.os.Parcelable
+import com.chorey.R
 import kotlinx.parcelize.Parcelize
 import java.util.UUID
 
@@ -12,6 +13,7 @@ import java.util.UUID
 data class HomeModel (
     var UID: String = UUID.randomUUID().toString(),
     var homeName: String = "",
+    var icon: Int = R.drawable.baseline_home_24,
     val users : ArrayList<String> = arrayListOf()
 ) : Parcelable
 {
@@ -19,5 +21,6 @@ data class HomeModel (
         const val FIELD_UID = "UID"
         const val FIELD_NAME = "homeName"
         const val FIELD_USERS = "users"
+        const val FIELD_ICON = "icon"
     }
 }

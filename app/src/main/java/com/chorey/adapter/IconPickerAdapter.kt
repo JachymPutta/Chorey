@@ -5,19 +5,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chorey.databinding.UserIconRowBinding
 
-class UserIconAdapter (
+class IconPickerAdapter (
     private val iconList: List<Int>,
-    private val listener: UserIconDialogListener)
-    : RecyclerView.Adapter<UserIconAdapter.ViewHolder>() {
+    private val listener: IconPickerDialogListener)
+    : RecyclerView.Adapter<IconPickerAdapter.ViewHolder>() {
 
-    interface UserIconDialogListener {
+    interface IconPickerDialogListener {
         fun onIconSelected(icon : Int)
     }
 
     inner class ViewHolder(private val binding: UserIconRowBinding)
         : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(icon: Int, listener: UserIconDialogListener?) {
+        fun bind(icon: Int, listener: IconPickerDialogListener?) {
             binding.icon.setImageResource(icon)
             binding.root.setOnClickListener {
                 listener?.onIconSelected(icon)
@@ -25,7 +25,7 @@ class UserIconAdapter (
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-    : UserIconAdapter.ViewHolder {
+    : IconPickerAdapter.ViewHolder {
         return ViewHolder(UserIconRowBinding.inflate(
             LayoutInflater.from(parent.context),parent, false))
     }

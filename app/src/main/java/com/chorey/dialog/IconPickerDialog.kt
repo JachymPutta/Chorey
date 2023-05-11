@@ -6,13 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.chorey.R
-import com.chorey.adapter.UserIconAdapter
-import com.chorey.databinding.DialogUserIconBinding
+import com.chorey.adapter.IconPickerAdapter
+import com.chorey.databinding.DialogIconPickerBinding
 
-class UserIconDialog(private val parentDialog : DialogFragment): DialogFragment() {
+class IconPickerDialog(
+    private val iconList: List<Int>,
+    private val parentDialog : DialogFragment): DialogFragment() {
 
-    private var _binding: DialogUserIconBinding? = null
+    private var _binding: DialogIconPickerBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -20,22 +21,15 @@ class UserIconDialog(private val parentDialog : DialogFragment): DialogFragment(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DialogUserIconBinding.inflate(inflater, container, false)
+        _binding = DialogIconPickerBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val iconList = listOf(
-            R.drawable.baseline_home_24,
-            R.drawable.baseline_money_24,
-            R.drawable.baseline_account_circle_24,
-            R.drawable.baseline_note_alt_24
-        )
-
-        val adapter = UserIconAdapter(iconList,
-             parentDialog as UserIconAdapter.UserIconDialogListener)
+        val adapter = IconPickerAdapter(iconList,
+             parentDialog as IconPickerAdapter.IconPickerDialogListener)
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.recyclerView.adapter = adapter
 

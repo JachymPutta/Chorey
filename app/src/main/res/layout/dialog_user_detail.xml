@@ -7,7 +7,6 @@
     android:background="@drawable/dialog_background"
     >
 
-<!-- TODO this should just be a pen on the corner of the icon -->
     <TextView
         android:id="@+id/userIconHint"
         android:layout_width="wrap_content"
@@ -54,7 +53,6 @@
         app:layout_constraintTop_toTopOf="@id/userIcon"
         app:layout_constraintBottom_toTopOf="@id/userIcon"
         android:foregroundGravity="center"
-
         android:translationZ="1dp"
         app:tint="@color/black"
         android:contentDescription="@string/create_chore_edit_button"

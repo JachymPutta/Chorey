@@ -1,6 +1,5 @@
 package com.chorey.dialog
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -12,7 +11,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.chorey.R
 import com.chorey.USER_COL
-import com.chorey.adapter.UserIconAdapter
+import com.chorey.adapter.IconPickerAdapter
 import com.chorey.data.DialogState
 import com.chorey.data.LoggedUserModel
 import com.chorey.databinding.DialogUserDetailBinding
@@ -26,7 +25,7 @@ class UserDetailDialog(
     private val listener : OnIconChangedListener,
     private val state: DialogState
 ) : DialogFragment(),
-        UserIconAdapter.UserIconDialogListener
+        IconPickerAdapter.IconPickerDialogListener
 {
     private var _binding: DialogUserDetailBinding? = null
     private val binding get() = _binding!!
@@ -34,8 +33,14 @@ class UserDetailDialog(
     private val userViewModel by activityViewModels<UserViewModel>()
     private val authViewModel by activityViewModels<AuthViewModel>()
 
+    private val iconList = listOf(
+        R.drawable.baseline_home_24,
+        R.drawable.baseline_money_24,
+        R.drawable.baseline_account_circle_24,
+        R.drawable.baseline_note_alt_24
+    )
 
-    private lateinit var iconDialog: UserIconDialog
+    private lateinit var iconDialog: IconPickerDialog
     private var curIcon = R.drawable.baseline_person_24
 
     interface OnIconChangedListener {
@@ -54,14 +59,15 @@ class UserDetailDialog(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        iconDialog = UserIconDialog(this)
+
+        iconDialog = IconPickerDialog(iconList, this)
 
         when(state) {
             DialogState.CREATE -> {
                 isCancelable = false
                 binding.userIconHint.visibility = View.VISIBLE
                 binding.userIconHint.setOnClickListener {
-                    iconDialog.show(parentFragmentManager, UserIconDialog.TAG)
+                    iconDialog.show(parentFragmentManager, IconPickerDialog.TAG)
                 }
 
                 binding.userDetailName.setOnKeyListener { _, keyCode, event ->
@@ -93,7 +99,7 @@ class UserDetailDialog(
         }
 
         binding.userIcon.setOnClickListener {
-            iconDialog.show(parentFragmentManager, UserIconDialog.TAG)
+            iconDialog.show(parentFragmentManager, IconPickerDialog.TAG)
         }
         binding.userIcon.setImageResource(curIcon)
     }
