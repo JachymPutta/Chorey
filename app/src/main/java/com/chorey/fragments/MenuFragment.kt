@@ -100,7 +100,7 @@ class MenuFragment : Fragment(),
             else { makeWelcomeScreen() }
         }
 
-        userViewModel.user.observe(viewLifecycleOwner) {user ->
+        userViewModel.user.observe(viewLifecycleOwner) { user ->
             user?.let {
                 updateQuery()
                 onIconChanged()
@@ -253,6 +253,7 @@ class MenuFragment : Fragment(),
                     0 -> {
                         binding.allRoomsRecycler.visibility = View.INVISIBLE
                         binding.menuEmptyRecyclerText.visibility = View.VISIBLE
+                        binding.menuMainLayout.setOnClickListener { addHomeHandle() }
                     }
                     1 -> {
                         // If logging in and have only one home go directly there
@@ -264,11 +265,12 @@ class MenuFragment : Fragment(),
                         }
                         binding.allRoomsRecycler.visibility = View.VISIBLE
                         binding.menuEmptyRecyclerText.visibility = View.INVISIBLE
+                        binding.menuMainLayout.setOnClickListener {}
                     }
                     else -> {
                         binding.allRoomsRecycler.visibility = View.VISIBLE
                         binding.menuEmptyRecyclerText.visibility = View.INVISIBLE
-
+                        binding.menuMainLayout.setOnClickListener {}
                     }
                 }
             }

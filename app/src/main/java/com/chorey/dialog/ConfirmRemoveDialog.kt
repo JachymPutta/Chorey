@@ -9,6 +9,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.chorey.CHORE_COL
+import com.chorey.EXPENSE_COL
 import com.chorey.HOME_COL
 import com.chorey.NOTE_COL
 import com.chorey.R
@@ -82,6 +83,7 @@ class ConfirmRemoveDialog(
         deleteCol(homeRef.collection(NOTE_COL))
         deleteCol(homeRef.collection(CHORE_COL))
         deleteCol(homeRef.collection(USER_COL))
+        deleteCol(homeRef.collection(EXPENSE_COL))
 
         snapshot.reference.delete()
         findNavController().navigate(R.id.menuFragment)
