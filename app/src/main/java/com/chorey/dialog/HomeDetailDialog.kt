@@ -8,11 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.chorey.HOME_COL
 import com.chorey.R
-import com.chorey.USER_COL
 import com.chorey.adapter.IconPickerAdapter
 import com.chorey.data.DialogState
 import com.chorey.data.HomeModel
-import com.chorey.data.LoggedUserModel
 import com.chorey.databinding.DialogHomeDetailBinding
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -80,7 +78,7 @@ class HomeDetailDialog(
 //                listener.onIconChanged()
 
                 //Update the db
-                Firebase.firestore.collection(HOME_COL).document(home.UID)
+                Firebase.firestore.collection(HOME_COL).document(home.homeUID)
                     .update(HomeModel.FIELD_ICON, icon)
                     .addOnFailureListener { e -> Log.e(TAG, "onIconSelected: error while updating user icon $e")
                     }
@@ -92,11 +90,12 @@ class HomeDetailDialog(
     }
 
     private fun addMemberHandle() {
-        AddMemberDialog(home).show(parentFragmentManager, "AddMemberDialog")
+        AddMemberDialog.newInstance(home)
+            .show(parentFragmentManager, "AddMemberDialog")
     }
 
     private fun removeHomeHandle() {
-        Firebase.firestore.collection(HOME_COL).document(home.UID).get()
+        Firebase.firestore.collection(HOME_COL).document(home.homeUID).get()
             .addOnSuccessListener { snap ->
                 ConfirmRemoveDialog(snap, home.homeName, true)
                     .show(parentFragmentManager, "ConfirmRemoveDialog")

@@ -71,15 +71,15 @@ class CreateHomeDialog(private val listener : CreateHomeListener?) : DialogFragm
         }
 
         val home = HomeModel(
-            UID = UUID.randomUUID().toString(),
+            homeUID = UUID.randomUUID().toString(),
             homeName = binding.createHomeNameInput.editText?.text.toString(),
             users = arrayListOf(user.name)
         )
         val homeUserModel = HomeUserModel(name = user.name)
-        val homeRef = db.collection(HOME_COL).document(home.UID)
+        val homeRef = db.collection(HOME_COL).document(home.homeUID)
         val userRef = db.collection(USER_COL).document(user.UID)
 
-        user.memberOf[home.UID] = home.homeName
+        user.memberOf[home.homeUID] = home.homeName
 
         db.runBatch {
             it.set(homeRef, home)

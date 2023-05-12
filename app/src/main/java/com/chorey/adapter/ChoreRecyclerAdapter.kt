@@ -78,8 +78,8 @@ open class ChoreRecyclerAdapter(query: Query,
         val curChore = snapshot.toObject<ChoreModel>() ?: return
 
         val homeRef = Firebase.firestore.collection(HOME_COL).document(curChore.homeId)
-        val oldChoreRef = homeRef.collection(CHORE_COL).document(curChore.UID)
-        val historyRef = homeRef.collection(HISTORY_COL).document(curChore.UID)
+        val oldChoreRef = homeRef.collection(CHORE_COL).document(curChore.choreUID)
+        val historyRef = homeRef.collection(HISTORY_COL).document(curChore.choreUID)
         val userRef = homeRef.collection(USER_COL).document(user.name)
 
         // Write the stuff in a batch
@@ -92,7 +92,7 @@ open class ChoreRecyclerAdapter(query: Query,
                 RepeatInterval.None -> {}
                 else ->  {
                     val newChore = ChoreUtil.updateData(curChore.copy(), user)
-                    val newChoreRef = homeRef.collection(CHORE_COL).document(newChore.UID)
+                    val newChoreRef = homeRef.collection(CHORE_COL).document(newChore.choreUID)
                     it.set(newChoreRef, newChore)
                 }
             }

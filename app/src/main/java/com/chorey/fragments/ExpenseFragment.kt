@@ -15,18 +15,19 @@ import com.chorey.data.HomeModel
 import com.chorey.databinding.FragmentExpensesBinding
 import com.chorey.dialog.ExpenseDetailDialog
 import com.chorey.dialog.ExpenseOtherDialog
+import com.chorey.util.HomeUtil
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
-class ExpenseFragment(
-    private val home: HomeModel
-) : Fragment(),
+class ExpenseFragment : Fragment(),
     ExpenseDetailDialog.OnExpenseChangedListener {
 
     private lateinit var binding: FragmentExpensesBinding
     private lateinit var firestore: FirebaseFirestore
+
+    private lateinit var home : HomeModel
 
     private var rentExpenseModel = ExpenseModel(type = ExpenseType.Rent)
     private var utilExpenseModel = ExpenseModel(type = ExpenseType.Utilities)
@@ -42,6 +43,7 @@ class ExpenseFragment(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        home = HomeUtil.getHomeFromArgs(requireArguments())
         binding = FragmentExpensesBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -70,13 +72,13 @@ class ExpenseFragment(
         updateUI(expense)
 
         // Write to DB
-        firestore.collection(HOME_COL).document(home.UID)
+        firestore.collection(HOME_COL).document(home.homeUID)
             .collection(EXPENSE_COL).document(expense.UID).set(expense)
 
     }
 
     private fun fetchExpenseData() {
-        firestore.collection(HOME_COL).document(home.UID)
+        firestore.collection(HOME_COL).document(home.homeUID)
                 .collection(EXPENSE_COL).get()
             .addOnSuccessListener { result ->
             for (doc in result.documents) {
@@ -210,6 +212,13 @@ class ExpenseFragment(
     companion object {
         const val TAG = "ExpenseFragment"
         const val VAL_ALPHA = 0.7F
+
+        fun newInstance(home : HomeModel): ExpenseFragment {
+            val fragment = ExpenseFragment()
+            val args = HomeUtil.addHomeToArgs(Bundle(), home)
+            fragment.arguments = args
+            return fragment
+        }
     }
 
 }

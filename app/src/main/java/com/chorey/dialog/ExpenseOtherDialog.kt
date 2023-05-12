@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.chorey.HOME_COL
 import com.chorey.OTHER_COL
 import com.chorey.adapter.ExpenseRecyclerAdapter
-import com.chorey.data.ExpenseType
 import com.chorey.data.HomeModel
 import com.chorey.databinding.DialogExpenseOtherBinding
 import com.google.firebase.firestore.DocumentSnapshot
@@ -61,7 +60,7 @@ class ExpenseOtherDialog(
     }
 
     private fun setupAdapter() {
-        expenseQuery = Firebase.firestore.collection(HOME_COL).document(homeModel.UID)
+        expenseQuery = Firebase.firestore.collection(HOME_COL).document(homeModel.homeUID)
             .collection(OTHER_COL)
 
         expenseAdapter = object : ExpenseRecyclerAdapter(expenseQuery,

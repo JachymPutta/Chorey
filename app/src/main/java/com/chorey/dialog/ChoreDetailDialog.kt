@@ -30,6 +30,7 @@ import com.chorey.data.HomeModel
 import com.chorey.data.RepeatInterval
 import com.chorey.databinding.DialogChoreDetailBinding
 import com.chorey.util.ChoreUtil
+import com.chorey.util.HomeUtil
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
@@ -38,10 +39,7 @@ import java.util.Date
 import java.util.Locale
 import java.util.UUID
 
-class ChoreDetailDialog(private val homeModel : HomeModel,
-                        private val choreModel: ChoreModel?,
-                        private val state: DialogState,
-                        ) : DialogFragment(),
+class ChoreDetailDialog : DialogFragment(),
     DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
     private var _binding: DialogChoreDetailBinding? = null
@@ -53,11 +51,20 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
     private val dueTime = Calendar.getInstance()
     private var timeChanged = false
 
+    private lateinit var homeModel : HomeModel
+    private var choreModel: ChoreModel? = null
+    private lateinit var state: DialogState
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        homeModel = HomeUtil.getHomeFromArgs(requireArguments())
+        state = DialogState.values()[arguments?.getInt("dialogState")!!]
+        if (state == DialogState.EDIT) {
+            choreModel = ChoreUtil.getChoreFromArgs(requireArguments())
+        }
         _binding = DialogChoreDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -247,7 +254,7 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
 
         if (!checkChoreInput()) return
 
-        val uid = choreModel?.UID ?: UUID.randomUUID().toString()
+        val uid = choreModel?.choreUID ?: UUID.randomUUID().toString()
         val choreName = binding.createChoreNameInput.editText?.text.toString()
         val timeToComplete = binding.choreDetailMinsToComplete.text.toString().toInt()
         // We only update the time if a different one is selected
@@ -255,9 +262,9 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
         else choreModel?.whenDue ?: Long.MAX_VALUE
 
         val choreModel = ChoreModel(
-            UID = uid,
+            choreUID = uid,
             choreName = choreName,
-            homeId = homeModel.UID,
+            homeId = homeModel.homeUID,
             assignedTo = assignedTo,
             curAssignee = assignedTo.random(),
             repeatsEvery = binding.choreIntervalSpinner.selectedItem as RepeatInterval,
@@ -268,7 +275,7 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
         )
 
         Log.d(TAG, "Creating chore $choreModel")
-        Firebase.firestore.collection(HOME_COL).document(homeModel.UID)
+        Firebase.firestore.collection(HOME_COL).document(homeModel.homeUID)
             .collection(CHORE_COL).document(uid).set(choreModel)
 
         dismiss()
@@ -279,10 +286,10 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
     }
 
     private fun onRemoveClicked() {
-        Firebase.firestore.collection(HOME_COL).document(homeModel.UID)
-                .collection(CHORE_COL).document(choreModel!!.UID)
+        Firebase.firestore.collection(HOME_COL).document(homeModel.homeUID)
+                .collection(CHORE_COL).document(choreModel!!.choreUID)
             .get().addOnSuccessListener {
-                ConfirmRemoveDialog(it, choreModel.choreName)
+                ConfirmRemoveDialog(it, choreModel!!.choreName)
                     .show(parentFragmentManager, ConfirmRemoveDialog.TAG)
             }
     }
@@ -347,6 +354,18 @@ class ChoreDetailDialog(private val homeModel : HomeModel,
     companion object {
         const val TAG = "CreateChoreDialog"
         const val TIME_PICKER = 1
+
+        fun newInstance(home : HomeModel,
+                        choreModel: ChoreModel?,
+                        state: DialogState): ChoreDetailDialog{
+            val fragment = ChoreDetailDialog()
+            val args = HomeUtil.addHomeToArgs(Bundle(), home)
+            choreModel?.let {ChoreUtil.addChoreToArgs(args, it)}
+            val id = DialogState.values().indexOf(state)
+            args.putInt("dialogState", id)
+            fragment.arguments = args
+            return fragment
+        }
     }
 }
 

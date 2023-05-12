@@ -91,8 +91,10 @@ class MenuFragment : Fragment(),
         binding.addHomeButton.setOnClickListener{ addHomeHandle() }
         binding.authButton.setOnClickListener { launchSignInFlow() }
         binding.menuUserButton.setOnClickListener {
-            UserDetailDialog(this@MenuFragment, DialogState.EDIT)
-                .show(childFragmentManager, "UserDetailDialog")
+            UserDetailDialog().apply {
+                state = DialogState.EDIT
+                listener = this@MenuFragment
+            }.show(childFragmentManager, "UserDetailDialog")
         }
 
         authViewModel.isAuthed.observe(viewLifecycleOwner) { isAuthed ->
@@ -199,7 +201,10 @@ class MenuFragment : Fragment(),
                         if (ds.exists()) {
                             userViewModel.updateUser(ds.toObject<LoggedUserModel>()!!)
                         } else {
-                            UserDetailDialog(this, DialogState.CREATE).show(parentFragmentManager, TAG)
+                            UserDetailDialog().apply {
+                                listener = this@MenuFragment
+                                state = DialogState.CREATE
+                            }.show(parentFragmentManager, TAG)
                         }
                         binding.menuContentLayout.visibility = View.VISIBLE
                     } else {

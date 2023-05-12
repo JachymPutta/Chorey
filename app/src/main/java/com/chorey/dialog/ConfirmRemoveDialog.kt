@@ -74,10 +74,10 @@ class ConfirmRemoveDialog(
         val user = viewModel.user.value!!
         val home = snapshot.toObject<HomeModel>()
 
-        val homeRef = db.collection(HOME_COL).document(home!!.UID)
+        val homeRef = db.collection(HOME_COL).document(home!!.homeUID)
         val userRef = db.collection(USER_COL).document(user.UID)
 
-        user.memberOf.remove(home.UID)
+        user.memberOf.remove(home.homeUID)
 
         userRef.update(FIELD_MEMBER_OF, user.memberOf)
         deleteCol(homeRef.collection(NOTE_COL))

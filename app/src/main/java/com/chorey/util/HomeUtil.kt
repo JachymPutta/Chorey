@@ -1,19 +1,15 @@
 package com.chorey.util
 
 import android.content.Context
-import android.util.Log
-import android.widget.EditText
-import com.chorey.BuildConfig
+import android.os.Build
+import android.os.Bundle
 import com.chorey.R
 import com.chorey.RANDOM_SEED
 import com.chorey.data.HomeModel
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.ktx.toObject
 import java.util.UUID
 import kotlin.random.Random
 
 object HomeUtil {
-    private const val TAG = "HomeUtil"
     private var seed = RANDOM_SEED
 
     fun makeRandomHome(context: Context) : HomeModel {
@@ -24,24 +20,35 @@ object HomeUtil {
         seed = random.nextInt()
 
         return HomeModel(
-            UID = UUID.randomUUID().toString(),
+            homeUID = UUID.randomUUID().toString(),
             homeName = getRandomString(homeNames, random)
         )
     }
 
-    fun getHomeFromSnap(snap : DocumentSnapshot) : HomeModel?{
-        var home: HomeModel? = null
-
-        snap.reference.get()
-            .addOnSuccessListener { doc ->
-                home = doc.toObject<HomeModel>()
-            }.addOnFailureListener{
-                e -> Log.d(TAG, "Error fetching home from snap: $e!")
-            }
-        return home
+    fun getHomeFromArgs(arguments : Bundle) : HomeModel {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arguments.getParcelable(HomeModel.toString(), HomeModel::class.java)!!
+        } else {
+            val uid = arguments.getString(HomeModel.FIELD_UID)!!
+            val name = arguments.getString(HomeModel.FIELD_NAME)!!
+            val icon = arguments.getInt(HomeModel.FIELD_ICON)
+            val users = arguments.getStringArrayList(HomeModel.FIELD_USERS)!!
+            HomeModel(uid, name, icon, users)
+        }
     }
 
-    fun isEmpty(editText: EditText) : Boolean = editText.text.toString().isNotBlank()
+    fun addHomeToArgs(args : Bundle, home: HomeModel) : Bundle {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            args.apply { putParcelable(HomeModel.toString(), home) }
+        } else {
+            args.apply {
+                putString(HomeModel.FIELD_UID, home.homeUID)
+                putString(HomeModel.FIELD_NAME, home.homeName)
+                putInt(HomeModel.FIELD_ICON, home.icon)
+                putStringArrayList(HomeModel.FIELD_USERS, home.users)
+            }
+        }
+    }
 
     private fun getRandomString(array: Array<String>, random: Random): String {
         val ind = random.nextInt(array.size)

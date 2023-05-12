@@ -1,5 +1,6 @@
 package com.chorey.dialog
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -59,7 +60,7 @@ class NoteDetailDialog(private val homeModel: HomeModel,
     private fun onRemoveClicked() {
         val uid = noteModel!!.UID
 
-        Firebase.firestore.collection(HOME_COL).document(homeModel.UID)
+        Firebase.firestore.collection(HOME_COL).document(homeModel.homeUID)
             .collection(NOTE_COL).document(uid).delete()
             .addOnSuccessListener { Log.d(TAG, "Note successfully deleted!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
@@ -85,7 +86,7 @@ class NoteDetailDialog(private val homeModel: HomeModel,
             author = viewModel.user.value!!.name
         )
 
-        Firebase.firestore.collection(HOME_COL).document(homeModel.UID)
+        Firebase.firestore.collection(HOME_COL).document(homeModel.homeUID)
             .collection(NOTE_COL).document(uid).set(note)
 
         dismiss()

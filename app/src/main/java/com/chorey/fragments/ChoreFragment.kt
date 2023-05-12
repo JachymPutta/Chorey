@@ -1,22 +1,19 @@
 package com.chorey.fragments
 
-import android.app.Application
-import android.content.res.Configuration
 import android.graphics.Paint
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.chorey.Chorey
+import com.chorey.CHORE_COL
+import com.chorey.HISTORY_COL
+import com.chorey.HOME_COL
 import com.chorey.MAX_CHORES
 import com.chorey.R
 import com.chorey.adapter.ChoreHistoryAdapter
@@ -27,21 +24,24 @@ import com.chorey.data.HomeModel
 import com.chorey.databinding.FragmentChoreBinding
 import com.chorey.dialog.ChoreDetailDialog
 import com.chorey.dialog.HistoryDetailDialog
-import com.chorey.dialog.HomeDetailDialog
+import com.chorey.util.HomeUtil
 import com.chorey.viewmodel.UserViewModel
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 
-class ChoreFragment(
-    private val home : HomeModel,
-    private val choreQuery: Query,
-    private val historyQuery: Query
-) : Fragment(),
+class ChoreFragment : Fragment(),
     ChoreRecyclerAdapter.OnChoreSelectedListener,
     ChoreHistoryAdapter.OnHistorySelectedListener
 {
     private val viewModel by activityViewModels<UserViewModel>()
+
+    private lateinit var home : HomeModel
+    private lateinit var choreQuery: Query
+    private lateinit var historyQuery: Query
+
     private lateinit var choreAdapter: ChoreRecyclerAdapter
     private lateinit var historyAdapter: ChoreHistoryAdapter
 
@@ -57,6 +57,7 @@ class ChoreFragment(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        home = HomeUtil.getHomeFromArgs(requireArguments())
         binding = FragmentChoreBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -65,6 +66,11 @@ class ChoreFragment(
         super.onViewCreated(view, savedInstanceState)
 
         binding.noChoresLeftText.visibility = GONE
+        val homeRef = Firebase.firestore.collection(HOME_COL).document(home.homeUID)
+        choreQuery = homeRef.collection(CHORE_COL)
+            .orderBy(ChoreModel.FIELD_WHEN_DUE)
+        historyQuery = homeRef.collection(HISTORY_COL)
+            .orderBy(ChoreModel.FIELD_WHEN_DUE, Query.Direction.DESCENDING)
 
         choreAdapter = object : ChoreRecyclerAdapter(choreQuery,
             this@ChoreFragment, viewModel.user.value!!) {
@@ -151,13 +157,13 @@ class ChoreFragment(
         }
 
         // Create a chore dialog
-        ChoreDetailDialog(homeModel = home, null, DialogState.CREATE)
+        ChoreDetailDialog.newInstance(home, null, DialogState.CREATE)
             .show(parentFragmentManager, ChoreDetailDialog.TAG)
     }
 
     override fun onChoreSelected(chore: DocumentSnapshot) {
         val choreModel = chore.toObject<ChoreModel>()
-        ChoreDetailDialog(homeModel = home, choreModel = choreModel, DialogState.EDIT)
+        ChoreDetailDialog.newInstance(home, choreModel, DialogState.EDIT)
             .show(parentFragmentManager, ChoreDetailDialog.TAG)
     }
 
@@ -165,7 +171,16 @@ class ChoreFragment(
         val choreModel = chore.toObject<ChoreModel>()
         HistoryDetailDialog(choreModel!!).show(parentFragmentManager, HistoryDetailDialog.TAG)
     }
+
+
     companion object {
         const val TAG = "ChoreFragment"
+
+        fun newInstance(home : HomeModel): ChoreFragment {
+            val fragment = ChoreFragment()
+            val args = HomeUtil.addHomeToArgs(Bundle(), home)
+            fragment.arguments = args
+            return fragment
+        }
     }
 }

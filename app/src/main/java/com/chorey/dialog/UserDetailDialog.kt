@@ -21,12 +21,12 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class UserDetailDialog(
-    private val listener : OnIconChangedListener,
-    private val state: DialogState
-) : DialogFragment(),
+class UserDetailDialog : DialogFragment(),
         IconPickerAdapter.IconPickerDialogListener
 {
+    var listener : OnIconChangedListener? = null
+    var state: DialogState = DialogState.EDIT
+
     private var _binding: DialogUserDetailBinding? = null
     private val binding get() = _binding!!
 
@@ -116,7 +116,7 @@ class UserDetailDialog(
             }
             DialogState.EDIT -> {
                 userViewModel.user.value!!.icon = icon
-                listener.onIconChanged()
+                listener?.onIconChanged() ?: this.dismiss()
 
                 //Update the db
                 Firebase.firestore.collection(USER_COL).document(userViewModel.user.value!!.UID)
