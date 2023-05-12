@@ -11,6 +11,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.chorey.R
 import com.chorey.USER_COL
+import com.chorey.USER_ICON_LIST
 import com.chorey.adapter.IconPickerAdapter
 import com.chorey.data.DialogState
 import com.chorey.data.LoggedUserModel
@@ -32,15 +33,8 @@ class UserDetailDialog : DialogFragment(),
     private val userViewModel by activityViewModels<UserViewModel>()
     private val authViewModel by activityViewModels<AuthViewModel>()
 
-    private val iconList = listOf(
-        R.drawable.baseline_home_24,
-        R.drawable.baseline_money_24,
-        R.drawable.baseline_account_circle_24,
-        R.drawable.baseline_note_alt_24
-    )
-
     private lateinit var iconDialog: IconPickerDialog
-    private var curIcon = R.drawable.baseline_person_24
+    private var curIcon = USER_ICON_LIST.random()
 
     interface OnIconChangedListener {
         fun onIconChanged()
@@ -62,7 +56,7 @@ class UserDetailDialog : DialogFragment(),
 
 
         iconDialog = IconPickerDialog().apply {
-            iconList = this@UserDetailDialog.iconList
+            iconList = USER_ICON_LIST
             parentDialog = this@UserDetailDialog
         }
 

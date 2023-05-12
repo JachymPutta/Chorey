@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.chorey.HOME_COL
 import com.chorey.R
+import com.chorey.data.DialogState
 import com.chorey.data.HomeModel
 import com.chorey.databinding.FragmentHomeBinding
 import com.chorey.dialog.HomeDetailDialog
@@ -76,7 +77,8 @@ class HomeFragment : Fragment() {
         }
 
         binding.homeSettingsButton.setOnClickListener {
-            HomeDetailDialog(home).show(parentFragmentManager, "HomeDetailDialog")
+            HomeDetailDialog.newInstance(home)
+                .show(parentFragmentManager, "HomeDetailDialog")
         }
 
         initBottomNav()

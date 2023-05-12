@@ -23,9 +23,12 @@ class AddHomeDialog : DialogFragment() {
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
 
+            val createHomeListener =
+                requireParentFragment() as CreateHomeDialog.CreateHomeListener
             binding.createNewHomeButton.setOnClickListener {
+
                 CreateHomeDialog().apply {
-                    listener = requireParentFragment() as CreateHomeDialog.CreateHomeListener
+                    listener = createHomeListener
                 }.show(parentFragmentManager, "CreateNewHome")
                 this.dismiss()
             }

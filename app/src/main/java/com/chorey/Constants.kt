@@ -25,3 +25,17 @@ const val OTHER_COL = "other"
 const val EXPENSE_COL = "expenses"
 
 const val DUMMY_FIELD = "UNAUTHENTICATED"
+
+val HOME_ICON_LIST = listOf(
+    R.drawable.rent_icon_128,
+    R.drawable.utilities_icon_128,
+    R.drawable.other_icon_128,
+    R.drawable.grocery_icon_128
+)
+
+val USER_ICON_LIST = listOf(
+    R.drawable.baseline_home_24,
+    R.drawable.baseline_money_24,
+    R.drawable.baseline_account_circle_24,
+    R.drawable.baseline_note_alt_24
+)
