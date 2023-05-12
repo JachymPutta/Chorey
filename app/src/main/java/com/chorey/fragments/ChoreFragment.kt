@@ -169,7 +169,8 @@ class ChoreFragment : Fragment(),
 
     override fun onHistorySelected(chore: DocumentSnapshot) {
         val choreModel = chore.toObject<ChoreModel>()
-        HistoryDetailDialog(choreModel!!).show(parentFragmentManager, HistoryDetailDialog.TAG)
+        HistoryDetailDialog.newInstance(choreModel!!)
+            .show(parentFragmentManager, HistoryDetailDialog.TAG)
     }
 
 

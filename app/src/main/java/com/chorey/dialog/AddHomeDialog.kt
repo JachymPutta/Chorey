@@ -24,8 +24,9 @@ class AddHomeDialog : DialogFragment() {
             super.onViewCreated(view, savedInstanceState)
 
             binding.createNewHomeButton.setOnClickListener {
-                CreateHomeDialog(requireParentFragment() as CreateHomeDialog.CreateHomeListener)
-                    .show(parentFragmentManager, "CreateNewHome")
+                CreateHomeDialog().apply {
+                    listener = requireParentFragment() as CreateHomeDialog.CreateHomeListener
+                }.show(parentFragmentManager, "CreateNewHome")
                 this.dismiss()
             }
             binding.joinExistingButton.setOnClickListener {

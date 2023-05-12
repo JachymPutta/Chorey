@@ -11,19 +11,20 @@ import com.chorey.OTHER_COL
 import com.chorey.adapter.ExpenseRecyclerAdapter
 import com.chorey.data.HomeModel
 import com.chorey.databinding.DialogExpenseOtherBinding
+import com.chorey.fragments.NoteFragment
+import com.chorey.util.HomeUtil
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class ExpenseOtherDialog(
-    private val homeModel: HomeModel
-) : DialogFragment(),
+class ExpenseOtherDialog : DialogFragment(),
     ExpenseRecyclerAdapter.OnExpenseSelectedListener {
 
     private var _binding: DialogExpenseOtherBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var homeModel : HomeModel
     private lateinit var expenseAdapter: ExpenseRecyclerAdapter
     private lateinit var expenseQuery: Query
 
@@ -32,6 +33,7 @@ class ExpenseOtherDialog(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        homeModel = HomeUtil.getHomeFromArgs(requireArguments())
         _binding = DialogExpenseOtherBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -79,5 +81,12 @@ class ExpenseOtherDialog(
 
     companion object {
         const val TAG = "ExpenseTypeDialog"
+
+        fun newInstance(home : HomeModel): ExpenseOtherDialog {
+            val fragment = ExpenseOtherDialog()
+            val args = HomeUtil.addHomeToArgs(Bundle(), home)
+            fragment.arguments = args
+            return fragment
+        }
     }
 }

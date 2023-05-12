@@ -9,12 +9,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.chorey.adapter.IconPickerAdapter
 import com.chorey.databinding.DialogIconPickerBinding
 
-class IconPickerDialog(
-    private val iconList: List<Int>,
-    private val parentDialog : DialogFragment): DialogFragment() {
+class IconPickerDialog : DialogFragment() {
 
     private var _binding: DialogIconPickerBinding? = null
     private val binding get() = _binding!!
+
+    var iconList: List<Int> = listOf()
+    var parentDialog : DialogFragment? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,6 +28,8 @@ class IconPickerDialog(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (parentDialog == null) dismiss()
 
         val adapter = IconPickerAdapter(iconList,
              parentDialog as IconPickerAdapter.IconPickerDialogListener)

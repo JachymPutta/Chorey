@@ -26,7 +26,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
-class JoinHomeDialog : DialogFragment(), JoinHomeRecyclerAdapter.OnJoinSelectedListener{
+class JoinHomeDialog : DialogFragment(),
+    JoinHomeRecyclerAdapter.OnJoinSelectedListener{
 
     private var _binding: DialogJoinHomeBinding? = null
     private val binding get() = _binding!!

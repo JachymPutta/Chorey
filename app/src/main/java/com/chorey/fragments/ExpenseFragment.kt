@@ -183,28 +183,39 @@ class ExpenseFragment : Fragment(),
 
     private fun setClickListeners() {
         binding.expenseRentButton.setOnClickListener {
-            ExpenseDetailDialog(rentExpenseModel, this)
-                .show(childFragmentManager, ExpenseDetailDialog.TAG)
+            ExpenseDetailDialog().apply {
+                expense = rentExpenseModel
+                listener = this@ExpenseFragment
+            }.show(childFragmentManager, ExpenseDetailDialog.TAG)
         }
         binding.expenseFunButton.setOnClickListener {
-            ExpenseDetailDialog(funExpenseModel, this)
-                .show(childFragmentManager, ExpenseDetailDialog.TAG)
+            ExpenseDetailDialog().apply {
+                expense = funExpenseModel
+                listener = this@ExpenseFragment
+            }.show(childFragmentManager, ExpenseDetailDialog.TAG)
         }
         binding.expenseGroceriesButton.setOnClickListener {
-            ExpenseDetailDialog(groceriesExpenseModel, this)
-                .show(childFragmentManager, ExpenseDetailDialog.TAG)
+            ExpenseDetailDialog().apply {
+                expense = groceriesExpenseModel
+                listener = this@ExpenseFragment
+            }.show(childFragmentManager, ExpenseDetailDialog.TAG)
         }
         binding.expenseHouseholdItemsButton.setOnClickListener {
-            ExpenseDetailDialog(householdExpenseModel, this)
-                .show(childFragmentManager, ExpenseDetailDialog.TAG)
+            ExpenseDetailDialog().apply {
+                expense = householdExpenseModel
+                listener = this@ExpenseFragment
+            }.show(childFragmentManager, ExpenseDetailDialog.TAG)
         }
 
         binding.expenseUtilitiesButton.setOnClickListener {
-            ExpenseDetailDialog(utilExpenseModel, this)
-                .show(childFragmentManager, ExpenseDetailDialog.TAG)
+            ExpenseDetailDialog().apply {
+                expense = utilExpenseModel
+                listener = this@ExpenseFragment
+            }.show(childFragmentManager, ExpenseDetailDialog.TAG)
         }
         binding.expenseOtherButton.setOnClickListener {
-            ExpenseOtherDialog(home).show(childFragmentManager, ExpenseOtherDialog.TAG)
+            ExpenseOtherDialog.newInstance(home)
+                .show(childFragmentManager, ExpenseOtherDialog.TAG)
         }
     }
 

@@ -22,8 +22,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class UserDetailDialog : DialogFragment(),
-        IconPickerAdapter.IconPickerDialogListener
-{
+        IconPickerAdapter.IconPickerDialogListener {
     var listener : OnIconChangedListener? = null
     var state: DialogState = DialogState.EDIT
 
@@ -59,8 +58,13 @@ class UserDetailDialog : DialogFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (listener == null) dismiss()
 
-        iconDialog = IconPickerDialog(iconList, this)
+
+        iconDialog = IconPickerDialog().apply {
+            iconList = this@UserDetailDialog.iconList
+            parentDialog = this@UserDetailDialog
+        }
 
         when(state) {
             DialogState.CREATE -> {
@@ -116,7 +120,7 @@ class UserDetailDialog : DialogFragment(),
             }
             DialogState.EDIT -> {
                 userViewModel.user.value!!.icon = icon
-                listener?.onIconChanged() ?: this.dismiss()
+                listener!!.onIconChanged()
 
                 //Update the db
                 Firebase.firestore.collection(USER_COL).document(userViewModel.user.value!!.UID)

@@ -1,6 +1,6 @@
 package com.chorey.dialog
 
-import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,23 +16,32 @@ import com.chorey.data.DialogState
 import com.chorey.data.HomeModel
 import com.chorey.data.NoteModel
 import com.chorey.databinding.DialogNoteDetailBinding
+import com.chorey.util.HomeUtil
 import com.chorey.viewmodel.UserViewModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.util.UUID
 
-class NoteDetailDialog(private val homeModel: HomeModel,
-                       private val noteModel: NoteModel?,
-                       private val state: DialogState) : DialogFragment(){
+class NoteDetailDialog : DialogFragment(){
     private var _binding: DialogNoteDetailBinding? = null
     private val binding get() = _binding!!
     private val viewModel by activityViewModels<UserViewModel>()
+
+    private lateinit var homeModel: HomeModel
+    private var noteModel: NoteModel? = null
+    private lateinit var state: DialogState
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        homeModel = HomeUtil.getHomeFromArgs(requireArguments())
+        state = DialogState.values()[arguments?.getInt("dialogState")!!]
+        if (state == DialogState.EDIT) {
+            noteModel = getNoteFromArgs(requireArguments())
+        }
+
         _binding = DialogNoteDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -58,7 +67,7 @@ class NoteDetailDialog(private val homeModel: HomeModel,
     }
 
     private fun onRemoveClicked() {
-        val uid = noteModel!!.UID
+        val uid = noteModel!!.noteUID
 
         Firebase.firestore.collection(HOME_COL).document(homeModel.homeUID)
             .collection(NOTE_COL).document(uid).delete()
@@ -69,7 +78,7 @@ class NoteDetailDialog(private val homeModel: HomeModel,
     }
 
     private fun onCreateClicked() {
-        val uid = noteModel?.UID ?: UUID.randomUUID().toString()
+        val uid = noteModel?.noteUID ?: UUID.randomUUID().toString()
 
         if(checkEmpty()) {
             Toast.makeText(requireContext(),
@@ -81,7 +90,7 @@ class NoteDetailDialog(private val homeModel: HomeModel,
         val text = binding.noteDetailTextInput.editText?.text.toString()
 
         val note = NoteModel(
-            UID = uid,
+            noteUID = uid,
             note = text,
             author = viewModel.user.value!!.name
         )
@@ -109,7 +118,42 @@ class NoteDetailDialog(private val homeModel: HomeModel,
         }
     }
 
+    fun getNoteFromArgs(arguments : Bundle) : NoteModel {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arguments.getParcelable(NoteModel.toString(), NoteModel::class.java)!!
+        } else {
+            val uid = arguments.getString(NoteModel.FIELD_UID)!!
+            val note = arguments.getString(NoteModel.FIELD_NOTE)!!
+            val author = arguments.getString(NoteModel.FIELD_AUTHOR)!!
+            NoteModel(uid, note, author)
+        }
+    }
+
     companion object {
         const val TAG = "NoteDetailDialog"
+
+        private fun addNoteToArgs(args : Bundle, noteModel: NoteModel) : Bundle {
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                args.apply { putParcelable(NoteModel.toString(), noteModel) }
+            } else {
+                args.apply {
+                    putString(NoteModel.FIELD_UID, noteModel.noteUID)
+                    putString(NoteModel.FIELD_NOTE, noteModel.note)
+                    putString(NoteModel.FIELD_AUTHOR, noteModel.author)
+                }
+            }
+        }
+
+        fun newInstance(home : HomeModel,
+                        noteModel: NoteModel?,
+                        state: DialogState): NoteDetailDialog{
+            val fragment = NoteDetailDialog()
+            val args = HomeUtil.addHomeToArgs(Bundle(), home)
+            noteModel?.let { addNoteToArgs(args, it) }
+            val id = DialogState.values().indexOf(state)
+            args.putInt("dialogState", id)
+            fragment.arguments = args
+            return fragment
+        }
     }
 }

@@ -21,14 +21,14 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class ExpenseDetailDialog(
-        private val expense: ExpenseModel,
-        private val listener: OnExpenseChangedListener
-    ) : DialogFragment(),
+class ExpenseDetailDialog : DialogFragment(),
         ExpenseGoalEditDialog.EditExpenseListener {
 
     private var _binding: DialogExpenseDetailBinding? = null
     private val binding get() = _binding!!
+
+    var expense : ExpenseModel = ExpenseModel()
+    var listener: OnExpenseChangedListener? = null
 
     private lateinit var contribAdapter: ContribRecyclerAdapter
     private lateinit var user: LoggedUserModel
@@ -54,6 +54,8 @@ class ExpenseDetailDialog(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (listener == null) dismiss()
 
         // Init values
         user = userViewModel.user.value!!
@@ -81,7 +83,7 @@ class ExpenseDetailDialog(
         super.onStop()
 
         if (dataChanged) {
-            listener.onExpenseDataChanged(expense)
+            listener?.onExpenseDataChanged(expense)
         }
     }
     override fun onDestroyView() {
@@ -116,8 +118,10 @@ class ExpenseDetailDialog(
     }
 
     private fun editGoalHandle() {
-        ExpenseGoalEditDialog(expense,this)
-            .show(childFragmentManager, ExpenseGoalEditDialog.TAG)
+        ExpenseGoalEditDialog().apply {
+            expense = this@ExpenseDetailDialog.expense
+            listener = this@ExpenseDetailDialog
+        }.show(childFragmentManager, ExpenseGoalEditDialog.TAG)
     }
 
     private fun addContribHandle() {

@@ -288,9 +288,11 @@ class ChoreDetailDialog : DialogFragment(),
     private fun onRemoveClicked() {
         Firebase.firestore.collection(HOME_COL).document(homeModel.homeUID)
                 .collection(CHORE_COL).document(choreModel!!.choreUID)
-            .get().addOnSuccessListener {
-                ConfirmRemoveDialog(it, choreModel!!.choreName)
-                    .show(parentFragmentManager, ConfirmRemoveDialog.TAG)
+            .get().addOnSuccessListener { ds ->
+                ConfirmRemoveDialog().apply{
+                    snapshot = ds
+                    name = choreModel!!.choreName
+                }.show(parentFragmentManager, ConfirmRemoveDialog.TAG)
             }
     }
 

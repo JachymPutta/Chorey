@@ -48,7 +48,10 @@ class HomeDetailDialog(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        iconDialog = IconPickerDialog(iconList, this)
+        iconDialog = IconPickerDialog().apply{
+            iconList = this@HomeDetailDialog.iconList
+            parentDialog = this@HomeDetailDialog
+        }
 
         binding.homeDetailName.text = home.homeName
         binding.homeDetailMembers.text = home.users.joinToString(",")
@@ -97,8 +100,11 @@ class HomeDetailDialog(
     private fun removeHomeHandle() {
         Firebase.firestore.collection(HOME_COL).document(home.homeUID).get()
             .addOnSuccessListener { snap ->
-                ConfirmRemoveDialog(snap, home.homeName, true)
-                    .show(parentFragmentManager, "ConfirmRemoveDialog")
+                ConfirmRemoveDialog().apply {
+                    snapshot = snap
+                    name = home.homeName
+                    isHome = true
+                }.show(parentFragmentManager, "ConfirmRemoveDialog")
                 this.dismiss()
             }
             .addOnFailureListener { e ->

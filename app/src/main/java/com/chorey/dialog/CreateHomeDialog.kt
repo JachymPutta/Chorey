@@ -19,10 +19,12 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.util.UUID
 
-class CreateHomeDialog(private val listener : CreateHomeListener?) : DialogFragment() {
+class CreateHomeDialog : DialogFragment() {
     private var _binding: DialogCreateHomeBinding? = null
     private val binding get() = _binding!!
     private val userViewModel by activityViewModels<UserViewModel>()
+
+    var listener : CreateHomeListener? = null
 
     interface CreateHomeListener {
         fun onHomeCreated()
@@ -34,6 +36,8 @@ class CreateHomeDialog(private val listener : CreateHomeListener?) : DialogFragm
         savedInstanceState: Bundle?
     ): View {
         _binding = DialogCreateHomeBinding.inflate(inflater, container, false)
+
+        if (listener == null) dismiss()
 
         binding.createHomeCreateButton.setOnClickListener { onCreateClicked() }
         binding.createHomeCancelButton.setOnClickListener { onCancelClicked() }

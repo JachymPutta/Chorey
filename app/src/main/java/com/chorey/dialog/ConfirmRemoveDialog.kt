@@ -24,10 +24,11 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
-class ConfirmRemoveDialog(
-    private val snapshot : DocumentSnapshot,
-    private val name : String,
-    private var isHome : Boolean = false) : DialogFragment() {
+class ConfirmRemoveDialog : DialogFragment() {
+
+    var snapshot : DocumentSnapshot? = null
+    var name : String? = null
+    var isHome : Boolean = false
 
     private var _binding: DialogConfirmRemoveBinding? = null
 
@@ -47,6 +48,8 @@ class ConfirmRemoveDialog(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (name == null) dismiss()
+
         val titleMsg = "Remove $name?"
 
         binding.confirmRemoveDialogTitle.text = titleMsg
@@ -64,7 +67,7 @@ class ConfirmRemoveDialog(
         if (isHome) {
             removeHome()
         } else {
-            snapshot.reference.delete()
+            snapshot!!.reference.delete()
             dismiss()
         }
     }
@@ -72,7 +75,7 @@ class ConfirmRemoveDialog(
     private fun removeHome() {
         val db = Firebase.firestore
         val user = viewModel.user.value!!
-        val home = snapshot.toObject<HomeModel>()
+        val home = snapshot!!.toObject<HomeModel>()
 
         val homeRef = db.collection(HOME_COL).document(home!!.homeUID)
         val userRef = db.collection(USER_COL).document(user.UID)
@@ -85,7 +88,7 @@ class ConfirmRemoveDialog(
         deleteCol(homeRef.collection(USER_COL))
         deleteCol(homeRef.collection(EXPENSE_COL))
 
-        snapshot.reference.delete()
+        snapshot!!.reference.delete()
         findNavController().navigate(R.id.menuFragment)
         dismiss()
     }

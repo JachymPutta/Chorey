@@ -11,15 +11,15 @@ import com.chorey.data.ExpenseModel
 import com.chorey.data.RepeatInterval
 import com.chorey.databinding.DialogExpenseGoalEditBinding
 
-class ExpenseGoalEditDialog(
-    private val expense: ExpenseModel,
-    private val listener : EditExpenseListener
-    ) : DialogFragment() {
+class ExpenseGoalEditDialog : DialogFragment() {
     private var _binding: DialogExpenseGoalEditBinding? = null
     private val binding get() = _binding!!
 
     private var newGoal = 0
     private var newRepeatInterval : RepeatInterval = RepeatInterval.None
+
+    var expense: ExpenseModel = ExpenseModel()
+    var listener : EditExpenseListener? = null
 
     interface EditExpenseListener {
         fun onGoalEdit(goal: Int, repeatInterval: RepeatInterval)
@@ -36,6 +36,8 @@ class ExpenseGoalEditDialog(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (listener == null) dismiss()
 
         binding.editGoalInput.setText(expense.goal.toString())
 
@@ -64,7 +66,7 @@ class ExpenseGoalEditDialog(
         newRepeatInterval = binding.goalIntervalSpinner.selectedItem as RepeatInterval
 
         if (newGoal != 0) {
-            listener.onGoalEdit(newGoal, newRepeatInterval)
+            listener?.onGoalEdit(newGoal, newRepeatInterval)
         }
         this.dismiss()
     }

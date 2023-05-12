@@ -77,7 +77,7 @@ class NoteFragment : Fragment(),
     }
 
     private fun addNoteHandle() {
-        NoteDetailDialog(homeModel = home, noteModel = null, state = DialogState.CREATE)
+        NoteDetailDialog.newInstance(home, null, DialogState.CREATE)
             .show(parentFragmentManager, NoteDetailDialog.TAG)
     }
 
@@ -89,7 +89,7 @@ class NoteFragment : Fragment(),
     override fun onNoteSelected(note: DocumentSnapshot) {
         val noteModel = note.toObject<NoteModel>()
 
-        NoteDetailDialog(homeModel = home, noteModel = noteModel, state = DialogState.EDIT)
+        NoteDetailDialog.newInstance(home, noteModel, DialogState.EDIT)
             .show(parentFragmentManager, NoteDetailDialog.TAG)
     }
 
