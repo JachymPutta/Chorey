@@ -39,7 +39,10 @@ class SummaryFragment: Fragment()
         super.onViewCreated(view, savedInstanceState)
 
         val homeRef = Firebase.firestore.collection(HOME_COL).document(home.homeUID)
-        query = homeRef.collection(USER_COL).orderBy(HomeUserModel.FIELD_POINTS, Query.Direction.DESCENDING)
+        query  = homeRef.collection(USER_COL)
+            .orderBy(HomeUserModel.FIELD_POINTS, Query.Direction.DESCENDING)
+
+        summaryAdapter = SummaryRecyclerAdapter(query)
 
         binding.allChoresRecycler.adapter = summaryAdapter
         binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
