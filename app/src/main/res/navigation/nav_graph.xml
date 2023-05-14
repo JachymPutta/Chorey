@@ -75,4 +75,14 @@
         tools:layout="@layout/fragment_expenses"
         android:name="com.chorey.fragments.ExpenseFragment"
         android:label="FundFragment" />
+    <fragment
+        android:id="@+id/createChoreNameFragment"
+        android:name="com.chorey.fragments.chorecreation.CreateChoreNameFragment"
+        android:label="fragment_create_chore_name"
+        tools:layout="@layout/fragment_create_chore_name" />
+    <fragment
+        android:id="@+id/createChoreTimeFragment"
+        android:name="com.chorey.fragments.chorecreation.CreateChoreTimeFragment"
+        android:label="fragment_create_chore_time"
+        tools:layout="@layout/fragment_create_chore_time" />
 </navigation>

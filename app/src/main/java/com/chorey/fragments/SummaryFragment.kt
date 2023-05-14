@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chorey.HOME_COL
 import com.chorey.NOTE_COL
@@ -14,6 +15,7 @@ import com.chorey.data.HomeModel
 import com.chorey.data.HomeUserModel
 import com.chorey.databinding.FragmentSummaryBinding
 import com.chorey.util.HomeUtil
+import com.chorey.viewmodel.HomeViewModel
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -26,11 +28,13 @@ class SummaryFragment: Fragment()
     private lateinit var query: Query
     private lateinit var home : HomeModel
 
+    private val homeViewModel by activityViewModels<HomeViewModel>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        home = HomeUtil.getHomeFromArgs(requireArguments())
+        home = homeViewModel.home.value!!
         binding = FragmentSummaryBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -60,12 +64,5 @@ class SummaryFragment: Fragment()
 
     companion object {
         const val TAG = "SummaryFragment"
-
-        fun newInstance(home : HomeModel): SummaryFragment {
-            val fragment = SummaryFragment()
-            val args = HomeUtil.addHomeToArgs(Bundle(), home)
-            fragment.arguments = args
-            return fragment
-        }
     }
 }

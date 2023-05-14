@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import com.chorey.HOME_COL
 import com.chorey.HOME_ICON_LIST
 import com.chorey.R
@@ -13,6 +14,7 @@ import com.chorey.adapter.IconPickerAdapter
 import com.chorey.data.HomeModel
 import com.chorey.databinding.DialogHomeDetailBinding
 import com.chorey.util.HomeUtil
+import com.chorey.viewmodel.HomeViewModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -25,6 +27,7 @@ class HomeDetailDialog
     private lateinit var home : HomeModel
     private lateinit var iconDialog: IconPickerDialog
 
+    private val homeViewModel by activityViewModels<HomeViewModel>()
     //TODO: might have to add an interface here for the icon updates?
 
     override fun onCreateView(
@@ -32,7 +35,7 @@ class HomeDetailDialog
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        home = HomeUtil.getHomeFromArgs(requireArguments())
+        home = homeViewModel.home.value!!
         _binding = DialogHomeDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -74,8 +77,7 @@ class HomeDetailDialog
     }
 
     private fun addMemberHandle() {
-        AddMemberDialog.newInstance(home)
-            .show(parentFragmentManager, "AddMemberDialog")
+        AddMemberDialog().show(parentFragmentManager, "AddMemberDialog")
     }
 
     private fun removeHomeHandle() {
@@ -95,11 +97,5 @@ class HomeDetailDialog
 
     companion object {
         const val TAG = "HomeDetailDialog"
-        fun newInstance(home : HomeModel): HomeDetailDialog {
-            val fragment = HomeDetailDialog()
-            val args = HomeUtil.addHomeToArgs(Bundle(), home)
-            fragment.arguments = args
-            return fragment
-        }
     }
 }

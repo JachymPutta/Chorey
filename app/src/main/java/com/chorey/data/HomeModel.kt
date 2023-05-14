@@ -14,7 +14,7 @@ data class HomeModel (
     var homeUID: String = UUID.randomUUID().toString(),
     var homeName: String = "",
     var icon: Int = R.drawable.baseline_home_24,
-    val users : ArrayList<String> = arrayListOf()
+    val users : ArrayList<HomeUserModel> = arrayListOf()
 ) : Parcelable
 {
     companion object {

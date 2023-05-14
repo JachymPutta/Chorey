@@ -16,6 +16,7 @@ import com.chorey.data.InviteModel
 import com.chorey.data.LoggedUserModel
 import com.chorey.databinding.DialogAddMemberBinding
 import com.chorey.util.HomeUtil
+import com.chorey.viewmodel.HomeViewModel
 import com.chorey.viewmodel.UserViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -31,12 +32,14 @@ class AddMemberDialog : DialogFragment() {
     private lateinit var home : HomeModel
     private lateinit var firestore: FirebaseFirestore
 
+    private val homeViewModel by activityViewModels<HomeViewModel>()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        home = HomeUtil.getHomeFromArgs(requireArguments())
+        home = homeViewModel.home.value!!
         _binding = DialogAddMemberBinding.inflate(inflater, container, false)
 
         firestore = Firebase.firestore
@@ -115,13 +118,5 @@ class AddMemberDialog : DialogFragment() {
 
     companion object {
         const val TAG = "AddMemberDialog"
-
-        fun newInstance(home : HomeModel): AddMemberDialog {
-            val dialog = AddMemberDialog()
-            val args = HomeUtil.addHomeToArgs(Bundle(), home)
-            dialog.arguments = args
-            return dialog
-        }
     }
-
 }

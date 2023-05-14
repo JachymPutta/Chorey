@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.chorey.CHORE_COL
 import com.chorey.EXPENSE_COL
+import com.chorey.HISTORY_COL
 import com.chorey.HOME_COL
 import com.chorey.NOTE_COL
 import com.chorey.R
@@ -73,20 +74,23 @@ class ConfirmRemoveDialog : DialogFragment() {
     }
 
     private fun removeHome() {
-        val db = Firebase.firestore
+        val firestore = Firebase.firestore
         val user = viewModel.user.value!!
         val home = snapshot!!.toObject<HomeModel>()
 
-        val homeRef = db.collection(HOME_COL).document(home!!.homeUID)
-        val userRef = db.collection(USER_COL).document(user.UID)
+        val homeRef = firestore.collection(HOME_COL).document(home!!.homeUID)
+        val userRef = firestore.collection(USER_COL).document(user.UID)
 
         user.memberOf.remove(home.homeUID)
 
         userRef.update(FIELD_MEMBER_OF, user.memberOf)
+
+        // Only do this if it's the last member
         deleteCol(homeRef.collection(NOTE_COL))
         deleteCol(homeRef.collection(CHORE_COL))
         deleteCol(homeRef.collection(USER_COL))
         deleteCol(homeRef.collection(EXPENSE_COL))
+        deleteCol(homeRef.collection(HISTORY_COL))
 
         snapshot!!.reference.delete()
         findNavController().navigate(R.id.menuFragment)

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chorey.CHORE_COL
 import com.chorey.HISTORY_COL
@@ -24,7 +25,9 @@ import com.chorey.data.HomeModel
 import com.chorey.databinding.FragmentChoreBinding
 import com.chorey.dialog.ChoreDetailDialog
 import com.chorey.dialog.HistoryDetailDialog
+import com.chorey.fragments.chorecreation.CreateChoreNameFragment
 import com.chorey.util.HomeUtil
+import com.chorey.viewmodel.HomeViewModel
 import com.chorey.viewmodel.UserViewModel
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
@@ -37,6 +40,7 @@ class ChoreFragment : Fragment(),
     ChoreHistoryAdapter.OnHistorySelectedListener
 {
     private val viewModel by activityViewModels<UserViewModel>()
+    private val homeViewModel by activityViewModels<HomeViewModel>()
 
     private lateinit var home : HomeModel
     private lateinit var choreQuery: Query
@@ -57,7 +61,7 @@ class ChoreFragment : Fragment(),
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        home = HomeUtil.getHomeFromArgs(requireArguments())
+        home = homeViewModel.home.value!!
         binding = FragmentChoreBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -156,14 +160,16 @@ class ChoreFragment : Fragment(),
             return
         }
 
+        findNavController().navigate(R.id.createChoreNameFragment)
+
         // Create a chore dialog
-        ChoreDetailDialog.newInstance(home, null, DialogState.CREATE)
-            .show(parentFragmentManager, ChoreDetailDialog.TAG)
+//        ChoreDetailDialog.newInstance(null, DialogState.CREATE)
+//            .show(parentFragmentManager, ChoreDetailDialog.TAG)
     }
 
     override fun onChoreSelected(chore: DocumentSnapshot) {
         val choreModel = chore.toObject<ChoreModel>()
-        ChoreDetailDialog.newInstance(home, choreModel, DialogState.EDIT)
+        ChoreDetailDialog.newInstance(choreModel, DialogState.EDIT)
             .show(parentFragmentManager, ChoreDetailDialog.TAG)
     }
 
@@ -176,12 +182,5 @@ class ChoreFragment : Fragment(),
 
     companion object {
         const val TAG = "ChoreFragment"
-
-        fun newInstance(home : HomeModel): ChoreFragment {
-            val fragment = ChoreFragment()
-            val args = HomeUtil.addHomeToArgs(Bundle(), home)
-            fragment.arguments = args
-            return fragment
-        }
     }
 }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.chorey.HOME_COL
 import com.chorey.NOTE_COL
@@ -15,6 +16,7 @@ import com.chorey.data.NoteModel
 import com.chorey.databinding.FragmentNotesBinding
 import com.chorey.dialog.NoteDetailDialog
 import com.chorey.util.HomeUtil
+import com.chorey.viewmodel.HomeViewModel
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestoreException
@@ -33,11 +35,13 @@ class NoteFragment : Fragment(),
     private lateinit var noteAdapter: NoteRecyclerAdapter
     private lateinit var binding: FragmentNotesBinding
 
+    private val homeViewModel by activityViewModels<HomeViewModel>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        home = HomeUtil.getHomeFromArgs(requireArguments())
+        home = homeViewModel.home.value!!
         binding = FragmentNotesBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -77,7 +81,7 @@ class NoteFragment : Fragment(),
     }
 
     private fun addNoteHandle() {
-        NoteDetailDialog.newInstance(home, null, DialogState.CREATE)
+        NoteDetailDialog.newInstance(null, DialogState.CREATE)
             .show(parentFragmentManager, NoteDetailDialog.TAG)
     }
 
@@ -89,18 +93,12 @@ class NoteFragment : Fragment(),
     override fun onNoteSelected(note: DocumentSnapshot) {
         val noteModel = note.toObject<NoteModel>()
 
-        NoteDetailDialog.newInstance(home, noteModel, DialogState.EDIT)
+        NoteDetailDialog.newInstance(noteModel, DialogState.EDIT)
             .show(parentFragmentManager, NoteDetailDialog.TAG)
     }
 
     companion object {
         const val TAG = "NoteFragment"
         const val NOTE_COLUMN_CNT = 2
-        fun newInstance(home : HomeModel): NoteFragment{
-            val fragment = NoteFragment()
-            val args = HomeUtil.addHomeToArgs(Bundle(), home)
-            fragment.arguments = args
-            return fragment
-        }
     }
 }

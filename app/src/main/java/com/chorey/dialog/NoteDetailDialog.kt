@@ -17,6 +17,7 @@ import com.chorey.data.HomeModel
 import com.chorey.data.NoteModel
 import com.chorey.databinding.DialogNoteDetailBinding
 import com.chorey.util.HomeUtil
+import com.chorey.viewmodel.HomeViewModel
 import com.chorey.viewmodel.UserViewModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -26,6 +27,7 @@ class NoteDetailDialog : DialogFragment(){
     private var _binding: DialogNoteDetailBinding? = null
     private val binding get() = _binding!!
     private val viewModel by activityViewModels<UserViewModel>()
+    private val homeViewModel by activityViewModels<HomeViewModel>()
 
     private lateinit var homeModel: HomeModel
     private var noteModel: NoteModel? = null
@@ -36,7 +38,7 @@ class NoteDetailDialog : DialogFragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        homeModel = HomeUtil.getHomeFromArgs(requireArguments())
+        homeModel = homeViewModel.home.value!!
         state = DialogState.values()[arguments?.getInt("dialogState")!!]
         if (state == DialogState.EDIT) {
             noteModel = getNoteFromArgs(requireArguments())
@@ -118,7 +120,7 @@ class NoteDetailDialog : DialogFragment(){
         }
     }
 
-    fun getNoteFromArgs(arguments : Bundle) : NoteModel {
+    private fun getNoteFromArgs(arguments : Bundle) : NoteModel {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arguments.getParcelable(NoteModel.toString(), NoteModel::class.java)!!
         } else {
@@ -144,11 +146,10 @@ class NoteDetailDialog : DialogFragment(){
             }
         }
 
-        fun newInstance(home : HomeModel,
-                        noteModel: NoteModel?,
+        fun newInstance(noteModel: NoteModel?,
                         state: DialogState): NoteDetailDialog{
             val fragment = NoteDetailDialog()
-            val args = HomeUtil.addHomeToArgs(Bundle(), home)
+            val args = Bundle()
             noteModel?.let { addNoteToArgs(args, it) }
             val id = DialogState.values().indexOf(state)
             args.putInt("dialogState", id)

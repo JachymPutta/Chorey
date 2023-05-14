@@ -20,6 +20,7 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import com.chorey.CHORE_COL
 import com.chorey.DATE_PATTERN
 import com.chorey.HOME_COL
@@ -32,6 +33,7 @@ import com.chorey.data.RepeatInterval
 import com.chorey.databinding.DialogChoreDetailBinding
 import com.chorey.util.ChoreUtil
 import com.chorey.util.HomeUtil
+import com.chorey.viewmodel.HomeViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -57,12 +59,14 @@ class ChoreDetailDialog : DialogFragment(),
     private var choreModel: ChoreModel? = null
     private lateinit var state: DialogState
 
+    private val homeViewModel by activityViewModels<HomeViewModel>()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        homeModel = HomeUtil.getHomeFromArgs(requireArguments())
+        homeModel = homeViewModel.home.value!!
         state = DialogState.values()[arguments?.getInt("dialogState")!!]
         if (state == DialogState.EDIT) {
             choreModel = ChoreUtil.getChoreFromArgs(requireArguments())
@@ -221,7 +225,8 @@ class ChoreDetailDialog : DialogFragment(),
      */
     private fun onAssignClicked() {
         val builder = AlertDialog.Builder(requireContext())
-        val userArray: Array<String> = homeModel.users.toTypedArray()
+//        val userArray: Array<String> = homeModel.users.toTypedArray()
+        val userArray : Array<String> = arrayOf()
         val selectedUsers: ArrayList<String> = arrayListOf()
         val selectionArray = BooleanArray(homeModel.users.size)
 
@@ -363,11 +368,10 @@ class ChoreDetailDialog : DialogFragment(),
         const val TAG = "CreateChoreDialog"
         const val TIME_PICKER = 1
 
-        fun newInstance(home : HomeModel,
-                        choreModel: ChoreModel?,
+        fun newInstance(choreModel: ChoreModel?,
                         state: DialogState): ChoreDetailDialog{
             val fragment = ChoreDetailDialog()
-            val args = HomeUtil.addHomeToArgs(Bundle(), home)
+            val args = Bundle()
             choreModel?.let {ChoreUtil.addChoreToArgs(args, it)}
             val id = DialogState.values().indexOf(state)
             args.putInt("dialogState", id)

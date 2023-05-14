@@ -18,6 +18,7 @@
     <string name="auth_button_logout">Logout</string>
     <string name="menu_arrow_desc">menu_arrow</string>
     <string name="add_home_hint">Click Here To Add More</string>
+    <string name="continue_button">Continue</string>
 
     <!-- Menu Recycler View -->
     <string name="home_item_place_holder">Home</string>
@@ -119,14 +120,15 @@
     <string name="join_home_remove_invite_desc">Remove Invite</string>
 
     <!-- Chore Detail Dialog -->
-    <string name="chore_detail_title_create">Create Chore:</string>
+    <string name="chore_detail_title_create">Create a new task</string>
+    <string name="chore_detail_title_time">Assign a schedule</string>
     <string name="chore_detail_title_edit">Edit Chore:</string>
-    <string name="create_chore_name_hint">Chore Name</string>
-    <string name="chore_detail_name_text">Name:</string>
+    <string name="create_chore_name_hint">Task Name</string>
+    <string name="chore_detail_name_text">What needs to be done?</string>
     <string name="chore_detail_spinner_text">Template:</string>
     <string name="create_chore_edit_button">Done</string>
     <string name="create_chore_remove_button">Remove</string>
-    <string name="chore_detail_assign_text">Assign to:</string>
+    <string name="chore_detail_assign_text">Who will be doing it?</string>
     <string name="chore_detail_assign_hint">Select members</string>
     <string name="chore_detail_due_text">Due:</string>
     <string name="chore_detail_repeats">Yes</string>
@@ -138,6 +140,8 @@
     <string name="chore_detail_at">at</string>
     <string name="chore_detail_time_to_complete">Time needed:</string>
     <string name="chore_detail_reward">Reward:</string>
+    <string name="chore_detail_add_everyone">Everyone</string>
+    <string name="chore_detail_add_me">Just Me</string>
 
     <!-- History Detail Dialog -->
     <string name="history_detail_title">Completed Chore</string>

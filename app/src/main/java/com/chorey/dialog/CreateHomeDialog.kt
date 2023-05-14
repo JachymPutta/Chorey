@@ -100,13 +100,17 @@ class CreateHomeDialog : DialogFragment(),
             return
         }
 
+        val homeUserModel = HomeUserModel(
+            name = user.name,
+            icon = user.icon
+        )
+
         val home = HomeModel(
             homeUID = UUID.randomUUID().toString(),
             homeName = binding.createHomeNameInput.editText?.text.toString(),
             icon = curIcon,
-            users = arrayListOf(user.name)
+            users = arrayListOf(homeUserModel)
         )
-        val homeUserModel = HomeUserModel(name = user.name)
         val homeRef = db.collection(HOME_COL).document(home.homeUID)
         val userRef = db.collection(USER_COL).document(user.UID)
 

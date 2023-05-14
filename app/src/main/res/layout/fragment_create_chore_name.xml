@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/line_space_large"
+    android:background="?attr/colorPrimaryContainer"
+    tools:context=".fragments.chorecreation.CreateChoreNameFragment"
+    >
+
+    <TextView
+        android:id="@+id/createChoreTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/chore_detail_title_create"
+        android:textSize="@dimen/large_text_size"
+        android:textStyle="bold"
+        android:textColor="?attr/colorOnPrimary"
+        android:layout_marginTop="@dimen/line_space_large"
+        />
+
+    <ImageButton
+        android:id="@+id/cancelButton"
+        style="?attr/imageButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/note_detail_cancel_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/baseline_close_24"
+        android:padding="2dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        />
+
+    <View
+        android:id="@+id/choreDetailTitleLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/colorOutline"
+        android:layout_marginTop="@dimen/line_space"
+        app:layout_constraintTop_toBottomOf="@id/createChoreTitle"
+        />
+
+    <TextView
+        android:id="@+id/createChoreNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/choreDetailTitleLine"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/line_space_large"
+        android:text="@string/chore_detail_name_text"
+        android:textSize="@dimen/medium_text_size"
+        android:textStyle="bold"
+        android:textColor="?attr/colorOnPrimary"
+        />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/createChoreNameInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:maxWidth="488dp"
+        android:minWidth="350dp"
+        android:textColorHint="?attr/colorOnPrimary"
+        app:hintEnabled="false"
+        style="@style/EditTextLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/createChoreNameText">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:textColor="?attr/colorOnPrimary"
+            android:hint="" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/choreDetailAssignedToText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/createChoreNameInput"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/line_space_large"
+        android:text="@string/chore_detail_assign_text"
+        android:textSize="@dimen/medium_text_size"
+        android:textStyle="bold"
+        android:textColor="?attr/colorOnPrimary"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/userPickerRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/choreDetailAssignedToText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/line_space_large"
+        />
+
+    <LinearLayout
+        android:id="@+id/recyclerButtonLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userPickerRecycler"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/line_space_large"
+        >
+
+        <Button
+            android:id="@+id/addMeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chore_detail_add_me"
+            android:drawableLeft="@drawable/baseline_person_add_24"
+            android:drawableTint="?attr/colorOnPrimary"
+            style="?attr/buttonStyle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recyclerButtonLayout"
+            android:layout_marginVertical="@dimen/line_space"
+            tools:ignore="RtlHardcoded" />
+
+        <Button
+            android:id="@+id/addEveryoneButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chore_detail_add_everyone"
+            android:drawableLeft="@drawable/baseline_group_add_24"
+            android:drawableTint="?attr/colorOnPrimary"
+            style="?attr/buttonStyle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recyclerButtonLayout"
+            android:layout_marginVertical="@dimen/line_space"
+            tools:ignore="RtlHardcoded" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/continueButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/continue_button"
+        style="?attr/buttonStyle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recyclerButtonLayout"
+        android:layout_marginVertical="@dimen/line_space"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

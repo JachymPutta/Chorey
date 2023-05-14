@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.chorey.EXPENSE_COL
 import com.chorey.HOME_COL
 import com.chorey.data.ContribModel
@@ -16,6 +17,7 @@ import com.chorey.databinding.FragmentExpensesBinding
 import com.chorey.dialog.ExpenseDetailDialog
 import com.chorey.dialog.ExpenseOtherDialog
 import com.chorey.util.HomeUtil
+import com.chorey.viewmodel.HomeViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -23,6 +25,8 @@ import com.google.firebase.ktx.Firebase
 
 class ExpenseFragment : Fragment(),
     ExpenseDetailDialog.OnExpenseChangedListener {
+
+    private val homeViewModel by activityViewModels<HomeViewModel>()
 
     private lateinit var binding: FragmentExpensesBinding
     private lateinit var firestore: FirebaseFirestore
@@ -43,7 +47,7 @@ class ExpenseFragment : Fragment(),
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        home = HomeUtil.getHomeFromArgs(requireArguments())
+        home = homeViewModel.home.value!!
         binding = FragmentExpensesBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -58,7 +62,7 @@ class ExpenseFragment : Fragment(),
 
         // Update the contributors
         allExpenseModels.forEach { expenseModel ->
-            val newContribs = home.users.map { ContribModel(it, 0) }
+            val newContribs = home.users.map { ContribModel(it.name, 0) }
             expenseModel.contributors = newContribs as ArrayList<ContribModel>
         }
 
@@ -214,8 +218,7 @@ class ExpenseFragment : Fragment(),
             }.show(childFragmentManager, ExpenseDetailDialog.TAG)
         }
         binding.expenseOtherButton.setOnClickListener {
-            ExpenseOtherDialog.newInstance(home)
-                .show(childFragmentManager, ExpenseOtherDialog.TAG)
+            ExpenseOtherDialog().show(childFragmentManager, ExpenseOtherDialog.TAG)
         }
     }
 
@@ -223,13 +226,5 @@ class ExpenseFragment : Fragment(),
     companion object {
         const val TAG = "ExpenseFragment"
         const val VAL_ALPHA = 0.7F
-
-        fun newInstance(home : HomeModel): ExpenseFragment {
-            val fragment = ExpenseFragment()
-            val args = HomeUtil.addHomeToArgs(Bundle(), home)
-            fragment.arguments = args
-            return fragment
-        }
     }
-
 }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chorey.HOME_COL
 import com.chorey.OTHER_COL
@@ -13,6 +14,7 @@ import com.chorey.data.HomeModel
 import com.chorey.databinding.DialogExpenseOtherBinding
 import com.chorey.fragments.NoteFragment
 import com.chorey.util.HomeUtil
+import com.chorey.viewmodel.HomeViewModel
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -28,12 +30,14 @@ class ExpenseOtherDialog : DialogFragment(),
     private lateinit var expenseAdapter: ExpenseRecyclerAdapter
     private lateinit var expenseQuery: Query
 
+    private val homeViewModel by activityViewModels<HomeViewModel>()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        homeModel = HomeUtil.getHomeFromArgs(requireArguments())
+        homeModel = homeViewModel.home.value!!
         _binding = DialogExpenseOtherBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -81,12 +85,5 @@ class ExpenseOtherDialog : DialogFragment(),
 
     companion object {
         const val TAG = "ExpenseTypeDialog"
-
-        fun newInstance(home : HomeModel): ExpenseOtherDialog {
-            val fragment = ExpenseOtherDialog()
-            val args = HomeUtil.addHomeToArgs(Bundle(), home)
-            fragment.arguments = args
-            return fragment
-        }
     }
 }

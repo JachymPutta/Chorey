@@ -108,7 +108,7 @@ class JoinHomeDialog : DialogFragment(),
             val homeUserModel = HomeUserModel(name = user.name)
 
             // Add user to members array
-            homeModel!!.users.add(user.name)
+            homeModel!!.users.add(homeUserModel)
 
             it.set(homeRef, homeModel)
 

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.chorey.HOME_COL
@@ -15,6 +16,7 @@ import com.chorey.data.DialogState
 import com.chorey.data.HomeModel
 import com.chorey.databinding.FragmentHomeBinding
 import com.chorey.dialog.HomeDetailDialog
+import com.chorey.viewmodel.HomeViewModel
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -34,6 +36,8 @@ class HomeFragment : Fragment() {
     private lateinit var expenseFragment: ExpenseFragment
 
     private lateinit var binding: FragmentHomeBinding
+
+    private val homeViewModel by activityViewModels<HomeViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,6 +73,7 @@ class HomeFragment : Fragment() {
             return
 
         home = homeModel
+        homeViewModel.updateHome(home)
 
 
         binding.homeName.text = home.homeName
@@ -77,16 +82,15 @@ class HomeFragment : Fragment() {
         }
 
         binding.homeSettingsButton.setOnClickListener {
-            HomeDetailDialog.newInstance(home)
-                .show(parentFragmentManager, "HomeDetailDialog")
+            HomeDetailDialog().show(parentFragmentManager, "HomeDetailDialog")
         }
 
         initBottomNav()
 
-        choreFragment = ChoreFragment.newInstance(home)
-        expenseFragment = ExpenseFragment.newInstance(home)
-        noteFragment = NoteFragment.newInstance(home)
-        summaryFragment = SummaryFragment.newInstance(home)
+        choreFragment = ChoreFragment()
+        expenseFragment = ExpenseFragment()
+        noteFragment = NoteFragment()
+        summaryFragment = SummaryFragment()
 
         binding.loadingSpinner.visibility = View.GONE
 

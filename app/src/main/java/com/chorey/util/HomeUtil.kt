@@ -25,30 +25,30 @@ object HomeUtil {
         )
     }
 
-    fun getHomeFromArgs(arguments : Bundle) : HomeModel {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            arguments.getParcelable(HomeModel.toString(), HomeModel::class.java)!!
-        } else {
-            val uid = arguments.getString(HomeModel.FIELD_UID)!!
-            val name = arguments.getString(HomeModel.FIELD_NAME)!!
-            val icon = arguments.getInt(HomeModel.FIELD_ICON)
-            val users = arguments.getStringArrayList(HomeModel.FIELD_USERS)!!
-            HomeModel(uid, name, icon, users)
-        }
-    }
+//    fun getHomeFromArgs(arguments : Bundle) : HomeModel {
+//        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            arguments.getParcelable(HomeModel.toString(), HomeModel::class.java)!!
+//        } else {
+//            val uid = arguments.getString(HomeModel.FIELD_UID)!!
+//            val name = arguments.getString(HomeModel.FIELD_NAME)!!
+//            val icon = arguments.getInt(HomeModel.FIELD_ICON)
+//            val users = arguments.getStringArrayList(HomeModel.FIELD_USERS)!!
+//            HomeModel(uid, name, icon, users)
+//        }
+//    }
 
-    fun addHomeToArgs(args : Bundle, home: HomeModel) : Bundle {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            args.apply { putParcelable(HomeModel.toString(), home) }
-        } else {
-            args.apply {
-                putString(HomeModel.FIELD_UID, home.homeUID)
-                putString(HomeModel.FIELD_NAME, home.homeName)
-                putInt(HomeModel.FIELD_ICON, home.icon)
-                putStringArrayList(HomeModel.FIELD_USERS, home.users)
-            }
-        }
-    }
+//    fun addHomeToArgs(args : Bundle, home: HomeModel) : Bundle {
+//        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            args.apply { putParcelable(HomeModel.toString(), home) }
+//        } else {
+//            args.apply {
+//                putString(HomeModel.FIELD_UID, home.homeUID)
+//                putString(HomeModel.FIELD_NAME, home.homeName)
+//                putInt(HomeModel.FIELD_ICON, home.icon)
+//                putStringArrayList(HomeModel.FIELD_USERS, home.users)
+//            }
+//        }
+//    }
 
     private fun getRandomString(array: Array<String>, random: Random): String {
         val ind = random.nextInt(array.size)
