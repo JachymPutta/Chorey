@@ -98,7 +98,6 @@ class JoinHomeDialog : DialogFragment(),
         val db = Firebase.firestore
         val homeRef = db.collection(HOME_COL).document(inviteModel.homeUID)
         val userRef = db.collection(USER_COL).document(user.UID)
-        val homeUsersRef = homeRef.collection(USER_COL).document(user.name)
         user.memberOf[inviteModel.homeUID] = inviteModel.homeName
 
         // Update the database -> $user joins $home
@@ -113,7 +112,6 @@ class JoinHomeDialog : DialogFragment(),
             it.set(homeRef, homeModel)
 
             // Add user to 'users' sub-collection
-            it.set(homeUsersRef, homeUserModel)
             it.update(userRef, LoggedUserModel.FIELD_MEMBER_OF, user.memberOf)
             null
         }

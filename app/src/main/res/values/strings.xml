@@ -124,11 +124,12 @@
     <string name="chore_detail_title_time">Assign a schedule</string>
     <string name="chore_detail_title_edit">Edit Chore:</string>
     <string name="create_chore_name_hint">Task Name</string>
-    <string name="chore_detail_name_text">What needs to be done?</string>
+    <string name="create_chore_description_hint">Description (optional)</string>
+    <string name="chore_detail_name_text">What needs to get done?</string>
     <string name="chore_detail_spinner_text">Template:</string>
     <string name="create_chore_edit_button">Done</string>
     <string name="create_chore_remove_button">Remove</string>
-    <string name="chore_detail_assign_text">Who will be doing it?</string>
+    <string name="chore_detail_assign_text">Which members will share this task?</string>
     <string name="chore_detail_assign_hint">Select members</string>
     <string name="chore_detail_due_text">Due:</string>
     <string name="chore_detail_repeats">Yes</string>
@@ -142,6 +143,8 @@
     <string name="chore_detail_reward">Reward:</string>
     <string name="chore_detail_add_everyone">Everyone</string>
     <string name="chore_detail_add_me">Just Me</string>
+    <string name="back_button">Back</string>
+    <string name="return_to_menu_button">Menu</string>
 
     <!-- History Detail Dialog -->
     <string name="history_detail_title">Completed Chore</string>

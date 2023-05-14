@@ -10,6 +10,7 @@ import com.chorey.HISTORY_COL
 import com.chorey.HOME_COL
 import com.chorey.USER_COL
 import com.chorey.data.ChoreModel
+import com.chorey.data.HomeModel
 import com.chorey.data.RepeatInterval
 import com.chorey.data.LoggedUserModel
 import com.chorey.databinding.ChoreRecyclerRowBinding
@@ -80,12 +81,20 @@ open class ChoreRecyclerAdapter(query: Query,
         val homeRef = Firebase.firestore.collection(HOME_COL).document(curChore.homeId)
         val oldChoreRef = homeRef.collection(CHORE_COL).document(curChore.choreUID)
         val historyRef = homeRef.collection(HISTORY_COL).document(curChore.choreUID)
-        val userRef = homeRef.collection(USER_COL).document(user.name)
+
+        val userRef = Firebase.firestore.collection(USER_COL).document(user.name)
 
         // Write the stuff in a batch
-        Firebase.firestore.runBatch {
+        Firebase.firestore.runTransaction {
+
             // Handle points
-            it.update(userRef, LoggedUserModel.FIELD_POINTS, FieldValue.increment(curChore.points.toLong()))
+            val home = it.get(homeRef).toObject<HomeModel>()!!
+            home.users.forEach { model ->
+                if (model.name == user.name) {
+                    model.points += curChore.points
+                }
+            }
+            it.update(homeRef, HomeModel.FIELD_USERS, home.users)
 
             it.delete(oldChoreRef)
             when(curChore.repeatsEvery) {

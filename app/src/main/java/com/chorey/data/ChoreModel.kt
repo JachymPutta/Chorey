@@ -8,6 +8,7 @@ import java.util.UUID
 data class ChoreModel(
     var choreUID: String = UUID.randomUUID().toString(),
     var choreName: String = "chore_name",
+    var choreDescription: String = "",
     var homeId: String = "home_name",
     var isTimed: Boolean = false,
     var whenDue : Long = Long.MAX_VALUE,
@@ -21,6 +22,7 @@ data class ChoreModel(
     companion object {
         const val FIELD_UID = "choreUID"
         const val FIELD_NAME = "choreName"
+        const val FIELD_DESCRIPTION = ""
         const val FIELD_HOME_ID = "homeId"
         const val FIELD_IS_TIMED = "isTimed"
         const val FIELD_WHEN_DUE = "whenDue"

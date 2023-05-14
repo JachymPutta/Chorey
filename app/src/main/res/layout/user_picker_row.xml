@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/userPickerLayout"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:backgroundTint="?attr/colorPrimaryContainer"
+    android:background="@drawable/dialog_background"
+    android:backgroundTintMode="src_in"
+    android:gravity="center"
+    tools:ignore="UseCompoundDrawables">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_background"
+        android:backgroundTint="@color/fui_transparent"
+        android:scaleX="2.5"
+        android:scaleY="2.5"
+        android:layout_marginHorizontal="@dimen/line_space_large"
+        android:paddingStart="@dimen/line_space_large"
+        android:paddingEnd="@dimen/line_space_large"
+        android:paddingTop="@dimen/line_space_large"
+        android:paddingBottom="@dimen/line_space"
+        android:src="@drawable/baseline_person_24"
+        android:contentDescription="@string/user_profile_pic_desc"
+        />
+
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/line_space"
+        android:padding="10dp"
+        android:text="@string/user_name_placeholder"
+        android:textColor="?attr/colorOnPrimary"
+        android:textStyle="bold" />
+</LinearLayout>

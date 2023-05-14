@@ -118,7 +118,6 @@ class CreateHomeDialog : DialogFragment(),
 
         db.runBatch {
             it.set(homeRef, home)
-            it.set(homeRef.collection(USER_COL).document(user.name), homeUserModel)
             it.update(userRef, LoggedUserModel.FIELD_MEMBER_OF, user.memberOf)
         }
 

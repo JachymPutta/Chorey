@@ -20,12 +20,10 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class SummaryFragment: Fragment()
-{
+class SummaryFragment: Fragment() {
     private lateinit var summaryAdapter: SummaryRecyclerAdapter
     private lateinit var binding: FragmentSummaryBinding
 
-    private lateinit var query: Query
     private lateinit var home : HomeModel
 
     private val homeViewModel by activityViewModels<HomeViewModel>()
@@ -42,24 +40,10 @@ class SummaryFragment: Fragment()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val homeRef = Firebase.firestore.collection(HOME_COL).document(home.homeUID)
-        query  = homeRef.collection(USER_COL)
-            .orderBy(HomeUserModel.FIELD_POINTS, Query.Direction.DESCENDING)
-
-        summaryAdapter = SummaryRecyclerAdapter(query)
+        summaryAdapter = SummaryRecyclerAdapter(home.users)
 
         binding.allChoresRecycler.adapter = summaryAdapter
         binding.allChoresRecycler.layoutManager = LinearLayoutManager(requireContext())
-    }
-
-    override fun onStart() {
-        super.onStart()
-        summaryAdapter.startListening()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        summaryAdapter.stopListening()
     }
 
     companion object {

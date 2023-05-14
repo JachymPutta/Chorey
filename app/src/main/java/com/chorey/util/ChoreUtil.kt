@@ -35,6 +35,7 @@ object ChoreUtil {
         } else {
             val uid = arguments.getString(ChoreModel.FIELD_UID)!!
             val name = arguments.getString(ChoreModel.FIELD_NAME)!!
+            val desc = arguments.getString(ChoreModel.FIELD_DESCRIPTION)!!
             val homeId = arguments.getString(ChoreModel.FIELD_HOME_ID)!!
             val timed = arguments.getBoolean(ChoreModel.FIELD_IS_TIMED)
             val whenDue = arguments.getLong(ChoreModel.FIELD_WHEN_DUE)
@@ -45,7 +46,7 @@ object ChoreUtil {
             val repeatId = arguments.getInt(ChoreModel.FIELD_REPEATS_EVERY)
 
             val repeat = RepeatInterval.values()[repeatId]
-            ChoreModel(uid, name, homeId, timed,
+            ChoreModel(uid, name, desc, homeId, timed,
                 whenDue, timeToDo, allAssign, curAssign, points, repeat)
         }
     }
@@ -57,6 +58,7 @@ object ChoreUtil {
             args.apply {
                 putString(ChoreModel.FIELD_UID, chore.choreUID)
                 putString(ChoreModel.FIELD_NAME, chore.choreName)
+                putString(ChoreModel.FIELD_DESCRIPTION, chore.choreDescription)
                 putString(ChoreModel.FIELD_HOME_ID, chore.homeId)
                 putBoolean(ChoreModel.FIELD_IS_TIMED, chore.isTimed)
                 putLong(ChoreModel.FIELD_WHEN_DUE, chore.whenDue)

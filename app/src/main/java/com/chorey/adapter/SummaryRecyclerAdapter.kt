@@ -10,15 +10,12 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
 
-open class SummaryRecyclerAdapter(query : Query) :
-    FirestoreAdapter<SummaryRecyclerAdapter.ViewHolder>(query) {
-
-    private lateinit var homeUserModel : HomeUserModel
+class SummaryRecyclerAdapter(private val userList : ArrayList<HomeUserModel>) :
+     RecyclerView.Adapter<SummaryRecyclerAdapter.ViewHolder>(){
 
     inner class ViewHolder(private val binding: SummaryRecyclerRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
-            fun bind(snapshot: DocumentSnapshot, position : Int) {
-                homeUserModel = snapshot.toObject<HomeUserModel>() ?: return
+            fun bind(homeUserModel: HomeUserModel, position : Int) {
                 val nameText = String.format("${position+1}. ${homeUserModel.name}")
 
                 binding.summaryCardUserName.text = nameText
@@ -32,7 +29,12 @@ open class SummaryRecyclerAdapter(query : Query) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getSnapshot(position), position)
+        val user = userList[position]
+        holder.bind(user, position)
+    }
+
+    override fun getItemCount(): Int {
+        return userList.size
     }
 
 }

@@ -5,10 +5,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/line_space_large"
-    android:background="?attr/colorPrimaryContainer"
+    android:background="?attr/colorPrimary"
     tools:context=".fragments.chorecreation.CreateChoreNameFragment"
     >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/choreTitleLayout"
+        android:background="?attr/colorPrimaryDark"
+        >
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?attr/imageButtonStyle"
+            android:contentDescription="@string/home_item_place_holder"
+            android:src="@drawable/baseline_arrow_back_24"
+            android:background="@android:color/transparent"
+
+            android:layout_marginStart="@dimen/line_space_large"
+            android:layout_marginTop="@dimen/line_space_large"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:padding="2dp"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            />
 
     <TextView
         android:id="@+id/createChoreTitle"
@@ -33,6 +58,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/baseline_close_24"
+        android:layout_marginEnd="@dimen/line_space_large"
+        android:layout_marginTop="@dimen/line_space_large"
         android:padding="2dp"
         android:minWidth="0dp"
         android:minHeight="0dp"
@@ -43,15 +70,17 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="?attr/colorOutline"
-        android:layout_marginTop="@dimen/line_space"
+        android:layout_marginTop="@dimen/line_space_large"
         app:layout_constraintTop_toBottomOf="@id/createChoreTitle"
+        app:layout_constraintBottom_toBottomOf="parent"
         />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/createChoreNameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/choreDetailTitleLine"
+        app:layout_constraintTop_toBottomOf="@id/choreTitleLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="@dimen/line_space_large"
@@ -66,6 +95,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="@dimen/line_space_large"
         android:maxWidth="488dp"
         android:minWidth="350dp"
         android:textColorHint="?attr/colorOnPrimary"
@@ -78,16 +108,41 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
+            android:layout_marginHorizontal="@dimen/line_space_large"
+            android:background="?attr/colorPrimaryContainer"
             android:textColor="?attr/colorOnPrimary"
-            android:hint="" />
+            android:hint="@string/create_chore_name_hint" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/createChoreDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="@dimen/line_space_large"
+        android:maxWidth="488dp"
+        android:minWidth="350dp"
+        android:textColorHint="?attr/colorOnPrimary"
+        app:hintEnabled="false"
+        style="@style/EditTextLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/createChoreNameInput">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/line_space_large"
+            android:background="?attr/colorPrimaryContainer"
+            android:textColor="?attr/colorOnPrimary"
+            android:hint="@string/create_chore_description_hint"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
     <TextView
         android:id="@+id/choreDetailAssignedToText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/createChoreNameInput"
+        app:layout_constraintTop_toBottomOf="@id/createChoreDescription"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="@dimen/line_space_large"
@@ -99,23 +154,25 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/userPickerRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/choreDetailAssignedToText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="@dimen/line_space_large"
+        app:layout_constraintBottom_toTopOf="@id/recyclerButtonLayout"
+        android:layout_margin="@dimen/line_space_large"
         />
 
     <LinearLayout
         android:id="@+id/recyclerButtonLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/userPickerRecycler"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="@dimen/line_space_large"
+        android:layout_marginVertical="@dimen/line_space_large"
+        app:layout_constraintBottom_toTopOf="@id/continueButton"
         >
 
         <Button
@@ -126,10 +183,8 @@
             android:drawableLeft="@drawable/baseline_person_add_24"
             android:drawableTint="?attr/colorOnPrimary"
             style="?attr/buttonStyle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recyclerButtonLayout"
+            app:backgroundTint="?attr/colorPrimaryContainer"
+            android:layout_marginHorizontal="5dp"
             android:layout_marginVertical="@dimen/line_space"
             tools:ignore="RtlHardcoded" />
 
@@ -140,14 +195,11 @@
             android:text="@string/chore_detail_add_everyone"
             android:drawableLeft="@drawable/baseline_group_add_24"
             android:drawableTint="?attr/colorOnPrimary"
+            app:backgroundTint="?attr/colorPrimaryContainer"
             style="?attr/buttonStyle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recyclerButtonLayout"
+            android:layout_marginHorizontal="5dp"
             android:layout_marginVertical="@dimen/line_space"
             tools:ignore="RtlHardcoded" />
-
     </LinearLayout>
 
     <Button
@@ -159,7 +211,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recyclerButtonLayout"
+        app:backgroundTint="?attr/colorPrimaryContainer"
+        android:layout_marginBottom="@dimen/line_space_large"
         android:layout_marginVertical="@dimen/line_space"
         />
 
