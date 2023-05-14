@@ -14,6 +14,6 @@ class UserViewModel : ViewModel() {
     }
 
     fun resetUser() {
-        _user.value = null
+        _user.value = LoggedUserModel()
     }
 }

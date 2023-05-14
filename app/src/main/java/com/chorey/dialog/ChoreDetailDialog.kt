@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.TimePicker
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.DialogFragment
 import com.chorey.CHORE_COL
 import com.chorey.DATE_PATTERN
@@ -31,6 +32,7 @@ import com.chorey.data.RepeatInterval
 import com.chorey.databinding.DialogChoreDetailBinding
 import com.chorey.util.ChoreUtil
 import com.chorey.util.HomeUtil
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
@@ -121,7 +123,11 @@ class ChoreDetailDialog : DialogFragment(),
 
     override fun onStart() {
         super.onStart()
-        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog?.window?.apply {
+            setBackgroundDrawableResource(android.R.color.transparent)
+            setLayout(ConstraintLayout.LayoutParams.MATCH_PARENT,
+                    ConstraintLayout.LayoutParams.MATCH_PARENT)
+        }
     }
 
     override fun onDestroyView() {

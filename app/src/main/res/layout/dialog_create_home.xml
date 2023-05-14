@@ -16,41 +16,63 @@
         style="@style/Title"
         android:textColor="?attr/colorOnPrimary"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/homeDetailPicture"
+        app:layout_constraintBottom_toTopOf="@id/homeIconLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginVertical="@dimen/line_space"
         android:text="@string/create_home_title" />
 
-    <ImageView
-        android:id="@+id/homeDetailPicture"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/homeIconLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/rent_icon_128"
-        android:layout_marginVertical="@dimen/line_space_large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/createHomeTitle"
         app:layout_constraintBottom_toTopOf="@id/createHomeNameInput"
-        android:contentDescription="@string/home_detail_icon_desc"
-        />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageButton
-        android:id="@+id/homeEditIcon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/baseline_edit_24"
-        android:scaleY="0.7"
-        android:scaleX="0.7"
-        android:background="@drawable/dialog_background_outlined"
-        app:layout_constraintStart_toEndOf="@id/homeDetailPicture"
-        app:layout_constraintTop_toTopOf="@id/homeDetailPicture"
-        app:layout_constraintBottom_toTopOf="@id/homeDetailPicture"
-        android:foregroundGravity="center"
-        android:translationZ="1dp"
-        app:tint="@color/black"
-        android:contentDescription="@string/create_chore_edit_button"
-        />
+        <ImageView
+            android:id="@+id/homeDetailPicture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/rent_icon_128"
+            android:layout_marginVertical="@dimen/line_space_large"
+            android:contentDescription="@string/home_detail_icon_desc"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <View
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/dialog_background_outlined"
+            android:backgroundTint="@color/white"
+            app:layout_constraintStart_toEndOf="@id/homeDetailPicture"
+            app:layout_constraintTop_toTopOf="@id/homeDetailPicture"
+            app:layout_constraintBottom_toTopOf="@id/homeDetailPicture"
+            />
+
+        <ImageButton
+            android:id="@+id/homeEditIcon"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/baseline_edit_24"
+            android:scaleY="0.8"
+            android:scaleX="0.8"
+            android:background="@color/fui_transparent"
+            app:layout_constraintStart_toEndOf="@id/homeDetailPicture"
+            app:layout_constraintTop_toTopOf="@id/homeDetailPicture"
+            app:layout_constraintBottom_toTopOf="@id/homeDetailPicture"
+            android:foregroundGravity="center"
+            android:translationZ="1dp"
+            app:tint="@color/black"
+            android:contentDescription="@string/create_chore_edit_button"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <ImageButton
         android:id="@+id/createHomeCancelButton"
         style="?attr/imageButtonStyle"
@@ -71,8 +93,8 @@
         android:layout_height="wrap_content"
         android:minWidth="300dp"
         style="@style/EditTextLayout"
-        app:layout_constraintTop_toBottomOf="@id/homeDetailPicture"
-        app:layout_constraintBottom_toTopOf="@id/createHomeButtonLayout"
+        app:layout_constraintTop_toBottomOf="@id/homeIconLayout"
+        app:layout_constraintBottom_toTopOf="@id/createHomeCreateButton"
         app:counterEnabled="true"
         app:counterMaxLength="25"
         >
@@ -85,24 +107,16 @@
             android:hint="@string/create_home_hint" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <LinearLayout
-        android:id="@+id/createHomeButtonLayout"
+    <Button
+        android:id="@+id/createHomeCreateButton"
+        style="?attr/buttonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/createHomeNameInput"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginVertical="@dimen/line_space"
-        >
-
-        <Button
-            android:id="@+id/createHomeCreateButton"
-            style="?attr/buttonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/create_home_yes" />
-    </LinearLayout>
+        android:text="@string/create_home_yes" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -35,7 +35,7 @@
     <!-- Home Fragment -->
     <string name="home_all_chores_text">Tasks</string>
     <string name="home_history_title">History</string>
-    <string name="add_chore_button">Add Chore</string>
+    <string name="add_chore_button">Add Task</string>
     <string name="add_note_button">Add Note</string>
     <string name="add_members_button">Invite</string>
     <string name="home_summary_button">Summary</string>
