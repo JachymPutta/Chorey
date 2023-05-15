@@ -1,11 +1,14 @@
 package com.chorey.dialog
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
@@ -18,6 +21,7 @@ import com.chorey.databinding.DialogAddMemberBinding
 import com.chorey.util.HomeUtil
 import com.chorey.viewmodel.HomeViewModel
 import com.chorey.viewmodel.UserViewModel
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -61,6 +65,17 @@ class AddMemberDialog : DialogFragment() {
     override fun onStart() {
         super.onStart()
         dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        binding.root.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                // Check if the touched view is not an input field or a view that should keep the keyboard open
+                if (requireActivity().window.currentFocus !is TextInputLayout) {
+                    // Hide the keyboard
+                    val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
+                }
+            }
+            false
+        }
     }
 
     override fun onDestroyView() {

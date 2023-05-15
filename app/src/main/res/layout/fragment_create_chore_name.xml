@@ -159,7 +159,6 @@
         app:layout_constraintTop_toBottomOf="@id/choreDetailAssignedToText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/recyclerButtonLayout"
         android:layout_margin="@dimen/line_space_large"
         />
 
@@ -167,12 +166,11 @@
         android:id="@+id/recyclerButtonLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-
+        app:layout_constraintBottom_toTopOf="@id/scheduleNavigationText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginVertical="@dimen/line_space_large"
-        app:layout_constraintBottom_toTopOf="@id/continueButton"
         >
 
         <Button
@@ -202,18 +200,63 @@
             tools:ignore="RtlHardcoded" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/continueButton"
+    <TextView
+        android:id="@+id/scheduleNavigationText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/continue_button"
-        style="?attr/buttonStyle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/navigationButtonLayout"
+        android:layout_marginBottom="@dimen/line_space"
+        android:text="@string/chore_detail_timed_text"
+        android:textSize="@dimen/medium_text_size"
+        android:textStyle="bold"
+        android:textColor="?attr/colorOnPrimary"
+        />
+
+    <LinearLayout
+        android:id="@+id/navigationButtonLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginVertical="@dimen/line_space_large"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:backgroundTint="?attr/colorPrimaryContainer"
-        android:layout_marginBottom="@dimen/line_space_large"
-        android:layout_marginVertical="@dimen/line_space"
-        />
+        >
+
+        <Button
+            android:id="@+id/continueButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chore_detail_fixed_schedule"
+            app:layout_constraintTop_toBottomOf="@id/choreDetailIsTimedText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:drawableLeft="@drawable/baseline_calendar_24"
+            android:drawableTint="?attr/colorOnPrimary"
+            style="?attr/buttonStyle"
+            app:backgroundTint="?attr/colorPrimaryContainer"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="@dimen/line_space"
+            tools:ignore="RtlHardcoded" />
+
+        <Button
+            android:id="@+id/createButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_button"
+            style="?attr/buttonStyle"
+            android:drawableLeft="@drawable/baseline_close_24"
+            android:drawableTint="?attr/colorOnPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:backgroundTint="?attr/colorPrimaryContainer"
+            android:layout_marginBottom="@dimen/line_space_large"
+            android:layout_marginVertical="@dimen/line_space"
+            />
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

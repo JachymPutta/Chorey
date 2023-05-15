@@ -19,6 +19,7 @@
     <string name="menu_arrow_desc">menu_arrow</string>
     <string name="add_home_hint">Click Here To Add More</string>
     <string name="continue_button">Continue</string>
+    <string name="create_button">No Schedule</string>
 
     <!-- Menu Recycler View -->
     <string name="home_item_place_holder">Home</string>
@@ -133,16 +134,24 @@
     <string name="chore_detail_assign_hint">Select members</string>
     <string name="chore_detail_due_text">Due:</string>
     <string name="chore_detail_repeats">Yes</string>
-    <string name="chore_detail_timed_text">Fixed schedule?</string>
+    <string name="chore_detail_timed_text">Schedule a specific time?</string>
+    <string name="chore_detail_timed">No time scheduled</string>
     <string name="chore_detail_due_untimed">As needed</string>
     <string name="chore_detail_due_date_hint">Select Date</string>
     <string name="chore_detail_due_time_hint">Select Time</string>
-    <string name="chore_detail_repeats_text">Repeats?</string>
+    <string name="chore_detail_repeats_text">How does the task repeat?</string>
     <string name="chore_detail_at">at</string>
     <string name="chore_detail_time_to_complete">Time needed:</string>
     <string name="chore_detail_reward">Reward:</string>
     <string name="chore_detail_add_everyone">Everyone</string>
     <string name="chore_detail_add_me">Just Me</string>
+    <string name="chore_detail_fixed_schedule">Schedule</string>
+    <string name="repeat_interval_no">It Doesn\'t</string>
+    <string name="repeat_interval_as_needed">As needed</string>
+    <string name="repeat_interval_daily">Daily</string>
+    <string name="repeat_interval_weekly">Weekly</string>
+    <string name="repeat_interval_monthly">Monthly</string>
+    <string name="repeat_interval_annually">Annually</string>
     <string name="back_button">Back</string>
     <string name="return_to_menu_button">Menu</string>
 

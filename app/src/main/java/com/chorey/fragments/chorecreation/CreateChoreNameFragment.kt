@@ -1,10 +1,13 @@
 package com.chorey.fragments.chorecreation
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -19,6 +22,7 @@ import com.chorey.databinding.FragmentCreateChoreNameBinding
 import com.chorey.viewmodel.ChoreViewModel
 import com.chorey.viewmodel.HomeViewModel
 import com.chorey.viewmodel.UserViewModel
+import com.google.android.material.textfield.TextInputLayout
 
 class CreateChoreNameFragment
     : Fragment(),
@@ -44,6 +48,7 @@ class CreateChoreNameFragment
         home = homeViewModel.home.value!!
         choreViewModel.resetChore()
         chore = choreViewModel.chore.value!!
+        assignees.addAll(home.users.map {model -> model.name })
         binding = FragmentCreateChoreNameBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -57,13 +62,7 @@ class CreateChoreNameFragment
         binding.userPickerRecycler.layoutManager = GridLayoutManager(requireContext(), columnCount)
         binding.userPickerRecycler.adapter = adapter
 
-        binding.continueButton.setOnClickListener { continueHandle() }
-        binding.addMeButton.setOnClickListener { selectMeHandle() }
-        binding.backButton.setOnClickListener { findNavController().popBackStack() }
-        binding.addEveryoneButton.setOnClickListener { selectEveryoneHandle() }
-        binding.cancelButton.setOnClickListener {
-            findNavController().popBackStack(R.id.homeFragment, false)
-        }
+        hookUpButtons()
     }
 
     override fun onUserSelected(homeUserModel: HomeUserModel) {
@@ -78,25 +77,50 @@ class CreateChoreNameFragment
         adapter.notifyItemChanged(home.users.indexOf(homeUserModel))
     }
 
+    private fun createHandle() {
+        updateChore()
+        choreViewModel.addChoreToHome()
+        returnToHome()
+    }
+
     private fun continueHandle() {
+        updateChore()
+        findNavController().navigate(R.id.createChoreTimeFragment)
+    }
+
+    private fun updateChore() {
+        if (!inputOk()) return
+
+        chore.apply {
+            choreName = binding.createChoreNameInput.editText?.text.toString()
+            choreDescription = binding.createChoreDescription.editText?.text.toString()
+            homeId = home.homeUID
+            assignedTo = assignees
+        }
+    }
+
+    private fun inputOk() : Boolean {
         if (binding.createChoreNameInput.editText!!.text.isNullOrBlank()) {
             Toast.makeText(
                 requireContext(),
-                "Please fill in all the fields.",
+                "Please name the task",
                 Toast.LENGTH_SHORT
             ).show()
-            return
-        } else {
-            chore.apply {
-                choreName = binding.createChoreNameInput.editText?.text.toString()
-                choreDescription = binding.createChoreDescription.editText?.text.toString()
-                homeId = home.homeUID
-                assignedTo = assignees
-            }
-
-            choreViewModel.updateChore(chore)
-            findNavController().navigate(R.id.createChoreTimeFragment)
+            return false
+        } else if (assignees.isEmpty()) {
+            Toast.makeText(
+                requireContext(),
+                "Assign to at least one person",
+                Toast.LENGTH_SHORT
+            ).show()
+            return false
         }
+        return true
+    }
+
+
+    private fun returnToHome() {
+        findNavController().popBackStack(R.id.homeFragment, false)
     }
 
     private fun selectMeHandle() {
@@ -124,5 +148,26 @@ class CreateChoreNameFragment
                 }
             }
         }
+    }
+
+    private fun hookUpButtons() {
+        binding.continueButton.setOnClickListener { continueHandle() }
+        binding.addMeButton.setOnClickListener { selectMeHandle() }
+        binding.backButton.setOnClickListener { findNavController().popBackStack() }
+        binding.addEveryoneButton.setOnClickListener { selectEveryoneHandle() }
+        binding.cancelButton.setOnClickListener {returnToHome()}
+        binding.createButton.setOnClickListener { createHandle() }
+        binding.root.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                // Check if the touched view is not an input field or a view that should keep the keyboard open
+                if (requireActivity().window.currentFocus !is TextInputLayout) {
+                    // Hide the keyboard
+                    val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
+                }
+            }
+            false
+        }
+
     }
 }

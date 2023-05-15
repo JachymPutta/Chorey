@@ -74,6 +74,133 @@
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <CalendarView
+        android:id="@+id/scheduleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/chore_detail_fixed_schedule"
+        app:layout_constraintTop_toBottomOf="@id/choreTitleLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/scheduleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scheduleButton"
+        android:background="@android:drawable/editbox_background"
+        android:backgroundTint="?attr/colorPrimaryContainer"
+        android:text="@string/chore_detail_timed"
+        android:textSize="@dimen/medium_text_size"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/repeatLayoutTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scheduleText"
+        android:layout_marginTop="@dimen/line_space_large"
+        android:text="@string/chore_detail_repeats_text"
+        android:textSize="@dimen/medium_text_size"
+        android:textStyle="bold"
+        android:textColor="?attr/colorOnPrimary"
+        />
+
+    <GridLayout
+        android:id="@+id/repeatLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/repeatLayoutTitle"
+        android:layout_marginTop="@dimen/line_space_large"
+        android:columnCount="2"
+        >
+
+        <Button
+            android:id="@+id/repeatNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/repeat_interval_no"
+            android:drawableLeft="@drawable/baseline_close_24"
+            android:drawableTint="?attr/colorOnPrimary"
+            app:backgroundTint="?attr/colorSecondary"
+            style="?attr/buttonStyle"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="@dimen/line_space"
+            tools:ignore="RtlHardcoded" />
+        <Button
+            android:id="@+id/repeatAsNeeded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/repeat_interval_as_needed"
+            android:drawableLeft="@drawable/baseline_repeat_24"
+            android:drawableTint="?attr/colorOnPrimary"
+            app:backgroundTint="?attr/colorPrimaryContainer"
+            style="?attr/buttonStyle"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="@dimen/line_space"
+            tools:ignore="RtlHardcoded" />
+
+        <Button
+            android:id="@+id/repeatDaily"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/repeat_interval_daily"
+            android:drawableLeft="@drawable/baseline_sun_24"
+            android:drawableTint="?attr/colorOnPrimary"
+            app:backgroundTint="?attr/colorPrimaryContainer"
+            style="?attr/buttonStyle"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="@dimen/line_space"
+            tools:ignore="RtlHardcoded" />
+
+        <Button
+            android:id="@+id/repeatWeekly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/repeat_interval_weekly"
+            android:drawableLeft="@drawable/baseline_weekend_24"
+            android:drawableTint="?attr/colorOnPrimary"
+            app:backgroundTint="?attr/colorPrimaryContainer"
+            style="?attr/buttonStyle"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="@dimen/line_space"
+            tools:ignore="RtlHardcoded" />
+
+        <Button
+            android:id="@+id/repeatMonthly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/repeat_interval_monthly"
+            android:drawableLeft="@drawable/baseline_calendar_24"
+            android:drawableTint="?attr/colorOnPrimary"
+            app:backgroundTint="?attr/colorPrimaryContainer"
+            style="?attr/buttonStyle"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="@dimen/line_space"
+            tools:ignore="RtlHardcoded" />
+
+        <Button
+            android:id="@+id/repeatAnnually"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/repeat_interval_annually"
+            android:drawableLeft="@drawable/baseline_cake_24"
+            android:drawableTint="?attr/colorOnPrimary"
+            app:backgroundTint="?attr/colorPrimaryContainer"
+            style="?attr/buttonStyle"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="@dimen/line_space"
+            tools:ignore="RtlHardcoded" />
+    </GridLayout>
+
     <Button
         android:id="@+id/completeButton"
         android:layout_width="wrap_content"

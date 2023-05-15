@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 data class HomeUserModel(
     var name : String = "",
     var icon : Int = R.drawable.baseline_person_24,
-    var picked : Boolean = false,
+    var picked : Boolean = true,
     var points : Long = 0,
     var contrib : Long = 0
 ) : Parcelable

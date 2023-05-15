@@ -2,8 +2,9 @@ package com.chorey.data
 
 enum class RepeatInterval(private val s : String) {
     None("Doesn't Repeat"),
-    Year("Every Year"),
-    Month("Every Month"),
+    AsNeeded("As needed"),
+    Year("Annually"),
+    Month("Monthly"),
     Week("Weekly"),
     Day("Daily"),
     Hour("Hourly");
