@@ -81,6 +81,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textCapSentences"
             android:minHeight="100dp"
             android:background="?attr/colorPrimary"
             android:textColor="?attr/colorOnPrimary"

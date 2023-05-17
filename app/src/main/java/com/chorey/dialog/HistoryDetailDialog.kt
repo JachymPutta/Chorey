@@ -8,12 +8,8 @@ import androidx.fragment.app.DialogFragment
 import com.chorey.DATE_PATTERN
 import com.chorey.TIME_PATTERN
 import com.chorey.data.ChoreModel
-import com.chorey.data.DialogState
-import com.chorey.data.HomeModel
-import com.chorey.data.RepeatInterval
 import com.chorey.databinding.DialogHistoryDetailBinding
 import com.chorey.util.ChoreUtil
-import com.chorey.util.HomeUtil
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -74,10 +70,10 @@ class HistoryDetailDialog : DialogFragment() {
     companion object {
         const val TAG = "HistoryDialog"
         fun newInstance(choreModel: ChoreModel): HistoryDetailDialog{
-            val fragment = HistoryDetailDialog()
+            val dialog = HistoryDetailDialog()
             val args = ChoreUtil.addChoreToArgs(Bundle(), choreModel)
-            fragment.arguments = args
-            return fragment
+            dialog.arguments = args
+            return dialog
         }
     }
 }

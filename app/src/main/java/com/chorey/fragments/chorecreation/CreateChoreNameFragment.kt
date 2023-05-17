@@ -96,6 +96,7 @@ class CreateChoreNameFragment
             choreDescription = binding.createChoreDescription.editText?.text.toString()
             homeId = home.homeUID
             assignedTo = assignees
+            curAssignee = assignees.random()
         }
     }
 

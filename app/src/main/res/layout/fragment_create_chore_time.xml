@@ -75,7 +75,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <CalendarView
-        android:id="@+id/scheduleButton"
+        android:id="@+id/dateCalendar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/chore_detail_fixed_schedule"
@@ -90,7 +90,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/scheduleButton"
+        app:layout_constraintTop_toBottomOf="@id/dateCalendar"
         android:background="@android:drawable/editbox_background"
         android:backgroundTint="?attr/colorPrimaryContainer"
         android:text="@string/chore_detail_timed"
@@ -112,94 +112,92 @@
         android:textColor="?attr/colorOnPrimary"
         />
 
-    <GridLayout
-        android:id="@+id/repeatLayout"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineCenter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/repeatLayoutTitle"
-        android:layout_marginTop="@dimen/line_space_large"
-        android:columnCount="2"
-        >
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"
+        android:visibility="invisible" />
 
-        <Button
+        <TextView
             android:id="@+id/repeatNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/repeat_interval_no"
-            android:drawableLeft="@drawable/baseline_close_24"
-            android:drawableTint="?attr/colorOnPrimary"
-            app:backgroundTint="?attr/colorSecondary"
-            style="?attr/buttonStyle"
-            android:layout_marginHorizontal="5dp"
-            android:layout_marginVertical="@dimen/line_space"
-            tools:ignore="RtlHardcoded" />
-        <Button
+            android:background="?attr/colorSecondary"
+            app:layout_constraintTop_toBottomOf="@id/repeatLayoutTitle"
+            app:layout_constraintEnd_toStartOf="@id/guidelineCenter"
+            android:textColor="@color/black"
+            app:drawableTint="@color/black"
+            app:drawableLeftCompat="@drawable/baseline_close_24"
+            android:drawablePadding="5dp"
+            />
+
+        <TextView
             android:id="@+id/repeatAsNeeded"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            app:drawableLeftCompat="@drawable/baseline_repeat_24"
             android:text="@string/repeat_interval_as_needed"
-            android:drawableLeft="@drawable/baseline_repeat_24"
-            android:drawableTint="?attr/colorOnPrimary"
-            app:backgroundTint="?attr/colorPrimaryContainer"
-            style="?attr/buttonStyle"
-            android:layout_marginHorizontal="5dp"
-            android:layout_marginVertical="@dimen/line_space"
-            tools:ignore="RtlHardcoded" />
-
-        <Button
-            android:id="@+id/repeatDaily"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/repeat_interval_daily"
-            android:drawableLeft="@drawable/baseline_sun_24"
-            android:drawableTint="?attr/colorOnPrimary"
-            app:backgroundTint="?attr/colorPrimaryContainer"
-            style="?attr/buttonStyle"
-            android:layout_marginHorizontal="5dp"
-            android:layout_marginVertical="@dimen/line_space"
-            tools:ignore="RtlHardcoded" />
+            app:layout_constraintTop_toBottomOf="@id/repeatLayoutTitle"
+            app:layout_constraintStart_toEndOf="@id/guidelineCenter"
+            android:background="@color/white"
+            android:textColor="@color/black"
+            app:drawableTint="@color/black"
+            />
 
-        <Button
+        <TextView
+            android:id="@+id/repeatDaily"
+            android:text="@string/repeat_interval_daily"
+            app:drawableLeftCompat="@drawable/baseline_sun_24"
+            app:layout_constraintTop_toBottomOf="@id/repeatNo"
+            app:layout_constraintEnd_toStartOf="@id/repeatWeekly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            app:drawableTint="@color/black"
+            android:background="@color/white"
+            />
+
+        <TextView
             android:id="@+id/repeatWeekly"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/repeat_interval_weekly"
-            android:drawableLeft="@drawable/baseline_weekend_24"
-            android:drawableTint="?attr/colorOnPrimary"
-            app:backgroundTint="?attr/colorPrimaryContainer"
-            style="?attr/buttonStyle"
-            android:layout_marginHorizontal="5dp"
-            android:layout_marginVertical="@dimen/line_space"
-            tools:ignore="RtlHardcoded" />
+            app:layout_constraintTop_toBottomOf="@id/repeatAsNeeded"
+            app:layout_constraintEnd_toStartOf="@id/guidelineCenter"
+            android:background="@color/white"
+            app:drawableLeftCompat="@drawable/baseline_weekend_24"
+            android:textColor="@color/black"
+            app:drawableTint="@color/black"
+            />
 
-        <Button
+        <TextView
             android:id="@+id/repeatMonthly"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/repeat_interval_monthly"
-            android:drawableLeft="@drawable/baseline_calendar_24"
-            android:drawableTint="?attr/colorOnPrimary"
-            app:backgroundTint="?attr/colorPrimaryContainer"
-            style="?attr/buttonStyle"
-            android:layout_marginHorizontal="5dp"
-            android:layout_marginVertical="@dimen/line_space"
-            tools:ignore="RtlHardcoded" />
+            app:layout_constraintTop_toBottomOf="@id/repeatAsNeeded"
+            app:layout_constraintStart_toEndOf="@id/guidelineCenter"
+            android:background="@color/white"
+            app:drawableLeftCompat="@drawable/baseline_calendar_24"
+            android:textColor="@color/black"
+            app:drawableTint="@color/black"
+            />
 
-        <Button
+        <TextView
             android:id="@+id/repeatAnnually"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/repeat_interval_annually"
-            android:drawableLeft="@drawable/baseline_cake_24"
-            android:drawableTint="?attr/colorOnPrimary"
-            app:backgroundTint="?attr/colorPrimaryContainer"
-            style="?attr/buttonStyle"
-            android:layout_marginHorizontal="5dp"
-            android:layout_marginVertical="@dimen/line_space"
-            tools:ignore="RtlHardcoded" />
-    </GridLayout>
+            app:layout_constraintStart_toEndOf="@id/repeatMonthly"
+            app:layout_constraintTop_toBottomOf="@id/repeatAsNeeded"
+            android:background="@color/white"
+            app:drawableLeftCompat="@drawable/baseline_cake_24"
+            android:textColor="@color/black"
+            app:drawableTint="@color/black"
+            />
 
     <Button
         android:id="@+id/completeButton"

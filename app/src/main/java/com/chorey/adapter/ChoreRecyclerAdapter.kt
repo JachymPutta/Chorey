@@ -82,8 +82,6 @@ open class ChoreRecyclerAdapter(query: Query,
         val oldChoreRef = homeRef.collection(CHORE_COL).document(curChore.choreUID)
         val historyRef = homeRef.collection(HISTORY_COL).document(curChore.choreUID)
 
-        val userRef = Firebase.firestore.collection(USER_COL).document(user.name)
-
         // Write the stuff in a batch
         Firebase.firestore.runTransaction {
 

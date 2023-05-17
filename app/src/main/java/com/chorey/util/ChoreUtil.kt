@@ -53,7 +53,7 @@ object ChoreUtil {
 
     fun addChoreToArgs(args : Bundle, chore: ChoreModel) : Bundle {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            args.apply { putParcelable("home", chore) }
+            args.apply { putParcelable(ChoreModel.toString(), chore) }
         } else {
             args.apply {
                 putString(ChoreModel.FIELD_UID, chore.choreUID)

@@ -65,6 +65,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:background="?attr/colorPrimary"
+            android:inputType="textCapSentences"
             android:textColor="?attr/colorOnPrimary"
             android:layout_height="wrap_content"
             android:hint="@string/add_member_dialog_hint" />

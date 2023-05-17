@@ -129,8 +129,8 @@ class ChoreDetailDialog : DialogFragment(),
         super.onStart()
         dialog?.window?.apply {
             setBackgroundDrawableResource(android.R.color.transparent)
-            setLayout(ConstraintLayout.LayoutParams.MATCH_PARENT,
-                    ConstraintLayout.LayoutParams.MATCH_PARENT)
+//            setLayout(ConstraintLayout.LayoutParams.MATCH_PARENT,
+//                    ConstraintLayout.LayoutParams.MATCH_PARENT)
         }
     }
 
@@ -298,13 +298,17 @@ class ChoreDetailDialog : DialogFragment(),
 
     private fun onRemoveClicked() {
         Firebase.firestore.collection(HOME_COL).document(homeModel.homeUID)
-                .collection(CHORE_COL).document(choreModel!!.choreUID)
-            .get().addOnSuccessListener { ds ->
-                ConfirmRemoveDialog().apply{
-                    snapshot = ds
-                    name = choreModel!!.choreName
-                }.show(parentFragmentManager, ConfirmRemoveDialog.TAG)
-            }
+                .collection(CHORE_COL).document(choreModel!!.choreUID).delete()
+
+// TODO: this crashes app -- not sure why
+//
+//            .get().addOnSuccessListener { ds ->
+//                ConfirmRemoveDialog().apply{
+//                    snapshot = ds
+//                    name = choreModel!!.choreName
+//                }.show(childFragmentManager, ConfirmRemoveDialog.TAG)
+//        }
+        this.dismiss()
     }
 
     private fun checkChoreInput(): Boolean {

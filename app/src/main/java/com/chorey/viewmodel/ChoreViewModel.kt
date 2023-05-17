@@ -23,6 +23,6 @@ class ChoreViewModel : ViewModel() {
 
     fun addChoreToHome() {
         Firebase.firestore.collection(HOME_COL).document(chore.value!!.homeId)
-            .collection(CHORE_COL).document(chore.value!!.choreUID).set(chore)
+            .collection(CHORE_COL).document(chore.value!!.choreUID).set(chore.value!!)
     }
 }

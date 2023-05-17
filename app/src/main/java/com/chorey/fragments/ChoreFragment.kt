@@ -161,22 +161,18 @@ class ChoreFragment : Fragment(),
         }
 
         findNavController().navigate(R.id.createChoreNameFragment)
-
-        // Create a chore dialog
-//        ChoreDetailDialog.newInstance(null, DialogState.CREATE)
-//            .show(parentFragmentManager, ChoreDetailDialog.TAG)
     }
 
     override fun onChoreSelected(chore: DocumentSnapshot) {
         val choreModel = chore.toObject<ChoreModel>()
         ChoreDetailDialog.newInstance(choreModel, DialogState.EDIT)
-            .show(parentFragmentManager, ChoreDetailDialog.TAG)
+            .show(childFragmentManager, ChoreDetailDialog.TAG)
     }
 
     override fun onHistorySelected(chore: DocumentSnapshot) {
         val choreModel = chore.toObject<ChoreModel>()
         HistoryDetailDialog.newInstance(choreModel!!)
-            .show(parentFragmentManager, HistoryDetailDialog.TAG)
+            .show(childFragmentManager, HistoryDetailDialog.TAG)
     }
 
 

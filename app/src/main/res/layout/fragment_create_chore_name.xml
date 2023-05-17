@@ -109,6 +109,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/line_space_large"
+            android:inputType="textCapSentences"
             android:background="?attr/colorPrimaryContainer"
             android:textColor="?attr/colorOnPrimary"
             android:hint="@string/create_chore_name_hint" />
@@ -133,6 +134,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/line_space_large"
+            android:inputType="textCapSentences"
             android:background="?attr/colorPrimaryContainer"
             android:textColor="?attr/colorOnPrimary"
             android:hint="@string/create_chore_description_hint"
