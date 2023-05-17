@@ -117,7 +117,7 @@ class CreateHomeDialog : DialogFragment(),
 
         val homeUserModel = HomeUserModel(
             name = user.name,
-            icon = user.icon
+            icon = user.icon,
         )
 
         val home = HomeModel(

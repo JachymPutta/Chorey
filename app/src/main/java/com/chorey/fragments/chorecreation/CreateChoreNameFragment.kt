@@ -19,6 +19,7 @@ import com.chorey.data.ChoreModel
 import com.chorey.data.HomeModel
 import com.chorey.data.HomeUserModel
 import com.chorey.databinding.FragmentCreateChoreNameBinding
+import com.chorey.util.ChoreUtil
 import com.chorey.viewmodel.ChoreViewModel
 import com.chorey.viewmodel.HomeViewModel
 import com.chorey.viewmodel.UserViewModel
@@ -78,25 +79,27 @@ class CreateChoreNameFragment
     }
 
     private fun createHandle() {
+        if (!inputOk()) return
         updateChore()
         choreViewModel.addChoreToHome()
         returnToHome()
     }
 
     private fun continueHandle() {
+        if (!inputOk()) return
         updateChore()
         findNavController().navigate(R.id.createChoreTimeFragment)
     }
 
     private fun updateChore() {
-        if (!inputOk()) return
-
         chore.apply {
             choreName = binding.createChoreNameInput.editText?.text.toString()
             choreDescription = binding.createChoreDescription.editText?.text.toString()
             homeId = home.homeUID
             assignedTo = assignees
             curAssignee = assignees.random()
+            timeToComplete = 1
+            points = ChoreUtil.getPoints(1)
         }
     }
 

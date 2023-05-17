@@ -148,7 +148,6 @@ class MenuFragment : Fragment(),
             if (result.resultCode == Activity.RESULT_OK) {
                 // Successfully signed in
                 authViewModel.onLoginSuccess()
-                checkUserName()
             } else {
                 // Sign in failed
                 Toast.makeText(context, response?.error?.message, Toast.LENGTH_SHORT).show()
@@ -192,7 +191,7 @@ class MenuFragment : Fragment(),
     private fun checkUserName() {
         val user = Firebase.auth.currentUser!!
 
-        if (userViewModel.user.value == null || user.uid != userViewModel.user.value!!.UID) {
+        if (userViewModel.user.value == null) {
             firestore.collection(USER_COL).document(user.uid)
                 .get()
                 .addOnCompleteListener { task ->
@@ -204,7 +203,8 @@ class MenuFragment : Fragment(),
                             UserDetailDialog().apply {
                                 listener = this@MenuFragment
                                 state = DialogState.CREATE
-                            }.show(parentFragmentManager, TAG)
+                                isCancelable = false
+                            }.show(childFragmentManager, TAG)
                         }
                         binding.menuContentLayout.visibility = View.VISIBLE
                     } else {

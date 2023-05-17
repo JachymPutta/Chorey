@@ -100,8 +100,6 @@ class CreateChoreTimeFragment : Fragment() {
             //TODO: update timing data
             isTimed = true
             whenDue = curDate.timeInMillis
-            timeToComplete = 1
-            points = ChoreUtil.getPoints(1)
             repeatsEvery = curInterval
         }
 

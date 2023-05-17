@@ -27,6 +27,8 @@ class HomeDetailDialog
     private lateinit var home : HomeModel
     private lateinit var iconDialog: IconPickerDialog
 
+
+    private val userNames = arrayListOf<String>()
     private val homeViewModel by activityViewModels<HomeViewModel>()
     //TODO: might have to add an interface here for the icon updates?
 
@@ -48,8 +50,9 @@ class HomeDetailDialog
             parentDialog = this@HomeDetailDialog
         }
 
+        home.users.forEach { userNames.add(it.name) }
         binding.homeDetailName.text = home.homeName
-        binding.homeDetailMembers.text = home.users.joinToString(",")
+        binding.homeDetailMembers.text = userNames.joinToString(",")
 
         binding.removeHomeButton.setOnClickListener { removeHomeHandle() }
         binding.addMemberButton.setOnClickListener { addMemberHandle() }

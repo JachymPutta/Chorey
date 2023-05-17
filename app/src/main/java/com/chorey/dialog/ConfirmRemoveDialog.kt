@@ -74,12 +74,11 @@ class ConfirmRemoveDialog : DialogFragment() {
     }
 
     private fun removeHome() {
-        val firestore = Firebase.firestore
         val user = viewModel.user.value!!
         val home = snapshot!!.toObject<HomeModel>()
 
-        val homeRef = firestore.collection(HOME_COL).document(home!!.homeUID)
-        val userRef = firestore.collection(USER_COL).document(user.UID)
+        val homeRef = Firebase.firestore.collection(HOME_COL).document(home!!.homeUID)
+        val userRef = Firebase.firestore.collection(USER_COL).document(user.UID)
 
         user.memberOf.remove(home.homeUID)
 
