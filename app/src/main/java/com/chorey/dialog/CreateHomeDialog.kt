@@ -64,8 +64,8 @@ class CreateHomeDialog : DialogFragment(),
         binding.createHomeCreateButton.setOnClickListener { onCreateClicked() }
         binding.createHomeCancelButton.setOnClickListener { onCancelClicked() }
 
-        binding.homeDetailPicture.setOnClickListener {
-            iconDialog.show(parentFragmentManager, IconPickerDialog.TAG)
+        binding.homeIconLayout.setOnClickListener {
+            iconDialog.show(childFragmentManager, IconPickerDialog.TAG)
         }
         // Pressing enter just submits the form
         binding.createHomeNameInput.editText!!.setOnKeyListener { _, keyCode, event ->

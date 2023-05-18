@@ -86,6 +86,7 @@ class UserDetailDialog : DialogFragment(),
                 binding.userDetailName.editText!!.isEnabled = false
                 binding.userDetailName.editText!!.isFocusable = false
                 binding.userDetailName.editText!!.setText(userViewModel.user.value!!.name)
+                binding.userDetailName.hint = ""
 
 
                 binding.logoutButton.setOnClickListener {
