@@ -62,6 +62,7 @@
     </RelativeLayout>
 
     <View
+        android:id="@+id/homeTopLine"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="?attr/colorOutline"
@@ -98,7 +99,7 @@
         android:layout_height="match_parent"
         android:id="@+id/homeFragContainer"
         android:layout_above="@+id/homeBottomSepLine"
-        android:layout_below="@id/homeFragmentTopLayout"
+        android:layout_below="@id/homeTopLine"
         />
 
     <View

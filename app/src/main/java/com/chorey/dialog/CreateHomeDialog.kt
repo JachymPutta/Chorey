@@ -15,12 +15,14 @@ import androidx.fragment.app.activityViewModels
 import com.chorey.HOME_COL
 import com.chorey.HOME_ICON_LIST
 import com.chorey.R
+import com.chorey.TESTING
 import com.chorey.USER_COL
 import com.chorey.adapter.IconPickerAdapter
 import com.chorey.data.HomeModel
 import com.chorey.data.HomeUserModel
 import com.chorey.data.LoggedUserModel
 import com.chorey.databinding.DialogCreateHomeBinding
+import com.chorey.util.HomeUtil
 import com.chorey.viewmodel.UserViewModel
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.firestore.ktx.firestore
@@ -120,11 +122,22 @@ class CreateHomeDialog : DialogFragment(),
             icon = user.icon,
         )
 
+        //TODO: testing stuff
+
+        val homeUsers = if (TESTING) {
+            HomeUtil.getRandomUsers().apply {
+                add(0, homeUserModel)
+            }
+        } else {
+            arrayListOf(homeUserModel)
+        }
+
+
         val home = HomeModel(
             homeUID = UUID.randomUUID().toString(),
             homeName = binding.createHomeNameInput.editText?.text.toString(),
             icon = curIcon,
-            users = arrayListOf(homeUserModel)
+            users = homeUsers
         )
         val homeRef = db.collection(HOME_COL).document(home.homeUID)
         val userRef = db.collection(USER_COL).document(user.UID)

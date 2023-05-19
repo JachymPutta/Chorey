@@ -40,6 +40,7 @@ class SummaryFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        home.users.sortByDescending { it.points }
         summaryAdapter = SummaryRecyclerAdapter(home.users)
 
         binding.allChoresRecycler.adapter = summaryAdapter

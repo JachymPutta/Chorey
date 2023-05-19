@@ -32,6 +32,9 @@ class UserPickerAdapter (
             if (user.picked) {
                 binding.userPickerLayout.background.
                 setTint(ContextCompat.getColor(context, R.color.secondary_color))
+            } else {
+                binding.userPickerLayout.background.
+                setTint(ContextCompat.getColor(context, R.color.light_gray))
             }
 
             binding.root.setOnClickListener {

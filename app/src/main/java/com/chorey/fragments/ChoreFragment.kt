@@ -27,6 +27,7 @@ import com.chorey.dialog.ChoreDetailDialog
 import com.chorey.dialog.HistoryDetailDialog
 import com.chorey.fragments.chorecreation.CreateChoreNameFragment
 import com.chorey.util.HomeUtil
+import com.chorey.viewmodel.ChoreViewModel
 import com.chorey.viewmodel.HomeViewModel
 import com.chorey.viewmodel.UserViewModel
 import com.google.firebase.firestore.DocumentSnapshot
@@ -41,6 +42,7 @@ class ChoreFragment : Fragment(),
 {
     private val viewModel by activityViewModels<UserViewModel>()
     private val homeViewModel by activityViewModels<HomeViewModel>()
+    private val choreViewModel by activityViewModels<ChoreViewModel>()
 
     private lateinit var home : HomeModel
     private lateinit var choreQuery: Query
@@ -63,6 +65,7 @@ class ChoreFragment : Fragment(),
     ): View {
         home = homeViewModel.home.value!!
         binding = FragmentChoreBinding.inflate(inflater, container, false)
+        choreViewModel.resetChore()
         return binding.root
     }
 

@@ -9,6 +9,7 @@ const val MINS_MULTIPLIER = 7
 const val EXPENSE_MULTIPLIER = 3 * MINS_MULTIPLIER
 //TODO: Change this to BuildConfig.DEBUG when releasing
 const val RUN_EMULATOR = false
+const val TESTING = true
 
 const val DATE_PATTERN = "MMM dd, yyyy"
 const val TIME_PATTERN = "hh:mm a"

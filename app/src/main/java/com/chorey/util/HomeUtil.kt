@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.chorey.R
 import com.chorey.RANDOM_SEED
 import com.chorey.data.HomeModel
+import com.chorey.data.HomeUserModel
 import java.util.UUID
 import kotlin.random.Random
 
@@ -23,6 +24,30 @@ object HomeUtil {
             homeUID = UUID.randomUUID().toString(),
             homeName = getRandomString(homeNames, random)
         )
+    }
+
+    fun getRandomUsers() : ArrayList<HomeUserModel> {
+        val user1 = HomeUserModel(
+            name = "John",
+            icon = R.drawable.baseline_account_circle_24
+        )
+
+        val user2 = HomeUserModel(
+            name = "Thomas",
+            icon = R.drawable.baseline_cake_24
+        )
+
+        val user3 = HomeUserModel(
+            name = "Andrew",
+            icon = R.drawable.baseline_money_24
+        )
+
+        val user4 = HomeUserModel(
+            name = "Bob",
+            icon = R.drawable.baseline_check_24
+        )
+
+        return arrayListOf(user1, user2, user3, user4)
     }
 
 //    fun getHomeFromArgs(arguments : Bundle) : HomeModel {

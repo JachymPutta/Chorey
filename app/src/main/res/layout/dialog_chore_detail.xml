@@ -66,7 +66,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="30dp"
         android:textColor="?attr/colorOnPrimary"
-        android:text="@string/chore_detail_assign_text" />
+        android:text="@string/chore_detail_assign_text_short" />
 
     <TextView
         android:id="@+id/choreDetailAssignedTo"

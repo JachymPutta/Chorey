@@ -52,7 +52,7 @@ class HomeDetailDialog
 
         home.users.forEach { userNames.add(it.name) }
         binding.homeDetailName.text = home.homeName
-        binding.homeDetailMembers.text = userNames.joinToString(",")
+        binding.homeDetailMembers.text = userNames.joinToString(", ")
 
         binding.removeHomeButton.setOnClickListener { removeHomeHandle() }
         binding.addMemberButton.setOnClickListener { addMemberHandle() }

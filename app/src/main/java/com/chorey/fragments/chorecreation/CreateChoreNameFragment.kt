@@ -14,6 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.chorey.R
+import com.chorey.TESTING
 import com.chorey.adapter.UserPickerAdapter
 import com.chorey.data.ChoreModel
 import com.chorey.data.HomeModel
@@ -47,9 +48,7 @@ class CreateChoreNameFragment
         savedInstanceState: Bundle?
     ): View {
         home = homeViewModel.home.value!!
-        choreViewModel.resetChore()
         chore = choreViewModel.chore.value!!
-        assignees.addAll(home.users.map {model -> model.name })
         binding = FragmentCreateChoreNameBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -58,7 +57,15 @@ class CreateChoreNameFragment
         super.onViewCreated(view, savedInstanceState)
 
         adapter = UserPickerAdapter(home.users, this, requireContext())
-        val columnCount = kotlin.math.min(2, home.users.size)
+        val columnCount = kotlin.math.min(3, home.users.size)
+
+        if (chore.choreName.isNotEmpty()) { prefillChore() }
+
+        if (chore.assignedTo.isEmpty()) {
+            assignees.addAll(home.users.map {model -> model.name })
+        } else {
+            assignees.addAll(chore.assignedTo)
+        }
 
         binding.userPickerRecycler.layoutManager = GridLayoutManager(requireContext(), columnCount)
         binding.userPickerRecycler.adapter = adapter
@@ -92,14 +99,28 @@ class CreateChoreNameFragment
     }
 
     private fun updateChore() {
+
+        val curAssign = if (TESTING) {
+            userViewModel.user.value!!.name
+        } else {
+            assignees.random()
+        }
+
         chore.apply {
             choreName = binding.createChoreNameInput.editText?.text.toString()
             choreDescription = binding.createChoreDescription.editText?.text.toString()
             homeId = home.homeUID
             assignedTo = assignees
-            curAssignee = assignees.random()
+            curAssignee = curAssign
             timeToComplete = 1
             points = ChoreUtil.getPoints(1)
+        }
+    }
+
+    private fun prefillChore() {
+        binding.createChoreNameInput.editText!!.setText(chore.choreName)
+        if (chore.choreDescription.isNotEmpty()) {
+            binding.createChoreDescription.editText!!.setText(chore.choreDescription)
         }
     }
 
@@ -132,7 +153,11 @@ class CreateChoreNameFragment
             model.name == userViewModel.user.value!!.name
         }!!
 
-        onUserSelected(me)
+        assignees.clear()
+        assignees.addAll(home.users.map {model -> model.name })
+        assignees.remove(me.name)
+
+        home.users.forEach{onUserSelected(it)}
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -159,7 +184,7 @@ class CreateChoreNameFragment
         binding.addMeButton.setOnClickListener { selectMeHandle() }
         binding.backButton.setOnClickListener { findNavController().popBackStack() }
         binding.addEveryoneButton.setOnClickListener { selectEveryoneHandle() }
-        binding.cancelButton.setOnClickListener {returnToHome()}
+        binding.cancelButton.setOnClickListener { returnToHome() }
         binding.createButton.setOnClickListener { createHandle() }
         binding.root.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {

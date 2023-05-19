@@ -60,7 +60,7 @@ class ExpenseDetailDialog : DialogFragment(),
         // Init values
         user = userViewModel.user.value!!
         myContrib = expense.contributors.find { user.name == it.contributor }!!
-        myShare = expense.goal / (expense.contributors.size * 3)
+        myShare = expense.goal / expense.contributors.size
 
         setupAdapter()
 

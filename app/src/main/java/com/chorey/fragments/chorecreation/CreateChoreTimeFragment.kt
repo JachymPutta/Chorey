@@ -97,7 +97,6 @@ class CreateChoreTimeFragment : Fragment() {
 
     private fun onCompleteHandle() {
         chore.apply {
-            //TODO: update timing data
             isTimed = true
             whenDue = curDate.timeInMillis
             repeatsEvery = curInterval
@@ -105,7 +104,7 @@ class CreateChoreTimeFragment : Fragment() {
 
         choreViewModel.updateChore(chore)
         choreViewModel.addChoreToHome()
-
+        choreViewModel.resetChore()
         returnToHome()
     }
 
@@ -123,6 +122,7 @@ class CreateChoreTimeFragment : Fragment() {
         }
         }
     }
+
     private fun highlightButton(button: TextView) {
 
         allButtons.forEach {curButton ->

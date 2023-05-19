@@ -7,7 +7,7 @@ import java.util.UUID
 @Parcelize
 data class ChoreModel(
     var choreUID: String = UUID.randomUUID().toString(),
-    var choreName: String = "chore_name",
+    var choreName: String = "",
     var choreDescription: String = "",
     var homeId: String = "home_name",
     var isTimed: Boolean = false,
