@@ -50,7 +50,6 @@ class MenuFragment : Fragment(),
 
     private lateinit var menuRecyclerAdapter: MenuRecyclerAdapter
     private lateinit var binding: FragmentMenuBinding
-    private lateinit var firestore: FirebaseFirestore
     private lateinit var query: Query
     private lateinit var signInLauncher: ActivityResultLauncher<Intent>
 
@@ -78,11 +77,8 @@ class MenuFragment : Fragment(),
 
         dataLoaded(false)
 
-        // FireStore instance
-        firestore = Firebase.firestore
-
         // Empty query before user is loaded
-        query = firestore.collection(HOME_COL).whereEqualTo(DUMMY_FIELD, "")
+        query = Firebase.firestore.collection(HOME_COL).whereEqualTo(DUMMY_FIELD, "")
         menuRecyclerAdapter = initMenuRecyclerAdapter()
 
         binding.allRoomsRecycler.adapter = menuRecyclerAdapter
@@ -131,7 +127,7 @@ class MenuFragment : Fragment(),
         val myHomes = userViewModel.user.value!!.memberOf.values
 
         if (!myHomes.isEmpty()) {
-            query = firestore.collection(HOME_COL).whereIn("homeName", myHomes.toList())
+            query = Firebase.firestore.collection(HOME_COL).whereIn("homeName", myHomes.toList())
             menuRecyclerAdapter.setQuery(query)
         }
     }
@@ -148,6 +144,7 @@ class MenuFragment : Fragment(),
             if (result.resultCode == Activity.RESULT_OK) {
                 // Successfully signed in
                 authViewModel.onLoginSuccess()
+                userViewModel.resetUser()
             } else {
                 // Sign in failed
                 Toast.makeText(context, response?.error?.message, Toast.LENGTH_SHORT).show()
@@ -192,7 +189,11 @@ class MenuFragment : Fragment(),
         val user = Firebase.auth.currentUser!!
 
         if (userViewModel.user.value == null) {
-            firestore.collection(USER_COL).document(user.uid)
+            Log.e(TAG, "Uninitialized userViewModel!!")
+        }
+
+        if (userViewModel.user.value?.UID == "" ) {
+            Firebase.firestore.collection(USER_COL).document(user.uid)
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -208,7 +209,8 @@ class MenuFragment : Fragment(),
                         }
                         binding.menuContentLayout.visibility = View.VISIBLE
                     } else {
-                        Log.d(TAG, "Failed with: ${task.exception}")
+                        Log.e(TAG, "Failed with: ${task.exception}")
+
                     }
                 }
         } else {
@@ -222,7 +224,7 @@ class MenuFragment : Fragment(),
         dataLoaded(true)
 
         if (!myHomes.isEmpty()) {
-            query = firestore.collection(HOME_COL).whereIn("homeName", myHomes.toList())
+            query = Firebase.firestore.collection(HOME_COL).whereIn("homeName", myHomes.toList())
             menuRecyclerAdapter.setQuery(query)
         }
     }

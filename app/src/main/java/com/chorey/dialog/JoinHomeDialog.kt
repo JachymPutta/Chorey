@@ -115,6 +115,7 @@ class JoinHomeDialog : DialogFragment(),
             it.update(userRef, LoggedUserModel.FIELD_MEMBER_OF, user.memberOf)
             null
         }
+        dismiss()
     }
 
     override fun onDestroyView() {

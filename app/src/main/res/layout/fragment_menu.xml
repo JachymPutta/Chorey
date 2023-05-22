@@ -92,6 +92,7 @@
                 app:layout_constraintStart_toEndOf="@id/menuTopLogo"
                 app:layout_constraintTop_toTopOf="@id/menuTopLogo"
                 app:layout_constraintBottom_toBottomOf="@id/menuTopLogo"
+                android:layout_marginStart="5dp"
                 android:textStyle="bold"
                 android:textColor="?attr/colorOnPrimary"
                 android:textSize="@dimen/medium_text_size"
