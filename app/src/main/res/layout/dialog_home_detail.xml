@@ -9,15 +9,13 @@
 
     <ImageView
         android:id="@+id/homeDetailPicture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/rent_icon_128"
-        android:layout_marginTop="40dp"
+        android:layout_width="175dp"
+        android:layout_height="175dp"
+        app:srcCompat="@drawable/home_icon1"
+        android:layout_marginTop="@dimen/line_space_large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:scaleY="2"
-        android:scaleX="2"
         app:layout_constraintBottom_toTopOf="@id/homeDetailName"
         android:contentDescription="@string/home_detail_icon_desc"
         />

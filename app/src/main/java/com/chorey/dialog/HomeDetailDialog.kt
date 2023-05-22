@@ -76,6 +76,8 @@ class HomeDetailDialog
             }
         iconDialog.dismiss()
 
+        homeViewModel.home.value!!.icon = icon
+
         binding.homeDetailPicture.setImageResource(icon)
     }
 

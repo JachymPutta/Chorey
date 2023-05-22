@@ -6,8 +6,9 @@
     <dimen name="chore_list_item_height">30dp</dimen>
     <dimen name="large_text_size">20sp</dimen>
     <dimen name="medium_text_size">16sp</dimen>
-    <dimen name="icon_size">50dp</dimen>
+    <dimen name="user_icon_size">75dp</dimen>
+    <dimen name="home_icon_size">125dp</dimen>
+    <dimen name="header_icon_size">25dp</dimen>
     <dimen name="line_space">10dp</dimen>
     <dimen name="line_space_large">20dp</dimen>
-
 </resources>
