@@ -22,6 +22,7 @@ import com.chorey.adapter.ChoreRecyclerAdapter
 import com.chorey.data.ChoreModel
 import com.chorey.data.DialogState
 import com.chorey.data.HomeModel
+import com.chorey.data.HomeUserModel
 import com.chorey.databinding.FragmentChoreBinding
 import com.chorey.dialog.ChoreDetailDialog
 import com.chorey.dialog.HistoryDetailDialog
@@ -170,6 +171,11 @@ class ChoreFragment : Fragment(),
         val choreModel = chore.toObject<ChoreModel>()
         ChoreDetailDialog.newInstance(choreModel, DialogState.EDIT)
             .show(childFragmentManager, ChoreDetailDialog.TAG)
+    }
+
+    override fun onChoreDone(users: ArrayList<HomeUserModel>) {
+        home.users = users
+        homeViewModel.updateHome(home)
     }
 
     override fun onHistorySelected(chore: DocumentSnapshot) {

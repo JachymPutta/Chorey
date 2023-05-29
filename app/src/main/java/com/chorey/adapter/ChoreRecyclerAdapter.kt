@@ -3,6 +3,7 @@ package com.chorey.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.chorey.CHORE_COL
 import com.chorey.DATE_TIME_PATTERN
@@ -11,10 +12,12 @@ import com.chorey.HOME_COL
 import com.chorey.USER_COL
 import com.chorey.data.ChoreModel
 import com.chorey.data.HomeModel
+import com.chorey.data.HomeUserModel
 import com.chorey.data.RepeatInterval
 import com.chorey.data.LoggedUserModel
 import com.chorey.databinding.ChoreRecyclerRowBinding
 import com.chorey.util.ChoreUtil
+import com.chorey.viewmodel.HomeViewModel
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
@@ -37,6 +40,7 @@ open class ChoreRecyclerAdapter(query: Query,
 
     interface OnChoreSelectedListener {
         fun onChoreSelected(chore : DocumentSnapshot)
+        fun onChoreDone(users : ArrayList<HomeUserModel>)
     }
 
     inner class ViewHolder(private val binding: ChoreRecyclerRowBinding)
@@ -81,6 +85,7 @@ open class ChoreRecyclerAdapter(query: Query,
         val homeRef = Firebase.firestore.collection(HOME_COL).document(curChore.homeId)
         val oldChoreRef = homeRef.collection(CHORE_COL).document(curChore.choreUID)
         val historyRef = homeRef.collection(HISTORY_COL).document(curChore.choreUID)
+        val users = arrayListOf<HomeUserModel>()
 
         // Write the stuff in a batch
         Firebase.firestore.runTransaction {
@@ -91,6 +96,7 @@ open class ChoreRecyclerAdapter(query: Query,
                 if (model.name == user.name) {
                     model.points += curChore.points
                 }
+                users.add(model)
             }
             it.update(homeRef, HomeModel.FIELD_USERS, home.users)
 
@@ -108,6 +114,9 @@ open class ChoreRecyclerAdapter(query: Query,
 
             it.set(historyRef, curChore)
         }
+
+        // Update points in the local view model
+        listener.onChoreDone(users)
     }
 
 }

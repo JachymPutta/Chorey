@@ -14,13 +14,10 @@
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:background="@drawable/dialog_background"
         android:backgroundTint="@color/fui_transparent"
-        android:scaleX="1.5"
-        android:scaleY="1.5"
-        android:layout_marginHorizontal="@dimen/line_space_large"
         android:padding="@dimen/line_space"
         android:src="@drawable/baseline_person_24"
         android:contentDescription="@string/user_profile_pic_desc"

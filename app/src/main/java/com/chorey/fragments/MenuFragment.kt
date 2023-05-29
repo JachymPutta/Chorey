@@ -185,14 +185,11 @@ class MenuFragment : Fragment(),
         binding.menuWelcomeScreen.visibility = View.GONE
     }
 
+    private fun needLogin() = userViewModel.user.value == null || userViewModel.user.value?.UID == ""
     private fun checkUserName() {
         val user = Firebase.auth.currentUser!!
 
-        if (userViewModel.user.value == null) {
-            Log.e(TAG, "Uninitialized userViewModel!!")
-        }
-
-        if (userViewModel.user.value?.UID == "" ) {
+        if (needLogin()) {
             Firebase.firestore.collection(USER_COL).document(user.uid)
                 .get()
                 .addOnCompleteListener { task ->

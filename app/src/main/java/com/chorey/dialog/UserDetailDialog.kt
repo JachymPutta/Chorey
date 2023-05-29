@@ -112,6 +112,7 @@ class UserDetailDialog : DialogFragment(),
         when (state) {
             DialogState.CREATE -> {
                 curIcon = icon
+                iconDialog.dismiss()
             }
             DialogState.EDIT -> {
                 userViewModel.user.value!!.icon = icon

@@ -29,22 +29,22 @@ object HomeUtil {
     fun getRandomUsers() : ArrayList<HomeUserModel> {
         val user1 = HomeUserModel(
             name = "John",
-            icon = R.drawable.baseline_account_circle_24
+            icon = R.drawable.user_icon1
         )
 
         val user2 = HomeUserModel(
             name = "Thomas",
-            icon = R.drawable.baseline_cake_24
+            icon = R.drawable.user_icon2
         )
 
         val user3 = HomeUserModel(
             name = "Andrew",
-            icon = R.drawable.baseline_money_24
+            icon = R.drawable.user_icon3
         )
 
         val user4 = HomeUserModel(
             name = "Bob",
-            icon = R.drawable.baseline_check_24
+            icon = R.drawable.user_icon4
         )
 
         return arrayListOf(user1, user2, user3, user4)
